@@ -1,40 +1,88 @@
-import { request, config } from 'utils'
+import {  config} from 'utils'
 
-const { api,urls } = config
-const { menus } = api
-import { stringify } from 'qs';
+const { api } = config
 
 //得到菜单数据
-export async function query (params) {
-	//let _url = urls+'login/menu.do?' + stringify(params)
-	//return request(_url)
-	return {"msg":"提交成功!","code":0,
-		"data": [{
-        "route": "/dashboard", 
-        "bpid": 0, 
-        "icon": "home", 
-        "name": "首页", 
-        "id": 1, 
+export async function query() {
+  //let _url = urls+'login/menu.do?' + stringify(params)
+  //return request(_url)
+  return {
+    "msg": "提交成功!",
+    "code": 0,
+    "data": [{
+        "route": "/dashboard",
+        "bpid": 0,
+        "icon": "dashboard",
+        "name": "首页",
+        "id": 1,
         "mpid": 0
-    },  
-    {
-        "route": null, 
-        "bpid": 0, 
-        "icon": "setting", 
-        "name": "运营中心", 
-        "id": 2, 
+      },
+      {
+        "route": null,
+        "bpid": 0,
+        "icon": "table",
+        "name": "运营中心",
+        "id": 2,
         "mpid": 0
-    }, 
-	{
-        "route": '/userSystem', 
-        "bpid": 2, 
-        "icon": "setting", 
-        "name": "设备管理", 
-        "id": 21, 
+      },
+      {
+        "route": '/userSystem',
+        "bpid": 2,
+        "icon": "",
+        "name": "设备管理",
+        "id": 21,
         "mpid": 2
-    }],
-	"userName":"huashuo_AUV","isSuccess":true}
+      },
+      {
+        "route": '/userSystem',
+        "bpid": 2,
+        "icon": "setting",
+        "name": "用户反馈",
+        "id": 22,
+        "mpid": 2
+      },
+      {
+        "route": '/userSystem',
+        "bpid": 2,
+        "icon": "setting",
+        "name": "APP用户管理",
+        "id": 23,
+        "mpid": 2
+      },
+      {
+        "route": null,
+        "bpid": 0,
+        "icon": "table",
+        "name": "数据中心",
+        "id": 3,
+        "mpid": 0
+      },
+      {
+        "route": '/userSystem',
+        "bpid": 3,
+        "icon": "setting",
+        "name": "数据概况",
+        "id": 31,
+        "mpid": 3
+      },
+      {
+        "route": '/userSystem',
+        "bpid": 3,
+        "icon": "setting",
+        "name": "激活数据",
+        "id": 32,
+        "mpid": 3
+      },
+      {
+        "route": '/userSystem',
+        "bpid": 3,
+        "icon": "setting",
+        "name": "活跃数据",
+        "id": 33,
+        "mpid": 3
+      },
+    ],
+    "userName": "huashuo_AUV",
+    "isSuccess": true
+  }
 }
-
-
-
