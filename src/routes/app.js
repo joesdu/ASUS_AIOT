@@ -108,7 +108,7 @@ const App = ({
           trigger={null}
           collapsible
           collapsed={siderFold}
-		  width='256'
+		      width='256'
         >
           {siderProps.menu.length === 0 ? null : <MyLayout.Sider {...siderProps} />}
         </Sider>}
