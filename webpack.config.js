@@ -9,7 +9,7 @@ module.exports = (webpackConfig, env) => {
 
   if (production) {
     if (webpackConfig.module) {
-    // ClassnameHash
+      // ClassnameHash
       webpackConfig.module.rules.map((item) => {
         if (String(item.test) === '/\\.less$/' || String(item.test) === '/\\.css/') {
           item.use.filter(iitem => iitem.loader === 'css')[0].options.localIdentName = ''

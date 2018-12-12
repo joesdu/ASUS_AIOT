@@ -25,9 +25,14 @@ const Routers = function ({ history, app }) {
       component: () => import('./routes/login/'),
     },
     {
-      path: '/userSystem',//商户后台-员工管理
+      path: '/userSystem',//用户反馈
       models: () => [import('./models/userSystem')],
       component: () => import('./routes/system/userSystem'),
+    },
+    {
+      path: '/devices',//设备管理
+      models: () => [import('./models/devices')],
+      component: () => import('./routes/deviceManage/devices'),
     },
   ]
 
