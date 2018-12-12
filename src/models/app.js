@@ -33,7 +33,7 @@ export default {
   },
   //状态
   subscriptions: {
-    setupHistory ({ dispatch, history }) {
+    setupHistory({ dispatch, history }) {
       history.listen((location) => {
         dispatch({
           type: 'updateState',
@@ -45,7 +45,7 @@ export default {
       })
     },
 
-    setup ({ dispatch }) {
+    setup({ dispatch }) {
       dispatch({ type: 'query' })
       let tid
       window.onresize = () => {
@@ -59,74 +59,74 @@ export default {
   },
   //每次都要验证，是否处于登录状态
   effects: {
-    * query ({
+    * query({
       payload,
     }, { call, put, select }) {
-		
-	    let _user = localStorage.getItem('userName')  
-	    let data = localStorage.getItem('userData')  
-        const { locationPathname } = yield select(_ => _.app)
-	
-        if(_user!==null) {
-			//调用menu数据
-			const list = yield call(menusService.query)
-			if(list.isSuccess){
-				const menu = list.data
-				yield put({
-					type: 'updateState',
-					payload: {
-						user: data,
-						menu,
-					},
-				})
-				if (location.pathname === '/login') {
-					yield put(routerRedux.push({
-						pathname: '/dashboard',
-					}))
-				}
-			}else{
-				//登录过期了
-				message.error(list.msg)
-				localStorage.removeItem('userName')
-				localStorage.removeItem('userIds')
-				localStorage.removeItem('userData')
-				
-				yield put(routerRedux.push({
-					pathname: '/login',
-				}))
-			}
-			
-        }else{
+
+      let _user = localStorage.getItem('userName')
+      let data = localStorage.getItem('userData')
+      const { locationPathname } = yield select(_ => _.app)
+
+      if (_user !== null) {
+        //调用menu数据
+        const list = yield call(menusService.query)
+        if (list.isSuccess) {
+          const menu = list.data
+          yield put({
+            type: 'updateState',
+            payload: {
+              user: data,
+              menu,
+            },
+          })
+          if (location.pathname === '/login') {
             yield put(routerRedux.push({
-				pathname: '/login', 
-				search: queryString.stringify({
-					from: locationPathname,
-				}),
+              pathname: '/dashboard',
             }))
+          }
+        } else {
+          //登录过期了
+          message.error(list.msg)
+          localStorage.removeItem('userName')
+          localStorage.removeItem('userIds')
+          localStorage.removeItem('userData')
+
+          yield put(routerRedux.push({
+            pathname: '/login',
+          }))
         }
+
+      } else {
+        yield put(routerRedux.push({
+          pathname: '/login',
+          search: queryString.stringify({
+            from: locationPathname,
+          }),
+        }))
+      }
     },
-	//退出登录
-    * logout ({
-        payload,
+    //退出登录
+    * logout({
+      payload,
     }, { call, put }) {
-        const data = yield call(logout, parse(payload))
-		if(data.isSuccess){
-			message.success('退出成功')
-			
-			localStorage.removeItem('userName')
-			localStorage.removeItem('userIds')
-			localStorage.removeItem('userData')
-			
-			yield put(routerRedux.push({
-				pathname: '/login',
-			}))
-			
-		}else{
-			message.errror('退出失败')
-		}
+      const data = yield call(logout, parse(payload))
+      if (data.isSuccess) {
+        message.success('退出成功')
+
+        localStorage.removeItem('userName')
+        localStorage.removeItem('userIds')
+        localStorage.removeItem('userData')
+
+        yield put(routerRedux.push({
+          pathname: '/login',
+        }))
+
+      } else {
+        message.errror('退出失败')
+      }
     },
 
-    * changeNavbar (action, { put, select }) {
+    * changeNavbar(action, { put, select }) {
       const { app } = yield (select(_ => _))
       const isNavbar = document.body.clientWidth < 769
       if (isNavbar !== app.isNavbar) {
@@ -136,21 +136,21 @@ export default {
 
   },
   reducers: {
-    updateState (state, { payload }) {
+    updateState(state, { payload }) {
       return {
         ...state,
         ...payload,
       }
     },
 
-    switchSider (state) {
+    switchSider(state) {
       window.localStorage.setItem(`${prefix}siderFold`, !state.siderFold)
       return {
         ...state,
         siderFold: !state.siderFold,
       }
     },
-    switchTheme (state) {
+    switchTheme(state) {
       window.localStorage.setItem(`${prefix}darkTheme`, !state.darkTheme)
       return {
         ...state,
@@ -158,21 +158,21 @@ export default {
       }
     },
 
-    switchMenuPopver (state) {
+    switchMenuPopver(state) {
       return {
         ...state,
         menuPopoverVisible: !state.menuPopoverVisible,
       }
     },
 
-    handleNavbar (state, { payload }) {
+    handleNavbar(state, { payload }) {
       return {
         ...state,
         isNavbar: payload,
       }
     },
 
-    handleNavOpenKeys (state, { payload: navOpenKeys }) {
+    handleNavOpenKeys(state, { payload: navOpenKeys }) {
       return {
         ...state,
         ...navOpenKeys,

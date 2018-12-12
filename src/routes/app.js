@@ -25,7 +25,7 @@ const App = ({
 }) => {
   let {
     user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys, menu,
-  } = app  
+  } = app
   let { pathname } = location
   pathname = pathname.startsWith('/') ? pathname : `/${pathname}`
   const { iconFontJS, iconFontCSS, logo } = config
@@ -51,16 +51,16 @@ const App = ({
     isNavbar,
     menuPopoverVisible,
     navOpenKeys,
-    switchMenuPopover () {
+    switchMenuPopover() {
       dispatch({ type: 'app/switchMenuPopver' })
     },
-    logout () {
+    logout() {
       dispatch({ type: 'app/logout' })
     },
-    switchSider () {
+    switchSider() {
       dispatch({ type: 'app/switchSider' })
     },
-    changeOpenKeys (openKeys) {
+    changeOpenKeys(openKeys) {
       dispatch({ type: 'app/handleNavOpenKeys', payload: { navOpenKeys: openKeys } })
     },
   }
@@ -71,10 +71,10 @@ const App = ({
     siderFold,
     darkTheme,
     navOpenKeys,
-    changeTheme () {
+    changeTheme() {
       dispatch({ type: 'app/switchTheme' })
     },
-    changeOpenKeys (openKeys) {
+    changeOpenKeys(openKeys) {
       window.localStorage.setItem(`${prefix}navOpenKeys`, JSON.stringify(openKeys))
       dispatch({ type: 'app/handleNavOpenKeys', payload: { navOpenKeys: openKeys } })
     },
@@ -108,7 +108,7 @@ const App = ({
           trigger={null}
           collapsible
           collapsed={siderFold}
-		      width='256'
+          width='256'
         >
           {siderProps.menu.length === 0 ? null : <MyLayout.Sider {...siderProps} />}
         </Sider>}
