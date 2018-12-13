@@ -253,14 +253,14 @@ const Devices = ({
             <Form onSubmit={handleSearch} layout="inline">
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
-                  <FormItem label="设备ID">
+                  <FormItem label="设备ID" style={{ marginLeft: 18 }} >
                     {getFieldDecorator('deviceID')(
                       <Input placeholder="请输入" />
                     )}
                   </FormItem>
                 </Col>
                 <Col md={8} sm={24}>
-                  <FormItem label="设备名称">
+                  <FormItem label="设备名称" style={{ marginLeft: 4 }}>
                     {getFieldDecorator('devicename')(
                       <Input placeholder="请输入" />
                     )}
@@ -276,21 +276,21 @@ const Devices = ({
               </Row>
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
-                  <FormItem label="产品ID">
+                  <FormItem label="产品ID" style={{ marginLeft: 18 }}>
                     {getFieldDecorator('productsID')(
                       <Input placeholder="请输入" />
                     )}
                   </FormItem>
                 </Col>
                 <Col md={8} sm={24}>
-                  <FormItem label="绑定用户">
+                  <FormItem label="绑定用户" style={{ marginLeft: 4 }}>
                     {getFieldDecorator('bindinguser')(
                       <Input placeholder="请输入" />
                     )}
                   </FormItem>
                 </Col>
                 <Col md={8} sm={24}>
-                  <FormItem label="是否激活">
+                  <FormItem label="是否激活" style={{ marginLeft: 4 }}>
                     {getFieldDecorator('activated')(
                       <Select placeholder="全部" style={{ width: '100%' }}>
                         <Option value={1}>已激活</Option>
@@ -302,7 +302,7 @@ const Devices = ({
               </Row>
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
-                  <FormItem label="是否在线">
+                  <FormItem label="是否在线" style={{ marginLeft: 4 }}>
                     {getFieldDecorator('online')(
                       <Select placeholder="全部" style={{ width: '100%' }}>
                         <Option value={1}>在线</Option>
@@ -312,7 +312,7 @@ const Devices = ({
                   </FormItem>
                 </Col>
                 <Col md={8} sm={24}>
-                  <FormItem label="产品">
+                  <FormItem label="产品" style={{ marginLeft: 30 }}>
                     {getFieldDecorator('products')(
                       <Select placeholder="全部" style={{ width: '100%' }}>
                         <Option value={1}>11111</Option>
@@ -323,7 +323,7 @@ const Devices = ({
                   </FormItem>
                 </Col>
                 <Col md={8} sm={24}>
-                  <FormItem label="渠道">
+                  <FormItem label="渠道" style={{ marginLeft: 30 }}>
                     {getFieldDecorator('sources')(
                       <Select placeholder="全部" style={{ width: '100%' }}>
                         <Option value={1}>APP注册1</Option>
@@ -336,21 +336,21 @@ const Devices = ({
               </Row>
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
-                  <FormItem label="首次激活">
+                  <FormItem label="首次激活" style={{ marginLeft: 4 }}>
                     {getFieldDecorator('firstActivated')(
                       <RangePicker />
                     )}
                   </FormItem>
                 </Col>
                 <Col md={8} sm={24}>
-                  <FormItem label="最近激活">
+                  <FormItem label="最近激活" style={{ marginLeft: 4 }}>
                     {getFieldDecorator('recentActivated')(
                       <RangePicker />
                     )}
                   </FormItem>
                 </Col>
                 <Col md={8} sm={24}>
-                  <FormItem label="最近更新">
+                  <FormItem label="最近更新" style={{ marginLeft: 4 }}>
                     {getFieldDecorator('recentUpdates')(
                       <RangePicker />
                     )}
@@ -369,6 +369,7 @@ const Devices = ({
           </div>
         </div>
       </Card>
+      
       <Card style={{ marginTop: 20 }} title='设备列表'>
         <Table
           columns={columns}
