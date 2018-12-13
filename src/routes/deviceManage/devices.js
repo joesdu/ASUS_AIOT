@@ -146,13 +146,13 @@ const Devices = ({
     //赛选数据
     values.storeId = storeIds
     dispatch({
-      type: 'deviceManage/queryRule',
+      type: 'device/queryRule',
       payload: values
     })
 
     //保存查询条件
     dispatch({
-      type: 'deviceManage/searchList',
+      type: 'device/searchList',
       payload: values
     })
   }
@@ -170,18 +170,18 @@ const Devices = ({
     }
     setFieldsValue(fields)
     dispatch({
-      type: 'deviceManage/clearData',
+      type: 'device/clearData',
     })
     //重置查询所有
     let _ars = {}
     _ars.storeId = storeIds
     dispatch({
-      type: 'deviceManage/queryRule',
+      type: 'device/queryRule',
       payload: _ars
     })
     //重置查询条件
     dispatch({
-      type: 'deviceManage/searchList',
+      type: 'device/searchList',
       payload: []
     })
   }
@@ -197,7 +197,7 @@ const Devices = ({
       'storeId': storeIds
     }
     dispatch({
-      type: 'deviceManage/setPage',
+      type: 'device/setPage',
       payload: current,
       size: pageSize
     })
@@ -206,12 +206,12 @@ const Devices = ({
       let _c = {}
       _c = $.extend(postObj, searchList)
       dispatch({
-        type: 'deviceManage/queryRule',
+        type: 'device/queryRule',
         payload: postObj,
       })
     } else {
       dispatch({
-        type: 'deviceManage/queryRule',
+        type: 'device/queryRule',
         payload: postObj,
       })
     }
@@ -224,7 +224,7 @@ const Devices = ({
       'storeId': storeIds
     }
     dispatch({
-      type: 'deviceManage/setPage',
+      type: 'device/setPage',
       payload: current,
       size: pageSize
     })
@@ -233,12 +233,12 @@ const Devices = ({
       let _c = {}
       _c = $.extend(postObj, searchList)
       dispatch({
-        type: 'deviceManage/queryRule',
+        type: 'device/queryRule',
         payload: postObj,
       })
     } else {
       dispatch({
-        type: 'deviceManage/queryRule',
+        type: 'device/queryRule',
         payload: postObj,
       })
     }
