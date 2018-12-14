@@ -244,7 +244,7 @@ const AppUsers = ({
                                     </FormItem>
                                 </Col>
                                 <Col md={8} sm={24}>
-                                    <FormItem label="手机号" style={{ marginLeft: 22 }}>
+                                    <FormItem label="手机号" style={{ marginLeft: 17 }}>
                                         {getFieldDecorator('phonenumber')(
                                             <Input placeholder="请输入" />
                                         )}
