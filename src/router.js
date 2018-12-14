@@ -34,6 +34,11 @@ const Routers = function ({ history, app }) {
       models: () => [import('./models/userFeedback')],
       component: () => import('./routes/feedback/userFeedback'),
     },
+    {
+      path: '/appUsers',//APP用户管理
+      models: () => [import('./models/appUsers')],
+      component: () => import('./routes/appUserManage/appUsers'),
+    },
   ]
 
   return (

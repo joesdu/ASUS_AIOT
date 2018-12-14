@@ -4,10 +4,10 @@ import queryString from 'query-string';
 import { message } from 'antd';
 import $ from 'jquery';
 import { storeIds } from '../utils/config';
-import userFeedback from '../routes/feedback/userFeedback';
+import appUsers from '../routes/appUserManage/appUsers';
 
 export default {
-    namespace: 'userFeedback',
+    namespace: 'appUsers',
     state: {
         data: [], //列表数据
         pagination: {}, //分页数据
@@ -19,7 +19,7 @@ export default {
         setup({ dispatch, history }) {
             history.listen((location) => {
                 //页面初始化执行
-                if (location.pathname === '/userFeedback') {
+                if (location.pathname === '/appUsers') {
                     let _ars = {}
                     _ars.storeId = storeIds
                     _ars.curPage = 1
@@ -37,7 +37,7 @@ export default {
         * queryRule({
             payload,
         }, { call, put }) {
-            const data = yield call(userFeedback, payload)
+            const data = yield call(appUsers, payload)
             if (data.code == 0) {
                 let _pag = {}
                 _pag.total = data.data.totalCount

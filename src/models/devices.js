@@ -1,9 +1,10 @@
-import modelExtend from 'dva-model-extend'
-import { userSystem } from '../services/api'
-import queryString from 'query-string'
-import { message } from 'antd'
-import $ from 'jquery'
-import { storeIds } from '../utils/config'
+import modelExtend from 'dva-model-extend';
+import { userSystem } from '../services/api';
+import queryString from 'query-string';
+import { message } from 'antd';
+import $ from 'jquery';
+import { storeIds } from '../utils/config';
+import devices from '../routes/deviceManage/devices';
 
 export default {
   namespace: 'devices',

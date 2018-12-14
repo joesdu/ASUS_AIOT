@@ -42,7 +42,7 @@ export async function query() {
       "mpid": 2
     },
     {
-      "route": '/userSystem',
+      "route": '/appUsers',
       "bpid": 2,
       "icon": "",
       "name": "APP用户管理",
