@@ -34,7 +34,7 @@ export async function query() {
       "mpid": 2
     },
     {
-      "route": '/userSystem',
+      "route": '/userFeedback',
       "bpid": 2,
       "icon": "",
       "name": "用户反馈",

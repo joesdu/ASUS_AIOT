@@ -40,13 +40,36 @@ const UserFeedback = ({
   //定义表头
   const columns = [
     {
-      title: '设备名称/ID',
+      title: '反馈内容',
       dataIndex: '',
       render: (text, record) => {
         return (
           <div>
-            <div style={{ color: '#40D4D4' }}>{}</div>
-            <div style={{ color: '#B3B3B3' }}>{}</div>
+            <div></div>
+          </div>
+        );
+      }
+    },
+    {
+      title: '用户账号/昵称',
+      dataIndex: '',
+      render: (text, record) => {
+        return (
+          <div>
+            <div style={{ color: '#40D4D4' }}></div>
+            <div style={{ color: '#B3B3B3' }}></div>
+          </div>
+        );
+      }
+    },
+    {
+      title: '产品名称/设备ID',
+      dataIndex: '',
+      render: (text, record) => {
+        return (
+          <div>
+            <div style={{ color: '#40D4D4' }}></div>
+            <div style={{ color: '#B3B3B3' }}></div>
           </div>
         );
       }
@@ -55,63 +78,20 @@ const UserFeedback = ({
       title: '状态',
       dataIndex: '',
       render: (text, record) => {
-        return (
-          <div>
-            <div style={{ color: '#40D4D4' }}>{}</div>
-            <div style={{ color: '#B3B3B3' }}>{}</div>
-          </div>
-        );
+        if (parseInt(text) == 2) {
+          return <div style={{ color: '#40D4D4' }}>已处理</div>
+        } else {
+          return <div style={{ color: '#1E1E1E' }}>未处理</div>
+        }
       }
     },
     {
-      title: '所属产品/生产UUID',
-      dataIndex: '',
-      render: (text, record) => {
-        return (
-          <div>
-            <div style={{ color: '#40D4D4' }}>{}</div>
-            <div style={{ color: '#B3B3B3' }}>{}</div>
-          </div>
-        );
-      }
-    },
-    {
-      title: '绑定用户/渠道',
-      dataIndex: '',
-      render: (text, record) => {
-        return (
-          <div>
-            <div style={{ color: '#40D4D4' }}>{}</div>
-            <div style={{ color: '#B3B3B3' }}>{}</div>
-          </div>
-        );
-      }
-    },
-    {
-      title: '首次激活',
+      title: '反馈时间',
       dataIndex: '',
       render: (text, record) => {
         return (
           <div>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</div>
         )
-      }
-    },
-    {
-      title: '最近激活',
-      dataIndex: '',
-      render: (text, record) => {
-        return (
-          <div>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</div>
-        )
-      }
-    },
-    {
-      title: '最近更新',
-      dataIndex: '',
-      render: (text, record) => {
-        return (
-          <div>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</div>
-        );
       }
     },
     {
@@ -122,12 +102,7 @@ const UserFeedback = ({
           <div>
             <div>
               <Fragment>
-                <a>日志</a>
-              </Fragment>
-            </div>
-            <div>
-              <Fragment>
-                <a>设备详情</a>
+                <a>标记</a>
               </Fragment>
             </div>
           </div>
@@ -253,60 +228,12 @@ const UserFeedback = ({
             <Form onSubmit={handleSearch} layout="inline">
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
-                  <FormItem label="设备ID" style={{ marginLeft: 18 }} >
-                    {getFieldDecorator('deviceID')(
-                      <Input placeholder="请输入" />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="设备名称" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator('devicename')(
-                      <Input placeholder="请输入" />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="生产UUID">
-                    {getFieldDecorator('uuid')(
-                      <Input placeholder="请输入" />
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="产品ID" style={{ marginLeft: 18 }}>
-                    {getFieldDecorator('productsID')(
-                      <Input placeholder="请输入" />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="绑定用户" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator('bindinguser')(
-                      <Input placeholder="请输入" />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="是否激活" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator('activated')(
+                  <FormItem label="应用" style={{ marginLeft: 30 }} >
+                    {getFieldDecorator('applied')(
                       <Select placeholder="全部" style={{ width: '100%' }}>
-                        <Option value={1}>已激活</Option>
-                        <Option value={2}>未激活</Option>
-                      </Select>
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="是否在线" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator('online')(
-                      <Select placeholder="全部" style={{ width: '100%' }}>
-                        <Option value={1}>在线</Option>
-                        <Option value={2}>离线</Option>
+                        <Option value={1}>11111</Option>
+                        <Option value={2}>22222</Option>
+                        <Option value={2}>33333</Option>
                       </Select>
                     )}
                   </FormItem>
@@ -323,12 +250,12 @@ const UserFeedback = ({
                   </FormItem>
                 </Col>
                 <Col md={8} sm={24}>
-                  <FormItem label="渠道" style={{ marginLeft: 30 }}>
-                    {getFieldDecorator('sources')(
+                  <FormItem label="状态" style={{ marginLeft: 30 }}>
+                    {getFieldDecorator('states')(
                       <Select placeholder="全部" style={{ width: '100%' }}>
-                        <Option value={1}>APP注册1</Option>
-                        <Option value={2}>APP注册2</Option>
-                        <Option value={2}>APP注册3</Option>
+                        <Option value={1}>11111</Option>
+                        <Option value={2}>22222</Option>
+                        <Option value={2}>33333</Option>
                       </Select>
                     )}
                   </FormItem>
@@ -336,28 +263,12 @@ const UserFeedback = ({
               </Row>
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
-                  <FormItem label="首次激活" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator('firstActivated')(
-                      <RangePicker />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="最近激活" style={{ marginLeft: 4 }}>
+                  <FormItem label="反馈时间" style={{ marginLeft: 4 }}>
                     {getFieldDecorator('recentActivated')(
                       <RangePicker />
                     )}
                   </FormItem>
                 </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="最近更新" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator('recentUpdates')(
-                      <RangePicker />
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <div style={{ overflow: 'hidden' }}>
                   <span style={{ float: 'right', marginBottom: 24 }}>
                     <Button type="primary" htmlType="submit">查询</Button>

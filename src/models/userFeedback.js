@@ -36,7 +36,7 @@ export default {
         * queryRule({
             payload,
         }, { call, put }) {
-            const data = yield call(devices, payload)
+            const data = yield call(userFeedback, payload)
             if (data.code == 0) {
                 let _pag = {}
                 _pag.total = data.data.totalCount
