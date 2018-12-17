@@ -121,13 +121,13 @@ const UserFeedback = ({
     //赛选数据
     values.storeId = storeIds
     dispatch({
-      type: 'feedback/queryRule',
+      type: 'userFeedback/queryRule',
       payload: values
     })
 
     //保存查询条件
     dispatch({
-        type: 'feedback/searchList',
+      type: 'userFeedback/searchList',
       payload: values
     })
   }
@@ -145,18 +145,18 @@ const UserFeedback = ({
     }
     setFieldsValue(fields)
     dispatch({
-        type: 'feedback/clearData',
+      type: 'userFeedback/clearData',
     })
     //重置查询所有
     let _ars = {}
     _ars.storeId = storeIds
     dispatch({
-        type: 'feedback/queryRule',
+      type: 'userFeedback/queryRule',
       payload: _ars
     })
     //重置查询条件
     dispatch({
-        type: 'feedback/searchList',
+      type: 'userFeedback/searchList',
       payload: []
     })
   }
@@ -172,7 +172,7 @@ const UserFeedback = ({
       'storeId': storeIds
     }
     dispatch({
-        type: 'feedback/setPage',
+      type: 'userFeedback/setPage',
       payload: current,
       size: pageSize
     })
@@ -181,12 +181,12 @@ const UserFeedback = ({
       let _c = {}
       _c = $.extend(postObj, searchList)
       dispatch({
-          type: 'feedback/queryRule',
+        type: 'userFeedback/queryRule',
         payload: postObj,
       })
     } else {
       dispatch({
-          type: 'feedback/queryRule',
+        type: 'userFeedback/queryRule',
         payload: postObj,
       })
     }
@@ -199,7 +199,7 @@ const UserFeedback = ({
       'storeId': storeIds
     }
     dispatch({
-        type: 'feedback/setPage',
+      type: 'userFeedback/setPage',
       payload: current,
       size: pageSize
     })
@@ -208,12 +208,12 @@ const UserFeedback = ({
       let _c = {}
       _c = $.extend(postObj, searchList)
       dispatch({
-          type: 'feedback/queryRule',
+        type: 'userFeedback/queryRule',
         payload: postObj,
       })
     } else {
       dispatch({
-          type: 'feedback/queryRule',
+        type: 'userFeedback/queryRule',
         payload: postObj,
       })
     }

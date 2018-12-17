@@ -41,13 +41,13 @@ const DataOverview = ({
         //赛选数据
         values.storeId = storeIds
         dispatch({
-            type: 'dataoverview/queryRule',
+            type: 'dataOverview/queryRule',
             payload: values
         })
 
         //保存查询条件
         dispatch({
-            type: 'dataoverview/searchList',
+            type: 'dataOverview/searchList',
             payload: values
         })
     }

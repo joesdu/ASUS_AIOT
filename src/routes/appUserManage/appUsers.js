@@ -119,13 +119,13 @@ const AppUsers = ({
         //赛选数据
         values.storeId = storeIds
         dispatch({
-            type: 'appusers/queryRule',
+            type: 'appUsers/queryRule',
             payload: values
         })
 
         //保存查询条件
         dispatch({
-            type: 'appusers/searchList',
+            type: 'appUsers/searchList',
             payload: values
         })
     }
@@ -143,18 +143,18 @@ const AppUsers = ({
         }
         setFieldsValue(fields)
         dispatch({
-            type: 'appusers/clearData',
+            type: 'appUsers/clearData',
         })
         //重置查询所有
         let _ars = {}
         _ars.storeId = storeIds
         dispatch({
-            type: 'appusers/queryRule',
+            type: 'appUsers/queryRule',
             payload: _ars
         })
         //重置查询条件
         dispatch({
-            type: 'appusers/searchList',
+            type: 'appUsers/searchList',
             payload: []
         })
     }
@@ -170,7 +170,7 @@ const AppUsers = ({
             'storeId': storeIds
         }
         dispatch({
-            type: 'appusers/setPage',
+            type: 'appUsers/setPage',
             payload: current,
             size: pageSize
         })
@@ -179,12 +179,12 @@ const AppUsers = ({
             let _c = {}
             _c = $.extend(postObj, searchList)
             dispatch({
-                type: 'appusers/queryRule',
+                type: 'appUsers/queryRule',
                 payload: postObj,
             })
         } else {
             dispatch({
-                type: 'appusers/queryRule',
+                type: 'appUsers/queryRule',
                 payload: postObj,
             })
         }
@@ -197,7 +197,7 @@ const AppUsers = ({
             'storeId': storeIds
         }
         dispatch({
-            type: 'appusers/setPage',
+            type: 'appUsers/setPage',
             payload: current,
             size: pageSize
         })
@@ -206,12 +206,12 @@ const AppUsers = ({
             let _c = {}
             _c = $.extend(postObj, searchList)
             dispatch({
-                type: 'appusers/queryRule',
+                type: 'appUsers/queryRule',
                 payload: postObj,
             })
         } else {
             dispatch({
-                type: 'appusers/queryRule',
+                type: 'appUsers/queryRule',
                 payload: postObj,
             })
         }

@@ -42,13 +42,13 @@ const ActiveData = ({
         //赛选数据
         values.storeId = storeIds
         dispatch({
-            type: 'activedata/queryRule',
+            type: 'activeData/queryRule',
             payload: values
         })
 
         //保存查询条件
         dispatch({
-            type: 'activedata/searchList',
+            type: 'activeData/searchList',
             payload: values
         })
     };
