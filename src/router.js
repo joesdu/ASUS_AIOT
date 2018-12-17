@@ -49,6 +49,11 @@ const Routers = function ({ history, app }) {
       models: () => [import('./models/activeData')],
       component: () => import('./routes/activeData/activeData'),
     },
+    {
+      path: '/activelyData',//活跃数据
+      models: () => [import('./models/activelyData')],
+      component: () => import('./routes/activelyData/activelyData'),
+    },
   ]
 
   return (

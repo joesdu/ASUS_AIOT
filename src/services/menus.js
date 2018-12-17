@@ -74,7 +74,7 @@ export async function query() {
       "mpid": 3
     },
     {
-      "route": '/userSystem',
+      "route": '/activelyData',
       "bpid": 3,
       "icon": "",
       "name": "活跃数据",
