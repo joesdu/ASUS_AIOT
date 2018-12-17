@@ -66,7 +66,7 @@ export async function query() {
       "mpid": 3
     },
     {
-      "route": '/userSystem',
+      "route": '/activeData',
       "bpid": 3,
       "icon": "",
       "name": "激活数据",

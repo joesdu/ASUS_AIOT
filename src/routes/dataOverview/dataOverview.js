@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
 import {Icon, Row, Col, Card, Form, Select, message } from 'antd';
-import styles from './TableList.less';
+import styles from './dataOverview.less';
 import $ from 'jquery';
 import classnames from 'classnames';
 
@@ -172,7 +172,7 @@ const DataOverview = ({
             </Card>
 
             <div style={{ marginTop: '15px' }} className={styles.indexTop}>
-                <Card className={styles.indexTopL} style={{ marginRight: '15px' }}>
+                <Card className={styles.indexTopL} style={{ marginRight: '25px' }}>
                     <div className={styles.indexCont}>
                         <div className={styles.indexCont_span} style={{ marginRight: '10%'}}>
                             <span className={styles.indexTop_text}>今日激活</span>
