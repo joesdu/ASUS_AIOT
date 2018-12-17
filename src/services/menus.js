@@ -58,7 +58,7 @@ export async function query() {
       "mpid": 0
     },
     {
-      "route": '/userSystem',
+      "route": '/dataOverview',
       "bpid": 3,
       "icon": "",
       "name": "数据概况",

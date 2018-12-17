@@ -39,6 +39,11 @@ const Routers = function ({ history, app }) {
       models: () => [import('./models/appUsers')],
       component: () => import('./routes/appUserManage/appUsers'),
     },
+    {
+      path: '/dataOverview',//数据概览
+      models: () => [import('./models/dataOverview')],
+      component: () => import('./routes/dataOverview/dataOverview'),
+    },
   ]
 
   return (
