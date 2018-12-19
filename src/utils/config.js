@@ -1,8 +1,6 @@
-const APIV1 = '/api/v1'
-const APIV2 = '/api/v2'
+const APIV1 = '/v1.0/back/'
 
 let userIds=''
-let storeIds =''
 let username = ''
 
 const fu = ()=>{
@@ -11,46 +9,52 @@ const fu = ()=>{
 	try{
 		_data = JSON.parse(_data)
 		userIds = _data.id
-		storeIds = _data.storeId
 		username = _data.username
 	}catch(e){}
 }
-
-fu()
-
 /*
 	电商：retail-backend-store
 	卡片：card-store-backend-store
 */
 
 module.exports = {
-	storeIds: storeIds,
 	userIds: userIds,
 	userName: username,
-	urls:'http://service-shengshier.asus.com.cn/retail-backend-store/',
-	serverService:'http://service-shengshier.asus.com.cn/retail-backend-store/',  //售后订单的
+	urls: 'http://service-shengshier.asus.com.cn/retail-backend-store/',
+	serverService:'http://106.15.176.36',
 	name: '',
 	prefix: 'antdAdmin',
-	footerText: 'Ant Design Admin  © 2017 zuiidea',
+	footerText: 'Ant Design Admin  © 2018 zuiidea',
 	logo: './images/logo.png',
 	iconFontCSS: './iconfont.css',
 	iconFontJS: './iconfont.js',
 	CORS: [],
 	openPages: ['/login'],
 	apiPrefix: '/api/v1',
-	APIV1,
-	APIV2,
 	api: {
-		userLogin: `${APIV1}/user/login`,
-		userLogout: `${APIV1}/user/logout`,
-		userInfo: `${APIV1}/userInfo`,
-		users: `${APIV1}/users`,
-		posts: `${APIV1}/posts`,
-		user: `${APIV1}/user/:id`,
-		dashboard: `${APIV1}/dashboard`,
-		menus: `${APIV1}/menus`,
-		weather: `${APIV1}/weather`,
-		v1test: `${APIV1}/test`,
-		v2test: `${APIV2}/test`,
-	},
+		//反馈相关接口  Feedback Controller		
+		feedbackList: APIV1+'feedback/list',//用户反馈列表
+		feedbackUpdate: APIV1 +'feedback/update',//用户反馈更新
+		
+		//后台用户相关接口		User Controller
+		userDetail: APIV1 +'user/detail',//后台用户详情
+		userList: APIV1 +'user/list',//后台用户列表
+		
+		//后台设备相关接口		Device Controller
+		deviceList: APIV1 +'device/list',//后台设备列表
+		
+		//设备日志相关接口		Device Log Controller
+		deviceLogInsert: APIV1 +'deviceLog/insert',//设备日志新增插入,在该项目中暂时无需使用
+		deviceLogList: APIV1 +'deviceLog/list',//设备日志列表
+		
+		//设备统计接口		Stats Device Controller
+		statsDeviceActivate: APIV1 +'statsDevice/activate',//设备激活数据趋势
+		statsDeviceActivateSummary: APIV1 +'statsDevice/activateSummary',//激活数据概况
+		statsDeviceActive: APIV1 +'statsDevice/active',//活跃数据趋势
+		statsDeviceActiveSummary: APIV1 +'statsDevice/activeSummary',//活跃数据概况
+		statsDeviceArea: APIV1 +'statsDevice/area',//区域统计
+		statsDeviceSummary: APIV1 +'statsDevice/summary',//数据概况
+
+		
+	}
 }

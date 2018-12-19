@@ -6,7 +6,6 @@ import styles from '../TableList.less';
 import styles2 from '../main.less';
 import $ from 'jquery';
 
-import { storeIds, userIds } from '../../utils/config';
 const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -34,62 +33,62 @@ const Devices = ({
   let _datas = []
   //角色信息
   try {
-    _datas = data.data.list
+    _datas = data;
   } catch (e) { }
 
   //定义表头
   const columns = [
     {
       title: '设备名称/ID',
-      dataIndex: '',
+      dataIndex: 'nameAndID',
       render: (text, record) => {
         return (
           <div>
-            <div style={{ color: '#40D4D4' }}>{}</div>
-            <div style={{ color: '#B3B3B3' }}>{}</div>
+            <div style={{ color: '#40D4D4' }}>{record.deviceName}</div>
+            <div style={{ color: '#B3B3B3' }}>{record.deviceId}</div>
           </div>
         );
       }
     },
     {
       title: '状态',
-      dataIndex: '',
+      dataIndex: 'states',
       render: (text, record) => {
         return (
           <div>
-            <div style={{ color: '#40D4D4' }}>{}</div>
-            <div style={{ color: '#B3B3B3' }}>{}</div>
+            <div style={{ color: '#40D4D4' }}>{record.isAct}</div>
+            <div style={{ color: '#B3B3B3' }}>{record.status}</div>
           </div>
         );
       }
     },
     {
       title: '所属产品/生产UUID',
-      dataIndex: '',
+      dataIndex: 'productsAndUUID',
       render: (text, record) => {
         return (
           <div>
-            <div style={{ color: '#40D4D4' }}>{}</div>
-            <div style={{ color: '#B3B3B3' }}>{}</div>
+            <div style={{ color: '#40D4D4' }}>{record.productName}</div>
+            <div style={{ color: '#B3B3B3' }}>{record.uuid}</div>
           </div>
         );
       }
     },
     {
       title: '绑定用户/渠道',
-      dataIndex: '',
+      dataIndex: 'mobileAndSource',
       render: (text, record) => {
         return (
           <div>
-            <div style={{ color: '#40D4D4' }}>{}</div>
-            <div style={{ color: '#B3B3B3' }}>{}</div>
+            <div style={{ color: '#40D4D4' }}>{record.mobile}</div>
+            <div style={{ color: '#B3B3B3' }}>{record.source}</div>
           </div>
         );
       }
     },
     {
       title: '首次激活',
-      dataIndex: '',
+      dataIndex: 'firstActTime',
       render: (text, record) => {
         return (
           <div>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</div>
@@ -98,7 +97,7 @@ const Devices = ({
     },
     {
       title: '最近激活',
-      dataIndex: '',
+      dataIndex: 'lastActTime',
       render: (text, record) => {
         return (
           <div>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</div>
@@ -107,7 +106,7 @@ const Devices = ({
     },
     {
       title: '最近更新',
-      dataIndex: '',
+      dataIndex: 'updateTime',
       render: (text, record) => {
         return (
           <div>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</div>
@@ -116,22 +115,32 @@ const Devices = ({
     },
     {
       title: '操作',
-      dataIndex: '',
+      dataIndex: 'operation',
       render: (text, record) => {
-        return (
-          <div>
+        if (record.opration == 2) {
+          return (
+            <div>
+              <div>
+                <Fragment>
+                  <a>日志</a>
+                </Fragment>
+              </div>
+              <div>
+                <Fragment>
+                  <a>设备详情</a>
+                </Fragment>
+              </div>
+            </div>
+          );
+        } else {
+          return (
             <div>
               <Fragment>
                 <a>日志</a>
               </Fragment>
             </div>
-            <div>
-              <Fragment>
-                <a>设备详情</a>
-              </Fragment>
-            </div>
-          </div>
-        );
+          );
+        }       
       }
     }
   ]
@@ -144,7 +153,6 @@ const Devices = ({
       return
     }
     //赛选数据
-    values.storeId = storeIds
     dispatch({
       type: 'devices/queryRule',
       payload: values
@@ -174,7 +182,6 @@ const Devices = ({
     })
     //重置查询所有
     let _ars = {}
-    _ars.storeId = storeIds
     dispatch({
       type: 'devices/queryRule',
       payload: _ars
@@ -187,14 +194,13 @@ const Devices = ({
   }
 
   /**分页合集 start **/
-  const showTotal = (total) => {
+  const showTotal = () => {
     return `共 ${pagination.total} 条 第 ${pagination.current} / ${pagination.pageCount} 页`;
   }
   const onShowSizeChange = (current, pageSize) => {
     const postObj = {
       "curPage": current,
-      "pageRows": pageSize,
-      'storeId': storeIds
+      "pageRows": pageSize
     }
     dispatch({
       type: 'devices/setPage',
@@ -254,14 +260,14 @@ const Devices = ({
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
                   <FormItem label="设备ID" style={{ marginLeft: 18 }} >
-                    {getFieldDecorator('deviceID')(
+                    {getFieldDecorator('deviceId')(
                       <Input placeholder="请输入" />
                     )}
                   </FormItem>
                 </Col>
                 <Col md={8} sm={24}>
                   <FormItem label="设备名称" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator('devicename')(
+                    {getFieldDecorator('deviceName')(
                       <Input placeholder="请输入" />
                     )}
                   </FormItem>
@@ -277,24 +283,24 @@ const Devices = ({
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
                   <FormItem label="产品ID" style={{ marginLeft: 18 }}>
-                    {getFieldDecorator('productsID')(
+                    {getFieldDecorator('productId')(
                       <Input placeholder="请输入" />
                     )}
                   </FormItem>
                 </Col>
                 <Col md={8} sm={24}>
                   <FormItem label="绑定用户" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator('bindinguser')(
+                    {getFieldDecorator('mobile')(
                       <Input placeholder="请输入" />
                     )}
                   </FormItem>
                 </Col>
                 <Col md={8} sm={24}>
                   <FormItem label="是否激活" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator('activated')(
+                    {getFieldDecorator('isAct')(
                       <Select placeholder="全部" style={{ width: '100%' }}>
-                        <Option value={1}>已激活</Option>
-                        <Option value={2}>未激活</Option>
+                        <Option value={0}>未激活</Option>
+                        <Option value={1}>已激活</Option>                        
                       </Select>
                     )}
                   </FormItem>
@@ -303,10 +309,10 @@ const Devices = ({
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
                   <FormItem label="是否在线" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator('online')(
+                    {getFieldDecorator('status')(
                       <Select placeholder="全部" style={{ width: '100%' }}>
+                        <Option value={0}>离线</Option>
                         <Option value={1}>在线</Option>
-                        <Option value={2}>离线</Option>
                       </Select>
                     )}
                   </FormItem>
@@ -324,11 +330,10 @@ const Devices = ({
                 </Col>
                 <Col md={8} sm={24}>
                   <FormItem label="渠道" style={{ marginLeft: 30 }}>
-                    {getFieldDecorator('sources')(
+                    {getFieldDecorator('source')(
                       <Select placeholder="全部" style={{ width: '100%' }}>
-                        <Option value={1}>APP注册1</Option>
-                        <Option value={2}>APP注册2</Option>
-                        <Option value={2}>APP注册3</Option>
+                        <Option value={0}>Android</Option>
+                        <Option value={1}>IOS</Option>
                       </Select>
                     )}
                   </FormItem>
