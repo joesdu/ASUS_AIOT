@@ -3,7 +3,7 @@ import request from '../utils/request';
 import request2 from '../utils/request2';
 import { stringify } from 'qs';
 import $ from 'jquery'
-const { api, urls, serverService } = config
+const { api, urls, serverService, apiUrl } = config
 
 //登录-提交
 export async function login(params) {
@@ -25,7 +25,7 @@ export async function logout(params) {
 //运营中心
 /***********运营中心-设备管理-list***********/
 export async function devicesListApi(params) {
-  let _url = serverService + api.deviceList;
+  let _url = apiUrl + api.deviceList;
   return request(_url, {
     method: 'POST',
     body: params

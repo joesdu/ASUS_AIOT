@@ -31,29 +31,30 @@ module.exports = {
 	CORS: [],
 	openPages: ['/login'],
 	apiPrefix: '/api/v1',
+	apiUrl: urls + APIV1,
 	api: {
 		//反馈相关接口  Feedback Controller		
-		feedbackList: APIV1+'feedback/list',//用户反馈列表
-		feedbackUpdate: APIV1 +'feedback/update',//用户反馈更新
+		feedbackList: 'feedback/list',//用户反馈列表
+		feedbackUpdate: 'feedback/update',//用户反馈更新
 		
 		//后台用户相关接口		User Controller
-		userDetail: APIV1 +'user/detail',//后台用户详情
-		userList: APIV1 +'user/list',//后台用户列表
+		userDetail: 'user/detail',//后台用户详情
+		userList: 'user/list',//后台用户列表
 		
 		//后台设备相关接口		Device Controller
-		deviceList: APIV1 +'device/list',//后台设备列表
+		deviceList: 'device/list',//后台设备列表
 		
 		//设备日志相关接口		Device Log Controller
-		deviceLogInsert: APIV1 +'deviceLog/insert',//设备日志新增插入,在该项目中暂时无需使用
-		deviceLogList: APIV1 +'deviceLog/list',//设备日志列表
+		deviceLogInsert: 'deviceLog/insert',//设备日志新增插入,在该项目中暂时无需使用
+		deviceLogList: 'deviceLog/list',//设备日志列表
 		
 		//设备统计接口		Stats Device Controller
-		statsDeviceActivate: APIV1 +'statsDevice/activate',//设备激活数据趋势
-		statsDeviceActivateSummary: APIV1 +'statsDevice/activateSummary',//激活数据概况
-		statsDeviceActive: APIV1 +'statsDevice/active',//活跃数据趋势
-		statsDeviceActiveSummary: APIV1 +'statsDevice/activeSummary',//活跃数据概况
-		statsDeviceArea: APIV1 +'statsDevice/area',//区域统计
-		statsDeviceSummary: APIV1 +'statsDevice/summary',//数据概况
+		statsDeviceActivate: 'statsDevice/activate',//设备激活数据趋势
+		statsDeviceActivateSummary: 'statsDevice/activateSummary',//激活数据概况
+		statsDeviceActive: 'statsDevice/active',//活跃数据趋势
+		statsDeviceActiveSummary: 'statsDevice/activeSummary',//活跃数据概况
+		statsDeviceArea: 'statsDevice/area',//区域统计
+		statsDeviceSummary: 'statsDevice/summary',//数据概况
 
 		
 	}
