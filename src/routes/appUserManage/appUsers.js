@@ -1,15 +1,13 @@
 import React, { Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Pagination, Table, Row, Col, Card, Form, Input, Select, Button, DatePicker, message } from 'antd';
+import { Pagination, Table, Row, Col, Card, Form, Input, Select, Button, message } from 'antd';
 import styles from '../TableList.less';
 import styles2 from '../main.less';
 import $ from 'jquery';
 
-import { storeIds, userIds } from '../../utils/config';
 const FormItem = Form.Item;
 const { Option } = Select;
-const { RangePicker } = DatePicker;
 
 const formItemLayout = {
     labelCol: { span: 3 },
@@ -34,58 +32,58 @@ const AppUsers = ({
     let _datas = []
     //角色信息
     try {
-        _datas = data.data.list
+        _datas = data
     } catch (e) { }
 
     //定义表头
     const columns = [
         {
             title: '应用',
-            dataIndex: '',
+            dataIndex: 'appSource',
             render: (text, record) => {
                 return (
                     <div>
-                        <div></div>
+                        <div>{record.appSource}</div>
                     </div>
                 );
             }
         },
         {
             title: '注册账号',
-            dataIndex: '',
+            dataIndex: 'mobile',
             render: (text, record) => {
                 return (
                     <div>
-                        <div style={{ color: '#40D4D4' }}></div>
+                        <div style={{ color: '#40D4D4' }}>{record.mobile}</div>
                     </div>
                 );
             }
         },
         {
             title: '手机号',
-            dataIndex: '',
+            dataIndex: 'mobile',
             render: (text, record) => {
                 return (
                     <div>
-                        <div style={{ color: '#40D4D4' }}></div>
+                        <div style={{ color: '#40D4D4' }}>{record.mobile}</div>
                     </div>
                 );
             }
         },
         {
             title: '昵称',
-            dataIndex: '',
+            dataIndex: 'nickName',
             render: (text, record) => {
                 return (
                     <div>
-                        <div style={{ color: '#40D4D4' }}></div>
+                        <div style={{ color: '#40D4D4' }}>{record.nickName}</div>
                     </div>
                 );
             }
         },
         {
             title: '注册时间',
-            dataIndex: '',
+            dataIndex: 'createTime',
             render: (text, record) => {
                 return (
                     <div>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</div>
@@ -100,7 +98,7 @@ const AppUsers = ({
                     <div>
                         <div>
                             <Fragment>
-                                <a>查看详情</a>
+                                <a onClick={seeDetail(record.userId)}>查看详情</a>
                             </Fragment>
                         </div>
                     </div>
@@ -108,6 +106,9 @@ const AppUsers = ({
             }
         }
     ]
+    const seeDetail = (e) => {
+        
+    }
     //查询条件
     const handleSearch = (e) => {
         e.preventDefault();
@@ -117,7 +118,6 @@ const AppUsers = ({
             return
         }
         //赛选数据
-        values.storeId = storeIds
         dispatch({
             type: 'appUsers/queryRule',
             payload: values
@@ -147,7 +147,6 @@ const AppUsers = ({
         })
         //重置查询所有
         let _ars = {}
-        _ars.storeId = storeIds
         dispatch({
             type: 'appUsers/queryRule',
             payload: _ars
@@ -166,8 +165,7 @@ const AppUsers = ({
     const onShowSizeChange = (current, pageSize) => {
         const postObj = {
             "curPage": current,
-            "pageRows": pageSize,
-            'storeId': storeIds
+            "pageRows": pageSize
         }
         dispatch({
             type: 'appUsers/setPage',
@@ -193,8 +191,7 @@ const AppUsers = ({
     const getNowPage = (current, pageSize) => {
         let postObj = {
             "curPage": current,
-            "pageRows": pageSize,
-            'storeId': storeIds
+            "pageRows": pageSize
         }
         dispatch({
             type: 'appUsers/setPage',
@@ -227,7 +224,7 @@ const AppUsers = ({
                             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                                 <Col md={8} sm={24}>
                                     <FormItem label="应用" style={{ marginLeft: 30 }} >
-                                        {getFieldDecorator('applied')(
+                                        {getFieldDecorator('appSource')(
                                             <Select placeholder="全部" style={{ width: '100%' }}>
                                                 <Option value={1}>11111</Option>
                                                 <Option value={2}>22222</Option>
@@ -237,15 +234,15 @@ const AppUsers = ({
                                     </FormItem>
                                 </Col>
                                 <Col md={8} sm={24}>
-                                    <FormItem label="注册邮箱" style={{ marginLeft: 4 }}>
-                                        {getFieldDecorator('regemail')(
+                                    <FormItem label="注册邮箱" style={{ marginLeft: 4 }} disabled>
+                                        {getFieldDecorator('regEmail')(
                                             <Input placeholder="请输入" />
                                         )}
                                     </FormItem>
                                 </Col>
                                 <Col md={8} sm={24}>
                                     <FormItem label="手机号" style={{ marginLeft: 17 }}>
-                                        {getFieldDecorator('phonenumber')(
+                                        {getFieldDecorator('mobile')(
                                             <Input placeholder="请输入" />
                                         )}
                                     </FormItem>
@@ -254,7 +251,7 @@ const AppUsers = ({
                             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                                 <Col md={8} sm={24}>
                                     <FormItem label="用户昵称" style={{ marginLeft: 4 }}>
-                                        {getFieldDecorator('nickname')(
+                                        {getFieldDecorator('nickName')(
                                             <Input placeholder="请输入" />
                                         )}
                                     </FormItem>
@@ -274,7 +271,7 @@ const AppUsers = ({
             <Card style={{ marginTop: 20 }} title='设备列表'>
                 <Table
                     columns={columns}
-                    //dataSource={}
+                    dataSource={_datas}
                     bordered
                     pagination={false}
                 />

@@ -1,29 +1,37 @@
 import modelExtend from 'dva-model-extend';
-import { userSystem } from '../services/api';
+import { feedbackListApi } from '../services/api';
 import queryString from 'query-string';
 import { message } from 'antd';
 import $ from 'jquery';
-import { storeIds } from '../utils/config';
-import userFeedback from '../routes/feedback/userFeedback';
 
 export default {
     namespace: 'userFeedback',
     state: {
         data: [], //列表数据
-        pagination: {}, //分页数据
+        pagination: {
+            total: 0,
+            pageSize: 0,
+            current: 0,
+            pageCount: 0
+        }, //分页数据
         searchList: {}, //查询条件
         pageindex: 1, //分页开始 第几页
-        pagesize: 5, //返回条数
+        pagesize: 10, //返回条数
     },
     subscriptions: {
         setup({ dispatch, history }) {
             history.listen((location) => {
                 //页面初始化执行
                 if (location.pathname === '/userFeedback') {
-                    let _ars = {}
-                    _ars.storeId = storeIds
-                    _ars.curPage = 1
-                    _ars.pageRows = 5
+                    let _ars = {
+                        "endTime": "2018-12-01T04:30:09.268Z",
+                        "firstRow": 0,
+                        "isProcessed": 0,
+                        "pageNum": 1,
+                        "pageRows": 10,
+                        "productId": 0,
+                        "startTime": "2018-12-20T04:30:09.268Z"
+                    }
                     dispatch({
                         type: 'queryRule',
                         payload: _ars
@@ -37,18 +45,37 @@ export default {
         * queryRule({
             payload,
         }, { call, put }) {
-            const data = yield call(userFeedback, payload)
+            const data = yield call(feedbackListApi, payload)
             if (data.code == 0) {
+                let result = data.data;
                 let _pag = {}
-                _pag.total = data.data.totalCount
-                _pag.pageSize = data.data.pageSize
-                _pag.current = data.data.currentIndex
-                _pag.pageCount = data.data.pageCount
+                _pag.total = typeof result.totalRows == 'undefined' ? 0 : result.totalRows;
+                _pag.pageSize = typeof result.pageRows == 'undefined' ? 0 : result.pageRows;
+                _pag.current = typeof result.pageNum == 'undefined' ? 0 : result.pageNum;
+                if (typeof result.totalRows == 'undefined' || typeof result.pageRows == 'undefined')
+                    _pag.pageCount = 0;
+                else
+                    _pag.pageCount = ((result.totalRows - 1) / result.pageRows) + 1;
+                let feedbacks = result.feedbacks;
+                let feedbackData = []
+                for (var i = 0; i < feedbacks.length; i++) {
+                    feedbackData[i].description = feedbacks[i].description;
+                    feedbackData[i].mobileAndNickname = {
+                        mobile: feedbacks[i].mobile,
+                        nickname: feedbacks[i].nickname
+                    };
+                    feedbackData[i].productName = feedbacks[i].productName;
+                    feedbackData[i].createTime = feedbacks[i].createTime;
+                    feedbackData[i].feedbackId = feedbacks[i].feedbackId;
+                    feedbackData[i].isProcessed = feedbacks[i].isProcessed;
+                }
                 yield put({
                     type: 'querySuccess',
-                    payload: data,
+                    payload: feedbackData,
                     page: _pag
                 })
+            } else {
+                message.error('获取数据失败,错误信息:' + data.msg);
             }
         },
     },
@@ -76,7 +103,7 @@ export default {
             return {
                 ...state,
                 pageindex: action.payload,
-                pagesize: action.size,
+                pagesize: action.pageSize,
             }
         },
         //查询条件

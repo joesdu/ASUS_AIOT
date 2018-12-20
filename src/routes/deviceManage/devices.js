@@ -226,8 +226,7 @@ const Devices = ({
   const getNowPage = (current, pageSize) => {
     let postObj = {
       "curPage": current,
-      "pageRows": pageSize,
-      'storeId': storeIds
+      "pageRows": pageSize
     }
     dispatch({
       type: 'devices/setPage',
@@ -378,7 +377,7 @@ const Devices = ({
       <Card style={{ marginTop: 20 }} title='设备列表'>
         <Table
           columns={columns}
-          //dataSource={}
+          dataSource={_datas}
           bordered
           pagination={false}
         />

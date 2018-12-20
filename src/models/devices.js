@@ -25,13 +25,13 @@ export default {
         //页面初始化执行
         if (location.pathname === '/devices') {
           let _ars = {
-            "actTimeEnd": "2018-12-19T06:04:08.717Z",
+            "actTimeEnd": "2018-12-01T06:04:08.717Z",
             "actTimeStart": "2018-12-19T06:04:08.717Z",
             "deviceId": 0,
             "deviceName": "string",
             "firstRow": 0,
             "isAct": 0,
-            "lastActTimeEnd": "2018-12-19T06:04:08.717Z",
+            "lastActTimeEnd": "2018-12-01T06:04:08.717Z",
             "lastActTimeStart": "2018-12-19T06:04:08.717Z",
             "mobile": "string",
             "pageNum": 0,
@@ -39,7 +39,7 @@ export default {
             "productId": 0,
             "source": 0,
             "status": 0,
-            "updateTimeEnd": "2018-12-19T06:04:08.718Z",
+            "updateTimeEnd": "2018-12-01T06:04:08.718Z",
             "updateTimeStart": "2018-12-19T06:04:08.718Z",
             "uuid": "string"
           }
@@ -70,10 +70,22 @@ export default {
         let devices = result.devices;
         let deviceData = []
         for (var i = 0; i < devices.length; i++) {
-          deviceData[i].nameAndID = [devices[i].deviceName, devices[i].deviceId];
-          deviceData[i].states = [devices[i].isAct, devices[i].status];
-          deviceData[i].productsAndUUID = [devices[i].productName, devices[i].uuid];
-          deviceData[i].mobileAndSource = [devices[i].mobile, devices[i].source];
+          deviceData[i].nameAndID = {
+            deviceName: devices[i].deviceName,
+            deviceId: devices[i].deviceId
+          };
+          deviceData[i].states = {
+            isAct: devices[i].isAct,
+            status: devices[i].status
+          };
+          deviceData[i].productsAndUUID = {
+            productName: devices[i].productName,
+            uuid: devices[i].uuid
+          };
+          deviceData[i].mobileAndSource = {
+            mobile: devices[i].mobile,
+            source: devices[i].source
+          };
           deviceData[i].firstActTime = devices[i].actTime;
           deviceData[i].lastActTime = devices[i].lastActTime;
           deviceData[i].updateTime = devices[i].updateTime;
@@ -88,7 +100,7 @@ export default {
           page: _pag
         })
       } else {
-        message.error('获取数据失败,错误代码:' + data.msg);
+        message.error('获取数据失败,错误信息:' + data.msg);
       }
     },
   },

@@ -6,7 +6,6 @@ import styles from '../TableList.less';
 import styles2 from '../main.less';
 import $ from 'jquery';
 
-import { storeIds, userIds } from '../../utils/config';
 const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -34,51 +33,46 @@ const UserFeedback = ({
   let _datas = []
   //角色信息
   try {
-    _datas = data.data.list
+    _datas = data
   } catch (e) { }
 
   //定义表头
   const columns = [
     {
       title: '反馈内容',
-      dataIndex: '',
+      dataIndex: 'description',
       render: (text, record) => {
         return (
-          <div>
-            <div></div>
-          </div>
+          <div>{record.description}</div>
         );
       }
     },
     {
       title: '用户账号/昵称',
-      dataIndex: '',
+      dataIndex: 'mobileAndNickname',
       render: (text, record) => {
         return (
           <div>
-            <div style={{ color: '#40D4D4' }}></div>
-            <div style={{ color: '#B3B3B3' }}></div>
+            <div style={{ color: '#40D4D4' }}>{record.mobile}</div>
+            <div style={{ color: '#B3B3B3' }}>{record.nickname}</div>
           </div>
         );
       }
     },
     {
-      title: '产品名称/设备ID',
-      dataIndex: '',
+      title: '产品名称',
+      dataIndex: 'productName',
       render: (text, record) => {
         return (
-          <div>
-            <div style={{ color: '#40D4D4' }}></div>
-            <div style={{ color: '#B3B3B3' }}></div>
-          </div>
+          <div style={{ color: '#40D4D4' }}>{record.productName}</div>
         );
       }
     },
     {
       title: '状态',
-      dataIndex: '',
+      dataIndex: 'isProcessed',
       render: (text, record) => {
-        if (parseInt(text) == 2) {
+        if (record.isProcessed== '已处理') {
           return <div style={{ color: '#40D4D4' }}>已处理</div>
         } else {
           return <div style={{ color: '#1E1E1E' }}>未处理</div>
@@ -87,7 +81,7 @@ const UserFeedback = ({
     },
     {
       title: '反馈时间',
-      dataIndex: '',
+      dataIndex: 'createTime',
       render: (text, record) => {
         return (
           <div>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</div>
@@ -102,7 +96,7 @@ const UserFeedback = ({
           <div>
             <div>
               <Fragment>
-                <a>标记</a>
+                <a onClick={markClick(record.feedbackId)}>标记</a>
               </Fragment>
             </div>
           </div>
@@ -110,6 +104,12 @@ const UserFeedback = ({
       }
     }
   ]
+
+  const markClick = (e) => {
+    
+
+  }
+
   //查询条件
   const handleSearch = (e) => {
     e.preventDefault();
@@ -119,7 +119,6 @@ const UserFeedback = ({
       return
     }
     //赛选数据
-    values.storeId = storeIds
     dispatch({
       type: 'userFeedback/queryRule',
       payload: values
@@ -149,7 +148,6 @@ const UserFeedback = ({
     })
     //重置查询所有
     let _ars = {}
-    _ars.storeId = storeIds
     dispatch({
       type: 'userFeedback/queryRule',
       payload: _ars
@@ -168,8 +166,7 @@ const UserFeedback = ({
   const onShowSizeChange = (current, pageSize) => {
     const postObj = {
       "curPage": current,
-      "pageRows": pageSize,
-      'storeId': storeIds
+      "pageRows": pageSize
     }
     dispatch({
       type: 'userFeedback/setPage',
@@ -195,8 +192,7 @@ const UserFeedback = ({
   const getNowPage = (current, pageSize) => {
     let postObj = {
       "curPage": current,
-      "pageRows": pageSize,
-      'storeId': storeIds
+      "pageRows": pageSize
     }
     dispatch({
       type: 'userFeedback/setPage',
@@ -230,17 +226,15 @@ const UserFeedback = ({
                 <Col md={8} sm={24}>
                   <FormItem label="应用" style={{ marginLeft: 30 }} >
                     {getFieldDecorator('applied')(
-                      <Select placeholder="全部" style={{ width: '100%' }}>
+                      <Select placeholder="全部" style={{ width: '100%' }} disabled>
                         <Option value={1}>11111</Option>
-                        <Option value={2}>22222</Option>
-                        <Option value={2}>33333</Option>
                       </Select>
                     )}
                   </FormItem>
                 </Col>
                 <Col md={8} sm={24}>
                   <FormItem label="产品" style={{ marginLeft: 30 }}>
-                    {getFieldDecorator('products')(
+                    {getFieldDecorator('productId')(
                       <Select placeholder="全部" style={{ width: '100%' }}>
                         <Option value={1}>11111</Option>
                         <Option value={2}>22222</Option>
@@ -251,11 +245,10 @@ const UserFeedback = ({
                 </Col>
                 <Col md={8} sm={24}>
                   <FormItem label="状态" style={{ marginLeft: 30 }}>
-                    {getFieldDecorator('states')(
+                    {getFieldDecorator('isProcessed')(
                       <Select placeholder="全部" style={{ width: '100%' }}>
-                        <Option value={1}>11111</Option>
-                        <Option value={2}>22222</Option>
-                        <Option value={2}>33333</Option>
+                        <Option value={0}>未处理</Option>
+                        <Option value={1}>已处理</Option>                        
                       </Select>
                     )}
                   </FormItem>
@@ -284,7 +277,7 @@ const UserFeedback = ({
       <Card style={{ marginTop: 20 }} title='设备列表'>
         <Table
           columns={columns}
-          //dataSource={}
+          dataSource={_datas}
           bordered
           pagination={false}
         />
