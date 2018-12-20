@@ -117,7 +117,7 @@ const Devices = ({
       title: '操作',
       dataIndex: 'operation',
       render: (text, record) => {
-        if (record.opration == 2) {
+        if (record.operation == 2) {
           return (
             <div>
               <div>
