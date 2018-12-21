@@ -3,7 +3,7 @@ import request from '../utils/request';
 import request2 from '../utils/request2';
 import { stringify } from 'qs';
 import $ from 'jquery'
-const { api, urls, serverService, apiUrl } = config
+const { api, urls, apiUrl } = config
 
 //登录相关
 /***********登录**********/
