@@ -1,23 +1,18 @@
 import React, { Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Pagination, Table, Row, Col, Card, Form, Input, Select, Button, DatePicker, message } from 'antd';
+import { Pagination, Table, Card, Form, message } from 'antd';
 import styles from '../TableList.less';
 import styles2 from '../main.less';
 import $ from 'jquery';
-
-import { storeIds, userIds } from '../../utils/config';
-const FormItem = Form.Item;
-const { Option } = Select;
-const { RangePicker } = DatePicker;
 
 const formItemLayout = {
     labelCol: { span: 3 },
     wrapperCol: { span: 12 },
 }
 
-const DeviceLog = ({
-    devicelog,
+const DeviceLogs = ({
+    deviceLogs,
     loading,
     dispatch,
     formValues, //搜索条件
@@ -29,19 +24,13 @@ const DeviceLog = ({
         getFieldsValue
     },
 }) => {
-    let { data, pagination, searchList, pageindex, pagesize } = devicelog
-
-    let _datas = []
-    //角色信息
-    try {
-        _datas = data.data.list
-    } catch (e) { }
+    let { data, pagination, searchList, pageindex, pagesize } = deviceLogs
 
     //定义表头
     const columns = [
         {
             title: '时间',
-            dataIndex: '',
+            dataIndex: 'createTime',
             render: (text, record) => {
                 return (
                     <div>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</div>
@@ -50,10 +39,10 @@ const DeviceLog = ({
         },
         {
             title: '日志内容',
-            dataIndex: '',
+            dataIndex: 'description',
             render: (text, record) => {
                 return (
-                    <div></div>
+                    <div>{record.description}</div>
                 )
             }
         }
@@ -66,11 +55,10 @@ const DeviceLog = ({
     const onShowSizeChange = (current, pageSize) => {
         const postObj = {
             "curPage": current,
-            "pageRows": pageSize,
-            'storeId': storeIds
+            "pageRows": pageSize
         }
         dispatch({
-            type: 'devices/setPage',
+            type: 'deviceLogs/setPage',
             payload: current,
             size: pageSize
         })
@@ -79,12 +67,12 @@ const DeviceLog = ({
             let _c = {}
             _c = $.extend(postObj, searchList)
             dispatch({
-                type: 'devices/queryRule',
+                type: 'deviceLogs/queryRule',
                 payload: postObj,
             })
         } else {
             dispatch({
-                type: 'devices/queryRule',
+                type: 'deviceLogs/queryRule',
                 payload: postObj,
             })
         }
@@ -93,11 +81,10 @@ const DeviceLog = ({
     const getNowPage = (current, pageSize) => {
         let postObj = {
             "curPage": current,
-            "pageRows": pageSize,
-            'storeId': storeIds
+            "pageRows": pageSize
         }
         dispatch({
-            type: 'devices/setPage',
+            type: 'deviceLogs/setPage',
             payload: current,
             size: pageSize
         })
@@ -106,12 +93,12 @@ const DeviceLog = ({
             let _c = {}
             _c = $.extend(postObj, searchList)
             dispatch({
-                type: 'devices/queryRule',
+                type: 'deviceLogs/queryRule',
                 payload: postObj,
             })
         } else {
             dispatch({
-                type: 'devices/queryRule',
+                type: 'deviceLogs/queryRule',
                 payload: postObj,
             })
         }
@@ -119,11 +106,11 @@ const DeviceLog = ({
     /**分页合集 end **/
 
     return (
-        <div>
+        <div className={styles.tableList}>
             <Card style={{ marginTop: 20 }} title='设备日志'>
                 <Table
                     columns={columns}
-                    //dataSource={}
+                    dataSource={data}
                     bordered
                     pagination={false}
                 />
@@ -142,5 +129,5 @@ const DeviceLog = ({
     )
 }
 
-export default connect(({ devicelog, loading }) =>
-    ({ devicelog, loading: loading.models.devicelog, }))(Form.create()(DeviceLog))
+export default connect(({ deviceLogs, loading }) =>
+    ({ deviceLogs, loading: loading.models.deviceLogs, }))(Form.create()(DeviceLogs))
