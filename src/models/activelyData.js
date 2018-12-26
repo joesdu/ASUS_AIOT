@@ -1,5 +1,5 @@
 import modelExtend from 'dva-model-extend'
-import { queryRule } from '../services/api'
+import { statsDeviceActivateSummaryApi } from '../services/api'
 import queryString from 'query-string'
 
 export default {
@@ -28,6 +28,7 @@ export default {
             payload,
         }, { call, put }) {
             //const data = yield call(queryRule, payload)
+            const data = {}
             yield put({
                 type: 'querySuccess',
                 payload: data

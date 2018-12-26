@@ -39,7 +39,6 @@ const DataOverview = ({
             return
         }
         //赛选数据
-        values.storeId = storeIds
         dispatch({
             type: 'dataOverview/queryRule',
             payload: values
@@ -75,6 +74,9 @@ const DataOverview = ({
         legend: {
             enabled: false
         },
+        credits: {
+            enabled: false             // 隐藏右下角版权
+        },
         series: [{
             name: '激活设备/个',
             data: [190, 230, 310, 285, 264, 213, 295]
@@ -103,6 +105,9 @@ const DataOverview = ({
         },
         legend: {
             enabled: false
+        },
+        credits: {
+            enabled: false             // 隐藏右下角版权
         },
         series: [{
             name: '活跃设备/个',
@@ -134,6 +139,9 @@ const DataOverview = ({
         legend: {
             enabled: false
         },
+        credits: {
+            enabled: false             // 隐藏右下角版权
+        },
         series: [{
             name:'活跃数量/个',
             data: [10, 20, 30, 25, 24, 23, 22, 45, 26, 14]
@@ -147,6 +155,15 @@ const DataOverview = ({
         })
     }
 
+    const afterRender = (chart) => { /* do stuff with the chart  */
+        console.log('重绘之前');
+        try {
+            chart.reflow();
+        }
+        catch (e) {
+            console.log(e)
+        }
+    };
 
     return (
         <div>
@@ -224,7 +241,7 @@ const DataOverview = ({
                             <li className={selected == 2 ? styles.active : ''} onClick={getData.bind(this, 2)}>近30天</li>
                         </ul>
                         <div style={{ width: '100%' }}>
-                            <ReactHighcharts config={config0}></ReactHighcharts>
+                            <ReactHighcharts config={config0} callback={afterRender}></ReactHighcharts>
                         </div>
                     </div>
                 </div>

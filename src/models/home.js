@@ -28,6 +28,7 @@ export default {
       payload,
     }, { call, put }) {
       //const data = yield call(queryRule, payload)
+      const data = {}
       yield put({
         type: 'querySuccess',
         payload: data

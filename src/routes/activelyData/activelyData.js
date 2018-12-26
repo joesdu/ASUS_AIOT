@@ -40,7 +40,6 @@ const ActivelyData = ({
             return
         }
         //赛选数据
-        values.storeId = storeIds
         dispatch({
             type: 'activelyData/queryRule',
             payload: values
