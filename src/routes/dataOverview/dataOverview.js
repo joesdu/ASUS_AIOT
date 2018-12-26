@@ -1,12 +1,10 @@
-import React, { PureComponent, Fragment } from 'react';
+import React from 'react';
 import { connect } from 'dva';
-import moment from 'moment';
 import {Icon, Row, Col, Card, Form, Select, message } from 'antd';
 import styles from './dataOverview.less';
 import $ from 'jquery';
-import classnames from 'classnames';
+import ReactHighcharts from 'react-highcharts';
 
-const ReactHighcharts = require('react-highcharts');
 const FormItem = Form.Item;
 const { Option } = Select;
 
@@ -155,14 +153,9 @@ const DataOverview = ({
         })
     }
 
-    const afterRender = (chart) => { /* do stuff with the chart  */
-        console.log('重绘之前');
-        try {
-            chart.reflow();
-        }
-        catch (e) {
-            console.log(e)
-        }
+    const afterRender = (chart) => {
+    /* do stuff with the chart  */
+        chart.reflow();
     };
 
     return (
@@ -241,7 +234,7 @@ const DataOverview = ({
                             <li className={selected == 2 ? styles.active : ''} onClick={getData.bind(this, 2)}>近30天</li>
                         </ul>
                         <div style={{ width: '100%' }}>
-                            <ReactHighcharts config={config0} callback={afterRender}></ReactHighcharts>
+                            <ReactHighcharts config={config0} callback={afterRender.bind(this)}></ReactHighcharts>
                         </div>
                     </div>
                 </div>
