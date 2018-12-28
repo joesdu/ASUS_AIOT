@@ -12,10 +12,6 @@ const fu = ()=>{
 		username = _data.username
 	}catch(e){}
 }
-/*
-	电商：retail-backend-store
-	卡片：card-store-backend-store
-*/
 
 module.exports = {
 	userIds: userIds,
@@ -34,28 +30,22 @@ module.exports = {
 	apiUrl: 'http://106.15.176.36' + APIV1,
 	api: {
 		//反馈相关接口  Feedback Controller		
-		feedbackList: 'feedback/list',//用户反馈列表
-		feedbackUpdate: 'feedback/update',//用户反馈更新
-		
+		feedbackList: 'feedback/list',
+		feedbackUpdate: 'feedback/update',		
 		//后台用户相关接口		User Controller
-		userDetail: 'user/detail',//后台用户详情
-		userList: 'user/list',//后台用户列表
-		
+		userDetail: 'user/detail',
+		userList: 'user/list',		
 		//后台设备相关接口		Device Controller
-		deviceList: 'device/list',//后台设备列表
-		
+		deviceList: 'device/list',		
 		//设备日志相关接口		Device Log Controller
-		deviceLogInsert: 'deviceLog/insert',//设备日志新增插入,在该项目中暂时无需使用
-		deviceLogList: 'deviceLog/list',//设备日志列表
-		
+		deviceLogInsert: 'deviceLog/insert',
+		deviceLogList: 'deviceLog/list',		
 		//设备统计接口		Stats Device Controller
-		statsDeviceActivate: 'statsDevice/activate',//设备激活数据趋势
-		statsDeviceActivateSummary: 'statsDevice/activateSummary',//激活数据概况
-		statsDeviceActive: 'statsDevice/active',//活跃数据趋势
-		statsDeviceActiveSummary: 'statsDevice/activeSummary',//活跃数据概况
-		statsDeviceArea: 'statsDevice/area',//区域统计
-		statsDeviceSummary: 'statsDevice/summary',//数据概况
-
-		
+		statsDeviceActivate: 'statsDevice/activate',
+		statsDeviceActivateSummary: 'statsDevice/activateSummary',
+		statsDeviceActive: 'statsDevice/active',
+		statsDeviceActiveSummary: 'statsDevice/activeSummary',
+		statsDeviceArea: 'statsDevice/area',
+		statsDeviceSummary: 'statsDevice/summary'
 	}
 }
