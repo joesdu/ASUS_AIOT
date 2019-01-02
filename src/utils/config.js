@@ -29,7 +29,7 @@ module.exports = {
 	apiPrefix: '/api/v1',
 	apiUrl: 'http://106.15.176.36' + APIV1,
 	api: {
-		//反馈相关接口  Feedback Controller		
+		//反馈相关接口  Feedback Controller
 		feedbackList: 'feedback/list',
 		feedbackUpdate: 'feedback/update',		
 		//后台用户相关接口		User Controller
