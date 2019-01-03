@@ -233,7 +233,7 @@ const DataOverview = ({
                             <li className={selected == 1 ? styles.active : ''} onClick={getData.bind(this, 1)}>近15天</li>
                             <li className={selected == 2 ? styles.active : ''} onClick={getData.bind(this, 2)}>近30天</li>
                         </ul>
-                        <div style={{ width: '100%' }}>
+                        <div style={{ width: '99%' }}>
                             <ReactHighcharts config={config0} callback={afterRender.bind(this)}></ReactHighcharts>
                         </div>
                     </div>
@@ -275,4 +275,4 @@ const DataOverview = ({
 }
 
 export default connect(({ dataOverview, loading }) =>
-    ({ dataOverview, loading: loading.models.dataOverview, }))(Form.create()(DataOverview))
+    ({ dataOverview, loading: loading.models.dataOverview }))(Form.create()(DataOverview))

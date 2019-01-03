@@ -3,7 +3,6 @@ import { connect } from 'dva';
 import moment from 'moment';
 import { Pagination, Table, Row, Col, Card, Form, Input, Select, Button, DatePicker, message } from 'antd';
 import styles from '../TableList.less';
-import styles2 from '../main.less';
 import $ from 'jquery';
 
 const FormItem = Form.Item;
@@ -30,7 +29,7 @@ const Devices = ({
 }) => {
   let { data, pagination, searchList, pageindex, pagesize } = devices
 
-  let _datas = []
+  let _datas = {}
   //角色信息
   try {
     _datas = data;
@@ -44,8 +43,8 @@ const Devices = ({
       render: (text, record) => {
         return (
           <div>
-            <div style={{ color: '#40D4D4' }}>{record.deviceName}</div>
-            <div style={{ color: '#B3B3B3' }}>{record.deviceId}</div>
+            <div style={{ color: '#272727' }}>{text.deviceName}</div>
+            <div style={{ color: '#B3B3B3' }}>{text.deviceId}</div>
           </div>
         );
       }
@@ -56,8 +55,8 @@ const Devices = ({
       render: (text, record) => {
         return (
           <div>
-            <div style={{ color: '#40D4D4' }}>{record.isAct}</div>
-            <div style={{ color: '#B3B3B3' }}>{record.status}</div>
+            <div style={{ color: '#40D4D4' }}>{text.isAct}</div>
+            <div style={{ color: '#B3B3B3' }}>{text.status}</div>
           </div>
         );
       }
@@ -68,8 +67,8 @@ const Devices = ({
       render: (text, record) => {
         return (
           <div>
-            <div style={{ color: '#40D4D4' }}>{record.productName}</div>
-            <div style={{ color: '#B3B3B3' }}>{record.uuid}</div>
+            <div style={{ color: '#272727' }}>{text.productName}</div>
+            <div style={{ color: '#B3B3B3' }}>{text.uuid}</div>
           </div>
         );
       }
@@ -80,8 +79,8 @@ const Devices = ({
       render: (text, record) => {
         return (
           <div>
-            <div style={{ color: '#40D4D4' }}>{record.mobile}</div>
-            <div style={{ color: '#B3B3B3' }}>{record.source}</div>
+            <div style={{ color: '#272727' }}>{text.mobile}</div>
+            <div style={{ color: '#B3B3B3' }}>{text.source}</div>
           </div>
         );
       }
@@ -117,7 +116,7 @@ const Devices = ({
       title: '操作',
       dataIndex: 'operation',
       render: (text, record) => {
-        if (record.operation == 2) {
+        if (record.operation == "激活") {
           return (
             <div>
               <div>
