@@ -31,15 +31,15 @@ module.exports = {
 	api: {
 		//反馈相关接口  Feedback Controller
 		feedbackList: 'feedback/list',
-		feedbackUpdate: 'feedback/update',		
+		feedbackUpdate: 'feedback/update',
 		//后台用户相关接口		User Controller
 		userDetail: 'user/detail',
-		userList: 'user/list',		
+		userList: 'user/list',
 		//后台设备相关接口		Device Controller
-		deviceList: 'device/list',		
+		deviceList: 'device/list',
 		//设备日志相关接口		Device Log Controller
 		deviceLogInsert: 'deviceLog/insert',
-		deviceLogList: 'deviceLog/list',		
+		deviceLogList: 'deviceLog/list',
 		//设备统计接口		Stats Device Controller
 		statsDeviceActivate: 'statsDevice/activate',
 		statsDeviceActivateSummary: 'statsDevice/activateSummary',
