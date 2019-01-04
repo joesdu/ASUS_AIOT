@@ -121,12 +121,12 @@ const Devices = ({
             <div>
               <div>
                 <Fragment>
-                  <a>日志</a>
+                  <a value={text.deviceId} onClick={toLog.bind(this)}>日志</a>
                 </Fragment>
               </div>
               <div>
                 <Fragment>
-                  <a>设备详情</a>
+                  <a value={text.deviceId} onClick={toDetail.bind(this)}>设备详情</a>
                 </Fragment>
               </div>
             </div>
@@ -135,32 +135,72 @@ const Devices = ({
           return (
             <div>
               <Fragment>
-                <a>日志</a>
+                <a value={text.deviceId} onClick={toLog.bind(this)}>日志</a>
               </Fragment>
             </div>
           );
-        }       
+        }
       }
     }
   ]
+
+  const toLog = (e) => {
+    e.context.router.push({
+      pathname: './devicelogs',
+      query: {
+        deviceId: e.value
+      },
+    });
+  }
+
+  const toDetail = (e) => {
+    e.context.router.push({
+      pathname: './deviceDetail',
+      query: {
+        deviceId: e.value
+      },
+    });
+  }
   //查询条件
   const handleSearch = (e) => {
     e.preventDefault();
-    let values = getFieldsValue()
-    if (JSON.stringify(values) == "{}") {
+    let values = getFieldsValue();
+    console.log(values);
+    console.log(values.firstActivated[1]._d);
+    let _value = {
+      "actTimeEnd": values.firstActivated[1]._d,
+      "actTimeStart": values.firstActivated[0]._d,
+      "deviceId": values.deviceId,
+      "deviceName": values.deviceName,
+      "firstRow": null,
+      "isAct": values.isAct,
+      "lastActTimeEnd": values.recentActivated[1]._d,
+      "lastActTimeStart": values.recentActivated[0]._d,
+      "mobile": values.mobile,
+      "pageNum": pageindex,
+      "pageRows": pagesize,
+      "productId": values.productId,
+      "source": values.source,
+      "status": values.status,
+      "updateTimeEnd": values.recentUpdates[1]._d,
+      "updateTimeStart": values.recentUpdates[0]._d,
+      "uuid": values.uuid
+    }
+    console.log(_value);
+    if (JSON.stringify(_value) == "{}") {
       message.warning('请选择查询条件')
       return
     }
     //赛选数据
     dispatch({
       type: 'devices/queryRule',
-      payload: values
+      payload: _value
     })
 
     //保存查询条件
     dispatch({
       type: 'devices/searchList',
-      payload: values
+      payload: _value
     })
   }
   //重置
@@ -247,7 +287,9 @@ const Devices = ({
       })
     }
   }
-  /**分页合集 end **/
+/**分页合集 end **/
+  
+  const dateFormat = 'YYYY-MM-DD';
 
   return (
     <div>
@@ -298,7 +340,7 @@ const Devices = ({
                     {getFieldDecorator('isAct')(
                       <Select placeholder="全部" style={{ width: '100%' }}>
                         <Option value={0}>未激活</Option>
-                        <Option value={1}>已激活</Option>                        
+                        <Option value={1}>已激活</Option>
                       </Select>
                     )}
                   </FormItem>
@@ -321,7 +363,7 @@ const Devices = ({
                       <Select placeholder="全部" style={{ width: '100%' }}>
                         <Option value={1}>11111</Option>
                         <Option value={2}>22222</Option>
-                        <Option value={2}>33333</Option>
+                        <Option value={3}>33333</Option>
                       </Select>
                     )}
                   </FormItem>
@@ -341,21 +383,27 @@ const Devices = ({
                 <Col md={8} sm={24}>
                   <FormItem label="首次激活" style={{ marginLeft: 4 }}>
                     {getFieldDecorator('firstActivated')(
-                      <RangePicker />
+                      <RangePicker
+                        format={dateFormat}
+                      />
                     )}
                   </FormItem>
                 </Col>
                 <Col md={8} sm={24}>
                   <FormItem label="最近激活" style={{ marginLeft: 4 }}>
                     {getFieldDecorator('recentActivated')(
-                      <RangePicker />
+                      <RangePicker
+                        format={dateFormat}
+                      />
                     )}
                   </FormItem>
                 </Col>
                 <Col md={8} sm={24}>
                   <FormItem label="最近更新" style={{ marginLeft: 4 }}>
                     {getFieldDecorator('recentUpdates')(
-                      <RangePicker />
+                      <RangePicker
+                        format={dateFormat}
+                      />
                     )}
                   </FormItem>
                 </Col>
@@ -372,7 +420,7 @@ const Devices = ({
           </div>
         </div>
       </Card>
-      
+
       <Card style={{ marginTop: 20 }} title='设备列表'>
         <Table
           columns={columns}

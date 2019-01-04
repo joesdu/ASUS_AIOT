@@ -16,7 +16,7 @@ export default {
       pageCount: 0
     }, //分页数据
     searchList: {}, //查询条件
-    pageindex: 1, //分页开始 第几页
+    pageindex: 0, //分页开始 第几页
     pagesize: 10, //返回条数
   },
   subscriptions: {
@@ -68,7 +68,7 @@ export default {
         else
           _pag.pageCount = parseInt(((result.totalRows - 1) / result.pageRows)) + 1;
         let devices = result.devices;
-        let deviceData = []
+        let deviceData = [];
         for (var i = 0; i < devices.length; i++) {
           deviceData[i] = {
             nameAndID: {
@@ -110,7 +110,7 @@ export default {
         data: [],
         pagination: {}, //分页数据
         searchList: {}, //查询条件
-        pageindex: 1, //分页开始 第几页
+        pageindex: 0, //分页开始 第几页
         pagesize: 10, //返回条数
       }
     },
