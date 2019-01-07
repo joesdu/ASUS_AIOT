@@ -29,12 +29,6 @@ const Devices = ({
 }) => {
   let { data, pagination, searchList, pageindex, pagesize } = devices
 
-  let _datas = {}
-  //角色信息
-  try {
-    _datas = data;
-  } catch (e) { }
-
   //定义表头
   const columns = [
     {
@@ -165,26 +159,54 @@ const Devices = ({
   const handleSearch = (e) => {
     e.preventDefault();
     let values = getFieldsValue();
-    console.log(values);
-    console.log(values.firstActivated[1]._d);
+    let actTimeEnd = null;
+    try {
+      actTimeEnd = values.firstActivated[1].format(dateFormat);
+    } catch (error) {
+    }
+    let actTimeStart = null;
+    try {
+      actTimeStart = values.firstActivated[0].format(dateFormat);
+    } catch (error) {      
+    }
+    let lastActTimeEnd = null;
+    try {
+      lastActTimeEnd = values.recentActivated[1].format(dateFormat);
+    } catch (error) {
+    }
+    let lastActTimeStart = null;
+    try {
+      lastActTimeStart = values.recentActivated[0].format(dateFormat);
+    } catch (error) {
+    }
+    let updateTimeEnd = null;
+    try {
+      updateTimeEnd = values.recentUpdates[0].format(dateFormat);
+    } catch (error) {
+    }
+    let updateTimeStart = null;
+    try {
+      updateTimeStart = values.recentUpdates[0].format(dateFormat);
+    } catch (error) {
+    } 
     let _value = {
-      "actTimeEnd": values.firstActivated[1]._d,
-      "actTimeStart": values.firstActivated[0]._d,
-      "deviceId": values.deviceId,
-      "deviceName": values.deviceName,
+      "actTimeEnd": actTimeEnd,
+      "actTimeStart": actTimeStart,
+      "deviceId": (values.deviceId == null || values.deviceId == '') ? null : values.deviceId,
+      "deviceName": (values.deviceName == null || values.deviceName == '') ? null : values.deviceName,
       "firstRow": null,
-      "isAct": values.isAct,
-      "lastActTimeEnd": values.recentActivated[1]._d,
-      "lastActTimeStart": values.recentActivated[0]._d,
-      "mobile": values.mobile,
+      "isAct": (values.isAct == null || values.isAct == '') ? null : values.isAct,
+      "lastActTimeEnd": lastActTimeEnd,
+      "lastActTimeStart": lastActTimeStart,
+      "mobile": (values.mobile == null || values.mobile == '') ? null : values.mobile,
       "pageNum": pageindex,
       "pageRows": pagesize,
-      "productId": values.productId,
-      "source": values.source,
-      "status": values.status,
-      "updateTimeEnd": values.recentUpdates[1]._d,
-      "updateTimeStart": values.recentUpdates[0]._d,
-      "uuid": values.uuid
+      "productId": (values.productId == null || values.productId == '') ? null : values.productId,
+      "source": (values.source == null || values.source == '') ? null : values.source,
+      "status": (values.status == null || values.status == '') ? null : values.status,
+      "updateTimeEnd": updateTimeEnd,
+      "updateTimeStart": updateTimeStart,
+      "uuid": (values.uuid == null || values.uuid == '') ? null : values.uuid
     }
     console.log(_value);
     if (JSON.stringify(_value) == "{}") {
@@ -234,7 +256,7 @@ const Devices = ({
 
   /**分页合集 start **/
   const showTotal = () => {
-    return `共 ${pagination.total} 条 第 ${pagination.current} / ${pagination.pageCount} 页`;
+    return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${pagination.pageCount} 页`;
   }
   const onShowSizeChange = (current, pageSize) => {
     const postObj = {
@@ -287,7 +309,7 @@ const Devices = ({
       })
     }
   }
-/**分页合集 end **/
+  /**分页合集 end **/
   
   const dateFormat = 'YYYY-MM-DD';
 
@@ -424,8 +446,8 @@ const Devices = ({
       <Card style={{ marginTop: 20 }} title='设备列表'>
         <Table
           columns={columns}
-          dataSource={_datas}
-          bordered
+          dataSource={data}
+          bordered={false}
           pagination={false}
         />
         <Pagination
