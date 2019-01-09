@@ -38,7 +38,6 @@ const AppUsers = ({
   }
 }) => {
   let { data, pagination, searchList, pageindex, pagesize } = appUsers;
-
   //定义表头
   const columns = [
     {
