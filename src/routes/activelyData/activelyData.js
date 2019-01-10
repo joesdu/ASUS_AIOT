@@ -162,19 +162,19 @@ const ActivelyData = ({
             <ul className={styles.indexData_topUL} style={{ float: "right" }}>
               <li
                 className={selected == 0 ? styles.active : ""}
-                onClick={getData.bind(this, 0)}
+                onClick={getData.bind(this, 7)}
               >
                 近7天
               </li>
               <li
                 className={selected == 1 ? styles.active : ""}
-                onClick={getData.bind(this, 1)}
+                onClick={getData.bind(this, 15)}
               >
                 近15天
               </li>
               <li
                 className={selected == 2 ? styles.active : ""}
-                onClick={getData.bind(this, 2)}
+                onClick={getData.bind(this, 30)}
               >
                 近30天
               </li>

@@ -281,10 +281,12 @@ const UserFeedback = ({
                       initialValue: "全部"
                     })(
                       <Select placeholder="全部" style={{ width: "100%" }}>
-                        <Option value={"全部"}>全部</Option>
-                        <Option value={1}>11111</Option>
-                        <Option value={2}>22222</Option>
-                        <Option value={3}>33333</Option>
+                        <Option value={null}>全部</Option>
+                        {data.deviceProductListData.map(product => (
+                          <Option value={product.productId}>
+                            {product.productName}
+                          </Option>
+                        ))}
                       </Select>
                     )}
                   </FormItem>
@@ -330,7 +332,7 @@ const UserFeedback = ({
       <Card style={{ marginTop: 20 }} title="设备列表">
         <Table
           columns={columns}
-          dataSource={data}
+          dataSource={data.feedbackData}
           bordered={false}
           pagination={false}
         />

@@ -27,28 +27,16 @@ export default {
           let overview = {
             productId: 0
           };
-          let activate = {
-            period: 7,
-            productId: 0
-          };
-          let active = {
-            period: 7,
-            productId: 0
-          };
-          let area = {
-            period: 7,
-            productId: 0
-          };
+          let activate = { period: 7, productId: 0 };
+          let active = { period: 7, productId: 0 };
+          let area = { period: 7, productId: 0 };
           let _ars = {
             overview: overview,
             activate: activate,
             active: active,
             area: area
           };
-          dispatch({
-            type: "queryRule",
-            payload: _ars
-          });
+          dispatch({ type: "queryRule", payload: _ars });
         }
       });
     }

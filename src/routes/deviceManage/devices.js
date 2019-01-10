@@ -40,7 +40,6 @@ const Devices = ({
   }
 }) => {
   let { data, pagination, searchList, pageindex, pagesize } = devices;
-
   //定义表头
   const columns = [
     {
@@ -331,6 +330,8 @@ const Devices = ({
 
   const dateFormat = "YYYY-MM-DD";
 
+  const getProduct = (productId, productName) => {};
+
   return (
     <div>
       <Card>
@@ -360,13 +361,6 @@ const Devices = ({
               </Row>
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
-                  <FormItem label="产品ID" style={{ marginLeft: 18 }}>
-                    {getFieldDecorator("productId")(
-                      <Input placeholder="请输入" />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
                   <FormItem label="绑定用户" style={{ marginLeft: 4 }}>
                     {getFieldDecorator("mobile")(
                       <Input placeholder="请输入" />
@@ -386,8 +380,6 @@ const Devices = ({
                     )}
                   </FormItem>
                 </Col>
-              </Row>
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
                   <FormItem label="是否在线" style={{ marginLeft: 4 }}>
                     {getFieldDecorator("status", {
@@ -401,16 +393,20 @@ const Devices = ({
                     )}
                   </FormItem>
                 </Col>
+              </Row>
+              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
                   <FormItem label="产品" style={{ marginLeft: 30 }}>
-                    {getFieldDecorator("products", {
+                    {getFieldDecorator("productId", {
                       initialValue: "全部"
                     })(
                       <Select placeholder="全部" style={{ width: "100%" }}>
-                        <Option value={"全部"}>全部</Option>
-                        <Option value={1}>11111</Option>
-                        <Option value={2}>22222</Option>
-                        <Option value={3}>33333</Option>
+                        <Option value={null}>全部</Option>
+                        {data.deviceProductListData.map(product => (
+                          <Option value={product.productId}>
+                            {product.productName}
+                          </Option>
+                        ))}
                       </Select>
                     )}
                   </FormItem>
@@ -428,8 +424,6 @@ const Devices = ({
                     )}
                   </FormItem>
                 </Col>
-              </Row>
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
                   <FormItem label="首次激活" style={{ marginLeft: 4 }}>
                     {getFieldDecorator("firstActivated")(
@@ -437,6 +431,8 @@ const Devices = ({
                     )}
                   </FormItem>
                 </Col>
+              </Row>
+              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
                   <FormItem label="最近激活" style={{ marginLeft: 4 }}>
                     {getFieldDecorator("recentActivated")(
@@ -472,7 +468,7 @@ const Devices = ({
       <Card style={{ marginTop: 20 }} title="设备列表">
         <Table
           columns={columns}
-          dataSource={data}
+          dataSource={data.deviceListData}
           bordered={false}
           pagination={false}
         />
