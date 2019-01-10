@@ -22,7 +22,7 @@ const ActivelyData = ({
     getFieldsValue
   }
 }) => {
-  let { data, selected } = activelyData;
+  let { activeSummaryData, activeData, selected } = activelyData;
 
   //查询条件
   const handleSearch = e => {
@@ -34,7 +34,7 @@ const ActivelyData = ({
     }
     //赛选数据
     dispatch({
-      type: "activelyData/queryRule",
+        type: "activelyData/queryActiveSummaryData",
       payload: values
     });
 
@@ -47,7 +47,7 @@ const ActivelyData = ({
 
   var config = {
     chart: { height: 450 },
-    xAxis: { categories: data.activeData.dateArray },
+    xAxis: { categories: activeData.dateArray },
     yAxis: {
       title: { text: "活跃设备/个" },
       plotLines: [{ value: 0, width: 1, color: "#808080" }]
@@ -55,7 +55,7 @@ const ActivelyData = ({
     title: { text: null },
     legend: { enabled: false },
     credits: { enabled: false }, // 隐藏右下角版权
-    series: [{ name: "活跃设备/个", data: data.activeData.numArray }]
+    series: [{ name: "活跃设备/个", data: activeData.numArray }]
   };
 
   //定义表头
@@ -116,11 +116,11 @@ const ActivelyData = ({
             >
               <span className={styles.indexTop_text}>今日活跃</span>
               <span style={{ color: "#1890FF" }}>
-                {data.activeSummaryData.todayActive}&nbsp;
+                {activeSummaryData.todayActive}&nbsp;
               </span>
               <div className={styles.indexBottom_text}>
                 <span>昨日激活&nbsp;&nbsp;</span>
-                <span>{data.activeSummaryData.yesterdayActive}&nbsp;</span>
+                <span>{activeSummaryData.yesterdayActive}&nbsp;</span>
               </div>
             </div>
             <div
@@ -129,11 +129,11 @@ const ActivelyData = ({
             >
               <span className={styles.indexTop_text}>近7日活跃</span>
               <span style={{ color: "#1890FF" }}>
-                {data.activeSummaryData.periodActive}&nbsp;
+                {activeSummaryData.periodActive}&nbsp;
               </span>
               <div className={styles.indexBottom_text}>
                 <span>上7日活跃&nbsp;&nbsp;</span>
-                <span>{data.activeSummaryData.prePeriodActive}&nbsp;</span>
+                <span>{activeSummaryData.prePeriodActive}&nbsp;</span>
               </div>
             </div>
             <div
@@ -142,13 +142,11 @@ const ActivelyData = ({
             >
               <span className={styles.indexTop_text}>今日活跃占比</span>
               <span style={{ color: "#1890FF" }}>
-                {data.activeSummaryData.activeRate * 100} %
+                {activeSummaryData.activeRate * 100} %
               </span>
               <div className={styles.indexBottom_text}>
                 <span>昨日活跃占比&nbsp;&nbsp;</span>
-                <span>
-                  {data.activeSummaryData.yesterdayActiveRate * 100} %
-                </span>
+                <span>{activeSummaryData.yesterdayActiveRate * 100} %</span>
               </div>
             </div>
           </div>
@@ -161,19 +159,19 @@ const ActivelyData = ({
             <span>活跃数据趋势</span>
             <ul className={styles.indexData_topUL} style={{ float: "right" }}>
               <li
-                className={selected == 0 ? styles.active : ""}
+                className={selected == 7 ? styles.active : ""}
                 onClick={getData.bind(this, 7)}
               >
                 近7天
               </li>
               <li
-                className={selected == 1 ? styles.active : ""}
+                className={selected == 15 ? styles.active : ""}
                 onClick={getData.bind(this, 15)}
               >
                 近15天
               </li>
               <li
-                className={selected == 2 ? styles.active : ""}
+                className={selected == 30 ? styles.active : ""}
                 onClick={getData.bind(this, 30)}
               >
                 近30天
@@ -188,7 +186,7 @@ const ActivelyData = ({
       <Card title="活跃数据明细">
         <Table
           columns={columns}
-          dataSource={data.activeData.listArray}
+          dataSource={activeData.listArray}
           bordered={false}
           pagination={false}
         />

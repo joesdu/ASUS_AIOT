@@ -18,6 +18,7 @@ export default {
         searchList: {}, //查询条件
         pageindex: 1, //分页开始 第几页
         pagesize: 10, //返回条数
+        deviceId:0
     },
     subscriptions: {
         setup({ dispatch, history }) {
@@ -25,10 +26,10 @@ export default {
                 //页面初始化执行
                 if (location.pathname === '/devicelogs') {
                     let _ars = {
-                        "deviceId": 0,
-                        "firstRow": 0,
+                        "deviceId": this.props.location.state.deviceId,
+                        "firstRow": null,
                         "pageNum": 0,
-                        "pageRows": 0
+                        "pageRows": 10
                     }
                     dispatch({
                         type: 'queryRule',
@@ -53,7 +54,7 @@ export default {
                 if (typeof result.totalRows == 'undefined' || typeof result.pageRows == 'undefined')
                     _pag.pageCount = 0;
                 else
-                    _pag.pageCount = ((result.totalRows - 1) / result.pageRows) + 1;
+                    _pag.pageCount = parseInt((result.totalRows - 1) / result.pageRows) + 1;
                 
                 let deviceLogs = result.deviceLogs;
                 let deviceLogsData = deviceLogs;
@@ -84,7 +85,8 @@ export default {
             return {
                 ...state,
                 data: action.payload,
-                pagination: action.page
+                pagination: action.page,
+                deviceId: this.props.location.state.deviceId
             }
         },
         //分页参数

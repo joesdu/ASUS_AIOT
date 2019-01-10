@@ -7,10 +7,8 @@ import $ from "jquery";
 export default {
   namespace: "devices",
   state: {
-    data: {
-      deviceListData: [],
-      deviceProductListData: []
-    }, //列表数据
+    deviceListData: [],
+    deviceProductListData: [],
     pagination: {
       total: 0,
       pageSize: 0,
@@ -45,9 +43,10 @@ export default {
             updateTimeStart: null,
             uuid: null
           };
+          dispatch({ type: "queryDevicesListData", payload: _ars });
           dispatch({
-            type: "queryRule",
-            payload: _ars
+            type: "queryDeviceProductListData",
+            payload: null
           });
         }
       });
@@ -55,13 +54,9 @@ export default {
   },
 
   effects: {
-    *queryRule({ payload }, { call, put }) {
+    *queryDevicesListData({ payload }, { call, put }) {
       const dataDevicesList = yield call(devicesListApi, payload);
-      const prams = {};
-      const dataDeviceProductList = yield call(deviceProductListApi, prams);
-      let result = {};
       let deviceListData = [];
-      let deviceProductListData = [];
       let _pag = {};
       if (dataDevicesList.code == 0) {
         let result = dataDevicesList.data;
@@ -101,35 +96,36 @@ export default {
             operation: devices[i].isAct
           };
         }
+        yield put({
+          type: "queryDevicesListDataSuccess",
+          payload: deviceListData,
+          page: _pag
+        });
       } else {
         message.error("获取设备列表数据失败,错误信息:" + dataDevicesList.msg);
       }
+    },
+    *queryDeviceProductListData({ payload }, { call, put }) {
+      const prams = {};
+      const dataDeviceProductList = yield call(deviceProductListApi, prams);
       if (dataDeviceProductList.code == 0) {
-        deviceProductListData = dataDeviceProductList.data;
+        yield put({
+          type: "queryDeviceProductListDataSuccess",
+          payload: dataDeviceProductList.data
+        });
       } else {
         message.error(
           "获取产品列表数据失败,错误信息:" + dataDeviceProductList.msg
         );
       }
-      result = {
-        deviceListData: deviceListData,
-        deviceProductListData: deviceProductListData
-      };
-      yield put({
-        type: "querySuccess",
-        payload: result,
-        page: _pag
-      });
     }
   },
   reducers: {
     clearData(state) {
       return {
         ...state,
-        data: {
-          deviceListData: [],
-          deviceProductListData: []
-        }, //列表数据
+        deviceListData: [],
+        deviceProductListData: [],
         pagination: {}, //分页数据
         searchList: {}, //查询条件
         pageindex: 0, //分页开始 第几页
@@ -137,12 +133,15 @@ export default {
       };
     },
     //返回数据列表
-    querySuccess(state, action) {
+    queryDevicesListDataSuccess(state, action) {
       return {
         ...state,
-        data: action.payload,
+        deviceListData: action.payload,
         pagination: action.page
       };
+    },
+    queryDeviceProductListDataSuccess(state, action) {
+      return { ...state, deviceProductListData: action.payload };
     },
     //分页参数
     setPage(state, action) {

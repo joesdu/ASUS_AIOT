@@ -1,5 +1,9 @@
 import modelExtend from "dva-model-extend";
-import { feedbackListApi, deviceProductListApi } from "../services/api";
+import {
+  feedbackListApi,
+  deviceProductListApi,
+  feedbackUpdateApi
+} from "../services/api";
 import queryString from "query-string";
 import { message } from "antd";
 import $ from "jquery";
@@ -7,10 +11,8 @@ import $ from "jquery";
 export default {
   namespace: "userFeedback",
   state: {
-    data: {
-      feedbackData: [],
-      deviceProductListData: []
-    },
+    feedbackData: [],
+    deviceProductListData: [],
     pagination: {
       total: 0,
       pageSize: 0,
@@ -35,9 +37,10 @@ export default {
             productId: null,
             startTime: null
           };
+          dispatch({ type: "queryFeedbackListData", payload: _ars });
           dispatch({
-            type: "queryRule",
-            payload: _ars
+            type: "queryDeviceProductListData",
+            payload: null
           });
         }
       });
@@ -45,12 +48,8 @@ export default {
   },
 
   effects: {
-    *queryRule({ payload }, { call, put }) {
+    *queryFeedbackListData({ payload }, { call, put }) {
       const data = yield call(feedbackListApi, payload);
-      const prams = {};
-      const dataDeviceProductList = yield call(deviceProductListApi, prams);
-      let result = {};
-      let deviceProductListData = [];
       if (data.code == 0) {
         let result = data.data;
         let _pag = {};
@@ -83,24 +82,35 @@ export default {
             isProcessed: feedbacks[i].isProcessed
           };
         }
-        if (dataDeviceProductList.code == 0) {
-          deviceProductListData = dataDeviceProductList.data;
-        } else {
-          message.error(
-            "获取产品列表数据失败,错误信息:" + dataDeviceProductList.msg
-          );
-        }
-        result = {
-          feedbackData: feedbackData,
-          deviceProductListData: deviceProductListData
-        };
         yield put({
-          type: "querySuccess",
-          payload: result,
+          type: "queryFeedbackListDataSuccess",
+          payload: feedbackData,
           page: _pag
         });
       } else {
         message.error("获取数据失败,错误信息:" + data.msg);
+      }
+    },
+    *queryDeviceProductListData({ payload }, { call, put }) {
+      const prams = {};
+      const dataDeviceProductList = yield call(deviceProductListApi, prams);
+      if (dataDeviceProductList.code == 0) {
+        yield put({
+          type: "queryDeviceProductListDataSuccess",
+          payload: dataDeviceProductList.data
+        });
+      } else {
+        message.error(
+          "获取产品列表数据失败,错误信息:" + dataDeviceProductList.msg
+        );
+      }
+    },
+    *updateFeedback({ payload }, { call, put }) {
+      const update = yield call(feedbackUpdateApi, payload);
+      if (update.code == 0) {
+        message.info("更新成功:" + update.msg);
+      } else {
+        message.error("更新失败:" + update.msg);
       }
     }
   },
@@ -108,10 +118,8 @@ export default {
     clearData(state) {
       return {
         ...state,
-        data: {
-          feedbackData: [],
-          deviceProductListData: []
-        },
+        feedbackData: [],
+        deviceProductListData: [],
         pagination: {},
         searchList: {},
         pageindex: 0,
@@ -119,12 +127,15 @@ export default {
       }; //分页数据 //查询条件 //分页开始 第几页 //返回条数
     },
     //返回数据列表
-    querySuccess(state, action) {
+    queryFeedbackListDataSuccess(state, action) {
       return {
         ...state,
-        data: action.payload,
+        feedbackData: action.payload,
         pagination: action.page
       };
+    },
+    queryDeviceProductListDataSuccess(state, action) {
+      return { ...state, deviceProductListData: action.payload };
     },
     //分页参数
     setPage(state, action) {

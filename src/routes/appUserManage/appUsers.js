@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { connect } from "dva";
 import moment from "moment";
+import { Link } from "dva/router";
 import {
   Pagination,
   Table,
@@ -101,7 +102,7 @@ const AppUsers = ({
           <div>
             <div>
               <Fragment>
-                <a>查看详情</a>
+                <Link to="./userDetail">查看详情</Link>
               </Fragment>
             </div>
           </div>

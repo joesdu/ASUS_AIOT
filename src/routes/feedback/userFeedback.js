@@ -11,6 +11,7 @@ import {
   Select,
   Button,
   DatePicker,
+  Radio,
   message,
   Modal
 } from "antd";
@@ -20,6 +21,7 @@ import $ from "jquery";
 const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
+const RadioGroup = Radio.Group;
 
 const formItemLayout = {
   labelCol: { span: 3 },
@@ -39,7 +41,15 @@ const UserFeedback = ({
     getFieldsValue
   }
 }) => {
-  let { data, pagination, searchList, pageindex, pagesize } = userFeedback;
+  let {
+    feedbackData,
+    deviceProductListData,
+    pagination,
+    searchList,
+    pageindex,
+    pagesize,
+    visible
+  } = userFeedback;
 
   //定义表头
   const columns = [
@@ -99,7 +109,7 @@ const UserFeedback = ({
           <div>
             <div>
               <Fragment>
-                <a>标记</a>
+                <a onClick={showModal.bind(this, record.feedbackId)}>标记</a>
               </Fragment>
             </div>
           </div>
@@ -155,7 +165,7 @@ const UserFeedback = ({
     let _value = getJsonPrams(values, pageindex, pagesize);
     //赛选数据
     dispatch({
-      type: "userFeedback/queryRule",
+      type: "userFeedback/queryFeedbackListData",
       payload: _value
     });
 
@@ -183,9 +193,10 @@ const UserFeedback = ({
     });
     //重置查询所有
     let _ars = {};
+    dispatch({ type: "userFeedback/queryFeedbackListData", payload: _ars });
     dispatch({
-      type: "userFeedback/queryRule",
-      payload: _ars
+      type: "userFeedback/queryDeviceProductListData",
+      payload: null
     });
     //重置查询条件
     dispatch({
@@ -214,12 +225,12 @@ const UserFeedback = ({
       let _c = {};
       _c = $.extend(postObj, searchList);
       dispatch({
-        type: "userFeedback/queryRule",
+        type: "userFeedback/queryFeedbackListData",
         payload: postObj
       });
     } else {
       dispatch({
-        type: "userFeedback/queryRule",
+        type: "userFeedback/queryFeedbackListData",
         payload: postObj
       });
     }
@@ -238,12 +249,12 @@ const UserFeedback = ({
       let _c = {};
       _c = $.extend(postObj, searchList);
       dispatch({
-        type: "userFeedback/queryRule",
+        type: "userFeedback/queryFeedbackListData",
         payload: postObj
       });
     } else {
       dispatch({
-        type: "userFeedback/queryRule",
+        type: "userFeedback/queryFeedbackListData",
         payload: postObj
       });
     }
@@ -251,6 +262,33 @@ const UserFeedback = ({
   /**分页合集 end **/
 
   const dateFormat = "YYYY-MM-DD";
+
+  const showModal = () => {
+    Modal.confirm({
+      title: "标记",
+      okText: "确认",
+      cancelText: "取消",
+      content: (
+        <div>
+          <label>标记 : </label>
+          <RadioGroup style={{ marginTop: "20px" }}>
+            <Radio value={1} style={{ marginRight: "50px" }}>
+              已处理
+            </Radio>
+            <Radio value={2} style={{ marginLeft: "50px" }}>
+              未处理
+            </Radio>
+          </RadioGroup>
+        </div>
+      ),
+      onOk() {
+        console.log("OK");
+      },
+      onCancel() {
+        console.log("Cancel");
+      }
+    });
+  };
 
   return (
     <div>
@@ -282,7 +320,7 @@ const UserFeedback = ({
                     })(
                       <Select placeholder="全部" style={{ width: "100%" }}>
                         <Option value={null}>全部</Option>
-                        {data.deviceProductListData.map(product => (
+                        {deviceProductListData.map(product => (
                           <Option value={product.productId}>
                             {product.productName}
                           </Option>
@@ -332,7 +370,7 @@ const UserFeedback = ({
       <Card style={{ marginTop: 20 }} title="设备列表">
         <Table
           columns={columns}
-          dataSource={data.feedbackData}
+          dataSource={feedbackData}
           bordered={false}
           pagination={false}
         />

@@ -8,12 +8,10 @@ import queryString from "query-string";
 export default {
   namespace: "activelyData",
   state: {
-    data: {
-      activeSummaryData: {},
-      activeData: {}
-    },
+    activeSummaryData: {},
+    activeData: {},
     shows: false,
-    selected: 0
+    selected: 7
   },
   //初始化得到值
   subscriptions: {
@@ -22,7 +20,11 @@ export default {
         if (location.pathname === "/activelyData") {
           let _ars = { period: 7, productId: 0 };
           dispatch({
-            type: "queryRule",
+            type: "queryActiveSummaryData",
+            payload: _ars
+          });
+          dispatch({
+            type: "queryDeviceActiveData",
             payload: _ars
           });
         }
@@ -30,19 +32,23 @@ export default {
     }
   },
   effects: {
-    *queryRule({ payload }, { call, put }) {
+    *queryActiveSummaryData({ payload }, { call, put }) {
       const dataActiveSummary = yield call(
         statsDeviceActiveSummaryApi,
         payload
       );
-      const dataActive = yield call(statsDeviceActiveApi, payload);
-      let activeSummaryData = null;
-      let activeData = null;
       if (dataActiveSummary.code == 0) {
-        activeSummaryData = dataActiveSummary.data;
+        yield put({
+          type: "queryActiveSummaryDataSuccess",
+          payload: dataActiveSummary.data
+        });
       } else {
         message.error("获取数据概况失败,错误信息:" + dataActiveSummary.msg);
       }
+    },
+    *queryDeviceActiveData({ payload }, { call, put }) {
+      const dataActive = yield call(statsDeviceActiveApi, payload);
+      let activeData = null;
       if (dataActive.code == 0) {
         let dateArray = [];
         let numArray = [];
@@ -55,25 +61,27 @@ export default {
           numArray: numArray,
           listArray: dataActive.data
         };
+        yield put({
+          type: "queryDeviceActiveDataSuccess",
+          payload: activeData
+        });
       } else {
         message.error("获取活跃数据趋势失败,错误信息:" + dataActive.msg);
       }
-      let result = {
-        activeSummaryData: activeSummaryData,
-        activeData: activeData
-      };
-      yield put({
-        type: "querySuccess",
-        payload: result
-      });
     }
   },
   reducers: {
     //返回数据列表
-    querySuccess(state, action) {
+    queryActiveSummaryDataSuccess(state, action) {
       return {
         ...state,
-        data: action.payload
+        activeSummaryData: action.payload
+      };
+    },
+    queryDeviceActiveDataSuccess(state, action) {
+      return {
+        ...state,
+        activeData: action.payload
       };
     },
     //改变状态

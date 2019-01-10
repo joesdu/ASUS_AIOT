@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { connect } from "dva";
 import moment from "moment";
+import { Link } from "dva/router";
 import {
   Pagination,
   Table,
@@ -39,7 +40,14 @@ const Devices = ({
     getFieldsValue
   }
 }) => {
-  let { data, pagination, searchList, pageindex, pagesize } = devices;
+  let {
+    deviceListData,
+    deviceProductListData,
+    pagination,
+    searchList,
+    pageindex,
+    pagesize
+  } = devices;
   //定义表头
   const columns = [
     {
@@ -130,12 +138,16 @@ const Devices = ({
             <div>
               <div>
                 <Fragment>
-                  <a value={record.nameAndID.deviceId}>日志</a>
+                  <Link to="../deviceManage/devicelogs" value={record.nameAndID.deviceId}>
+                    日志
+                  </Link>
                 </Fragment>
               </div>
               <div>
                 <Fragment>
-                  <a value={record.nameAndID.deviceId}>设备详情</a>
+                  <Link to="./deviceDetail" value={record.nameAndID.deviceId}>
+                    设备详情
+                  </Link>
                 </Fragment>
               </div>
             </div>
@@ -144,7 +156,9 @@ const Devices = ({
           return (
             <div>
               <Fragment>
-                <a value={record.nameAndID.deviceId}>日志</a>
+                <Link to={"./devicelogs"} value={record.nameAndID.deviceId}>
+                  日志
+                </Link>
               </Fragment>
             </div>
           );
@@ -233,10 +247,7 @@ const Devices = ({
     }
     let _value = getJsonPrams(values, pageindex, pagesize);
     //赛选数据
-    dispatch({
-      type: "devices/queryRule",
-      payload: _value
-    });
+    dispatch({ type: "devices/queryDevicesListData", payload: _value });
 
     //保存查询条件
     dispatch({
@@ -261,11 +272,27 @@ const Devices = ({
       type: "devices/clearData"
     });
     //重置查询所有
-    let _ars = {};
-    dispatch({
-      type: "devices/queryRule",
-      payload: _ars
-    });
+    let _ars = {
+      actTimeEnd: null,
+      actTimeStart: null,
+      deviceId: null,
+      deviceName: null,
+      firstRow: null,
+      isAct: null,
+      lastActTimeEnd: null,
+      lastActTimeStart: null,
+      mobile: null,
+      pageNum: 0,
+      pageRows: 10,
+      productId: null,
+      source: null,
+      status: null,
+      updateTimeEnd: null,
+      updateTimeStart: null,
+      uuid: null
+    };
+    dispatch({ type: "devices/queryDevicesListData", payload: _ars });
+    dispatch({ type: "devices/queryDeviceProductListData", payload: null });
     //重置查询条件
     dispatch({
       type: "devices/searchList",
@@ -292,12 +319,12 @@ const Devices = ({
       let _c = {};
       _c = $.extend(postObj, searchList);
       dispatch({
-        type: "devices/queryRule",
+        type: "devices/queryDevicesListData",
         payload: postObj
       });
     } else {
       dispatch({
-        type: "devices/queryRule",
+        type: "devices/queryDevicesListData",
         payload: postObj
       });
     }
@@ -316,12 +343,12 @@ const Devices = ({
       let _c = {};
       _c = $.extend(postObj, searchList);
       dispatch({
-        type: "devices/queryRule",
+        type: "devices/queryDevicesListData",
         payload: postObj
       });
     } else {
       dispatch({
-        type: "devices/queryRule",
+        type: "devices/queryDevicesListData",
         payload: postObj
       });
     }
@@ -329,8 +356,6 @@ const Devices = ({
   /**分页合集 end **/
 
   const dateFormat = "YYYY-MM-DD";
-
-  const getProduct = (productId, productName) => {};
 
   return (
     <div>
@@ -402,7 +427,7 @@ const Devices = ({
                     })(
                       <Select placeholder="全部" style={{ width: "100%" }}>
                         <Option value={null}>全部</Option>
-                        {data.deviceProductListData.map(product => (
+                        {deviceProductListData.map(product => (
                           <Option value={product.productId}>
                             {product.productName}
                           </Option>
@@ -468,7 +493,7 @@ const Devices = ({
       <Card style={{ marginTop: 20 }} title="设备列表">
         <Table
           columns={columns}
-          dataSource={data.deviceListData}
+          dataSource={deviceListData}
           bordered={false}
           pagination={false}
         />

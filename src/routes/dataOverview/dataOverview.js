@@ -4,7 +4,6 @@ import { Icon, Row, Col, Card, Form, Select, message } from "antd";
 import styles from "./dataOverview.less";
 import $ from "jquery";
 import ReactHighcharts from "react-highcharts";
-import { number } from "prop-types";
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -21,32 +20,53 @@ const DataOverview = ({
     getFieldsValue
   }
 }) => {
-  let { data, selected } = dataOverview;
+  let {
+    overviewData,
+    activateData,
+    activeData,
+    areaData,
+    deviceProductListData,
+    activateSelected,
+    activeSelected,
+    areaSelected
+  } = dataOverview;
 
+  const setGramsJson = (
+    periodActivate,
+    periodActive,
+    periodArea,
+    productId
+  ) => {
+    let overview = { productId: productId };
+    let activate = { period: periodActivate, productId: productId };
+    let active = { period: periodActive, productId: productId };
+    let area = { period: periodArea, productId: productId };
+    return {
+      overview: overview,
+      activate: activate,
+      active: active,
+      area: area
+    };
+  };
   //查询条件
-  const handleSearch = e => {
-    e.preventDefault();
-    let values = getFieldsValue();
-    if (JSON.stringify(values) == "{}") {
-      message.warning("请选择查询条件");
-      return;
-    }
+  const handleChange = e => {
+    let overview = { productId: e };
+    let activate = { period: 7, productId: e };
+    let active = { period: 7, productId: e };
+    let area = { period: 1, productId: e };
+    let _ars = {
+      overview: overview,
+      activate: activate,
+      active: active,
+      area: area
+    };
     //赛选数据
-    dispatch({
-      type: "dataOverview/queryRule",
-      payload: values
-    });
-
-    //保存查询条件
-    dispatch({
-      type: "dataOverview/searchList",
-      payload: values
-    });
+    dispatch({ type: "dataOverview/queryRule", payload: _ars });
   };
 
   var activateConfig = {
     chart: { height: 450 },
-    xAxis: { categories: data.activateData.dateArray },
+    xAxis: { categories: activateData.dateArray },
     yAxis: {
       title: { text: "激活设备/个" },
       plotLines: [{ value: 0, width: 1, color: "#808080" }]
@@ -54,12 +74,12 @@ const DataOverview = ({
     title: { text: null },
     legend: { enabled: false },
     credits: { enabled: false }, // 隐藏右下角版权
-    series: [{ name: "激活设备/个", data: data.activateData.numArray }]
+    series: [{ name: "激活设备/个", data: activateData.numArray }]
   };
 
   var activeConfig = {
     chart: { height: 450 },
-    xAxis: { categories: data.activeData.dateArray },
+    xAxis: { categories: activeData.dateArray },
     yAxis: {
       title: { text: "活跃设备/个" },
       plotLines: [{ value: 0, width: 1, color: "#808080" }]
@@ -67,12 +87,12 @@ const DataOverview = ({
     title: { text: null },
     legend: { enabled: false },
     credits: { enabled: false }, // 隐藏右下角版权
-    series: [{ name: "活跃设备/个", data: data.activeData.numArray }]
+    series: [{ name: "活跃设备/个", data: activeData.numArray }]
   };
 
   var areaConfig = {
     chart: { height: 450, type: "column" },
-    xAxis: { categories: data.areaData.areaArray },
+    xAxis: { categories: areaData.areaArray },
     yAxis: {
       title: { text: "活跃数量/个" },
       plotLines: [{ value: 0, width: 1, color: "#808080" }]
@@ -80,14 +100,7 @@ const DataOverview = ({
     title: { text: null },
     legend: { enabled: false },
     credits: { enabled: false }, // 隐藏右下角版权
-    series: [{ name: "活跃数量/个", data: data.areaData.numArray }]
-  };
-
-  const getData = k => {
-    dispatch({
-      type: "dataOverview/selected",
-      payload: k
-    });
+    series: [{ name: "活跃数量/个", data: areaData.numArray }]
   };
 
   const getDiv = number => {
@@ -114,21 +127,39 @@ const DataOverview = ({
     }
   };
 
-  return (
-    <div>
+  const getActivateData = k => {
+    console.log(k);
+    dispatch({ type: "dataOverview/activateSelected", payload: k });
+  };
+
+  const getActiveData = k => {
+    console.log(k);
+    dispatch({ type: "dataOverview/activeSelected", payload: k });
+  };
+
+  const getAreaData = k => {
+    console.log(k);
+    dispatch({ type: "dataOverview/areaSelected", payload: k });
+  };
+
+  return <div>
       <Card>
         <div className={styles.tableList}>
           <div className={styles.tableListForm}>
-            <Form onSubmit={handleSearch} layout="inline">
+            <Form layout="inline">
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
-                  <FormItem label="当前产品" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator("products")(
-                      <Select placeholder="全部产品" style={{ width: "100%" }}>
-                        <Option value={1}>11111</Option>
-                        <Option value={2}>22222</Option>
-                      </Select>
-                    )}
+                  <FormItem label="产品" style={{ marginLeft: 30 }}>
+                    {getFieldDecorator("productId", {
+                      initialValue: "全部"
+                    })(<Select placeholder="全部" onChange={handleChange} style={{ width: "100%" }}>
+                        <Option value={0}>全部</Option>
+                        {deviceProductListData.map(product => (
+                          <Option value={product.productId}>
+                            {product.productName}
+                          </Option>
+                        ))}
+                      </Select>)}
                   </FormItem>
                 </Col>
               </Row>
@@ -140,50 +171,44 @@ const DataOverview = ({
       <div style={{ marginTop: "15px" }} className={styles.indexTop}>
         <Card className={styles.indexTopL} style={{ marginRight: "25px" }}>
           <div className={styles.indexCont}>
-            <div
-              className={styles.indexCont_span}
-              style={{ marginRight: "10%" }}
-            >
+            <div className={styles.indexCont_span} style={{ marginRight: "10%" }}>
               <span className={styles.indexTop_text}>今日激活</span>
               <span style={{ color: "#1890FF" }}>
-                {data.overviewData.todayActivate}&nbsp;
+                {overviewData.todayActivate}&nbsp;
               </span>
               <div className={styles.indexBottom_text}>
                 <span>昨日激活&nbsp;&nbsp;</span>
-                <span>{data.overviewData.yesterdayActivate}</span>
+                <span>{overviewData.yesterdayActivate}</span>
               </div>
             </div>
             <div className={styles.indexCont_span}>
               <span className={styles.indexTop_text}>较昨日环比</span>
-              {getDiv(data.overviewData.yesterdayActivateRate)}
+              {getDiv(overviewData.yesterdayActivateRate)}
               <div className={styles.indexBottom_text}>
                 <span>累计激活&nbsp;&nbsp;</span>
-                <span>{data.overviewData.totalActivate}</span>
+                <span>{overviewData.totalActivate}</span>
               </div>
             </div>
           </div>
         </Card>
         <Card className={styles.indexTopL} style={{ position: "relative" }}>
           <div className={styles.indexCont}>
-            <div
-              className={styles.indexCont_span}
-              style={{ marginRight: "10%" }}
-            >
+            <div className={styles.indexCont_span} style={{ marginRight: "10%" }}>
               <span className={styles.indexTop_text}>今日活跃</span>
               <span style={{ color: "#1890FF" }}>
-                {data.overviewData.todayActive}&nbsp;
+                {overviewData.todayActive}&nbsp;
               </span>
               <div className={styles.indexBottom_text}>
                 <span>昨日活跃&nbsp;&nbsp;</span>
-                <span>{data.overviewData.yesterdayActive}</span>
+                <span>{overviewData.yesterdayActive}</span>
               </div>
             </div>
             <div className={styles.indexCont_span}>
               <span className={styles.indexTop_text}>较昨日环比</span>
-              {getDiv(data.overviewData.yesterdayActiveRate)}
+              {getDiv(overviewData.yesterdayActiveRate)}
               <div className={styles.indexBottom_text}>
                 <span>活跃占比&nbsp;&nbsp;</span>
-                <span>{data.overviewData.activeRate * 100}&nbsp;%</span>
+                <span>{overviewData.activeRate * 100}&nbsp;%</span>
               </div>
             </div>
           </div>
@@ -195,22 +220,13 @@ const DataOverview = ({
           <div className={styles.indexData_top}>
             <span>激活数据趋势</span>
             <ul className={styles.indexData_topUL} style={{ float: "right" }}>
-              <li
-                className={selected == 0 ? styles.active : ""}
-                onClick={getData.bind(this, 0)}
-              >
+              <li className={activateSelected == 7 ? styles.active : ""} onClick={getActivateData.bind(this, 7)}>
                 近7天
               </li>
-              <li
-                className={selected == 1 ? styles.active : ""}
-                onClick={getData.bind(this, 1)}
-              >
+            <li className={activateSelected == 15 ? styles.active : ""} onClick={getActivateData.bind(this, 15)}>
                 近15天
               </li>
-              <li
-                className={selected == 2 ? styles.active : ""}
-                onClick={getData.bind(this, 2)}
-              >
+            <li className={activateSelected == 30 ? styles.active : ""} onClick={getActivateData.bind(this, 30)}>
                 近30天
               </li>
             </ul>
@@ -225,22 +241,13 @@ const DataOverview = ({
           <div className={styles.indexData_top}>
             <span>活跃数据趋势</span>
             <ul className={styles.indexData_topUL} style={{ float: "right" }}>
-              <li
-                className={selected == 0 ? styles.active : ""}
-                onClick={getData.bind(this, 0)}
-              >
+            <li className={activeSelected == 7 ? styles.active : ""} onClick={getActiveData.bind(this, 7)}>
                 近7天
               </li>
-              <li
-                className={selected == 1 ? styles.active : ""}
-                onClick={getData.bind(this, 1)}
-              >
+            <li className={activeSelected == 15 ? styles.active : ""} onClick={getActiveData.bind(this, 15)}>
                 近15天
               </li>
-              <li
-                className={selected == 2 ? styles.active : ""}
-                onClick={getData.bind(this, 2)}
-              >
+            <li className={activeSelected == 30 ? styles.active : ""} onClick={getActiveData.bind(this, 30)}>
                 近30天
               </li>
             </ul>
@@ -255,28 +262,16 @@ const DataOverview = ({
           <div className={styles.indexData_top}>
             <span>活跃地区</span>
             <ul className={styles.indexData_topUL} style={{ float: "right" }}>
-              <li
-                className={selected == 0 ? styles.active : ""}
-                onClick={getData.bind(this, 0)}
-              >
+              <li className={areaSelected == 1 ? styles.active : ""} onClick={getAreaData.bind(this, 1)}>
                 昨天
               </li>
-              <li
-                className={selected == 1 ? styles.active : ""}
-                onClick={getData.bind(this, 1)}
-              >
+            <li className={areaSelected == 7 ? styles.active : ""} onClick={getAreaData.bind(this, 7)}>
                 近7天
               </li>
-              <li
-                className={selected == 2 ? styles.active : ""}
-                onClick={getData.bind(this, 2)}
-              >
+            <li className={areaSelected == 15 ? styles.active : ""} onClick={getAreaData.bind(this, 15)}>
                 近15天
               </li>
-              <li
-                className={selected == 3 ? styles.active : ""}
-                onClick={getData.bind(this, 3)}
-              >
+            <li className={areaSelected == 30 ? styles.active : ""} onClick={getAreaData.bind(this, 30)}>
                 近30天
               </li>
             </ul>
@@ -286,8 +281,7 @@ const DataOverview = ({
           </div>
         </div>
       </Card>
-    </div>
-  );
+    </div>;
 };
 
 export default connect(({ dataOverview, loading }) => ({
