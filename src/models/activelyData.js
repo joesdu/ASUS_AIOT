@@ -21,11 +21,11 @@ export default {
         if (location.pathname === "/activelyData") {
           let _ars = { period: 7, productId: 0 };
           dispatch({
-            type: "queryActiveSummaryData",
+            type: "queryActiveSummary",
             payload: _ars
           });
           dispatch({
-            type: "queryDeviceActiveData",
+            type: "queryDeviceActive",
             payload: _ars
           });
         }
@@ -33,21 +33,21 @@ export default {
     }
   },
   effects: {
-    *queryActiveSummaryData({ payload }, { call, put }) {
+    *queryActiveSummary({ payload }, { call, put }) {
       const dataActiveSummary = yield call(
         statsDeviceActiveSummaryApi,
         payload
       );
       if (dataActiveSummary.code == 0) {
         yield put({
-          type: "queryActiveSummaryDataSuccess",
+          type: "queryActiveSummarySuccess",
           payload: dataActiveSummary.data
         });
       } else {
         message.error("获取数据概况失败,错误信息:" + dataActiveSummary.msg);
       }
     },
-    *queryDeviceActiveData({ payload }, { call, put }) {
+    *queryDeviceActive({ payload }, { call, put }) {
       const dataActive = yield call(statsDeviceActiveApi, payload);
       let activeData = null;
       if (dataActive.code == 0) {
@@ -63,7 +63,7 @@ export default {
           listArray: dataActive.data
         };
         yield put({
-          type: "queryDeviceActiveDataSuccess",
+          type: "queryDeviceActiveSuccess",
           payload: activeData
         });
       } else {
@@ -73,13 +73,13 @@ export default {
   },
   reducers: {
     //返回数据列表
-    queryActiveSummaryDataSuccess(state, action) {
+    queryActiveSummarySuccess(state, action) {
       return {
         ...state,
         activeSummaryData: action.payload
       };
     },
-    queryDeviceActiveDataSuccess(state, action) {
+    queryDeviceActiveSuccess(state, action) {
       return {
         ...state,
         activeData: action.payload

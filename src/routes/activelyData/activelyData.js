@@ -34,7 +34,7 @@ const ActivelyData = ({
     }
     //赛选数据
     dispatch({
-        type: "activelyData/queryActiveSummaryData",
+        type: "activelyData/queryActiveSummary",
       payload: values
     });
 
