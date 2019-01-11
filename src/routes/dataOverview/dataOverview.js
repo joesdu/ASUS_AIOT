@@ -1,8 +1,7 @@
 import React from "react";
 import { connect } from "dva";
-import { Icon, Row, Col, Card, Form, Select, message } from "antd";
+import { Icon, Row, Col, Card, Form, Select } from "antd";
 import styles from "./dataOverview.less";
-import $ from "jquery";
 import ReactHighcharts from "react-highcharts";
 
 const FormItem = Form.Item;
@@ -31,37 +30,40 @@ const DataOverview = ({
     areaSelected
   } = dataOverview;
 
-  const setGramsJson = (
-    periodActivate,
-    periodActive,
-    periodArea,
-    productId
-  ) => {
-    let overview = { productId: productId };
-    let activate = { period: periodActivate, productId: productId };
-    let active = { period: periodActive, productId: productId };
-    let area = { period: periodArea, productId: productId };
-    return {
-      overview: overview,
-      activate: activate,
-      active: active,
-      area: area
-    };
-  };
+  let productID = 0;
   //查询条件
   const handleChange = e => {
-    let overview = { productId: e };
-    let activate = { period: 7, productId: e };
-    let active = { period: 7, productId: e };
-    let area = { period: 1, productId: e };
-    let _ars = {
-      overview: overview,
-      activate: activate,
-      active: active,
-      area: area
+    productID = e;
+    let overview = {
+      userToken: localStorage.getItem("userToken"),
+      productId: e
+    };
+    let activate = {
+      userToken: localStorage.getItem("userToken"),
+      period: 7,
+      productId: e
+    };
+    let active = {
+      userToken: localStorage.getItem("userToken"),
+      period: 7,
+      productId: e
+    };
+    let area = {
+      userToken: localStorage.getItem("userToken"),
+      period: 1,
+      productId: e
     };
     //赛选数据
-    dispatch({ type: "dataOverview/queryRule", payload: _ars });
+    dispatch({ type: "dataOverview/queryOverviewData", payload: overview });
+    dispatch({
+      type: "dataOverview/queryActivateData",
+      payload: activate
+    });
+    dispatch({ type: "dataOverview/queryActiveData", payload: active });
+    dispatch({ type: "dataOverview/queryAreaData", payload: area });
+    dispatch({ type: "dataOverview/activateSelected", payload: 7 });
+    dispatch({ type: "dataOverview/activeSelected", payload: 7 });
+    dispatch({ type: "dataOverview/areaSelected", payload: 1 });
   };
 
   var activateConfig = {
@@ -128,21 +130,37 @@ const DataOverview = ({
   };
 
   const getActivateData = k => {
-    console.log(k);
     dispatch({ type: "dataOverview/activateSelected", payload: k });
+    let activate = {
+      userToken: localStorage.getItem("userToken"),
+      period: k,
+      productId: productID
+    };
+    dispatch({ type: "dataOverview/queryActivateData", payload: activate });
   };
 
   const getActiveData = k => {
-    console.log(k);
     dispatch({ type: "dataOverview/activeSelected", payload: k });
+    let active = {
+      userToken: localStorage.getItem("userToken"),
+      period: k,
+      productId: productID
+    };
+    dispatch({ type: "dataOverview/queryActiveData", payload: active });
   };
 
   const getAreaData = k => {
-    console.log(k);
     dispatch({ type: "dataOverview/areaSelected", payload: k });
+    let area = {
+      userToken: localStorage.getItem("userToken"),
+      period: k,
+      productId: productID
+    };
+    dispatch({ type: "dataOverview/queryAreaData", payload: area });
   };
 
-  return <div>
+  return (
+    <div>
       <Card>
         <div className={styles.tableList}>
           <div className={styles.tableListForm}>
@@ -152,14 +170,20 @@ const DataOverview = ({
                   <FormItem label="产品" style={{ marginLeft: 30 }}>
                     {getFieldDecorator("productId", {
                       initialValue: "全部"
-                    })(<Select placeholder="全部" onChange={handleChange} style={{ width: "100%" }}>
+                    })(
+                      <Select
+                        placeholder="全部"
+                        onChange={handleChange}
+                        style={{ width: "100%" }}
+                      >
                         <Option value={0}>全部</Option>
                         {deviceProductListData.map(product => (
                           <Option value={product.productId}>
                             {product.productName}
                           </Option>
                         ))}
-                      </Select>)}
+                      </Select>
+                    )}
                   </FormItem>
                 </Col>
               </Row>
@@ -171,7 +195,10 @@ const DataOverview = ({
       <div style={{ marginTop: "15px" }} className={styles.indexTop}>
         <Card className={styles.indexTopL} style={{ marginRight: "25px" }}>
           <div className={styles.indexCont}>
-            <div className={styles.indexCont_span} style={{ marginRight: "10%" }}>
+            <div
+              className={styles.indexCont_span}
+              style={{ marginRight: "10%" }}
+            >
               <span className={styles.indexTop_text}>今日激活</span>
               <span style={{ color: "#1890FF" }}>
                 {overviewData.todayActivate}&nbsp;
@@ -193,7 +220,10 @@ const DataOverview = ({
         </Card>
         <Card className={styles.indexTopL} style={{ position: "relative" }}>
           <div className={styles.indexCont}>
-            <div className={styles.indexCont_span} style={{ marginRight: "10%" }}>
+            <div
+              className={styles.indexCont_span}
+              style={{ marginRight: "10%" }}
+            >
               <span className={styles.indexTop_text}>今日活跃</span>
               <span style={{ color: "#1890FF" }}>
                 {overviewData.todayActive}&nbsp;
@@ -220,13 +250,22 @@ const DataOverview = ({
           <div className={styles.indexData_top}>
             <span>激活数据趋势</span>
             <ul className={styles.indexData_topUL} style={{ float: "right" }}>
-              <li className={activateSelected == 7 ? styles.active : ""} onClick={getActivateData.bind(this, 7)}>
+              <li
+                className={activateSelected == 7 ? styles.active : ""}
+                onClick={getActivateData.bind(this, 7)}
+              >
                 近7天
               </li>
-            <li className={activateSelected == 15 ? styles.active : ""} onClick={getActivateData.bind(this, 15)}>
+              <li
+                className={activateSelected == 15 ? styles.active : ""}
+                onClick={getActivateData.bind(this, 15)}
+              >
                 近15天
               </li>
-            <li className={activateSelected == 30 ? styles.active : ""} onClick={getActivateData.bind(this, 30)}>
+              <li
+                className={activateSelected == 30 ? styles.active : ""}
+                onClick={getActivateData.bind(this, 30)}
+              >
                 近30天
               </li>
             </ul>
@@ -241,13 +280,22 @@ const DataOverview = ({
           <div className={styles.indexData_top}>
             <span>活跃数据趋势</span>
             <ul className={styles.indexData_topUL} style={{ float: "right" }}>
-            <li className={activeSelected == 7 ? styles.active : ""} onClick={getActiveData.bind(this, 7)}>
+              <li
+                className={activeSelected == 7 ? styles.active : ""}
+                onClick={getActiveData.bind(this, 7)}
+              >
                 近7天
               </li>
-            <li className={activeSelected == 15 ? styles.active : ""} onClick={getActiveData.bind(this, 15)}>
+              <li
+                className={activeSelected == 15 ? styles.active : ""}
+                onClick={getActiveData.bind(this, 15)}
+              >
                 近15天
               </li>
-            <li className={activeSelected == 30 ? styles.active : ""} onClick={getActiveData.bind(this, 30)}>
+              <li
+                className={activeSelected == 30 ? styles.active : ""}
+                onClick={getActiveData.bind(this, 30)}
+              >
                 近30天
               </li>
             </ul>
@@ -262,16 +310,28 @@ const DataOverview = ({
           <div className={styles.indexData_top}>
             <span>活跃地区</span>
             <ul className={styles.indexData_topUL} style={{ float: "right" }}>
-              <li className={areaSelected == 1 ? styles.active : ""} onClick={getAreaData.bind(this, 1)}>
+              <li
+                className={areaSelected == 1 ? styles.active : ""}
+                onClick={getAreaData.bind(this, 1)}
+              >
                 昨天
               </li>
-            <li className={areaSelected == 7 ? styles.active : ""} onClick={getAreaData.bind(this, 7)}>
+              <li
+                className={areaSelected == 7 ? styles.active : ""}
+                onClick={getAreaData.bind(this, 7)}
+              >
                 近7天
               </li>
-            <li className={areaSelected == 15 ? styles.active : ""} onClick={getAreaData.bind(this, 15)}>
+              <li
+                className={areaSelected == 15 ? styles.active : ""}
+                onClick={getAreaData.bind(this, 15)}
+              >
                 近15天
               </li>
-            <li className={areaSelected == 30 ? styles.active : ""} onClick={getAreaData.bind(this, 30)}>
+              <li
+                className={areaSelected == 30 ? styles.active : ""}
+                onClick={getAreaData.bind(this, 30)}
+              >
                 近30天
               </li>
             </ul>
@@ -281,7 +341,8 @@ const DataOverview = ({
           </div>
         </div>
       </Card>
-    </div>;
+    </div>
+  );
 };
 
 export default connect(({ dataOverview, loading }) => ({

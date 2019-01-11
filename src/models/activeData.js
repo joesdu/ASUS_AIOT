@@ -3,6 +3,7 @@ import {
   statsDeviceActivateApi,
   statsDeviceActivateSummaryApi
 } from "../services/api";
+import { message } from "antd";
 import queryString from "query-string";
 
 export default {

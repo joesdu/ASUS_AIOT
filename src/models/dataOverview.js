@@ -1,4 +1,3 @@
-import modelExtend from "dva-model-extend";
 import {
   statsDeviceActivateApi,
   statsDeviceSummaryApi,
@@ -6,7 +5,7 @@ import {
   statsDeviceAreaApi,
   deviceProductListApi
 } from "../services/api";
-import queryString from "query-string";
+import { message } from 'antd';
 
 export default {
   namespace: "dataOverview",
@@ -26,41 +25,54 @@ export default {
     setup({ dispatch, history }) {
       history.listen(location => {
         if (location.pathname === "/dataOverview") {
-          let overview = { productId: 0 };
+          let overview = {
+            userToken: localStorage.getItem("userToken"),
+            productId: 0
+          };
           dispatch({ type: "queryOverviewData", payload: overview });
-          let activate = { period: 7, productId: 0 };
-          dispatch({ type: "queryActivateData", payload: activate });
-          let active = { period: 7, productId: 0 };
-          dispatch({ type: "queryActiveData", payload: active });
-          let area = { period: 1, productId: 0 };
-          dispatch({ type: "queryAreaData", payload: area });
+          let activate = {
+            userToken: localStorage.getItem("userToken"),
+            period: 7,
+            productId: 0
+          };
           dispatch({
-            type: "queryDeviceProductListData",
-            payload: null
+            type: "queryActivateData",
+            payload: activate
           });
+          let active = {
+            userToken: localStorage.getItem("userToken"),
+            period: 7,
+            productId: 0
+          };
+          dispatch({ type: "queryActiveData", payload: active });
+          let area = {
+            userToken: localStorage.getItem("userToken"),
+            period: 1,
+            productId: 0
+          };
+          dispatch({ type: "queryAreaData", payload: area });
+          dispatch({ type: "queryProductListData", payload: null });
         }
       });
     }
   },
   effects: {
     *queryOverviewData({ payload }, { call, put }) {
-      const dataOverview = yield call(statsDeviceSummaryApi, payload);
-      let overviewData = null;
-      if (dataOverview.code == 0) {
-        overviewData = dataOverview.data;
+      const data = yield call(statsDeviceSummaryApi, payload);
+      if (data.code == 0) {
+        yield put({
+          type: "queryOverviewDataSuccess",
+          payload: data.data
+        });
       } else {
-        message.error("获取数据概况失败,错误信息:" + dataOverview.msg);
+        message.error("获取数据概况失败,错误信息:" + data.msg);
       }
-      yield put({
-        type: "queryOverviewDataSuccess",
-        payload: overviewData
-      });
     },
     *queryActivateData({ payload }, { call, put }) {
-      const dataActivate = yield call(statsDeviceActivateApi, payload);
+      const data = yield call(statsDeviceActivateApi, payload);
       let activateData = null;
-      if (dataActivate.code == 0) {
-        let tempArray = dataActivate.data;
+      if (data.code == 0) {
+        let tempArray = data.data;
         let dateArray = [];
         let numArray = [];
         for (var i = 0; i < tempArray.length; i++) {
@@ -68,67 +80,63 @@ export default {
           numArray[i] = tempArray[i].num;
         }
         activateData = { dateArray: dateArray, numArray: numArray };
+        yield put({
+          type: "queryActivateDataSuccess",
+          payload: activateData
+        });
       } else {
-        message.error("获取激活数据趋势失败,错误信息:" + dataActivate.msg);
+        message.error("获取激活数据趋势失败,错误信息:" + data.msg);
       }
-      yield put({
-        type: "queryActivateDataSuccess",
-        payload: activateData
-      });
     },
     *queryActiveData({ payload }, { call, put }) {
-      const dataActive = yield call(statsDeviceActiveApi, payload);
+      const data = yield call(statsDeviceActiveApi, payload);
       let activeData = null;
-      if (dataActive.code == 0) {
+      if (data.code == 0) {
         let dateArray = [];
         let numArray = [];
-        for (var i = 0; i < dataActive.data.length; i++) {
-          dateArray[i] = dataActive.data[i].actDate;
-          numArray[i] = dataActive.data[i].num;
+        for (var i = 0; i < data.data.length; i++) {
+          dateArray[i] = data.data[i].actDate;
+          numArray[i] = data.data[i].num;
         }
         activeData = { dateArray: dateArray, numArray: numArray };
+        yield put({
+          type: "queryActiveDataSuccess",
+          payload: activeData
+        });
       } else {
-        message.error("获取活跃数据趋势失败,错误信息:" + dataActive.msg);
+        message.error("获取活跃数据趋势失败,错误信息:" + data.msg);
       }
-      yield put({
-        type: "queryActiveDataSuccess",
-        payload: activeData
-      });
     },
     *queryAreaData({ payload }, { call, put }) {
-      const dataArea = yield call(statsDeviceAreaApi, payload);
+      const data = yield call(statsDeviceAreaApi, payload);
       let areaData = null;
-      if (dataArea.code == 0) {
+      if (data.code == 0) {
         let areaArray = [];
         let numArray = [];
-        for (var i = 0; i < dataArea.data.length; i++) {
-          areaArray[i] = dataArea.data[i].area;
-          numArray[i] = dataArea.data[i].num;
+        for (var i = 0; i < data.data.length; i++) {
+          areaArray[i] = data.data[i].area;
+          numArray[i] = data.data[i].num;
         }
         areaData = { areaArray: areaArray, numArray: numArray };
+        yield put({
+          type: "queryAreaDataSuccess",
+          payload: areaData
+        });
       } else {
-        message.error("获取区域统计失败,错误信息:" + dataArea.msg);
+        message.error("获取区域统计失败,错误信息:" + data.msg);
       }
-      yield put({
-        type: "queryAreaDataSuccess",
-        payload: areaData
-      });
     },
-    *queryDeviceProductListData({ payload }, { call, put }) {
-      const prams = {};
-      const dataDeviceProductList = yield call(deviceProductListApi, prams);
-      let deviceProductListData = [];
-      if (dataDeviceProductList.code == 0) {
-        deviceProductListData = dataDeviceProductList.data;
+    *queryProductListData({ payload }, { call, put }) {
+      const prams = { userToken: localStorage.getItem("userToken") };
+      const data = yield call(deviceProductListApi, prams);
+      if (data.code == 0) {
+        yield put({
+          type: "queryProductListDataSuccess",
+          payload: data.data
+        });
       } else {
-        message.error(
-          "获取产品列表数据失败,错误信息:" + dataDeviceProductList.msg
-        );
+        message.error("获取产品列表数据失败,错误信息:" + data.msg);
       }
-      yield put({
-        type: "queryDeviceProductListDataSuccess",
-        payload: deviceProductListData
-      });
     }
   },
   reducers: {
@@ -144,12 +152,8 @@ export default {
     queryAreaDataSuccess(state, action) {
       return { ...state, areaData: action.payload };
     },
-    //返回数据列表
-    queryDeviceProductListData(state, action) {
-      return {
-        ...state,
-        data: action.payload
-      };
+    queryProductListDataSuccess(state, action) {
+      return { ...state, deviceProductListData: action.payload };
     },
     //激活数据趋势改变状态
     activateSelected(state, payload) {
