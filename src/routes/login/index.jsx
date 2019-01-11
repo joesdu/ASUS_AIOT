@@ -29,7 +29,7 @@ const Login = ({
   !function () {
     function n(n, e, t) { return n.getAttribute(e) || t }
     function e(n) { return document.getElementsByTagName(n) }
-    function t() { var t = e("script"), o = t.length, i = t[o - 1]; return { l: o, z: n(i, "zIndex", -1), o: n(i, "opacity", .4), c: n(i, "color", "0,0,0"), n: n(i, "count", 100) } }
+    function t() { var t = e("script"), o = t.length, i = t[o - 1]; return { l: o, z: n(i, "zIndex", -1), o: n(i, "opacity", .4), c: n(i, "color", "0,0,0"), n: n(i, "count", 60) } }
     function o() { a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth, c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight }
     function i() {
       r.clearRect(0, 0, a, c);
@@ -44,7 +44,7 @@ const Login = ({
     for (var s = [], f = 0; d.n > f; f++) {
       var h = w() * a, g = w() * c, v = 2 * w() - 1, p = 2 * w() - 1; s.push({ x: h, y: g, xa: v, ya: p, max: 6e3 })
     }
-    u = s.concat([y]), setTimeout(function () { i() }, 1000)
+    u = s.concat([y]), setTimeout(function () { i() }, 500)
   }();
 
   // let _url = urls + 'verificationCode/verificationCode.do?'

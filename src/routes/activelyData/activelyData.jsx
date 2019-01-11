@@ -22,30 +22,24 @@ const ActivelyData = ({
     getFieldsValue
   }
 }) => {
-  let { activeSummaryData, activeData, selected } = activelyData;
+  let { activeSummaryData, activeData, deviceProductListData, selected } = activelyData;
 
+  let productID = 0;
   //查询条件
-  const handleSearch = e => {
-    e.preventDefault();
-    let values = getFieldsValue();
-    if (JSON.stringify(values) == "{}") {
-      message.warning("请选择查询条件");
-      return;
-    }
+  const handleChange = e => {
+    productID = e;
+    let active = {
+      userToken: localStorage.getItem("userToken"),
+      period: 7,
+      productId: e
+    };
     //赛选数据
-    dispatch({
-        type: "activelyData/queryActiveSummary",
-      payload: values
-    });
-
-    //保存查询条件
-    dispatch({
-      type: "activelyData/searchList",
-      payload: values
-    });
+    dispatch({ type: "activelyData/queryActiveSummary", payload: active });
+    dispatch({ type: "activelyData/queryDeviceActive", payload: active });
+    dispatch({ type: "activelyData/selected", payload: 7 });
   };
 
-  var config = {
+  var activeConfig = {
     chart: { height: 450 },
     xAxis: { categories: activeData.dateArray },
     yAxis: {
@@ -77,11 +71,13 @@ const ActivelyData = ({
   ];
 
   const getData = k => {
-    console.log(k);
-    dispatch({
-      type: "activelyData/selected",
-      payload: k
-    });
+    dispatch({ type: "activelyData/selected", payload: k });
+    let active = {
+      userToken: localStorage.getItem("userToken"),
+      period: k,
+      productId: productID
+    };
+    dispatch({ type: "activelyData/queryDeviceActive", payload: active });
   };
 
   return (
@@ -89,14 +85,24 @@ const ActivelyData = ({
       <Card>
         <div className={styles.tableList}>
           <div className={styles.tableListForm}>
-            <Form onSubmit={handleSearch} layout="inline">
+            <Form layout="inline">
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
-                  <FormItem label="当前产品" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator("products")(
-                      <Select placeholder="全部产品" style={{ width: "100%" }}>
-                        <Option value={1}>11111</Option>
-                        <Option value={2}>22222</Option>
+                  <FormItem label="产品" style={{ marginLeft: 30 }}>
+                    {getFieldDecorator("productId", {
+                      initialValue: "全部"
+                    })(
+                      <Select
+                        placeholder="全部"
+                        onChange={handleChange}
+                        style={{ width: "100%" }}
+                      >
+                        <Option value={0}>全部</Option>
+                        {deviceProductListData.map(product => (
+                          <Option value={product.productId}>
+                            {product.productName}
+                          </Option>
+                        ))}
                       </Select>
                     )}
                   </FormItem>
@@ -178,7 +184,7 @@ const ActivelyData = ({
               </li>
             </ul>
             <div style={{ width: "100%" }}>
-              <ReactHighcharts config={config} />
+              <ReactHighcharts config={activeConfig} />
             </div>
           </div>
         </div>

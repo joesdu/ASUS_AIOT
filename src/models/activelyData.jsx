@@ -1,16 +1,16 @@
-import modelExtend from "dva-model-extend";
 import {
   statsDeviceActiveApi,
-  statsDeviceActiveSummaryApi
+  statsDeviceActiveSummaryApi,
+  deviceProductListApi
 } from "../services/api";
 import { message } from "antd";
-import queryString from "query-string";
 
 export default {
   namespace: "activelyData",
   state: {
     activeSummaryData: {},
     activeData: {},
+    deviceProductListData: [],
     shows: false,
     selected: 7
   },
@@ -19,15 +19,10 @@ export default {
     setup({ dispatch, history }) {
       history.listen(location => {
         if (location.pathname === "/activelyData") {
-          let _ars = { period: 7, productId: 0 };
-          dispatch({
-            type: "queryActiveSummary",
-            payload: _ars
-          });
-          dispatch({
-            type: "queryDeviceActive",
-            payload: _ars
-          });
+          let _ars = { userToken: localStorage.getItem("userToken"), period: 7, productId: 0 };
+          dispatch({ type: "queryActiveSummary", payload: _ars });
+          dispatch({ type: "queryDeviceActive", payload: _ars });
+          dispatch({ type: "queryProductList" });
         }
       });
     }
@@ -69,6 +64,18 @@ export default {
       } else {
         message.error("获取活跃数据趋势失败,错误信息:" + dataActive.msg);
       }
+    },
+    *queryProductList({ payload }, { call, put }) {
+      const prams = { userToken: localStorage.getItem("userToken") };
+      const data = yield call(deviceProductListApi, prams);
+      if (data.code == 0) {
+        yield put({
+          type: "queryProductListSuccess",
+          payload: data.data
+        });
+      } else {
+        message.error("获取产品列表数据失败,错误信息:" + data.msg);
+      }
     }
   },
   reducers: {
@@ -84,6 +91,9 @@ export default {
         ...state,
         activeData: action.payload
       };
+    },
+    queryProductListSuccess(state, action) {
+      return { ...state, deviceProductListData: action.payload };
     },
     //改变状态
     selected(state, payload) {

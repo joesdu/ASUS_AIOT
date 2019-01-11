@@ -98,12 +98,12 @@ const ActiveData = ({
 
   const getData = k => {
     dispatch({ type: "activeData/selected", payload: k });
-    let area = {
+    let activate = {
       userToken: localStorage.getItem("userToken"),
       period: k,
       productId: productID
     };
-    dispatch({ type: "activeData/queryActivate", payload: area });
+    dispatch({ type: "activeData/queryActivate", payload: activate });
   };
 
   return (
