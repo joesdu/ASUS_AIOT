@@ -23,33 +23,44 @@ const ActiveData = ({
     getFieldsValue
   }
 }) => {
-  let { data, selected } = activeData;
+  let {
+    activateSummaryData,
+    activateData,
+    deviceProductListData,
+    selected
+  } = activeData;
   //查询条件
-  const handleSearch = e => {
-    e.preventDefault();
-    let values = getFieldsValue();
-    if (JSON.stringify(values) == "{}") {
-      message.warning("请选择查询条件");
-      return;
-    }
+  let productID = 0;
+  //查询条件
+  const handleChange = e => {
+    productID = e;
+    let activate = {
+      userToken: localStorage.getItem("userToken"),
+      period: 7,
+      productId: e
+    };
     //赛选数据
-    dispatch({
-      type: "activeData/queryRule",
-      payload: values
-    });
-
-    //保存查询条件
-    dispatch({
-      type: "activeData/searchList",
-      payload: values
-    });
+    dispatch({ type: "activeData/queryActivateSummary", payload: activate });
+    dispatch({ type: "activeData/queryActivate", payload: activate });
+    dispatch({ type: "activeData/selected", payload: 7 });
   };
 
-  let config1 = {
+  let dailyConfig = {
     chart: { height: 450 },
-    xAxis: {
-      categories: data.activateData.dateArray
+    xAxis: { categories: activateData.dateArray },
+    yAxis: {
+      title: { text: "激活设备/个" },
+      plotLines: [{ value: 0, width: 1, color: "#808080" }]
     },
+    title: { text: null },
+    legend: { enabled: false },
+    credits: { enabled: false },
+    series: [{ name: "激活设备/个", data: activateData.numArray }]
+  }; // 隐藏右下角版权
+
+  let totalConfig = {
+    chart: { height: 450 },
+    xAxis: { categories: activateData.dateArray },
     yAxis: {
       title: { text: "激活设备/个" },
       plotLines: [{ value: 0, width: 1, color: "#808080" }]
@@ -57,20 +68,7 @@ const ActiveData = ({
     title: { text: null },
     legend: { enabled: false },
     credits: { enabled: false }, // 隐藏右下角版权
-    series: [{ name: "激活设备/个", data: data.activateData.numArray }]
-  };
-
-  let config2 = {
-    chart: { height: 450 },
-    xAxis: { categories: data.activateData.dateArray },
-    yAxis: {
-      title: { text: "激活设备/个" },
-      plotLines: [{ value: 0, width: 1, color: "#808080" }]
-    },
-    title: { text: null },
-    legend: { enabled: false },
-    credits: { enabled: false }, // 隐藏右下角版权
-    series: [{ name: "激活设备/个", data: data.activateData.totalArray }]
+    series: [{ name: "激活设备/个", data: activateData.totalArray }]
   };
 
   //定义表头
@@ -99,11 +97,13 @@ const ActiveData = ({
   ];
 
   const getData = k => {
-    console.log(k);
-    dispatch({
-      type: "activeData/selected",
-      payload: k
-    });
+    dispatch({ type: "activeData/selected", payload: k });
+    let area = {
+      userToken: localStorage.getItem("userToken"),
+      period: k,
+      productId: productID
+    };
+    dispatch({ type: "activeData/queryActivate", payload: area });
   };
 
   return (
@@ -111,14 +111,24 @@ const ActiveData = ({
       <Card>
         <div className={styles.tableList}>
           <div className={styles.tableListForm}>
-            <Form onSubmit={handleSearch} layout="inline">
+            <Form layout="inline">
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
-                  <FormItem label="当前产品" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator("products")(
-                      <Select placeholder="全部产品" style={{ width: "100%" }}>
-                        <Option value={1}>11111</Option>
-                        <Option value={2}>22222</Option>
+                  <FormItem label="产品" style={{ marginLeft: 30 }}>
+                    {getFieldDecorator("productId", {
+                      initialValue: "全部"
+                    })(
+                      <Select
+                        placeholder="全部"
+                        onChange={handleChange}
+                        style={{ width: "100%" }}
+                      >
+                        <Option value={0}>全部</Option>
+                        {deviceProductListData.map(product => (
+                          <Option value={product.productId}>
+                            {product.productName}
+                          </Option>
+                        ))}
                       </Select>
                     )}
                   </FormItem>
@@ -138,11 +148,11 @@ const ActiveData = ({
             >
               <span className={styles.indexTop_text}>今日激活</span>
               <span style={{ color: "#1890FF" }}>
-                {data.activateSummaryData.todayActivate}&nbsp;
+                {activateSummaryData.todayActivate}&nbsp;
               </span>
               <div className={styles.indexBottom_text}>
                 <span>昨日激活&nbsp;&nbsp;</span>
-                <span>{data.activateSummaryData.yesterdayActivate}&nbsp;</span>
+                <span>{activateSummaryData.yesterdayActivate}&nbsp;</span>
               </div>
             </div>
             <div
@@ -151,11 +161,11 @@ const ActiveData = ({
             >
               <span className={styles.indexTop_text}>近7日激活</span>
               <span style={{ color: "#1890FF" }}>
-                {data.activateSummaryData.periodActivate}&nbsp;
+                {activateSummaryData.periodActivate}&nbsp;
               </span>
               <div className={styles.indexBottom_text}>
                 <span>上7日激活&nbsp;&nbsp;</span>
-                <span>{data.activateSummaryData.prePeriodActivate}&nbsp;</span>
+                <span>{activateSummaryData.prePeriodActivate}&nbsp;</span>
               </div>
             </div>
             <div
@@ -164,7 +174,7 @@ const ActiveData = ({
             >
               <span className={styles.indexTop_text}>累计激活总数</span>
               <span style={{ color: "#1890FF" }}>
-                {data.activateSummaryData.totalActivate}&nbsp;
+                {activateSummaryData.totalActivate}&nbsp;
               </span>
             </div>
           </div>
@@ -181,26 +191,26 @@ const ActiveData = ({
                   style={{ float: "right" }}
                 >
                   <li
-                    className={selected == 0 ? styles.active : ""}
-                    onClick={getData.bind(this, 0)}
+                    className={selected == 7 ? styles.active : ""}
+                    onClick={getData.bind(this, 7)}
                   >
                     近7天
                   </li>
                   <li
-                    className={selected == 1 ? styles.active : ""}
-                    onClick={getData.bind(this, 1)}
+                    className={selected == 15 ? styles.active : ""}
+                    onClick={getData.bind(this, 15)}
                   >
                     近15天
                   </li>
                   <li
-                    className={selected == 2 ? styles.active : ""}
-                    onClick={getData.bind(this, 2)}
+                    className={selected == 30 ? styles.active : ""}
+                    onClick={getData.bind(this, 30)}
                   >
                     近30天
                   </li>
                 </ul>
                 <div style={{ width: "100%" }}>
-                  <ReactHighcharts config={config1} />
+                  <ReactHighcharts config={dailyConfig} />
                 </div>
               </div>
             </div>
@@ -213,26 +223,26 @@ const ActiveData = ({
                   style={{ float: "right" }}
                 >
                   <li
-                    className={selected == 0 ? styles.active : ""}
-                    onClick={getData.bind(this, 0)}
+                    className={selected == 7 ? styles.active : ""}
+                    onClick={getData.bind(this, 7)}
                   >
                     近7天
                   </li>
                   <li
-                    className={selected == 1 ? styles.active : ""}
-                    onClick={getData.bind(this, 1)}
+                    className={selected == 15 ? styles.active : ""}
+                    onClick={getData.bind(this, 15)}
                   >
                     近15天
                   </li>
                   <li
-                    className={selected == 2 ? styles.active : ""}
-                    onClick={getData.bind(this, 2)}
+                    className={selected == 30 ? styles.active : ""}
+                    onClick={getData.bind(this, 30)}
                   >
                     近30天
                   </li>
                 </ul>
                 <div style={{ width: "100%" }}>
-                  <ReactHighcharts config={config2} />
+                  <ReactHighcharts config={totalConfig} />
                 </div>
               </div>
             </div>
@@ -242,7 +252,7 @@ const ActiveData = ({
       <Card title="激活数据明细">
         <Table
           columns={columns}
-          dataSource={data.activateData.listArray}
+          dataSource={activateData.listArray}
           bordered={false}
           pagination={false}
         />

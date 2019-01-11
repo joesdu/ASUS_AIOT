@@ -1,8 +1,6 @@
 import modelExtend from "dva-model-extend";
 import { devicesListApi, deviceProductListApi } from "../services/api";
-import queryString from "query-string";
 import { message } from "antd";
-import $ from "jquery";
 
 export default {
   namespace: "devices",
@@ -45,10 +43,7 @@ export default {
             uuid: null
           };
           dispatch({ type: "queryDevicesListData", payload: _ars });
-          dispatch({
-            type: "queryDeviceProductListData",
-            payload: null
-          });
+          dispatch({ type: "queryDeviceProductListData" });
         }
       });
     }

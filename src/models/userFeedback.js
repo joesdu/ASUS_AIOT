@@ -39,10 +39,7 @@ export default {
             startTime: null
           };
           dispatch({ type: "queryFeedbackListData", payload: _ars });
-          dispatch({
-            type: "queryDeviceProductListData",
-            payload: null
-          });
+          dispatch({ type: "queryDeviceProductListData" });
         }
       });
     }

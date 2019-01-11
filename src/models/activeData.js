@@ -1,54 +1,53 @@
-import modelExtend from "dva-model-extend";
 import {
   statsDeviceActivateApi,
-  statsDeviceActivateSummaryApi
+  statsDeviceActivateSummaryApi,
+  deviceProductListApi
 } from "../services/api";
 import { message } from "antd";
-import queryString from "query-string";
 
 export default {
   namespace: "activeData",
   state: {
-    data: {
-      activateSummaryData: {},
-      activateData: {}
-    },
+    activateSummaryData: {},
+    activateData: {},
+    deviceProductListData: [], //列表数据,
     shows: false,
-    selected: 0
+    selected: 7
   },
   //初始化得到值
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen(location => {
         if (location.pathname === "/activeData") {
-          let _ars = { period: 7, productId: 0 };
-          dispatch({
-            type: "queryRule",
-            payload: _ars
-          });
+          let activate = {
+            userToken: localStorage.getItem("userToken"),
+            period: 7,
+            productId: 0
+          };
+          dispatch({ type: "queryActivateSummary", payload: activate });
+          dispatch({ type: "queryActivate", payload: activate });
+          dispatch({ type: "queryProductListData" });
         }
       });
     }
   },
   effects: {
-    *queryRule({ payload }, { call, put }) {
-      const dataActivateSummary = yield call(
-        statsDeviceActivateSummaryApi,
-        payload
-      );
-      const dataActivate = yield call(statsDeviceActivateApi, payload);
-      let result = {};
-      let activateSummaryData = null;
-      let activateData = null;
-      if (dataActivateSummary.code == 0) {
-        activateSummaryData = dataActivateSummary.data;
+    *queryActivateSummary({ payload }, { call, put }) {
+      const data = yield call(statsDeviceActivateSummaryApi, payload);
+      if (data.code == 0) {
+        yield put({
+          type: "queryActivateSummarySuccess",
+          payload: data.data
+        });
       } else {
-        message.error(
-          "获取激活数据概况失败,错误信息:" + dataActivateSummary.msg
-        );
+        message.error("获取激活数据概况失败,错误信息:" + data.msg);
       }
-      if (dataActivate.code == 0) {
-        let listArray = dataActivate.data;
+    },
+    *queryActivate({ payload }, { call, put }) {
+      const data = yield call(statsDeviceActivateApi, payload);
+      let activateData = null;
+      if (data.code == 0) {
+        let listArray = data.data;
         let dateArray = [];
         let numArray = [];
         let totalArray = [];
@@ -63,41 +62,45 @@ export default {
           totalArray: totalArray,
           listArray: listArray
         };
+        yield put({
+          type: "queryActivateSuccess",
+          payload: activateData
+        });
       } else {
-        message.error("获取激活数据趋势失败,错误信息:" + dataActivate.msg);
+        message.error("获取激活数据趋势失败,错误信息:" + data.msg);
       }
-
-      result = {
-        activateSummaryData: activateSummaryData,
-        activateData: activateData
-      };
-      yield put({
-        type: "querySuccess",
-        payload: result
-      });
+    },
+    *queryProductListData({ payload }, { call, put }) {
+      const prams = { userToken: localStorage.getItem("userToken") };
+      const data = yield call(deviceProductListApi, prams);
+      if (data.code == 0) {
+        yield put({
+          type: "queryProductListDataSuccess",
+          payload: data.data
+        });
+      } else {
+        message.error("获取产品列表数据失败,错误信息:" + data.msg);
+      }
     }
   },
   reducers: {
     //返回数据列表
-    querySuccess(state, action) {
-      return {
-        ...state,
-        data: action.payload
-      };
+    queryActivateSummarySuccess(state, action) {
+      return { ...state, activateSummaryData: action.payload };
+    },
+    queryActivateSuccess(state, action) {
+      return { ...state, activateData: action.payload };
+    },
+    queryProductListDataSuccess(state, action) {
+      return { ...state, deviceProductListData: action.payload };
     },
     //改变状态
     selected(state, payload) {
-      return {
-        ...state,
-        selected: payload.payload
-      };
+      return { ...state, selected: payload.payload };
     },
     //搜索条件
     searchValue(state, payload) {
-      return {
-        ...state,
-        formValues: payload.payload
-      };
+      return { ...state, formValues: payload.payload };
     }
   }
 };

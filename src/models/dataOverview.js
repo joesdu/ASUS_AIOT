@@ -5,7 +5,7 @@ import {
   statsDeviceAreaApi,
   deviceProductListApi
 } from "../services/api";
-import { message } from 'antd';
+import { message } from "antd";
 
 export default {
   namespace: "dataOverview",
@@ -51,7 +51,7 @@ export default {
             productId: 0
           };
           dispatch({ type: "queryAreaData", payload: area });
-          dispatch({ type: "queryProductListData", payload: null });
+          dispatch({ type: "queryProductListData" });
         }
       });
     }
