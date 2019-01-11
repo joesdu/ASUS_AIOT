@@ -1,12 +1,10 @@
 const APIV1 = "/v1.0/back/";
 
-let userToken = "";
-let userName = '';
+let userToken = localStorage.getItem("userToken");
+let userName = localStorage.getItem("userName");
 
 const fu = () => {
   try {
-    userToken = localStorage.getItem("userToken");
-    userName = localStorage.getItem("userName");
   } catch (e) {}
 };
 
