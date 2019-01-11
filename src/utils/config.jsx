@@ -5,7 +5,7 @@ let userName = localStorage.getItem("userName");
 
 const fu = () => {
   try {
-  } catch (e) {}
+  } catch (e) { }
 };
 
 module.exports = {
@@ -25,6 +25,7 @@ module.exports = {
   api: {
     //登录相关
     backUserLogin: "backUser/login",
+    backUserLogout: "backUser/logout",
     //反馈相关接口  Feedback Controller
     feedbackList: "feedback/list",
     feedbackUpdate: "feedback/update",

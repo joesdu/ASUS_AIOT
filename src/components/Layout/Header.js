@@ -5,8 +5,8 @@ import HeaderSearch from '../HeaderSearch';
 import NoticeIcon from '../NoticeIcon';
 import classnames from 'classnames'
 
-import urls from '../../utils/config'
-const { userName } = urls
+import config from '../../utils/config'
+const { userName } = config
 const { Header } = Layout;
 
 const header = ({

@@ -22,7 +22,7 @@ let lastHref;
 
 const App = ({ children, dispatch, app, loading, location }) => {
   let {
-    userToken,
+    userName,
     siderFold,
     darkTheme,
     isNavbar,
@@ -51,7 +51,7 @@ const App = ({ children, dispatch, app, loading, location }) => {
   }
   const headerProps = {
     menu,
-    userToken,
+    userName,
     location,
     siderFold,
     isNavbar,
@@ -59,9 +59,14 @@ const App = ({ children, dispatch, app, loading, location }) => {
     navOpenKeys,
     switchMenuPopover() {
       dispatch({ type: "app/switchMenuPopver" });
-    }, // logout() {
-    //   dispatch({ type: 'app/logout' })
-    // },
+    },
+    logout() {
+      let _arr = { userToken: localStorage.getItem("userToken") }
+      dispatch({
+        type: 'app/logout',
+        payload: _arr
+      })
+     },
     switchSider() {
       dispatch({ type: "app/switchSider" });
     },

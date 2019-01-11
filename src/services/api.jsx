@@ -10,6 +10,10 @@ export async function backUserLoginApi(params) {
 }
 
 /*********** 退出登录***********/
+export async function backUserLogoutApi(params) {
+  let _url = apiUrl + api.backUserLogout;
+  return request(_url, { method: "POST", body: params });
+}
 
 //反馈相关接口
 /***********用户反馈列表**********/

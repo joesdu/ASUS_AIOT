@@ -3,6 +3,7 @@ import config from "config";
 import * as menusService from "services/menus";
 import queryString from "query-string";
 import { message } from "antd";
+import { backUserLogoutApi} from "../services/api"
 
 const { prefix } = config;
 
@@ -10,6 +11,7 @@ export default {
   namespace: "app",
   state: {
     userToken: {},
+    userName: '',
     permissions: {
       visit: []
     },
@@ -25,8 +27,7 @@ export default {
     siderFold: window.localStorage.getItem(`${prefix}siderFold`) === "true",
     darkTheme: window.localStorage.getItem(`${prefix}darkTheme`) === "true",
     isNavbar: document.body.clientWidth < 769,
-    navOpenKeys:
-      JSON.parse(window.localStorage.getItem(`${prefix}navOpenKeys`)) || [],
+    navOpenKeys: JSON.parse(window.localStorage.getItem(`${prefix}navOpenKeys`)) || [],
     locationPathname: "",
     locationQuery: {}
   },
@@ -59,6 +60,7 @@ export default {
   effects: {
     *query({ payload }, { call, put, select }) {
       let userToken = localStorage.getItem("userToken");
+      let userName = localStorage.getItem("userName");
       const { locationPathname } = yield select(_ => _.app);
 
       if (userToken !== null) {
@@ -70,6 +72,7 @@ export default {
             type: "updateState",
             payload: {
               userToken: userToken,
+              userName: userName,
               menu
             }
           });
@@ -84,7 +87,7 @@ export default {
           //登录过期了
           message.error(list.msg);
           localStorage.removeItem("userToken");
-
+          localStorage.removeItem("userName");
           yield put(
             routerRedux.push({
               pathname: "/login"
@@ -103,21 +106,22 @@ export default {
       }
     },
     //退出登录
-    // *logout({ payload }, { call, put }) {
-    //   const data = yield call(logout, parse(payload));
-    //   if (data.isSuccess) {
-    //     message.success("退出成功");
-    //     localStorage.removeItem("userToken");
-    //     yield put(
-    //       routerRedux.push({
-    //         pathname: "/login"
-    //       })
-    //     );
-    //   } else {
-    //     message.errror("退出失败");
-    //   }
-    // },
-
+    *logout({ payload }, { call, put }) {
+      console.log(payload);
+      const data = yield call(backUserLogoutApi, payload);
+      if (data.code == 0) {
+        message.success("退出成功");
+        localStorage.removeItem("userToken");
+        localStorage.removeItem("userName");
+        yield put(
+          routerRedux.push({
+            pathname: "/login"
+          })
+        );
+      } else {
+        message.errror("退出失败");
+      }
+    },
     *changeNavbar(action, { put, select }) {
       const { app } = yield select(_ => _);
       const isNavbar = document.body.clientWidth < 769;
