@@ -1,26 +1,22 @@
 const APIV1 = "/v1.0/back/";
 
-let userIds = "";
-let username = "";
+let userToken = "";
 
 const fu = () => {
-  let _data = localStorage.getItem("userData");
+  let _data = localStorage.getItem("userToken");
   console.log(_data);
   try {
     _data = JSON.parse(_data);
-    userIds = _data.id;
-    username = _data.username;
+    userToken = _data.userToken;
   } catch (e) {}
 };
 
 module.exports = {
-  userIds: userIds,
-  userName: username,
-  urls: "http://service-shengshier.asus.com.cn/retail-backend-store/",
+  userToken: userToken,
   serverService: "http://106.15.176.36",
   name: "",
   prefix: "antdAdmin",
-  footerText: "A豆云平台 © 2018 ASUS",
+  footerText: "A豆云平台 © 2019 ASUS",
   logo: "./images/logo.png",
   iconFontCSS: "./iconfont.css",
   iconFontJS: "./iconfont.js",
@@ -29,6 +25,8 @@ module.exports = {
   apiPrefix: "/api/v1",
   apiUrl: "http://106.15.176.36" + APIV1,
   api: {
+    //登录相关
+    backUserLogin: "backUser/login",
     //反馈相关接口  Feedback Controller
     feedbackList: "feedback/list",
     feedbackUpdate: "feedback/update",

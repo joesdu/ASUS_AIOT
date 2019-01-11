@@ -31,10 +31,7 @@ export default {
             pageNum: 0,
             pageRows: 10
           };
-          dispatch({
-            type: "queryRule",
-            payload: _ars
-          });
+          dispatch({ type: "queryRule", payload: _ars });
         }
       });
     }
