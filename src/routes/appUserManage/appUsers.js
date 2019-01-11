@@ -119,6 +119,7 @@ const AppUsers = ({
       appSource = parm.appSource;
     }
     return {
+      userToken: localStorage.getItem("userToken"),
       appSource: appSource,
       firstRow: null,
       mobile: parm.mobile == null || parm.mobile == "" ? null : parm.mobile,
@@ -167,7 +168,7 @@ const AppUsers = ({
       type: "appUsers/clearData"
     });
     //重置查询所有
-    let _ars = {};
+    let _ars = getJsonPrams(null, 0, 10);
     dispatch({
       type: "appUsers/queryRule",
       payload: _ars
@@ -250,7 +251,7 @@ const AppUsers = ({
                         <Option value={"全部"}>全部</Option>
                         <Option value={1}>11111</Option>
                         <Option value={2}>22222</Option>
-                        <Option value={2}>33333</Option>
+                        <Option value={3}>33333</Option>
                       </Select>
                     )}
                   </FormItem>

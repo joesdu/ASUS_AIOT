@@ -24,6 +24,7 @@ export default {
         //页面初始化执行
         if (location.pathname === "/appUsers") {
           let _ars = {
+            userToken: localStorage.getItem("userToken"),
             appSource: null,
             firstRow: null,
             mobile: null,

@@ -138,7 +138,10 @@ const Devices = ({
             <div>
               <div>
                 <Fragment>
-                  <Link to="../deviceManage/devicelogs" value={record.nameAndID.deviceId}>
+                  <Link
+                    to="../deviceManage/devicelogs"
+                    value={record.nameAndID.deviceId}
+                  >
                     日志
                   </Link>
                 </Fragment>
@@ -212,6 +215,7 @@ const Devices = ({
     }
 
     return {
+      userToken: localStorage.getItem("userToken"),
       actTimeEnd: actTimeEnd,
       actTimeStart: actTimeStart,
       deviceId:
@@ -272,25 +276,7 @@ const Devices = ({
       type: "devices/clearData"
     });
     //重置查询所有
-    let _ars = {
-      actTimeEnd: null,
-      actTimeStart: null,
-      deviceId: null,
-      deviceName: null,
-      firstRow: null,
-      isAct: null,
-      lastActTimeEnd: null,
-      lastActTimeStart: null,
-      mobile: null,
-      pageNum: 0,
-      pageRows: 10,
-      productId: null,
-      source: null,
-      status: null,
-      updateTimeEnd: null,
-      updateTimeStart: null,
-      uuid: null
-    };
+    let _ars = getJsonPrams(null, 0, 10);
     dispatch({ type: "devices/queryDevicesListData", payload: _ars });
     dispatch({ type: "devices/queryDeviceProductListData", payload: null });
     //重置查询条件

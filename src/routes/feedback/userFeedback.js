@@ -144,6 +144,7 @@ const UserFeedback = ({
       productId = parm.productId;
     }
     return {
+      userToken: localStorage.getItem("userToken"),
       endTime: recentActivatedEnd,
       firstRow: null,
       isProcessed: isProcessed,
@@ -192,7 +193,7 @@ const UserFeedback = ({
       type: "userFeedback/clearData"
     });
     //重置查询所有
-    let _ars = {};
+    let _ars = getJsonPrams(null, 0, 10);
     dispatch({ type: "userFeedback/queryFeedbackListData", payload: _ars });
     dispatch({
       type: "userFeedback/queryDeviceProductListData",

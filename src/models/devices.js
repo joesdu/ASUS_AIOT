@@ -25,6 +25,7 @@ export default {
         //页面初始化执行
         if (location.pathname === "/devices") {
           let _ars = {
+            userToken: localStorage.getItem("userToken"),
             actTimeEnd: null,
             actTimeStart: null,
             deviceId: null,
@@ -106,7 +107,9 @@ export default {
       }
     },
     *queryDeviceProductListData({ payload }, { call, put }) {
-      const prams = {};
+      const prams = {
+        userToken: localStorage.getItem("userToken")
+      };
       const dataDeviceProductList = yield call(deviceProductListApi, prams);
       if (dataDeviceProductList.code == 0) {
         yield put({
