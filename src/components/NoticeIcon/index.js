@@ -8,10 +8,10 @@ const { TabPane } = Tabs;
 
 export default class NoticeIcon extends PureComponent {
   static defaultProps = {
-    onItemClick: () => {},
-    onPopupVisibleChange: () => {},
-    onTabChange: () => {},
-    onClear: () => {},
+    onItemClick: () => { },
+    onPopupVisibleChange: () => { },
+    onTabChange: () => { },
+    onClear: () => { },
     loading: false,
     locale: {
       emptyText: '暂无数据',

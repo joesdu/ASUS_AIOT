@@ -14,7 +14,7 @@ import zhCN from "antd/lib/locale-provider/zh_CN";
 
 const { ConnectedRouter } = routerRedux;
 
-const Routers = function({ history, app }) {
+const Routers = function ({ history, app }) {
   const error = dynamic({
     app,
     component: () => import("./routes/error")
@@ -23,7 +23,7 @@ const Routers = function({ history, app }) {
     {
       path: "/login", //登录
       models: () => [import("./models/login")],
-      component: () => import("./routes/login/")
+      component: () => import("./routes/login")
     },
     {
       path: "/dashboard", //首页
@@ -36,7 +36,7 @@ const Routers = function({ history, app }) {
       component: () => import("./routes/deviceManage/devices")
     },
     {
-      path: "/deviceDetail", //活跃数据
+      path: "/deviceDetail", //设备详情
       models: () => [import("./models/deviceDetail")],
       component: () => import("./routes/deviceManage/deviceDetail")
     },
@@ -54,6 +54,11 @@ const Routers = function({ history, app }) {
       path: "/appUsers", //APP用户管理
       models: () => [import("./models/appUsers")],
       component: () => import("./routes/appUserManage/appUsers")
+    },
+    {
+      path: "/userDetail", //APP用户管理
+      models: () => [import("./models/userDetail")],
+      component: () => import("./routes/appUserManage/userDetail")
     },
     {
       path: "/dataOverview", //数据概览

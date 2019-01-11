@@ -99,20 +99,20 @@ const Menus = ({ siderFold, darkTheme, navOpenKeys, changeOpenKeys, menu, locati
   }
   if (currentMenu) {
     defaultSelectedKeys = getPathArray(menu, currentMenu, 'mpid', 'id')
-  }else{
-	//指向父级
+  } else {
+    //指向父级
     const fa = location.pathname
-	const num = fa.lastIndexOf('/')
-	const fa2 = fa.substring(0,num)
-	for (let item of menu) {
-		if (item.route && pathToRegexp(item.route).exec(fa2)) {
-		  currentMenu = item
-		  break
-		}
-	}
-	if(currentMenu){
-		defaultSelectedKeys = getPathArray(menu, currentMenu, 'mpid', 'id')
-	}
+    const num = fa.lastIndexOf('/')
+    const fa2 = fa.substring(0, num)
+    for (let item of menu) {
+      if (item.route && pathToRegexp(item.route).exec(fa2)) {
+        currentMenu = item
+        break
+      }
+    }
+    if (currentMenu) {
+      defaultSelectedKeys = getPathArray(menu, currentMenu, 'mpid', 'id')
+    }
   }
 
   if (!defaultSelectedKeys) {

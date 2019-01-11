@@ -1,18 +1,18 @@
 const APIV1 = "/v1.0/back/";
 
 let userToken = "";
+let userName = '';
 
 const fu = () => {
-  let _data = localStorage.getItem("userToken");
-  console.log(_data);
   try {
-    _data = JSON.parse(_data);
-    userToken = _data.userToken;
+    userToken = localStorage.getItem("userToken");
+    userName = localStorage.getItem("userName");
   } catch (e) {}
 };
 
 module.exports = {
   userToken: userToken,
+  userName: userName,
   serverService: "http://106.15.176.36",
   name: "",
   prefix: "antdAdmin",

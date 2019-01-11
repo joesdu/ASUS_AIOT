@@ -10,25 +10,25 @@ const Bread = ({ menu, location }) => {
   // 匹配当前路由
   let pathArray = []
   let current
-  let _name2 = location.pathname.indexOf('/',location.pathname.indexOf('/')+1)
-  let _arrs=''
-  
+  let _name2 = location.pathname.indexOf('/', location.pathname.indexOf('/') + 1)
+  let _arrs = ''
+
   for (let index in menu) {
-	  //赛选正则匹配
+    //赛选正则匹配
     if (menu[index].route && pathToRegexp(menu[index].route).exec(location.pathname)) {
       current = menu[index]
       break
     }
   }
-  
-  if(_name2>0){
-	_arrs = location.pathname.substring(0,_name2) 
-	for (let index in menu) {
-    if (menu[index].route && pathToRegexp(menu[index].route).exec(_arrs)) {
-		  current = menu[index]
-		  break
-		}
-	  }
+
+  if (_name2 > 0) {
+    _arrs = location.pathname.substring(0, _name2)
+    for (let index in menu) {
+      if (menu[index].route && pathToRegexp(menu[index].route).exec(_arrs)) {
+        current = menu[index]
+        break
+      }
+    }
   }
 
   const getPathArray = (item) => {

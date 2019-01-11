@@ -38,7 +38,7 @@ export interface NoticeIconTabProps {
   style?: React.CSSProperties;
 }
 
-export class NoticeIconTab extends React.Component<NoticeIconTabProps, any> {}
+export class NoticeIconTab extends React.Component<NoticeIconTabProps, any> { }
 
 export default class NoticeIcon extends React.Component<NoticeIconProps, any> {
   static Tab: typeof NoticeIconTab;
