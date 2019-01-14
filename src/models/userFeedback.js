@@ -1,12 +1,5 @@
-import modelExtend from "dva-model-extend";
-import {
-  feedbackListApi,
-  deviceProductListApi,
-  feedbackUpdateApi
-} from "../services/api";
-import queryString from "query-string";
+import { feedbackListApi, deviceProductListApi, feedbackUpdateApi } from "../services/api";
 import { message } from "antd";
-import $ from "jquery";
 
 export default {
   namespace: "userFeedback",
@@ -38,33 +31,26 @@ export default {
             productId: null,
             startTime: null
           };
-          dispatch({ type: "queryFeedbackListData", payload: _ars });
-          dispatch({ type: "queryDeviceProductListData" });
+          dispatch({ type: "feedbackList", payload: _ars });
+          dispatch({ type: "productList" });
         }
       });
     }
   },
 
   effects: {
-    *queryFeedbackListData({ payload }, { call, put }) {
+    *feedbackList({ payload }, { call, put }) {
       const data = yield call(feedbackListApi, payload);
       if (data.code == 0) {
         let result = data.data;
         let _pag = {};
-        _pag.total =
-          typeof result.totalRows == "undefined" ? 0 : result.totalRows;
-        _pag.pageSize =
-          typeof result.pageRows == "undefined" ? 0 : result.pageRows;
-        _pag.current =
-          typeof result.pageNum == "undefined" ? 0 : result.pageNum;
-        if (
-          typeof result.totalRows == "undefined" ||
-          typeof result.pageRows == "undefined"
-        )
+        _pag.total = typeof result.totalRows == "undefined" ? 0 : result.totalRows;
+        _pag.pageSize = typeof result.pageRows == "undefined" ? 0 : result.pageRows;
+        _pag.current = typeof result.pageNum == "undefined" ? 0 : result.pageNum;
+        if (typeof result.totalRows == "undefined" || typeof result.pageRows == "undefined")
           _pag.pageCount = 0;
         else
-          _pag.pageCount =
-            parseInt((result.totalRows - 1) / result.pageRows) + 1;
+          _pag.pageCount = parseInt((result.totalRows - 1) / result.pageRows) + 1;
         let feedbacks = result.feedbacks;
         let feedbackData = [];
         for (var i = 0; i < feedbacks.length; i++) {
@@ -80,23 +66,16 @@ export default {
             isProcessed: feedbacks[i].isProcessed
           };
         }
-        yield put({
-          type: "queryFeedbackListDataSuccess",
-          payload: feedbackData,
-          page: _pag
-        });
+        yield put({ type: "feedbackListSuccess", payload: feedbackData, page: _pag });
       } else {
         message.error("获取数据失败,错误信息:" + data.msg);
       }
     },
-    *queryDeviceProductListData({ payload }, { call, put }) {
+    *productList({ payload }, { call, put }) {
       const prams = { userToken: localStorage.getItem("userToken") };
       const data = yield call(deviceProductListApi, prams);
       if (data.code == 0) {
-        yield put({
-          type: "queryDeviceProductListDataSuccess",
-          payload: data.data
-        });
+        yield put({ type: "productListSuccess", payload: data.data });
       } else {
         message.error("获取产品列表数据失败,错误信息:" + data.msg);
       }
@@ -120,33 +99,22 @@ export default {
         searchList: {},
         pageindex: 0,
         pagesize: 10
-      }; //分页数据 //查询条件 //分页开始 第几页 //返回条数
-    },
-    //返回数据列表
-    queryFeedbackListDataSuccess(state, action) {
-      return {
-        ...state,
-        feedbackData: action.payload,
-        pagination: action.page
       };
     },
-    queryDeviceProductListDataSuccess(state, action) {
+    //返回数据列表
+    feedbackListSuccess(state, action) {
+      return { ...state, feedbackData: action.payload, pagination: action.page };
+    },
+    productListSuccess(state, action) {
       return { ...state, deviceProductListData: action.payload };
     },
     //分页参数
     setPage(state, action) {
-      return {
-        ...state,
-        pageindex: action.payload,
-        pagesize: action.pageSize
-      };
+      return { ...state, pageindex: action.payload, pagesize: action.pageSize };
     },
     //查询条件
     searchList(state, action) {
-      return {
-        ...state,
-        searchList: action.payload
-      };
+      return { ...state, searchList: action.payload };
     }
   }
 };

@@ -2,28 +2,12 @@ import React, { Fragment } from "react";
 import { connect } from "dva";
 import moment from "moment";
 import { Link } from "dva/router";
-import {
-  Pagination,
-  Table,
-  Row,
-  Col,
-  Card,
-  Form,
-  Input,
-  Select,
-  Button,
-  message
-} from "antd";
+import { Pagination, Table, Row, Col, Card, Form, Input, Select, Button, message } from "antd";
 import styles from "../TableList.less";
 import $ from "jquery";
 
 const FormItem = Form.Item;
 const { Option } = Select;
-
-const formItemLayout = {
-  labelCol: { span: 3 },
-  wrapperCol: { span: 12 }
-};
 
 const AppUsers = ({
   appUsers,
@@ -46,9 +30,7 @@ const AppUsers = ({
       dataIndex: "appSource",
       render: (text, record) => {
         return (
-          <div>
-            <div>{record.appSource}</div>
-          </div>
+          <div>{record.appSource}</div>
         );
       }
     },
@@ -57,9 +39,7 @@ const AppUsers = ({
       dataIndex: "userName",
       render: (text, record) => {
         return (
-          <div>
-            <div style={{ color: "#272727" }}>{record.userName}</div>
-          </div>
+          <div style={{ color: "#272727" }}>{record.userName}</div>
         );
       }
     },
@@ -68,9 +48,7 @@ const AppUsers = ({
       dataIndex: "mobile",
       render: (text, record) => {
         return (
-          <div>
-            <div style={{ color: "#272727" }}>{record.mobile}</div>
-          </div>
+          <div style={{ color: "#272727" }}>{record.mobile}</div>
         );
       }
     },
@@ -79,9 +57,7 @@ const AppUsers = ({
       dataIndex: "nickName",
       render: (text, record) => {
         return (
-          <div>
-            <div style={{ color: "#40272727D4D4" }}>{record.nickName}</div>
-          </div>
+          <div style={{ color: "#40272727D4D4" }}>{record.nickName}</div>
         );
       }
     },
@@ -100,11 +76,9 @@ const AppUsers = ({
       render: (text, record) => {
         return (
           <div>
-            <div>
-              <Fragment>
-                <Link to="./userDetail">查看详情</Link>
-              </Fragment>
-            </div>
+            <Fragment>
+              <Link to="./userDetail">查看详情</Link>
+            </Fragment>
           </div>
         );
       }
@@ -123,8 +97,7 @@ const AppUsers = ({
       appSource: appSource,
       firstRow: null,
       mobile: parm.mobile == null || parm.mobile == "" ? null : parm.mobile,
-      nickName:
-        parm.nickName == null || parm.nickName == "" ? null : parm.nickName,
+      nickName: parm.nickName == null || parm.nickName == "" ? null : parm.nickName,
       pageNum: pageNum,
       pageRows: pageRows
     };
@@ -140,16 +113,10 @@ const AppUsers = ({
     }
     let _value = getJsonPrams(values, pageindex, pagesize);
     //赛选数据
-    dispatch({
-      type: "appUsers/queryRule",
-      payload: _value
-    });
+    dispatch({ type: "appUsers/queryRule", payload: _value });
 
     //保存查询条件
-    dispatch({
-      type: "appUsers/searchList",
-      payload: _value
-    });
+    dispatch({ type: "appUsers/searchList", payload: _value });
   };
   //重置
   const handleFormReset = () => {
@@ -164,73 +131,42 @@ const AppUsers = ({
       }
     }
     setFieldsValue(fields);
-    dispatch({
-      type: "appUsers/clearData"
-    });
+    dispatch({ type: "appUsers/clearData" });
     //重置查询所有
     let _ars = getJsonPrams(null, 0, 10);
-    dispatch({
-      type: "appUsers/queryRule",
-      payload: _ars
-    });
+    dispatch({ type: "appUsers/queryRule", payload: _ars });
     //重置查询条件
-    dispatch({
-      type: "appUsers/searchList",
-      payload: []
-    });
+    dispatch({ type: "appUsers/searchList", payload: [] });
   };
 
   /**分页合集 start **/
-  const showTotal = total => {
-    return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${
-      pagination.pageCount
-    } 页`;
-  };
+  const showTotal = total => { return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${pagination.pageCount} 页`; };
+
   const onShowSizeChange = (current, pageSize) => {
     let values = getFieldsValue();
     let postObj = getJsonPrams(values, current - 1, pageSize);
-    dispatch({
-      type: "appUsers/setPage",
-      payload: current,
-      size: pageSize
-    });
+    dispatch({ type: "appUsers/setPage", payload: current, size: pageSize });
     //判断查询条件
     if (JSON.stringify(searchList) !== "{}") {
       let _c = {};
       _c = $.extend(postObj, searchList);
-      dispatch({
-        type: "appUsers/queryRule",
-        payload: postObj
-      });
+      dispatch({ type: "appUsers/queryRule", payload: postObj });
     } else {
-      dispatch({
-        type: "appUsers/queryRule",
-        payload: postObj
-      });
+      dispatch({ type: "appUsers/queryRule", payload: postObj });
     }
   };
 
   const getNowPage = (current, pageSize) => {
     let values = getFieldsValue();
     let postObj = getJsonPrams(values, current - 1, pageSize);
-    dispatch({
-      type: "appUsers/setPage",
-      payload: current,
-      size: pageSize
-    });
+    dispatch({ type: "appUsers/setPage", payload: current, size: pageSize });
     //判断查询条件
     if (JSON.stringify(searchList) !== "{}") {
       let _c = {};
       _c = $.extend(postObj, searchList);
-      dispatch({
-        type: "appUsers/queryRule",
-        payload: postObj
-      });
+      dispatch({ type: "appUsers/queryRule", payload: postObj });
     } else {
-      dispatch({
-        type: "appUsers/queryRule",
-        payload: postObj
-      });
+      dispatch({ type: "appUsers/queryRule", payload: postObj });
     }
   };
   /**分页合集 end **/
@@ -244,9 +180,7 @@ const AppUsers = ({
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
                   <FormItem label="应用" style={{ marginLeft: 30 }}>
-                    {getFieldDecorator("appSource", {
-                      initialValue: "全部"
-                    })(
+                    {getFieldDecorator("appSource", { initialValue: "全部" })(
                       <Select placeholder="全部" style={{ width: "100%" }}>
                         <Option value={"全部"}>全部</Option>
                         <Option value={1}>11111</Option>
@@ -281,12 +215,8 @@ const AppUsers = ({
                 </Col>
                 <div style={{ overflow: "hidden" }}>
                   <span style={{ float: "right", marginBottom: 24 }}>
-                    <Button type="primary" htmlType="submit">
-                      查询
-                    </Button>
-                    <Button style={{ marginLeft: 8 }} onClick={handleFormReset}>
-                      重置
-                    </Button>
+                    <Button type="primary" htmlType="submit">查询</Button>
+                    <Button style={{ marginLeft: 8 }} onClick={handleFormReset}>重置</Button>
                   </span>
                 </div>
               </Row>

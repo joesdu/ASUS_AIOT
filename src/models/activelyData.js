@@ -1,8 +1,4 @@
-import {
-  statsDeviceActiveApi,
-  statsDeviceActiveSummaryApi,
-  deviceProductListApi
-} from "../services/api";
+import { statsDeviceActiveApi, statsDeviceActiveSummaryApi, deviceProductListApi } from "../services/api";
 import { message } from "antd";
 
 export default {
@@ -24,26 +20,23 @@ export default {
             period: 7,
             productId: 0
           };
-          dispatch({ type: "queryActiveSummary", payload: _ars });
-          dispatch({ type: "queryDeviceActive", payload: _ars });
-          dispatch({ type: "queryProductList" });
+          dispatch({ type: "ActiveSummary", payload: _ars });
+          dispatch({ type: "DeviceActive", payload: _ars });
+          dispatch({ type: "ProductList" });
         }
       });
     }
   },
   effects: {
-    *queryActiveSummary({ payload }, { call, put }) {
+    *ActiveSummary({ payload }, { call, put }) {
       const data = yield call(statsDeviceActiveSummaryApi, payload);
       if (data.code == 0) {
-        yield put({
-          type: "queryActiveSummarySuccess",
-          payload: data.data
-        });
+        yield put({ type: "ActiveSummarySuccess", payload: data.data });
       } else {
         message.error("获取数据概况失败,错误信息:" + data.msg);
       }
     },
-    *queryDeviceActive({ payload }, { call, put }) {
+    *DeviceActive({ payload }, { call, put }) {
       const data = yield call(statsDeviceActiveApi, payload);
       let activeData = null;
       if (data.code == 0) {
@@ -58,22 +51,16 @@ export default {
           numArray: numArray,
           listArray: data.data
         };
-        yield put({
-          type: "queryDeviceActiveSuccess",
-          payload: activeData
-        });
+        yield put({ type: "DeviceActiveSuccess", payload: activeData });
       } else {
         message.error("获取活跃数据趋势失败,错误信息:" + data.msg);
       }
     },
-    *queryProductList({ payload }, { call, put }) {
+    *ProductList({ payload }, { call, put }) {
       const prams = { userToken: localStorage.getItem("userToken") };
       const data = yield call(deviceProductListApi, prams);
       if (data.code == 0) {
-        yield put({
-          type: "queryProductListSuccess",
-          payload: data.data
-        });
+        yield put({ type: "ProductListSuccess", payload: data.data });
       } else {
         message.error("获取产品列表数据失败,错误信息:" + data.msg);
       }
@@ -81,19 +68,19 @@ export default {
   },
   reducers: {
     //返回数据列表
-    queryActiveSummarySuccess(state, action) {
+    ActiveSummarySuccess(state, action) {
       return {
         ...state,
         activeSummaryData: action.payload
       };
     },
-    queryDeviceActiveSuccess(state, action) {
+    DeviceActiveSuccess(state, action) {
       return {
         ...state,
         activeData: action.payload
       };
     },
-    queryProductListSuccess(state, action) {
+    ProductListSuccess(state, action) {
       return { ...state, deviceProductListData: action.payload };
     },
     //改变状态
@@ -101,13 +88,6 @@ export default {
       return {
         ...state,
         selected: payload.payload
-      };
-    },
-    //搜索条件
-    searchValue(state, payload) {
-      return {
-        ...state,
-        formValues: payload.payload
       };
     }
   }

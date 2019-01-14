@@ -21,15 +21,7 @@ const { prefix, openPages } = config;
 let lastHref;
 
 const App = ({ children, dispatch, app, loading, location }) => {
-  let {
-    userName,
-    siderFold,
-    darkTheme,
-    isNavbar,
-    menuPopoverVisible,
-    navOpenKeys,
-    menu
-  } = app;
+  let { userName, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys, menu } = app;
   let { pathname } = location;
   pathname = pathname.startsWith("/") ? pathname : `/${pathname}`;
   const { iconFontJS, iconFontCSS } = config;
@@ -62,19 +54,13 @@ const App = ({ children, dispatch, app, loading, location }) => {
     },
     logout() {
       let _arr = { userToken: localStorage.getItem("userToken") }
-      dispatch({
-        type: 'app/logout',
-        payload: _arr
-      })
-     },
+      dispatch({ type: 'app/logout', payload: _arr })
+    },
     switchSider() {
       dispatch({ type: "app/switchSider" });
     },
     changeOpenKeys(openKeys) {
-      dispatch({
-        type: "app/handleNavOpenKeys",
-        payload: { navOpenKeys: openKeys }
-      });
+      dispatch({ type: "app/handleNavOpenKeys", payload: { navOpenKeys: openKeys } });
     }
   };
 
@@ -88,21 +74,12 @@ const App = ({ children, dispatch, app, loading, location }) => {
       dispatch({ type: "app/switchTheme" });
     },
     changeOpenKeys(openKeys) {
-      window.localStorage.setItem(
-        `${prefix}navOpenKeys`,
-        JSON.stringify(openKeys)
-      );
-      dispatch({
-        type: "app/handleNavOpenKeys",
-        payload: { navOpenKeys: openKeys }
-      });
+      window.localStorage.setItem(`${prefix}navOpenKeys`, JSON.stringify(openKeys));
+      dispatch({ type: "app/handleNavOpenKeys", payload: { navOpenKeys: openKeys } });
     }
   };
 
-  const breadProps = {
-    menu,
-    location
-  };
+  const breadProps = { menu, location };
 
   if (openPages && openPages.includes(pathname)) {
     return (
@@ -132,10 +109,7 @@ const App = ({ children, dispatch, app, loading, location }) => {
             )}
           </Sider>
         )}
-        <Layout
-          style={{ height: "100vh", overflow: "scroll" }}
-          id="mainContainer"
-        >
+        <Layout style={{ height: "100vh", overflow: "scroll" }} id="mainContainer">
           <BackTop target={() => document.getElementById("mainContainer")} />
           <Header {...headerProps} />
           <Content className={styles.content}>

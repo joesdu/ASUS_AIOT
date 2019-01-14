@@ -43,18 +43,12 @@ export default {
         let _pag = {};
         _pag.total =
           typeof result.totalRows == "undefined" ? 0 : result.totalRows;
-        _pag.pageSize =
-          typeof result.pageRows == "undefined" ? 0 : result.pageRows;
-        _pag.current =
-          typeof result.pageNum == "undefined" ? 0 : result.pageNum;
-        if (
-          typeof result.totalRows == "undefined" ||
-          typeof result.pageRows == "undefined"
-        )
+        _pag.pageSize = typeof result.pageRows == "undefined" ? 0 : result.pageRows;
+        _pag.current = typeof result.pageNum == "undefined" ? 0 : result.pageNum;
+        if (typeof result.totalRows == "undefined" || typeof result.pageRows == "undefined")
           _pag.pageCount = 0;
         else
-          _pag.pageCount =
-            parseInt((result.totalRows - 1) / result.pageRows) + 1;
+          _pag.pageCount = parseInt((result.totalRows - 1) / result.pageRows) + 1;
         let userData = result.users;
         yield put({
           type: "querySuccess",
@@ -79,26 +73,15 @@ export default {
     },
     //返回数据列表
     querySuccess(state, action) {
-      return {
-        ...state,
-        data: action.payload,
-        pagination: action.page
-      };
+      return { ...state, data: action.payload, pagination: action.page };
     },
     //分页参数
     setPage(state, action) {
-      return {
-        ...state,
-        pageindex: action.payload,
-        pagesize: action.pageSize
-      };
+      return { ...state, pageindex: action.payload, pagesize: action.pageSize };
     },
     //查询条件
     searchList(state, action) {
-      return {
-        ...state,
-        searchList: action.payload
-      };
+      return { ...state, searchList: action.payload };
     }
   }
 };

@@ -28,10 +28,7 @@ export default {
         localStorage.setItem("userName", payload.userName);
         //跳转到首页
         yield put(
-          routerRedux.push({
-            pathname: "/dashboard"
-          })
-        );
+          routerRedux.push({ pathname: "/dashboard" }));
         location.reload();
       } else {
         message.error("登录失败，" + data.msg);
@@ -40,12 +37,6 @@ export default {
   },
 
   reducers: {
-    //返回数据列表
-    querySuccess(state, action) {
-      return {
-        ...state,
-        codes: action.payload
-      };
-    }
+
   }
 };

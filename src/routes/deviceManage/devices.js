@@ -2,30 +2,13 @@ import React, { Fragment } from "react";
 import { connect } from "dva";
 import moment from "moment";
 import { Link } from "dva/router";
-import {
-  Pagination,
-  Table,
-  Row,
-  Col,
-  Card,
-  Form,
-  Input,
-  Select,
-  Button,
-  DatePicker,
-  message
-} from "antd";
+import { Pagination, Table, Row, Col, Card, Form, Input, Select, Button, DatePicker, message } from "antd";
 import styles from "../TableList.less";
 import $ from "jquery";
 
 const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
-
-const formItemLayout = {
-  labelCol: { span: 3 },
-  wrapperCol: { span: 12 }
-};
 
 const Devices = ({
   devices,
@@ -40,14 +23,7 @@ const Devices = ({
     getFieldsValue
   }
 }) => {
-  let {
-    deviceListData,
-    deviceProductListData,
-    pagination,
-    searchList,
-    pageindex,
-    pagesize
-  } = devices;
+  let { deviceListData, deviceProductListData, pagination, searchList, pageindex, pagesize } = devices;
   //定义表头
   const columns = [
     {
@@ -189,27 +165,27 @@ const Devices = ({
     let actTimeEnd = null;
     try {
       actTimeEnd = parm.firstActivated[1].format(dateFormat);
-    } catch (error) {}
+    } catch (error) { }
     let actTimeStart = null;
     try {
       actTimeStart = parm.firstActivated[0].format(dateFormat);
-    } catch (error) {}
+    } catch (error) { }
     let lastActTimeEnd = null;
     try {
       lastActTimeEnd = parm.recentActivated[1].format(dateFormat);
-    } catch (error) {}
+    } catch (error) { }
     let lastActTimeStart = null;
     try {
       lastActTimeStart = parm.recentActivated[0].format(dateFormat);
-    } catch (error) {}
+    } catch (error) { }
     let updateTimeEnd = null;
     try {
       updateTimeEnd = parm.recentUpdates[0].format(dateFormat);
-    } catch (error) {}
+    } catch (error) { }
     let updateTimeStart = null;
     try {
       updateTimeStart = parm.recentUpdates[0].format(dateFormat);
-    } catch (error) {}
+    } catch (error) { }
     let isAct = null;
     if (parm.isAct == "未激活") {
       isAct = 0;
@@ -233,12 +209,8 @@ const Devices = ({
       userToken: localStorage.getItem("userToken"),
       actTimeEnd: actTimeEnd,
       actTimeStart: actTimeStart,
-      deviceId:
-        parm.deviceId == null || parm.deviceId == "" ? null : parm.deviceId,
-      deviceName:
-        parm.deviceName == null || parm.deviceName == ""
-          ? null
-          : parm.deviceName,
+      deviceId: parm.deviceId == null || parm.deviceId == "" ? null : parm.deviceId,
+      deviceName: parm.deviceName == null || parm.deviceName == "" ? null : parm.deviceName,
       firstRow: null,
       isAct: isAct,
       lastActTimeEnd: lastActTimeEnd,
@@ -266,13 +238,10 @@ const Devices = ({
     }
     let _value = getJsonPrams(values, pageindex, pagesize);
     //赛选数据
-    dispatch({ type: "devices/queryDevicesListData", payload: _value });
+    dispatch({ type: "devices/devicesList", payload: _value });
 
     //保存查询条件
-    dispatch({
-      type: "devices/searchList",
-      payload: _value
-    });
+    dispatch({ type: "devices/searchList", payload: _value });
   };
   //重置
   const handleFormReset = () => {
@@ -287,71 +256,43 @@ const Devices = ({
       }
     }
     setFieldsValue(fields);
-    dispatch({
-      type: "devices/clearData"
-    });
+    dispatch({ type: "devices/clearData" });
     //重置查询所有
     let _ars = getJsonPrams(null, 0, 10);
-    dispatch({ type: "devices/queryDevicesListData", payload: _ars });
-    dispatch({ type: "devices/queryDeviceProductListData", payload: null });
+    dispatch({ type: "devices/devicesList", payload: _ars });
+    dispatch({ type: "devices/productList", payload: null });
     //重置查询条件
-    dispatch({
-      type: "devices/searchList",
-      payload: []
-    });
+    dispatch({ type: "devices/searchList", payload: [] });
   };
 
   /**分页合集 start **/
-  const showTotal = () => {
-    return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${
-      pagination.pageCount
-    } 页`;
-  };
+  const showTotal = () => { return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${pagination.pageCount} 页`; };
+
   const onShowSizeChange = (current, pageSize) => {
     let values = getFieldsValue();
     let postObj = getJsonPrams(values, current - 1, pageSize);
-    dispatch({
-      type: "devices/setPage",
-      payload: current,
-      size: pageSize
-    });
+    dispatch({ type: "devices/setPage", payload: current, size: pageSize });
     //判断查询条件
     if (JSON.stringify(searchList) !== "{}") {
       let _c = {};
       _c = $.extend(postObj, searchList);
-      dispatch({
-        type: "devices/queryDevicesListData",
-        payload: postObj
-      });
+      dispatch({ type: "devices/devicesList", payload: postObj });
     } else {
-      dispatch({
-        type: "devices/queryDevicesListData",
-        payload: postObj
-      });
+      dispatch({ type: "devices/devicesList", payload: postObj });
     }
   };
 
   const getNowPage = (current, pageSize) => {
     let values = getFieldsValue();
     let postObj = getJsonPrams(values, current - 1, pageSize);
-    dispatch({
-      type: "devices/setPage",
-      payload: current,
-      size: pageSize
-    });
+    dispatch({ type: "devices/setPage", payload: current, size: pageSize });
     //判断查询条件
     if (JSON.stringify(searchList) !== "{}") {
       let _c = {};
       _c = $.extend(postObj, searchList);
-      dispatch({
-        type: "devices/queryDevicesListData",
-        payload: postObj
-      });
+      dispatch({ type: "devices/devicesList", payload: postObj });
     } else {
-      dispatch({
-        type: "devices/queryDevicesListData",
-        payload: postObj
-      });
+      dispatch({ type: "devices/devicesList", payload: postObj });
     }
   };
   /**分页合集 end **/
@@ -477,12 +418,8 @@ const Devices = ({
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <div style={{ overflow: "hidden" }}>
                   <span style={{ float: "right", marginBottom: 24 }}>
-                    <Button type="primary" htmlType="submit">
-                      查询
-                    </Button>
-                    <Button style={{ marginLeft: 8 }} onClick={handleFormReset}>
-                      重置
-                    </Button>
+                    <Button type="primary" htmlType="submit">查询</Button>
+                    <Button style={{ marginLeft: 8 }} onClick={handleFormReset}>重置</Button>
                   </span>
                 </div>
               </Row>

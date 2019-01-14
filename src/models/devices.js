@@ -42,34 +42,27 @@ export default {
             updateTimeStart: null,
             uuid: null
           };
-          dispatch({ type: "queryDevicesListData", payload: _ars });
-          dispatch({ type: "queryDeviceProductListData" });
+          dispatch({ type: "devicesList", payload: _ars });
+          dispatch({ type: "productList" });
         }
       });
     }
   },
 
   effects: {
-    *queryDevicesListData({ payload }, { call, put }) {
+    *devicesList({ payload }, { call, put }) {
       const data = yield call(devicesListApi, payload);
       let deviceListData = [];
       let _pag = {};
       if (data.code == 0) {
         let result = data.data;
-        _pag.total =
-          typeof result.totalRows == "undefined" ? 0 : result.totalRows;
-        _pag.pageSize =
-          typeof result.pageRows == "undefined" ? 0 : result.pageRows;
-        _pag.current =
-          typeof result.pageNum == "undefined" ? 0 : result.pageNum;
-        if (
-          typeof result.totalRows == "undefined" ||
-          typeof result.pageRows == "undefined"
-        )
+        _pag.total = typeof result.totalRows == "undefined" ? 0 : result.totalRows;
+        _pag.pageSize = typeof result.pageRows == "undefined" ? 0 : result.pageRows;
+        _pag.current = typeof result.pageNum == "undefined" ? 0 : result.pageNum;
+        if (typeof result.totalRows == "undefined" || typeof result.pageRows == "undefined")
           _pag.pageCount = 0;
         else
-          _pag.pageCount =
-            parseInt((result.totalRows - 1) / result.pageRows) + 1;
+          _pag.pageCount = parseInt((result.totalRows - 1) / result.pageRows) + 1;
         let devices = result.devices;
         for (var i = 0; i < devices.length; i++) {
           deviceListData[i] = {
@@ -92,25 +85,16 @@ export default {
             operation: devices[i].isAct
           };
         }
-        yield put({
-          type: "queryDevicesListDataSuccess",
-          payload: deviceListData,
-          page: _pag
-        });
+        yield put({ type: "devicesListSuccess", payload: deviceListData, page: _pag });
       } else {
         message.error("获取设备列表数据失败,错误信息:" + data.msg);
       }
     },
-    *queryDeviceProductListData({ payload }, { call, put }) {
-      const prams = {
-        userToken: localStorage.getItem("userToken")
-      };
+    *productList({ payload }, { call, put }) {
+      const prams = { userToken: localStorage.getItem("userToken") };
       const data = yield call(deviceProductListApi, prams);
       if (data.code == 0) {
-        yield put({
-          type: "queryDeviceProductListDataSuccess",
-          payload: data.data
-        });
+        yield put({ type: "productListSuccess", payload: data.data });
       } else {
         message.error("获取产品列表数据失败,错误信息:" + data.msg);
       }
@@ -137,30 +121,19 @@ export default {
       };
     },
     //返回数据列表
-    queryDevicesListDataSuccess(state, action) {
-      return {
-        ...state,
-        deviceListData: action.payload,
-        pagination: action.page
-      };
+    devicesListSuccess(state, action) {
+      return { ...state, deviceListData: action.payload, pagination: action.page };
     },
-    queryDeviceProductListDataSuccess(state, action) {
+    productListSuccess(state, action) {
       return { ...state, deviceProductListData: action.payload };
     },
     //分页参数
     setPage(state, action) {
-      return {
-        ...state,
-        pageindex: action.payload,
-        pagesize: action.pageSize
-      };
+      return { ...state, pageindex: action.payload, pagesize: action.pageSize };
     },
     //查询条件
     searchList(state, action) {
-      return {
-        ...state,
-        searchList: action.payload
-      };
+      return { ...state, searchList: action.payload };
     }
   }
 };

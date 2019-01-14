@@ -1,20 +1,7 @@
 import React, { Fragment } from "react";
 import { connect } from "dva";
 import moment from "moment";
-import {
-  Pagination,
-  Table,
-  Row,
-  Col,
-  Card,
-  Form,
-  Select,
-  Button,
-  DatePicker,
-  Radio,
-  message,
-  Modal
-} from "antd";
+import { Pagination, Table, Row, Col, Card, Form, Select, Button, DatePicker, Radio, message, Modal } from "antd";
 import styles from "../TableList.less";
 import $ from "jquery";
 
@@ -22,11 +9,6 @@ const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const RadioGroup = Radio.Group;
-
-const formItemLayout = {
-  labelCol: { span: 3 },
-  wrapperCol: { span: 12 }
-};
 
 const UserFeedback = ({
   userFeedback,
@@ -41,15 +23,7 @@ const UserFeedback = ({
     getFieldsValue
   }
 }) => {
-  let {
-    feedbackData,
-    deviceProductListData,
-    pagination,
-    searchList,
-    pageindex,
-    pagesize,
-    visible
-  } = userFeedback;
+  let { feedbackData, deviceProductListData, pagination, searchList, pageindex, pagesize, visible } = userFeedback;
 
   //定义表头
   const columns = [
@@ -129,11 +103,11 @@ const UserFeedback = ({
     let recentActivatedEnd = null;
     try {
       recentActivatedEnd = parm.recentActivated[1].format(dateFormat);
-    } catch (error) {}
+    } catch (error) { }
     let recentActivatedStart = null;
     try {
       recentActivatedStart = parm.recentActivated[0].format(dateFormat);
-    } catch (error) {}
+    } catch (error) { }
     let isProcessed = null;
     if (parm.isProcessed == "未处理") {
       isProcessed = 0;
@@ -141,11 +115,7 @@ const UserFeedback = ({
       isProcessed = 1;
     }
     let productId = null;
-    if (
-      parm.productId == null ||
-      parm.productId == "" ||
-      parm.productId == "全部"
-    ) {
+    if (parm.productId == null || parm.productId == "" || parm.productId == "全部") {
       productId = null;
     } else {
       productId = parm.productId;
@@ -172,16 +142,10 @@ const UserFeedback = ({
     }
     let _value = getJsonPrams(values, pageindex, pagesize);
     //赛选数据
-    dispatch({
-      type: "userFeedback/queryFeedbackListData",
-      payload: _value
-    });
+    dispatch({ type: "userFeedback/feedbackList", payload: _value });
 
     //保存查询条件
-    dispatch({
-      type: "userFeedback/searchList",
-      payload: _value
-    });
+    dispatch({ type: "userFeedback/searchList", payload: _value });
   };
   //重置
   const handleFormReset = () => {
@@ -196,75 +160,44 @@ const UserFeedback = ({
       }
     }
     setFieldsValue(fields);
-    dispatch({
-      type: "userFeedback/clearData"
-    });
+    dispatch({ type: "userFeedback/clearData" });
     //重置查询所有
     let _ars = getJsonPrams(null, 0, 10);
-    dispatch({ type: "userFeedback/queryFeedbackListData", payload: _ars });
-    dispatch({
-      type: "userFeedback/queryDeviceProductListData",
-      payload: null
-    });
+    dispatch({ type: "userFeedback/feedbackList", payload: _ars });
+    dispatch({ type: "userFeedback/productList", payload: null });
     //重置查询条件
-    dispatch({
-      type: "userFeedback/searchList",
-      payload: []
-    });
+    dispatch({ type: "userFeedback/searchList", payload: [] });
   };
 
   /**分页合集 start **/
-  const showTotal = total => {
-    return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${
-      pagination.pageCount
-    } 页`;
-  };
+  const showTotal = total => { return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${pagination.pageCount} 页`; };
+
   const onShowSizeChange = (current, pageSize) => {
     let values = getFieldsValue();
     let postObj = getJsonPrams(values, current - 1, pageSize);
 
-    dispatch({
-      type: "userFeedback/setPage",
-      payload: current,
-      size: pageSize
-    });
+    dispatch({ type: "userFeedback/setPage", payload: current, size: pageSize });
     //判断查询条件
     if (JSON.stringify(searchList) !== "{}") {
       let _c = {};
       _c = $.extend(postObj, searchList);
-      dispatch({
-        type: "userFeedback/queryFeedbackListData",
-        payload: postObj
-      });
+      dispatch({ type: "userFeedback/feedbackList", payload: postObj });
     } else {
-      dispatch({
-        type: "userFeedback/queryFeedbackListData",
-        payload: postObj
-      });
+      dispatch({ type: "userFeedback/feedbackList", payload: postObj });
     }
   };
 
   const getNowPage = (current, pageSize) => {
     let values = getFieldsValue();
     let postObj = getJsonPrams(values, current - 1, pageSize);
-    dispatch({
-      type: "userFeedback/setPage",
-      payload: current,
-      size: pageSize
-    });
+    dispatch({ type: "userFeedback/setPage", payload: current, size: pageSize });
     //判断查询条件
     if (JSON.stringify(searchList) !== "{}") {
       let _c = {};
       _c = $.extend(postObj, searchList);
-      dispatch({
-        type: "userFeedback/queryFeedbackListData",
-        payload: postObj
-      });
+      dispatch({ type: "userFeedback/feedbackList", payload: postObj });
     } else {
-      dispatch({
-        type: "userFeedback/queryFeedbackListData",
-        payload: postObj
-      });
+      dispatch({ type: "userFeedback/feedbackList", payload: postObj });
     }
   };
   /**分页合集 end **/
@@ -296,16 +229,8 @@ const UserFeedback = ({
         } else {
           e.isProcessed = 1;
         }
-        let _object = {
-          feedbackId: e.feedbackId,
-          isProcessed: e.isProcessed,
-          userToken: localStorage.getItem("userToken")
-        };
-        dispatch({
-          type: "userFeedback/updateFeedback",
-          payload: _object
-        });
-        console.log("OK");
+        let _object = { feedbackId: e.feedbackId, isProcessed: e.isProcessed, userToken: localStorage.getItem("userToken") };
+        dispatch({ type: "userFeedback/updateFeedback", payload: _object });
       },
       onCancel() {
         console.log("Cancel");
@@ -322,14 +247,8 @@ const UserFeedback = ({
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
                   <FormItem label="应用" style={{ marginLeft: 30 }}>
-                    {getFieldDecorator("application", {
-                      initialValue: "全部"
-                    })(
-                      <Select
-                        placeholder="全部"
-                        style={{ width: "100%" }}
-                        disabled
-                      >
+                    {getFieldDecorator("application", { initialValue: "全部" })(
+                      <Select placeholder="全部" style={{ width: "100%" }} disabled>
                         <Option value={"全部"}>全部</Option>
                         <Option value={1}>11111</Option>
                       </Select>
@@ -338,9 +257,7 @@ const UserFeedback = ({
                 </Col>
                 <Col md={8} sm={24}>
                   <FormItem label="产品" style={{ marginLeft: 30 }}>
-                    {getFieldDecorator("productId", {
-                      initialValue: "全部"
-                    })(
+                    {getFieldDecorator("productId", { initialValue: "全部" })(
                       <Select placeholder="全部" style={{ width: "100%" }}>
                         <Option value={null}>全部</Option>
                         {deviceProductListData.map(product => (
@@ -354,9 +271,7 @@ const UserFeedback = ({
                 </Col>
                 <Col md={8} sm={24}>
                   <FormItem label="状态" style={{ marginLeft: 30 }}>
-                    {getFieldDecorator("isProcessed", {
-                      initialValue: "全部"
-                    })(
+                    {getFieldDecorator("isProcessed", { initialValue: "全部" })(
                       <Select placeholder="全部" style={{ width: "100%" }}>
                         <Option value={"全部"}>全部</Option>
                         <Option value={"未处理"}>未处理</Option>
@@ -376,12 +291,8 @@ const UserFeedback = ({
                 </Col>
                 <div style={{ overflow: "hidden" }}>
                   <span style={{ float: "right", marginBottom: 24 }}>
-                    <Button type="primary" htmlType="submit">
-                      查询
-                    </Button>
-                    <Button style={{ marginLeft: 8 }} onClick={handleFormReset}>
-                      重置
-                    </Button>
+                    <Button type="primary" htmlType="submit">查询</Button>
+                    <Button style={{ marginLeft: 8 }} onClick={handleFormReset}>重置</Button>
                   </span>
                 </div>
               </Row>

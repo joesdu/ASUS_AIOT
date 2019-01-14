@@ -16,7 +16,6 @@ const Dashboard = ({
 	home,
 	loading,
 	dispatch,
-	formValues, //搜索条件
 	form: {
 		getFieldDecorator,
 		validateFieldsAndScroll,
@@ -25,78 +24,80 @@ const Dashboard = ({
 	},
 }) => {
 
-	const { selected } = home
+	let { overviewData, activateData, activeData } = home;
 
-	var config = {
-		chart: {
-			height: 250,
-		},
-		xAxis: {
-			categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']
-		},
-		title: {
-			text: null,
-		},
-		legend: {
-			enabled: false
-		},
-		yAxis: {
-			title: {
-				enabled: false
-			},
-		},
-		series: [{
-			data: [10, 20, 30, 25, 24, 23, 22]
-		}]
+	let dailyConfig = {
+		chart: { height: 450 },
+		xAxis: { categories: activateData.dateArray },
+		yAxis: { title: { text: "激活设备/个" }, plotLines: [{ value: 0, width: 1, color: "#808080" }] },
+		title: { text: null },
+		legend: { enabled: false },
+		credits: { enabled: false },// 隐藏右下角版权
+		series: [{ name: "激活设备/个", data: activateData.numArray }]
 	};
 
-	const getData = (k) => {
-		dispatch({
-			type: 'home/selected',
-			payload: k
-		})
-	}
+	var activeConfig = {
+		chart: { height: 450 },
+		xAxis: { categories: activeData.dateArray },
+		yAxis: { title: { text: "活跃设备/个" }, plotLines: [{ value: 0, width: 1, color: "#808080" }] },
+		title: { text: null },
+		legend: { enabled: false },
+		credits: { enabled: false }, // 隐藏右下角版权
+		series: [{ name: "活跃设备/个", data: activeData.numArray }]
+	};
+
+	const getDiv = number => {
+		if (number >= 0) {
+			return (
+				<span style={{ color: "#FF5F00" }}>{number}%&nbsp;<Icon type="caret-up" style={{ color: "#FF5F00", fontSize: "15px" }} /></span>
+			);
+		} else {
+			return (
+				<span style={{ color: "#13C2C2" }}>{number}%&nbsp;<Icon type="caret-down" style={{ color: "#13C2C2", fontSize: "15px" }} /></span>
+			);
+		}
+	};
 
 	return (
 		<div>
 			<div className={styles.indexTop}>
-				<Card className={styles.indexTopL} title='名片状态' style={{ marginRight: '15px' }}>
+				<Card className={styles.indexTopL} title="激活数据概览" style={{ marginRight: '15px' }}>
 					<div className={styles.indexCont}>
-						<div className={styles.indexCont_img}>
-							<img src='./images/indextop1.png' />
+						<div className={styles.indexCont_span} style={{ marginRight: "10%" }}>
+							<span className={styles.indexTop_text}>今日激活</span>
+							<span style={{ color: "#1890FF" }}>{overviewData.todayActivate}&nbsp;</span>
+							<div className={styles.indexBottom_text}>
+								<span>昨日激活&nbsp;&nbsp;</span>
+								<span>{overviewData.yesterdayActivate}</span>
+							</div>
 						</div>
 						<div className={styles.indexCont_span}>
-							<span className={styles.indexTop_num}>371</span>
-							<span>员工总数</span>
+							<span className={styles.indexTop_text}>较昨日环比</span>
+							{getDiv(overviewData.yesterdayActivateRate)}
+							<div className={styles.indexBottom_text}>
+								<span>累计激活&nbsp;&nbsp;</span>
+								<span>{overviewData.totalActivate}</span>
+							</div>
 						</div>
-						<div className={styles.indexCont_span}>
-							<span className={styles.indexTop_num}>365</span>
-							<span>已开通名片</span>
-						</div>
-						<div className={styles.indexCont_span}>
-							<span className={styles.indexTop_num}>25/236</span>
-							<span>剩余/总可开通数</span>
-						</div>
-
 					</div>
 				</Card>
-				<Card className={styles.indexTopL} title='账号状态' style={{ position: 'relative' }}>
-					<span style={{ position: 'absolute', top: '18px', right: '10px' }}>开通时间：2017-09-07至2019-09-08</span>
+				<Card className={styles.indexTopL} title='活跃数据概览' style={{ position: 'relative' }}>
 					<div className={styles.indexCont}>
-						<div className={styles.indexCont_img2}>
-							<img src='./images/indextop2.png' />
+						<div className={styles.indexCont_span} style={{ marginRight: "10%" }}>
+							<span className={styles.indexTop_text}>今日活跃</span>
+							<span style={{ color: "#1890FF" }}>{overviewData.todayActive}&nbsp;</span>
+							<div className={styles.indexBottom_text}>
+								<span>昨日活跃&nbsp;&nbsp;</span>
+								<span>{overviewData.yesterdayActive}</span>
+							</div>
 						</div>
 						<div className={styles.indexCont_span}>
-							<span className={styles.indexTop_num}>100</span>
-							<span>已使用天数</span>
-						</div>
-						<div className={styles.indexCont_span}>
-							<span className={styles.indexTop_num}>201</span>
-							<span>剩余可用天数</span>
-						</div>
-						<div className={styles.indexCont_span}>
-							<span className={styles.indexTop_num}>25</span>
-							<span>已获客户数</span>
+							<span className={styles.indexTop_text}>较昨日环比</span>
+							{getDiv(overviewData.yesterdayActiveRate)}
+							<div className={styles.indexBottom_text}>
+								<span>活跃占比&nbsp;&nbsp;</span>
+								<span>{overviewData.activeRate * 100}&nbsp;%</span>
+							</div>
 						</div>
 					</div>
 				</Card>
@@ -104,52 +105,16 @@ const Dashboard = ({
 			<Card title='数据概览' style={{ marginTop: '15px' }}>
 				<div className={styles.indexData}>
 					<div className={styles.indexDataLeft} style={{ marginRight: '15px' }}>
-						<ul className={styles.indexDataLeft_topUL}>
-							<li className={selected == 0 ? styles.active : ''} onClick={getData.bind(this, 0)}>汇总</li>
-							<li className={selected == 1 ? styles.active : ''} onClick={getData.bind(this, 1)}>昨天</li>
-							<li className={selected == 2 ? styles.active : ''} onClick={getData.bind(this, 2)}>近7天</li>
-							<li className={selected == 3 ? styles.active : ''} onClick={getData.bind(this, 3)}>近30天</li>
-						</ul>
-						<ul className={styles.indexDataLeft_contUL}>
-							<li>
-								<span className={styles.num}>1234</span>
-								<span>客户总数</span>
-							</li>
-							<li>
-								<span className={styles.num}>56</span>
-								<span>跟进总数</span>
-							</li>
-							<li>
-								<span className={styles.num}>98</span>
-								<span>浏览总数</span>
-							</li>
-							<li>
-								<span className={styles.num}>35</span>
-								<span>被转发总数</span>
-							</li>
-							<li>
-								<span className={styles.num}>41</span>
-								<span>被保存总数</span>
-							</li>
-							<li>
-								<span className={styles.num}>36</span>
-								<span>被点赞总数</span>
-							</li>
-						</ul>
+						<span style={{ marginRight: '15px' }}>近15日激活趋势</span>
+						<div style={{ width: '100%' }}>
+							<ReactHighcharts config={dailyConfig}></ReactHighcharts>
+						</div>
 					</div>
 					<div className={styles.indexDataRight}>
-						<div className={styles.indexDataRight_top}>
-							<span>数据指标</span>
-							<Select defaultValue="lucy" style={{ float: 'left' }}>
-								<Option value="jack">客户数</Option>
-								<Option value="lucy">客户数2</Option>
-							</Select>
-							<ul className={styles.indexDataLeft_topUL} style={{ float: 'left' }}>
-								<li className={selected == 0 ? styles.active : ''} onClick={getData.bind(this, 0)}>7天</li>
-								<li className={selected == 1 ? styles.active : ''} onClick={getData.bind(this, 1)}>15天</li>
-							</ul>
+						<div className={styles.indexDataRight_top} style={{ marginLeft: '15px' }}>
+							<span style={{ marginLeft: '15px' }}>近15日活跃趋势</span>
 							<div style={{ width: '100%' }}>
-								<ReactHighcharts config={config}></ReactHighcharts>
+								<ReactHighcharts config={activeConfig}></ReactHighcharts>
 							</div>
 						</div>
 					</div>

@@ -5,16 +5,10 @@ import { Pagination, Table, Card, Form, message } from "antd";
 import styles from "../TableList.less";
 import $ from "jquery";
 
-const formItemLayout = {
-  labelCol: { span: 3 },
-  wrapperCol: { span: 12 }
-};
-
 const DeviceLogs = ({
   deviceLogs,
   loading,
   dispatch,
-  formValues, //搜索条件
   form: {
     getFieldDecorator,
     validateFieldsAndScroll,
@@ -23,7 +17,7 @@ const DeviceLogs = ({
     getFieldsValue
   }
 }) => {
-  let { data, pagination, searchList, pageindex, pagesize } = deviceLogs;
+  let { data, pagination, pageindex, pagesize } = deviceLogs;
 
   //定义表头
   const columns = [
@@ -59,51 +53,31 @@ const DeviceLogs = ({
   const showTotal = total => {
     return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${
       pagination.pageCount
-    } 页`;
+      } 页`;
   };
   const onShowSizeChange = (current, pageSize) => {
     let postObj = getJsonPrams(current - 1, pageSize);
-    dispatch({
-      type: "deviceLogs/setPage",
-      payload: current,
-      size: pageSize
-    });
+    dispatch({ type: "deviceLogs/setPage", payload: current, size: pageSize });
     //判断查询条件
     if (JSON.stringify(searchList) !== "{}") {
       let _c = {};
       _c = $.extend(postObj, searchList);
-      dispatch({
-        type: "deviceLogs/queryRule",
-        payload: postObj
-      });
+      dispatch({ type: "deviceLogs/queryRule", payload: postObj });
     } else {
-      dispatch({
-        type: "deviceLogs/queryRule",
-        payload: postObj
-      });
+      dispatch({ type: "deviceLogs/queryRule", payload: postObj });
     }
   };
 
   const getNowPage = (current, pageSize) => {
     let postObj = getJsonPrams(current - 1, pageSize);
-    dispatch({
-      type: "deviceLogs/setPage",
-      payload: current,
-      size: pageSize
-    });
+    dispatch({ type: "deviceLogs/setPage", payload: current, size: pageSize });
     //判断查询条件
     if (JSON.stringify(searchList) !== "{}") {
       let _c = {};
       _c = $.extend(postObj, searchList);
-      dispatch({
-        type: "deviceLogs/queryRule",
-        payload: postObj
-      });
+      dispatch({ type: "deviceLogs/queryRule", payload: postObj });
     } else {
-      dispatch({
-        type: "deviceLogs/queryRule",
-        payload: postObj
-      });
+      dispatch({ type: "deviceLogs/queryRule", payload: postObj });
     }
   };
   /**分页合集 end **/

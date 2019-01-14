@@ -1,8 +1,4 @@
-import {
-  statsDeviceActivateApi,
-  statsDeviceActivateSummaryApi,
-  deviceProductListApi
-} from "../services/api";
+import { statsDeviceActivateApi, statsDeviceActivateSummaryApi, deviceProductListApi } from "../services/api";
 import { message } from "antd";
 
 export default {
@@ -19,31 +15,24 @@ export default {
     setup({ dispatch, history }) {
       history.listen(location => {
         if (location.pathname === "/activeData") {
-          let activate = {
-            userToken: localStorage.getItem("userToken"),
-            period: 7,
-            productId: 0
-          };
-          dispatch({ type: "queryActivateSummary", payload: activate });
-          dispatch({ type: "queryActivate", payload: activate });
-          dispatch({ type: "queryProductListData" });
+          let activate = { userToken: localStorage.getItem("userToken"), period: 7, productId: 0 };
+          dispatch({ type: "ActivateSummary", payload: activate });
+          dispatch({ type: "Activate", payload: activate });
+          dispatch({ type: "ProductList" });
         }
       });
     }
   },
   effects: {
-    *queryActivateSummary({ payload }, { call, put }) {
+    *ActivateSummary({ payload }, { call, put }) {
       const data = yield call(statsDeviceActivateSummaryApi, payload);
       if (data.code == 0) {
-        yield put({
-          type: "queryActivateSummarySuccess",
-          payload: data.data
-        });
+        yield put({ type: "ActivateSummarySuccess", payload: data.data });
       } else {
         message.error("获取激活数据概况失败,错误信息:" + data.msg);
       }
     },
-    *queryActivate({ payload }, { call, put }) {
+    *Activate({ payload }, { call, put }) {
       const data = yield call(statsDeviceActivateApi, payload);
       let activateData = null;
       if (data.code == 0) {
@@ -62,22 +51,16 @@ export default {
           totalArray: totalArray,
           listArray: listArray
         };
-        yield put({
-          type: "queryActivateSuccess",
-          payload: activateData
-        });
+        yield put({ type: "ActivateSuccess", payload: activateData });
       } else {
         message.error("获取激活数据趋势失败,错误信息:" + data.msg);
       }
     },
-    *queryProductListData({ payload }, { call, put }) {
+    *ProductList({ payload }, { call, put }) {
       const prams = { userToken: localStorage.getItem("userToken") };
       const data = yield call(deviceProductListApi, prams);
       if (data.code == 0) {
-        yield put({
-          type: "queryProductListDataSuccess",
-          payload: data.data
-        });
+        yield put({ type: "ProductListSuccess", payload: data.data });
       } else {
         message.error("获取产品列表数据失败,错误信息:" + data.msg);
       }
@@ -85,22 +68,18 @@ export default {
   },
   reducers: {
     //返回数据列表
-    queryActivateSummarySuccess(state, action) {
+    ActivateSummarySuccess(state, action) {
       return { ...state, activateSummaryData: action.payload };
     },
-    queryActivateSuccess(state, action) {
+    ActivateSuccess(state, action) {
       return { ...state, activateData: action.payload };
     },
-    queryProductListDataSuccess(state, action) {
+    ProductListSuccess(state, action) {
       return { ...state, deviceProductListData: action.payload };
     },
     //改变状态
     selected(state, payload) {
       return { ...state, selected: payload.payload };
-    },
-    //搜索条件
-    searchValue(state, payload) {
-      return { ...state, formValues: payload.payload };
     }
   }
 };

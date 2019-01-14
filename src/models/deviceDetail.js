@@ -9,9 +9,7 @@ export default {
       history.listen(location => {
         //页面初始化执行
         if (location.pathname === "/deviceDetail") {
-          let _ars = {
-            deviceId: location.query.deviceId
-          };
+          let _ars = { deviceId: location.query.deviceId };
           dispatch({ type: "queryDetail", payload: _ars });
         }
       });
@@ -22,10 +20,7 @@ export default {
     *queryDetail({ payload }, { call, put }) {
       const data = yield call(deviceDetailApi, payload);
       if (data.code == 0) {
-        yield put({
-          type: "querySuccess",
-          payload: data.data
-        });
+        yield put({ type: "querySuccess", payload: data.data });
       } else {
         message.error("获取数据失败,错误信息:" + data.msg);
       }

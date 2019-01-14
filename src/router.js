@@ -1,13 +1,7 @@
 import React from "react";
 import { LocaleProvider } from "antd";
 import PropTypes from "prop-types";
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-  routerRedux
-} from "dva/router";
+import { HashRouter as Router, Switch, Route, Redirect, routerRedux } from "dva/router";
 import dynamic from "dva/dynamic";
 import App from "routes/app";
 import zhCN from "antd/lib/locale-provider/zh_CN";

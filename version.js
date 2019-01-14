@@ -3,7 +3,7 @@ const path = require('path')
 const beautify = require('js-beautify').js_beautify
 const config = require('./package.json')
 
-const dist = path.join(`${__dirname}/./`)
+const dist = path.join(`${__dirname}./`)
 const maxVersion = 5
 
 const writeVersion = () => new Promise((resolve, reject) => {
@@ -75,7 +75,6 @@ const start = async () => {
   for (const item of folders) {
     await removeFolder(`${dist}/${item}`)
   }
-
   await writeVersion()
 }
 

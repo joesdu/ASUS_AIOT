@@ -1,19 +1,7 @@
 import React, { Fragment } from "react";
 import { connect } from "dva";
 import moment from "moment";
-import {
-  Pagination,
-  Table,
-  Row,
-  Col,
-  Card,
-  Form,
-  Input,
-  Select,
-  Button,
-  DatePicker,
-  message
-} from "antd";
+import { Pagination, Table, Row, Col, Card, Form, Input, Select, Button, DatePicker, message } from "antd";
 import styles from "../TableList.less";
 import styles2 from "../main.less";
 import $ from "jquery";
@@ -22,16 +10,10 @@ const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
-const formItemLayout = {
-  labelCol: { span: 3 },
-  wrapperCol: { span: 12 }
-};
-
 const DeviceDetail = ({
   deviceDetail,
   loading,
   dispatch,
-  formValues, //搜索条件
   form: {
     getFieldDecorator,
     validateFieldsAndScroll,
@@ -40,12 +22,14 @@ const DeviceDetail = ({
     getFieldsValue
   }
 }) => {
-    let { data } = deviceDetail;
+  let { data } = deviceDetail;
 
   const getOnline = key => {
     if (key == 0) {
       return <label>否</label>;
-    } else return <label>是</label>;
+    } else {
+      return <label>是</label>;
+    }
   };
 
   const getSource = key => {
@@ -56,7 +40,7 @@ const DeviceDetail = ({
     }
   };
 
-  const getRows = key => {};
+  const getRows = key => { };
 
   return (
     <div>
