@@ -7,11 +7,11 @@ const svgSpriteDirs = [
 ]
 
 export default {
-  entry: 'src/index.js',
+  entry: "src/index.js",
   svgSpriteLoaderDirs: svgSpriteDirs,
   theme: "./theme.config.js",
-  publicPath: `/alot/dist/${version}/`,
-  outputPath: `./alot/dist/${version}/`,
+  publicPath: `././${version}/`,
+  outputPath: `./output/${version}/`,
   // 接口代理示例
   env: {
     development: {
@@ -19,9 +19,10 @@ export default {
         "dva-hmr",
         "transform-runtime",
         [
-          "import", {
-            "libraryName": "antd",
-            "style": true
+          "import",
+          {
+            libraryName: "antd",
+            style: true
           }
         ]
       ]
@@ -30,9 +31,10 @@ export default {
       extraBabelPlugins: [
         "transform-runtime",
         [
-          "import", {
-            "libraryName": "antd",
-            "style": true
+          "import",
+          {
+            libraryName: "antd",
+            style: true
           }
         ]
       ]
@@ -42,4 +44,4 @@ export default {
     exclude: ["babel-runtime", "roadhog", "cross-env"],
     include: ["dva/router", "dva/saga", "dva/fetch"]
   }
-}
+};

@@ -43,7 +43,7 @@ const Routers = function ({ history, app }) {
     {
       path: "/devicelogs", //设备日志
       models: () => [import("./models/deviceLogs")],
-      component: () => import("./routes/deviceManage/devicelogs")
+      component: () => import("./routes/deviceManage/deviceLogs")
     },
     {
       path: "/userFeedback", //用户反馈
@@ -56,7 +56,7 @@ const Routers = function ({ history, app }) {
       component: () => import("./routes/appUserManage/appUsers")
     },
     {
-      path: "/userDetail", //APP用户管理
+      path: "/userDetail", //用户详情
       models: () => [import("./models/userDetail")],
       component: () => import("./routes/appUserManage/userDetail")
     },
