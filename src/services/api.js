@@ -54,6 +54,12 @@ export async function deviceProductListApi(params) {
   return request(_url, { method: "POST", body: params });
 }
 
+/***********设备详情**********/
+export async function deviceDetailApi(params) {
+  let _url = apiUrl + api.deviceDetail;
+  return request(_url, { method: "POST", body: params });
+}
+
 //设备日志相关接口
 /***********设备日志插入**********/
 export async function deviceLogInsertApi(params) {

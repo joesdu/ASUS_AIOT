@@ -138,19 +138,14 @@ const Devices = ({
             <div>
               <div>
                 <Fragment>
-                  <Link
-                    to="../deviceManage/devicelogs"
-                    value={record.nameAndID.deviceId}
-                  >
-                    日志
-                  </Link>
+                  <a onClick={logClick(record.nameAndID.deviceId)}>日志</a>
                 </Fragment>
               </div>
               <div>
                 <Fragment>
-                  <Link to="./deviceDetail" value={record.nameAndID.deviceId}>
+                  <a onClick={detailClick(record.nameAndID.deviceId)}>
                     设备详情
-                  </Link>
+                  </a>
                 </Fragment>
               </div>
             </div>
@@ -159,9 +154,7 @@ const Devices = ({
           return (
             <div>
               <Fragment>
-                <Link to={"./devicelogs"} value={record.nameAndID.deviceId}>
-                  日志
-                </Link>
+                <a onClick={logClick(record.nameAndID.deviceId)}>日志</a>
               </Fragment>
             </div>
           );
@@ -169,6 +162,16 @@ const Devices = ({
       }
     }
   ];
+
+  const logClick = e => {
+    console.log(e);
+    dispatch({ type: "devices/toLogPage", payload: e });
+  };
+
+  const detailClick = e => {
+    console.log(e);
+    dispatch({ type: "devices/toDetailPage", payload: e });
+  };
 
   const getJsonPrams = (parm, pageNum, pageRows) => {
     let actTimeEnd = null;

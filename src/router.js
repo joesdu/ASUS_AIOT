@@ -41,7 +41,7 @@ const Routers = function ({ history, app }) {
       component: () => import("./routes/deviceManage/deviceDetail")
     },
     {
-      path: "/devicelogs", //设备日志
+      path: "/deviceLogs", //设备日志
       models: () => [import("./models/deviceLogs")],
       component: () => import("./routes/deviceManage/deviceLogs")
     },

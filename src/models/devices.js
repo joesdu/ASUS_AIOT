@@ -1,4 +1,4 @@
-import modelExtend from "dva-model-extend";
+import { routerRedux } from "dva/router";
 import { devicesListApi, deviceProductListApi } from "../services/api";
 import { message } from "antd";
 
@@ -51,11 +51,11 @@ export default {
 
   effects: {
     *queryDevicesListData({ payload }, { call, put }) {
-      const dataDevicesList = yield call(devicesListApi, payload);
+      const data = yield call(devicesListApi, payload);
       let deviceListData = [];
       let _pag = {};
-      if (dataDevicesList.code == 0) {
-        let result = dataDevicesList.data;
+      if (data.code == 0) {
+        let result = data.data;
         _pag.total =
           typeof result.totalRows == "undefined" ? 0 : result.totalRows;
         _pag.pageSize =
@@ -98,24 +98,30 @@ export default {
           page: _pag
         });
       } else {
-        message.error("获取设备列表数据失败,错误信息:" + dataDevicesList.msg);
+        message.error("获取设备列表数据失败,错误信息:" + data.msg);
       }
     },
     *queryDeviceProductListData({ payload }, { call, put }) {
       const prams = {
         userToken: localStorage.getItem("userToken")
       };
-      const dataDeviceProductList = yield call(deviceProductListApi, prams);
-      if (dataDeviceProductList.code == 0) {
+      const data = yield call(deviceProductListApi, prams);
+      if (data.code == 0) {
         yield put({
           type: "queryDeviceProductListDataSuccess",
-          payload: dataDeviceProductList.data
+          payload: data.data
         });
       } else {
-        message.error(
-          "获取产品列表数据失败,错误信息:" + dataDeviceProductList.msg
-        );
+        message.error("获取产品列表数据失败,错误信息:" + data.msg);
       }
+    },
+    *toLogPage({ payload }, { put }) {
+      yield put(routerRedux.push("/deviceLogs", { deviceId: payload.payload }));
+    },
+    *toDetailPage({ payload }, { put }) {
+      yield put(
+        routerRedux.push("/deviceDetail", { deviceId: payload.payload })
+      );
     }
   },
   reducers: {

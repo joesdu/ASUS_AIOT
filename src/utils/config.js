@@ -35,6 +35,7 @@ module.exports = {
     //后台设备相关接口		Device Controller
     deviceList: "device/list",
     deviceProductList: "device/productList",
+    deviceDetail: "device/detail",
     //设备日志相关接口		Device Log Controller
     deviceLogInsert: "deviceLog/insert",
     deviceLogList: "deviceLog/list",

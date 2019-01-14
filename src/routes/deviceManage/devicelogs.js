@@ -23,14 +23,7 @@ const DeviceLogs = ({
     getFieldsValue
   }
 }) => {
-  let {
-    data,
-    pagination,
-    searchList,
-    pageindex,
-    pagesize,
-    deviceId
-  } = deviceLogs;
+  let { data, pagination, searchList, pageindex, pagesize } = deviceLogs;
 
   //定义表头
   const columns = [
@@ -54,6 +47,7 @@ const DeviceLogs = ({
 
   const getJsonPrams = (pageNum, pageRows) => {
     return {
+      userToken: localStorage.getItem("userToken"),
       deviceId: deviceId,
       firstRow: null,
       pageNum: pageNum,

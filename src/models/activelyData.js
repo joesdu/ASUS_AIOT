@@ -19,7 +19,11 @@ export default {
     setup({ dispatch, history }) {
       history.listen(location => {
         if (location.pathname === "/activelyData") {
-          let _ars = { userToken: localStorage.getItem("userToken"), period: 7, productId: 0 };
+          let _ars = {
+            userToken: localStorage.getItem("userToken"),
+            period: 7,
+            productId: 0
+          };
           dispatch({ type: "queryActiveSummary", payload: _ars });
           dispatch({ type: "queryDeviceActive", payload: _ars });
           dispatch({ type: "queryProductList" });
@@ -29,40 +33,37 @@ export default {
   },
   effects: {
     *queryActiveSummary({ payload }, { call, put }) {
-      const dataActiveSummary = yield call(
-        statsDeviceActiveSummaryApi,
-        payload
-      );
-      if (dataActiveSummary.code == 0) {
+      const data = yield call(statsDeviceActiveSummaryApi, payload);
+      if (data.code == 0) {
         yield put({
           type: "queryActiveSummarySuccess",
-          payload: dataActiveSummary.data
+          payload: data.data
         });
       } else {
-        message.error("获取数据概况失败,错误信息:" + dataActiveSummary.msg);
+        message.error("获取数据概况失败,错误信息:" + data.msg);
       }
     },
     *queryDeviceActive({ payload }, { call, put }) {
-      const dataActive = yield call(statsDeviceActiveApi, payload);
+      const data = yield call(statsDeviceActiveApi, payload);
       let activeData = null;
-      if (dataActive.code == 0) {
+      if (data.code == 0) {
         let dateArray = [];
         let numArray = [];
-        for (var i = 0; i < dataActive.data.length; i++) {
-          dateArray[i] = dataActive.data[i].actDate;
-          numArray[i] = dataActive.data[i].num;
+        for (var i = 0; i < data.data.length; i++) {
+          dateArray[i] = data.data[i].actDate;
+          numArray[i] = data.data[i].num;
         }
         activeData = {
           dateArray: dateArray,
           numArray: numArray,
-          listArray: dataActive.data
+          listArray: data.data
         };
         yield put({
           type: "queryDeviceActiveSuccess",
           payload: activeData
         });
       } else {
-        message.error("获取活跃数据趋势失败,错误信息:" + dataActive.msg);
+        message.error("获取活跃数据趋势失败,错误信息:" + data.msg);
       }
     },
     *queryProductList({ payload }, { call, put }) {

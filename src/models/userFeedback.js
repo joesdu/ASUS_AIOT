@@ -91,24 +91,22 @@ export default {
     },
     *queryDeviceProductListData({ payload }, { call, put }) {
       const prams = { userToken: localStorage.getItem("userToken") };
-      const dataDeviceProductList = yield call(deviceProductListApi, prams);
-      if (dataDeviceProductList.code == 0) {
+      const data = yield call(deviceProductListApi, prams);
+      if (data.code == 0) {
         yield put({
           type: "queryDeviceProductListDataSuccess",
-          payload: dataDeviceProductList.data
+          payload: data.data
         });
       } else {
-        message.error(
-          "获取产品列表数据失败,错误信息:" + dataDeviceProductList.msg
-        );
+        message.error("获取产品列表数据失败,错误信息:" + data.msg);
       }
     },
     *updateFeedback({ payload }, { call, put }) {
-      const update = yield call(feedbackUpdateApi, payload);
-      if (update.code == 0) {
-        message.info("更新成功:" + update.msg);
+      const data = yield call(feedbackUpdateApi, payload);
+      if (data.code == 0) {
+        message.info("更新成功:" + data.msg);
       } else {
-        message.error("更新失败:" + update.msg);
+        message.error("更新失败:" + data.msg);
       }
     }
   },

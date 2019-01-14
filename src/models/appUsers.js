@@ -1,8 +1,5 @@
-import modelExtend from "dva-model-extend";
 import { userListApi } from "../services/api";
-import queryString from "query-string";
 import { message } from "antd";
-import $ from "jquery";
 
 export default {
   namespace: "appUsers",

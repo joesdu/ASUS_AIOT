@@ -1,8 +1,5 @@
-import modelExtend from "dva-model-extend";
 import { deviceLogListApi } from "../services/api";
-import queryString from "query-string";
 import { message } from "antd";
-import $ from "jquery";
 
 export default {
   namespace: "deviceLogs",
@@ -16,25 +13,22 @@ export default {
     }, //分页数据
     searchList: {}, //查询条件
     pageindex: 1, //分页开始 第几页
-    pagesize: 10, //返回条数
-    deviceId: 0
+    pagesize: 10 //返回条数
   },
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen(location => {
         //页面初始化执行
-        if (location.pathname === "/devicelogs") {
+        if (location.pathname === "/deviceLogs") {
           let _ars = {
             userToken: localStorage.getItem("userToken"),
-            deviceId: this.props.location.state.deviceId,
+            deviceId: location.deviceId,
             firstRow: null,
             pageNum: 0,
             pageRows: 10
           };
-          dispatch({
-            type: "queryRule",
-            payload: _ars
-          });
+          console.log(_ars);
+          dispatch({ type: "queryRule", payload: _ars });
         }
       });
     }
@@ -60,13 +54,9 @@ export default {
         else
           _pag.pageCount =
             parseInt((result.totalRows - 1) / result.pageRows) + 1;
-
-        let deviceLogs = result.deviceLogs;
-        let deviceLogsData = deviceLogs;
-
         yield put({
           type: "querySuccess",
-          payload: deviceLogsData,
+          payload: result.deviceLogs,
           page: _pag
         });
       } else {
@@ -87,27 +77,15 @@ export default {
     },
     //返回数据列表
     querySuccess(state, action) {
-      return {
-        ...state,
-        data: action.payload,
-        pagination: action.page,
-        deviceId: this.props.location.state.deviceId
-      };
+      return { ...state, data: action.payload, pagination: action.page };
     },
     //分页参数
     setPage(state, action) {
-      return {
-        ...state,
-        pageindex: action.payload,
-        pagesize: action.pageSize
-      };
+      return { ...state, pageindex: action.payload, pagesize: action.pageSize };
     },
     //查询条件
     searchList(state, action) {
-      return {
-        ...state,
-        searchList: action.payload
-      };
+      return { ...state, searchList: action.payload };
     }
   }
 };
