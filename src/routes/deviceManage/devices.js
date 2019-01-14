@@ -115,10 +115,10 @@ const Devices = ({
               <div>
                 <Fragment>
                   <a
-                    /* onClick={dispatch({
-                      type: "devices/toLogPage",
-                      payload: e
-                    })} */
+                  /* onClick={dispatch({
+                    type: "devices/toLogPage",
+                    payload: e
+                  })} */
                   >
                     日志
                   </a>
@@ -126,14 +126,10 @@ const Devices = ({
               </div>
               <div>
                 <Fragment>
-                  <a
-                    /* onClick={dispatch({
-                      type: "devices/toDetailPage",
-                      payload: e
-                    })} */
-                  >
-                    设备详情
-                  </a>
+                  <Link to={{
+                    pathname: "/deviceLogs",
+                    query: { deviceId: record.nameAndID.deviceId }
+                  }} >设备详情</Link>
                 </Fragment>
               </div>
             </div>

@@ -21,7 +21,8 @@ export default {
         if (location.pathname === "/deviceLogs") {
           let _ars = {
             userToken: localStorage.getItem("userToken"),
-            deviceId: location.deviceId,
+            //deviceId: location.deviceId,
+            deviceId: location.query.deviceId,
             firstRow: null,
             pageNum: 0,
             pageRows: 10
