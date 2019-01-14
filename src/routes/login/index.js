@@ -25,7 +25,7 @@ const Login = ({
   }
 }) => {
 
-  //蒲公英特效
+/*   //蒲公英特效
   !function () {
     function n(n, e, t) { return n.getAttribute(e) || t }
     function e(n) { return document.getElementsByTagName(n) }
@@ -45,7 +45,7 @@ const Login = ({
       var h = w() * a, g = w() * c, v = 2 * w() - 1, p = 2 * w() - 1; s.push({ x: h, y: g, xa: v, ya: p, max: 6e3 })
     }
     u = s.concat([y]), setTimeout(function () { i() }, 500)
-  }();
+  }(); */
 
   // let _url = urls + 'verificationCode/verificationCode.do?'
   function handleOk() {

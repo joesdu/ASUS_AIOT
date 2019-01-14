@@ -138,12 +138,24 @@ const Devices = ({
             <div>
               <div>
                 <Fragment>
-                  <a onClick={logClick(record.nameAndID.deviceId)}>日志</a>
+                  <a
+                    onClick={dispatch({
+                      type: "devices/toLogPage",
+                      payload: e
+                    })}
+                  >
+                    日志
+                  </a>
                 </Fragment>
               </div>
               <div>
                 <Fragment>
-                  <a onClick={detailClick(record.nameAndID.deviceId)}>
+                  <a
+                    onClick={dispatch({
+                      type: "devices/toDetailPage",
+                      payload: e
+                    })}
+                  >
                     设备详情
                   </a>
                 </Fragment>
@@ -153,9 +165,9 @@ const Devices = ({
         } else {
           return (
             <div>
-              <Fragment>
+              {/* <Fragment>
                 <a onClick={logClick(record.nameAndID.deviceId)}>日志</a>
-              </Fragment>
+              </Fragment> */}
             </div>
           );
         }
