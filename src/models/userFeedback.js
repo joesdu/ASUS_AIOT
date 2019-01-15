@@ -81,9 +81,10 @@ export default {
       }
     },
     *updateFeedback({ payload }, { call, put }) {
-      const data = yield call(feedbackUpdateApi, payload);
+      const data = yield call(feedbackUpdateApi, payload.update);
       if (data.code == 0) {
         message.info("更新成功:" + data.msg);
+        yield put({ type: "feedbackList", payload: payload.query });
       } else {
         message.error("更新失败:" + data.msg);
       }

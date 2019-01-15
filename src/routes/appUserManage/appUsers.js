@@ -180,13 +180,8 @@ const AppUsers = ({
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
                   <FormItem label="应用" style={{ marginLeft: 30 }}>
-                    {getFieldDecorator("appSource", { initialValue: "全部" })(
-                      <Select placeholder="全部" style={{ width: "100%" }}>
-                        <Option value={"全部"}>全部</Option>
-                        <Option value={1}>11111</Option>
-                        <Option value={2}>22222</Option>
-                        <Option value={3}>33333</Option>
-                      </Select>
+                    {getFieldDecorator("appSource")(
+                      < Input placeholder="请输入" />
                     )}
                   </FormItem>
                 </Col>

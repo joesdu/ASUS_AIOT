@@ -61,7 +61,7 @@ const UserFeedback = ({
       title: "状态",
       dataIndex: "isProcessed",
       render: (text, record) => {
-        if (record.isProcessed == "已处理") {
+        if (record.isProcessed == "1" || record.isProcessed == 1) {
           return <div style={{ color: "#272727" }}>已处理</div>;
         } else {
           return <div style={{ color: "#1E1E1E" }}>未处理</div>;
@@ -81,18 +81,9 @@ const UserFeedback = ({
       render: (text, record) => {
         return (
           <div>
-            <div>
-              <Fragment>
-                <a
-                  onClick={showModal.bind(this, {
-                    feedbackId: record.feedbackId,
-                    isProcessed: record.isProcessed
-                  })}
-                >
-                  标记
-                </a>
-              </Fragment>
-            </div>
+            <Fragment>
+              <a onClick={showModal.bind(this, { feedbackId: record.feedbackId, isProcessed: record.isProcessed })}>标记</a>
+            </Fragment>
           </div>
         );
       }
@@ -224,12 +215,17 @@ const UserFeedback = ({
         </div>
       ),
       onOk() {
-        if (e.isProcessed == "已处理") {
+        if (e.isProcessed == "1" || e.isProcessed == 1) {
           e.isProcessed = 0;
         } else {
           e.isProcessed = 1;
         }
-        let _object = { feedbackId: e.feedbackId, isProcessed: e.isProcessed, userToken: localStorage.getItem("userToken") };
+        let values = getFieldsValue();
+        let _value = getJsonPrams(values, pageindex, pagesize);
+        let _object = {
+          update: { feedbackId: e.feedbackId, isProcessed: e.isProcessed, userToken: localStorage.getItem("userToken") },
+          query: _value
+        };
         dispatch({ type: "userFeedback/updateFeedback", payload: _object });
       },
       onCancel() {
@@ -309,11 +305,7 @@ const UserFeedback = ({
           pagination={false}
         />
         <Pagination
-          style={{
-            padding: "20px 0 0",
-            textAlign: "center",
-            marginBottom: "10px"
-          }}
+          style={{ padding: "20px 0 0", textAlign: "center", marginBottom: "10px" }}
           showSizeChanger
           showQuickJumper
           showTotal={showTotal}

@@ -93,11 +93,7 @@ const DeviceLogs = ({
                     pagination={false}
                 />
                 <Pagination
-                    style={{
-                        padding: "20px 0 0",
-                        textAlign: "center",
-                        marginBottom: "10px"
-                    }}
+                    style={{ padding: "20px 0 0", textAlign: "center", marginBottom: "10px" }}
                     showSizeChanger
                     showQuickJumper
                     showTotal={showTotal}
