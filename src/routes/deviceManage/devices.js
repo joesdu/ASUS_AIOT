@@ -322,9 +322,7 @@ const Devices = ({
                 </Col>
                 <Col md={8} sm={24}>
                   <FormItem label="是否激活" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator("isAct", {
-                      initialValue: "全部"
-                    })(
+                    {getFieldDecorator("isAct", { initialValue: "全部" })(
                       <Select placeholder="全部" style={{ width: "100%" }}>
                         <Option value={"全部"}>全部</Option>
                         <Option value={"未激活"}>未激活</Option>
@@ -335,9 +333,7 @@ const Devices = ({
                 </Col>
                 <Col md={8} sm={24}>
                   <FormItem label="是否在线" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator("status", {
-                      initialValue: "全部"
-                    })(
+                    {getFieldDecorator("status", { initialValue: "全部" })(
                       <Select placeholder="全部" style={{ width: "100%" }}>
                         <Option value={"全部"}>全部</Option>
                         <Option value={"离线"}>离线</Option>
@@ -350,9 +346,7 @@ const Devices = ({
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
                   <FormItem label="产品" style={{ marginLeft: 30 }}>
-                    {getFieldDecorator("productId", {
-                      initialValue: "全部"
-                    })(
+                    {getFieldDecorator("productId", { initialValue: "全部" })(
                       <Select placeholder="全部" style={{ width: "100%" }}>
                         <Option value={null}>全部</Option>
                         {deviceProductListData.map(product => (
@@ -366,9 +360,7 @@ const Devices = ({
                 </Col>
                 <Col md={8} sm={24}>
                   <FormItem label="渠道" style={{ marginLeft: 30 }}>
-                    {getFieldDecorator("source", {
-                      initialValue: "全部"
-                    })(
+                    {getFieldDecorator("source", { initialValue: "全部" })(
                       <Select placeholder="全部" style={{ width: "100%" }}>
                         <Option value={"全部"}>全部</Option>
                         <Option value={"Android"}>Android</Option>

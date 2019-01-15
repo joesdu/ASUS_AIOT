@@ -1,14 +1,12 @@
 import React, { Fragment } from "react";
 import { connect } from "dva";
 import moment from "moment";
-import { Pagination, Table, Row, Col, Card, Form, Input, Select, Button, DatePicker, message } from "antd";
+import { Table, Row, Col, Card, Form, message } from "antd";
 import styles from "../TableList.less";
 import styles2 from "../main.less";
 import $ from "jquery";
 
 const FormItem = Form.Item;
-const { Option } = Select;
-const { RangePicker } = DatePicker;
 
 const DeviceDetail = ({
   deviceDetail,
@@ -33,7 +31,46 @@ const DeviceDetail = ({
     }
   };
 
-  const getRows = key => { };
+  const getRow = (data) => {
+    let rowNum = parseInt((data.length - 1) / 3) + 1;
+    const children = [];
+    let index = 0;
+    for (let i = 0; i < rowNum; i++) {
+      let functionStatus = [];
+      if (data.length >= i * 3)
+        functionStatus = [data[index], data[index + 1], data[index + 2]];
+      else {
+        let temp = i * 3 - data.length;
+        if (temp == 2) {
+          functionStatus = [data[index]];
+        }
+        if (temp == 1) {
+          functionStatus = [data[index], data[index + 1]];
+        }
+      }
+      children.push(
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          {getCol(functionStatus)}
+        </Row>
+      );
+      index = index + 3;
+    }
+    return children;
+  };
+
+  const getCol = (data) => {
+    const children = [];
+    for (let i = 0; i < data.length; i++) {
+      children.push(
+        <Col md={8} sm={24}>
+          <FormItem label={data.name}>
+            <label>{data.value}</label>
+          </FormItem>
+        </Col>
+      );
+    }
+    return children;
+  };
 
   return (
     <div>
@@ -164,30 +201,7 @@ const DeviceDetail = ({
         <div className={styles.tableList}>
           <div className={styles.tableListForm}>
             <Form layout="inline">
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="开关">
-                    <label>是</label>
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="模式">
-                    <label>阅读模式</label>
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="亮度">
-                    <label>35</label>
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="色温">
-                    <label>3570</label>
-                  </FormItem>
-                </Col>
-              </Row>
+              {getRow(data.functionStatus)}
             </Form>
           </div>
         </div>
