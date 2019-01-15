@@ -3,7 +3,9 @@ import { message } from "antd";
 
 export default {
   namespace: "deviceDetail",
-  state: { data: [] },
+  state: {
+    detailData: {}
+  },
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen(location => {
@@ -29,7 +31,7 @@ export default {
   reducers: {
     //返回数据列表
     querySuccess(state, action) {
-      return { ...state, data: action.payload };
+      return { ...state, detailData: action.payload };
     }
   }
 };
