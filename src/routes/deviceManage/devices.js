@@ -114,22 +114,12 @@ const Devices = ({
             <div>
               <div>
                 <Fragment>
-                  <a
-                  /* onClick={dispatch({
-                    type: "devices/toLogPage",
-                    payload: e
-                  })} */
-                  >
-                    日志
-                  </a>
+                  <Link to={{ pathname: `./deviceLogs`, state: { deviceId: record.nameAndID.deviceId } }}>日志</Link>
                 </Fragment>
               </div>
               <div>
                 <Fragment>
-                  <Link to={{
-                    pathname: "/deviceLogs",
-                    query: { deviceId: record.nameAndID.deviceId }
-                  }} >设备详情</Link>
+                  <Link to={{ pathname: `./deviceDetail`, state: { deviceId: record.nameAndID.deviceId } }}>设备详情</Link>
                 </Fragment>
               </div>
             </div>
@@ -137,9 +127,9 @@ const Devices = ({
         } else {
           return (
             <div>
-              {/* <Fragment>
-                <a onClick={logClick(record.nameAndID.deviceId)}>日志</a>
-              </Fragment> */}
+              <Fragment>
+                <Link to={{ pathname: `./deviceLogs`, state: { deviceId: record.nameAndID.deviceId } }}>日志</Link>
+              </Fragment>
             </div>
           );
         }
@@ -432,11 +422,7 @@ const Devices = ({
           pagination={false}
         />
         <Pagination
-          style={{
-            padding: "20px 0 0",
-            textAlign: "center",
-            marginBottom: "10px"
-          }}
+          style={{ padding: "20px 0 0", textAlign: "center", marginBottom: "10px" }}
           showSizeChanger
           showQuickJumper
           showTotal={showTotal}

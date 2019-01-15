@@ -42,7 +42,7 @@ const DeviceLogs = ({
     const getJsonPrams = (pageNum, pageRows) => {
         return {
             userToken: localStorage.getItem("userToken"),
-            deviceId: deviceId,
+            deviceId: localStorage.getItem("deviceId"),
             firstRow: null,
             pageNum: pageNum,
             pageRows: pageRows
@@ -59,27 +59,13 @@ const DeviceLogs = ({
     const onShowSizeChange = (current, pageSize) => {
         let postObj = getJsonPrams(current - 1, pageSize);
         dispatch({ type: "deviceLogs/setPage", payload: current, size: pageSize });
-        //判断查询条件
-        if (JSON.stringify(searchList) !== "{}") {
-            let _c = {};
-            _c = $.extend(postObj, searchList);
-            dispatch({ type: "deviceLogs/queryRule", payload: postObj });
-        } else {
-            dispatch({ type: "deviceLogs/queryRule", payload: postObj });
-        }
+        dispatch({ type: "deviceLogs/queryRule", payload: postObj });
     };
 
     const getNowPage = (current, pageSize) => {
         let postObj = getJsonPrams(current - 1, pageSize);
         dispatch({ type: "deviceLogs/setPage", payload: current, size: pageSize });
-        //判断查询条件
-        if (JSON.stringify(searchList) !== "{}") {
-            let _c = {};
-            _c = $.extend(postObj, searchList);
-            dispatch({ type: "deviceLogs/queryRule", payload: postObj });
-        } else {
-            dispatch({ type: "deviceLogs/queryRule", payload: postObj });
-        }
+        dispatch({ type: "deviceLogs/queryRule", payload: postObj });
     };
     /**分页合集 end **/
 

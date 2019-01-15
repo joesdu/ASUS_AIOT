@@ -12,7 +12,8 @@ export default {
       pageCount: 0
     }, //分页数据
     pageindex: 1, //分页开始 第几页
-    pagesize: 10 //返回条数
+    pagesize: 10, //返回条数
+    deviceId: 0
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -22,12 +23,13 @@ export default {
           let _ars = {
             userToken: localStorage.getItem("userToken"),
             //deviceId: location.deviceId,
-            deviceId: location.query.deviceId,
+            deviceId: location.state.deviceId,
             firstRow: null,
             pageNum: 0,
             pageRows: 10
           };
-          dispatch({ type: "queryRule", payload: _ars });
+          localStorage.setItem("deviceId", location.state.deviceId),
+            dispatch({ type: "queryRule", payload: _ars });
         }
       });
     }
@@ -46,7 +48,7 @@ export default {
           _pag.pageCount = 0;
         else
           _pag.pageCount = parseInt((result.totalRows - 1) / result.pageRows) + 1;
-        yield put({ type: "querySuccess", payload: result.deviceLogs, page: _pag });
+        yield put({ type: "querySuccess", payload: result.deviceLogs, page: _pag, deviceId: payload.deviceId });
       } else {
         message.error("获取数据失败,错误信息:" + data.msg);
       }
@@ -65,7 +67,7 @@ export default {
     },
     //返回数据列表
     querySuccess(state, action) {
-      return { ...state, data: action.payload, pagination: action.page };
+      return { ...state, data: action.payload, pagination: action.page, deviceId: action.deviceId };
     },
     //分页参数
     setPage(state, action) {

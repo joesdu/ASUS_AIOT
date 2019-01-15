@@ -1,10 +1,11 @@
 import { userDetailApi } from "../services/api";
 import { message } from "antd";
+import { $ } from "jquery"
 
 export default {
     namespace: "userDetail",
     state: {
-        data: []
+        data: {}
     },
     subscriptions: {
         setup({ dispatch, history }) {
@@ -12,13 +13,10 @@ export default {
                 //页面初始化执行
                 if (location.pathname === "/userDetail") {
                     let _ars = {
-                        userId: 0,
+                        userId: location.state.userId,
                         userToken: localStorage.getItem("userToken")
                     };
-                    dispatch({
-                        type: "queryRule",
-                        payload: _ars
-                    });
+                    dispatch({ type: "queryRule", payload: _ars });
                 }
             });
         }
@@ -37,10 +35,7 @@ export default {
     reducers: {
         //返回数据列表
         querySuccess(state, action) {
-            return {
-                ...state,
-                data: action.payload
-            };
+            return { ...state, data: action.payload };
         }
     }
 };

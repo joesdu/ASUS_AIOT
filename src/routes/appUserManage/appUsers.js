@@ -5,6 +5,7 @@ import { Link } from "dva/router";
 import { Pagination, Table, Row, Col, Card, Form, Input, Select, Button, message } from "antd";
 import styles from "../TableList.less";
 import $ from "jquery";
+import { Redirect } from 'react-router-dom';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -77,7 +78,7 @@ const AppUsers = ({
         return (
           <div>
             <Fragment>
-              <Link to="./userDetail">查看详情</Link>
+              <Link to={{ pathname: `./userDetail`, state: { userId: record.userId } }}>查看详情</Link>
             </Fragment>
           </div>
         );
@@ -228,11 +229,7 @@ const AppUsers = ({
           pagination={false}
         />
         <Pagination
-          style={{
-            padding: "20px 0 0",
-            textAlign: "center",
-            marginBottom: "10px"
-          }}
+          style={{ padding: "20px 0 0", textAlign: "center", marginBottom: "10px" }}
           showSizeChanger
           showQuickJumper
           showTotal={showTotal}

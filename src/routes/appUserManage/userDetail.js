@@ -1,7 +1,9 @@
 import React, { Fragment } from "react";
 import { connect } from "dva";
-import { Pagination, Table, Card, Form, message } from "antd";
+import { Table, Row, Col, Card, Form } from "antd";
 import styles from "../TableList.less";
+
+const FormItem = Form.Item;
 
 const UserDetail = ({
   userDetail,
@@ -99,7 +101,7 @@ const UserDetail = ({
                 </Col>
                 <Col md={8} sm={24}>
                   <FormItem label="绑定设备">
-                    <label>{data.deviceNum}个设备</label>
+                    <label style={{ fontWeight: "bold" }}>{data.deviceNum}个设备</label>
                   </FormItem>
                 </Col>
               </Row>
@@ -111,7 +113,7 @@ const UserDetail = ({
         <Table
           columns={columns}
           dataSource={data.devices}
-          bordered
+          bordered={false}
           pagination={false}
         />
       </Card>
