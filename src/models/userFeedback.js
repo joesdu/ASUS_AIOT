@@ -56,10 +56,7 @@ export default {
         for (var i = 0; i < feedbacks.length; i++) {
           feedbackData[i] = {
             description: feedbacks[i].description,
-            mobileAndNickname: {
-              mobile: feedbacks[i].mobile,
-              nickname: feedbacks[i].nickname
-            },
+            mobileAndNickname: { mobile: feedbacks[i].mobile, nickname: feedbacks[i].nickname },
             productName: feedbacks[i].productName,
             createTime: feedbacks[i].createTime,
             feedbackId: feedbacks[i].feedbackId,

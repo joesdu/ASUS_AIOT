@@ -77,7 +77,7 @@ const ActivelyData = ({
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
                   <FormItem label="产品" style={{ marginLeft: 30 }}>{getFieldDecorator("productId", { initialValue: "全部" })(
-                    <Select placeholder="全部" onChange={handleChange} style={{ width: "100%" }}                    >
+                    <Select placeholder="全部" onChange={handleChange} style={{ width: "100%" }}>
                       <Option value={0}>全部</Option>
                       {deviceProductListData.map(product => (
                         <Option value={product.productId}>

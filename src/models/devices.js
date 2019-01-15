@@ -66,19 +66,10 @@ export default {
         let devices = result.devices;
         for (var i = 0; i < devices.length; i++) {
           deviceListData[i] = {
-            nameAndID: {
-              deviceName: devices[i].deviceName,
-              deviceId: devices[i].deviceId
-            },
+            nameAndID: { deviceName: devices[i].deviceName, deviceId: devices[i].deviceId },
             states: { isAct: devices[i].isAct, status: devices[i].status },
-            productsAndUUID: {
-              productName: devices[i].productName,
-              uuid: devices[i].uuid
-            },
-            mobileAndSource: {
-              mobile: devices[i].mobile,
-              source: devices[i].source
-            },
+            productsAndUUID: { productName: devices[i].productName, uuid: devices[i].uuid },
+            mobileAndSource: { mobile: devices[i].mobile, source: devices[i].source },
             firstActTime: devices[i].actTime,
             lastActTime: devices[i].lastActTime,
             updateTime: devices[i].updateTime,

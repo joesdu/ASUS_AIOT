@@ -1,10 +1,7 @@
 import React, { Fragment } from "react";
 import { connect } from "dva";
-import moment from "moment";
 import { Table, Row, Col, Card, Form, message } from "antd";
 import styles from "../TableList.less";
-import styles2 from "../main.less";
-import $ from "jquery";
 
 const FormItem = Form.Item;
 

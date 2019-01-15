@@ -15,11 +15,7 @@ export default {
     setup({ dispatch, history }) {
       history.listen(location => {
         if (location.pathname === "/activelyData") {
-          let _ars = {
-            userToken: localStorage.getItem("userToken"),
-            period: 7,
-            productId: 0
-          };
+          let _ars = { userToken: localStorage.getItem("userToken"), period: 7, productId: 0 };
           dispatch({ type: "ActiveSummary", payload: _ars });
           dispatch({ type: "DeviceActive", payload: _ars });
           dispatch({ type: "ProductList" });
@@ -69,26 +65,17 @@ export default {
   reducers: {
     //返回数据列表
     ActiveSummarySuccess(state, action) {
-      return {
-        ...state,
-        activeSummaryData: action.payload
-      };
+      return { ...state, activeSummaryData: action.payload };
     },
     DeviceActiveSuccess(state, action) {
-      return {
-        ...state,
-        activeData: action.payload
-      };
+      return { ...state, activeData: action.payload };
     },
     ProductListSuccess(state, action) {
       return { ...state, deviceProductListData: action.payload };
     },
     //改变状态
     selected(state, payload) {
-      return {
-        ...state,
-        selected: payload.payload
-      };
+      return { ...state, selected: payload.payload };
     }
   }
 };

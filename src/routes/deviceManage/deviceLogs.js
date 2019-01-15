@@ -50,11 +50,7 @@ const DeviceLogs = ({
     };
 
     /**分页合集 start **/
-    const showTotal = total => {
-        return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${
-            pagination.pageCount
-            } 页`;
-    };
+    const showTotal = total => { return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${pagination.pageCount} 页`; };
 
     const onShowSizeChange = (current, pageSize) => {
         let postObj = getJsonPrams(current - 1, pageSize);
