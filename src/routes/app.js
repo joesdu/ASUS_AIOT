@@ -96,7 +96,6 @@ const App = ({ children, dispatch, app, loading, location }) => {
       <Helmet>
         <title>A豆云平台后台系统</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="./images/favicon.ico" type="image/x-icon" />
         {iconFontJS && <script src={iconFontJS} />}
         {iconFontCSS && <link rel="stylesheet" href={iconFontCSS} />}
       </Helmet>

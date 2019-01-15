@@ -120,7 +120,7 @@ const Dashboard = ({
 					</div>
 				</div>
 			</Card>
-			<Card title='营销应用' style={{ marginTop: '15px' }}>
+			{/* <Card title='营销应用' style={{ marginTop: '15px' }}>
 				<div className={styles.indexBtmFlex}>
 					<div>
 						<div className={classnames({ [styles.img]: true, [styles.img1]: true })}>
@@ -179,7 +179,7 @@ const Dashboard = ({
 						</div>
 					</div>
 				</div>
-			</Card>
+			</Card> */}
 		</div>
 	)
 }

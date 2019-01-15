@@ -3,7 +3,7 @@ import config from "config";
 import * as menusService from "services/menus";
 import queryString from "query-string";
 import { message } from "antd";
-import { backUserLogoutApi} from "../services/api"
+import { backUserLogoutApi } from "../services/api"
 
 const { prefix } = config;
 
@@ -107,12 +107,18 @@ export default {
     },
     //退出登录
     *logout({ payload }, { call, put }) {
-      console.log(payload);
       const data = yield call(backUserLogoutApi, payload);
       if (data.code == 0) {
         message.success("退出成功");
         localStorage.removeItem("userToken");
         localStorage.removeItem("userName");
+        yield put(
+          routerRedux.push({
+            pathname: "/login"
+          })
+        );
+      } else if (data.code == -105) {
+        message.info(data.msg);
         yield put(
           routerRedux.push({
             pathname: "/login"

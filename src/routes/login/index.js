@@ -54,7 +54,6 @@ const Login = ({
         let md = forge.md.md5.create();
         md.update(values.pwd);
         values.pwd = md.digest().toHex();
-        console.log(values.pwd);
         dispatch({ type: "login/login", payload: values });
       }
     });
@@ -64,7 +63,6 @@ const Login = ({
   // }
   return (
     <div classNanme={styles.box}>
-      <link rel="icon" href="./images/favicon.ico" type="image/x-icon" />
       <div className={styles.form}>
         <div className={styles.logo}>
           <span>A豆云平台后台系统</span>

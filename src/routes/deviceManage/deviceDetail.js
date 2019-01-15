@@ -118,16 +118,6 @@ const DeviceDetail = ({
                 </Col>
               </Row>
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                {/* <Col md={8} sm={24}>
-                  <FormItem label="WiFi固件版本">
-                    <label>1.2.31-12</label>
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="MCU固件版本">
-                    <label>3.33.290-23fd</label>
-                  </FormItem>
-                </Col> */}
                 <Col md={8} sm={24}>
                   <FormItem label="首次激活时间">
                     <label>{detailData.firstActTime}</label>
