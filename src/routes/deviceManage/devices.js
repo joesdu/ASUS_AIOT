@@ -137,16 +137,6 @@ const Devices = ({
     }
   ];
 
-  const logClick = e => {
-    console.log(e);
-    dispatch({ type: "devices/toLogPage", payload: e });
-  };
-
-  const detailClick = e => {
-    console.log(e);
-    dispatch({ type: "devices/toDetailPage", payload: e });
-  };
-
   const getJsonPrams = (parm, pageNum, pageRows) => {
     let actTimeEnd = null;
     try {
@@ -190,7 +180,6 @@ const Devices = ({
     } else if (parm.status == "在线") {
       status = 1;
     }
-
     return {
       userToken: localStorage.getItem("userToken"),
       actTimeEnd: actTimeEnd,
@@ -204,8 +193,7 @@ const Devices = ({
       mobile: parm.mobile == null || parm.mobile == "" ? null : parm.mobile,
       pageNum: pageNum,
       pageRows: pageRows,
-      productId:
-        parm.productId == null || parm.productId == "" ? null : parm.productId,
+      productId: parm.productId == null || parm.productId == "" ? null : parm.productId,
       source: source,
       status: status,
       updateTimeEnd: updateTimeEnd,

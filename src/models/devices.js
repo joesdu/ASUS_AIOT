@@ -89,14 +89,6 @@ export default {
       } else {
         message.error("获取产品列表数据失败,错误信息:" + data.msg);
       }
-    },
-    *toLogPage({ payload }, { put }) {
-      yield put(routerRedux.push("/deviceLogs", { deviceId: payload.payload }));
-    },
-    *toDetailPage({ payload }, { put }) {
-      yield put(
-        routerRedux.push("/deviceDetail", { deviceId: payload.payload })
-      );
     }
   },
   reducers: {
