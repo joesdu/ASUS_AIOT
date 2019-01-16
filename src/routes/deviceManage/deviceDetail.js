@@ -159,7 +159,6 @@ const DeviceDetail = ({
                 <Col md={8} sm={24}>
                   <FormItem label="当前在线">
                     {getOnline(detailData.onlineStatus)}
-                    <label>是</label>
                   </FormItem>
                 </Col>
                 <Col md={8} sm={24}>
