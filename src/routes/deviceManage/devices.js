@@ -180,6 +180,12 @@ const Devices = ({
     } else if (parm.status == "在线") {
       status = 1;
     }
+    let productId = null;
+    if (parm.productId == null || parm.productId == "" || parm.productId == "全部") {
+      productId = null;
+    } else {
+      productId = parm.productId;
+    }
     return {
       userToken: localStorage.getItem("userToken"),
       actTimeEnd: actTimeEnd,
@@ -193,7 +199,7 @@ const Devices = ({
       mobile: parm.mobile == null || parm.mobile == "" ? null : parm.mobile,
       pageNum: pageNum,
       pageRows: pageRows,
-      productId: parm.productId == null || parm.productId == "" ? null : parm.productId,
+      productId: productId,
       source: source,
       status: status,
       updateTimeEnd: updateTimeEnd,
@@ -245,6 +251,7 @@ const Devices = ({
   const onShowSizeChange = (current, pageSize) => {
     let values = getFieldsValue();
     let postObj = getJsonPrams(values, current - 1, pageSize);
+    console.log(postObj)
     dispatch({ type: "devices/setPage", payload: current, size: pageSize });
     //判断查询条件
     if (JSON.stringify(searchList) !== "{}") {
@@ -259,6 +266,7 @@ const Devices = ({
   const getNowPage = (current, pageSize) => {
     let values = getFieldsValue();
     let postObj = getJsonPrams(values, current - 1, pageSize);
+    console.log(postObj)
     dispatch({ type: "devices/setPage", payload: current, size: pageSize });
     //判断查询条件
     if (JSON.stringify(searchList) !== "{}") {
