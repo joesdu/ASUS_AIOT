@@ -14,16 +14,13 @@ const Devices = ({
   devices,
   loading,
   dispatch,
-  formValues, //搜索条件
   form: {
     getFieldDecorator,
-    validateFieldsAndScroll,
-    validateFields,
     setFieldsValue,
     getFieldsValue
   }
 }) => {
-  let { deviceListData, deviceProductListData, pagination, searchList, pageindex, pagesize } = devices;
+  let { deviceListData, deviceProductListData, pagination, searchList, pageIndex, pagesize } = devices;
   //定义表头
   const columns = [
     {
@@ -216,7 +213,7 @@ const Devices = ({
       message.warning("请选择查询条件");
       return;
     }
-    let _value = getJsonPrams(values, pageindex, pagesize);
+    let _value = getJsonPrams(values, pageIndex, pagesize);
     //赛选数据
     dispatch({ type: "devices/devicesList", payload: _value });
 

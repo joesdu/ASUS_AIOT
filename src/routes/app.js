@@ -28,7 +28,7 @@ const App = ({ children, dispatch, app, loading, location }) => {
   const current = menu.filter(item =>
     pathToRegexp(item.route || "").exec(pathname)
   );
-  //查看当前href是否在menu中
+  //查看当前 href 是否在menu中
   //const hasPermission = current.length ? permissions.visit.includes(current[0].id) : false
   //判断是否在router.js中
   const hasPermission = true;
@@ -50,7 +50,7 @@ const App = ({ children, dispatch, app, loading, location }) => {
     menuPopoverVisible,
     navOpenKeys,
     switchMenuPopover() {
-      dispatch({ type: "app/switchMenuPopver" });
+      dispatch({ type: "app/switchMenuPopover" });
     },
     logout() {
       let _arr = { userToken: localStorage.getItem("userToken") }

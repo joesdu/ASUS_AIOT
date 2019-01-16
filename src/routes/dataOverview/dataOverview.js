@@ -12,10 +12,7 @@ const DataOverview = ({
   loading,
   dispatch,
   form: {
-    getFieldDecorator,
-    validateFieldsAndScroll,
-    setFieldsValue,
-    getFieldsValue
+    getFieldDecorator
   }
 }) => {
   let { overviewData, activateData, activeData, areaData, deviceProductListData, activateSelected, activeSelected, areaSelected } = dataOverview;

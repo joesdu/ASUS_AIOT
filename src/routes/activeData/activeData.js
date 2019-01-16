@@ -16,10 +16,7 @@ const ActiveData = ({
   loading,
   dispatch,
   form: {
-    getFieldDecorator,
-    validateFieldsAndScroll,
-    setFieldsValue,
-    getFieldsValue
+    getFieldDecorator
   }
 }) => {
   let { activateSummaryData, activateData, deviceProductListData, selected } = activeData;

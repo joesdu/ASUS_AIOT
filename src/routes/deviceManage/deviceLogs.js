@@ -3,21 +3,13 @@ import { connect } from "dva";
 import moment from "moment";
 import { Pagination, Table, Card, Form, message } from "antd";
 import styles from "../TableList.less";
-import $ from "jquery";
 
 const DeviceLogs = ({
     deviceLogs,
     loading,
-    dispatch,
-    form: {
-        getFieldDecorator,
-        validateFieldsAndScroll,
-        validateFields,
-        setFieldsValue,
-        getFieldsValue
-    }
+    dispatch
 }) => {
-    let { data, pagination, pageindex, pagesize } = deviceLogs;
+    let { data, pagination, deviceId } = deviceLogs;
 
     //定义表头
     const columns = [
@@ -42,7 +34,7 @@ const DeviceLogs = ({
     const getJsonPrams = (pageNum, pageRows) => {
         return {
             userToken: localStorage.getItem("userToken"),
-            deviceId: localStorage.getItem("deviceId"),
+            deviceId: deviceId,
             firstRow: null,
             pageNum: pageNum,
             pageRows: pageRows
@@ -50,17 +42,15 @@ const DeviceLogs = ({
     };
 
     /**分页合集 start **/
-    const showTotal = total => { return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${pagination.pageCount} 页`; };
+    const showTotal = () => { return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${pagination.pageCount} 页`; };
 
     const onShowSizeChange = (current, pageSize) => {
         let postObj = getJsonPrams(current - 1, pageSize);
-        dispatch({ type: "deviceLogs/setPage", payload: current, size: pageSize });
         dispatch({ type: "deviceLogs/queryRule", payload: postObj });
     };
 
     const getNowPage = (current, pageSize) => {
         let postObj = getJsonPrams(current - 1, pageSize);
-        dispatch({ type: "deviceLogs/setPage", payload: current, size: pageSize });
         dispatch({ type: "deviceLogs/queryRule", payload: postObj });
     };
     /**分页合集 end **/

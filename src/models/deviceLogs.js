@@ -11,8 +11,6 @@ export default {
       current: 0,
       pageCount: 0
     }, //分页数据
-    pageindex: 1, //分页开始 第几页
-    pagesize: 10, //返回条数
     deviceId: 0
   },
   subscriptions: {
@@ -22,14 +20,12 @@ export default {
         if (location.pathname === "/deviceLogs") {
           let _ars = {
             userToken: localStorage.getItem("userToken"),
-            //deviceId: location.deviceId,
             deviceId: location.state.deviceId,
             firstRow: null,
             pageNum: 0,
             pageRows: 10
           };
-          localStorage.setItem("deviceId", location.state.deviceId),
-            dispatch({ type: "queryRule", payload: _ars });
+          dispatch({ type: "queryRule", payload: _ars });
         }
       });
     }
@@ -59,19 +55,12 @@ export default {
       return {
         ...state,
         data: [],
-        pagination: {}, //分页数据
-        searchList: {}, //查询条件
-        pageindex: 1, //分页开始 第几页
-        pagesize: 10 //返回条数
+        pagination: {}
       };
     },
     //返回数据列表
     querySuccess(state, action) {
       return { ...state, data: action.payload, pagination: action.page, deviceId: action.deviceId };
-    },
-    //分页参数
-    setPage(state, action) {
-      return { ...state, pageindex: action.payload, pagesize: action.pageSize };
     }
   }
 };

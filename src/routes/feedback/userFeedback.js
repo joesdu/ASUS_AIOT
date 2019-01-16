@@ -8,22 +8,18 @@ import $ from "jquery";
 const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
-const RadioGroup = Radio.Group;
 
 const UserFeedback = ({
   userFeedback,
   loading,
   dispatch,
-  formValues, //搜索条件
   form: {
     getFieldDecorator,
-    validateFieldsAndScroll,
-    validateFields,
     setFieldsValue,
     getFieldsValue
   }
 }) => {
-  let { feedbackData, deviceProductListData, pagination, searchList, pageindex, pagesize, visible } = userFeedback;
+  let { feedbackData, deviceProductListData, pagination, searchList, pageIndex, pagesize } = userFeedback;
 
   //定义表头
   const columns = [
@@ -131,7 +127,7 @@ const UserFeedback = ({
       message.warning("请选择查询条件");
       return;
     }
-    let _value = getJsonPrams(values, pageindex, pagesize);
+    let _value = getJsonPrams(values, pageIndex, pagesize);
     //赛选数据
     dispatch({ type: "userFeedback/feedbackList", payload: _value });
 
@@ -221,7 +217,7 @@ const UserFeedback = ({
           e.isProcessed = 1;
         }
         let values = getFieldsValue();
-        let _value = getJsonPrams(values, pageindex, pagesize);
+        let _value = getJsonPrams(values, pageIndex, pagesize);
         let _object = {
           update: { feedbackId: e.feedbackId, isProcessed: e.isProcessed, userToken: localStorage.getItem("userToken") },
           query: _value

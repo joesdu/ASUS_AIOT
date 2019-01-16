@@ -14,16 +14,13 @@ const AppUsers = ({
   appUsers,
   loading,
   dispatch,
-  formValues, //搜索条件
   form: {
     getFieldDecorator,
-    validateFieldsAndScroll,
-    validateFields,
     setFieldsValue,
     getFieldsValue
   }
 }) => {
-  let { data, pagination, searchList, pageindex, pagesize } = appUsers;
+  let { data, pagination, searchList, pageIndex, pagesize } = appUsers;
   //定义表头
   const columns = [
     {
@@ -112,7 +109,7 @@ const AppUsers = ({
       message.warning("请选择查询条件");
       return;
     }
-    let _value = getJsonPrams(values, pageindex, pagesize);
+    let _value = getJsonPrams(values, pageIndex, pagesize);
     //赛选数据
     dispatch({ type: "appUsers/queryRule", payload: _value });
 
@@ -141,7 +138,7 @@ const AppUsers = ({
   };
 
   /**分页合集 start **/
-  const showTotal = total => { return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${pagination.pageCount} 页`; };
+  const showTotal = () => { return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${pagination.pageCount} 页`; };
 
   const onShowSizeChange = (current, pageSize) => {
     let values = getFieldsValue();

@@ -125,7 +125,7 @@ export default {
           })
         );
       } else {
-        message.errror("退出失败");
+        message.error("退出失败");
       }
     },
     *changeNavbar(action, { put, select }) {
@@ -159,7 +159,7 @@ export default {
       };
     },
 
-    switchMenuPopver(state) {
+    switchMenuPopover(state) {
       return {
         ...state,
         menuPopoverVisible: !state.menuPopoverVisible

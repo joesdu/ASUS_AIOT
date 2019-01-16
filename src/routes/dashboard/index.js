@@ -1,27 +1,13 @@
-import React, { PureComponent, Fragment } from 'react';
+import React from 'react';
 import { connect } from 'dva';
-import moment from 'moment';
-import { Table, Alert, Layout, Tabs, Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, InputNumber, DatePicker, Modal, message, Badge, Divider } from 'antd';
+import { Card, Form, Icon } from 'antd';
 import styles from './TableList.less';
-import $ from 'jquery';
-import classnames from 'classnames';
 
 const ReactHighcharts = require('react-highcharts');
-const FormItem = Form.Item;
-const { Option } = Select;
-const TabPane = Tabs.TabPane;
-const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
 const Dashboard = ({
 	home,
-	loading,
-	dispatch,
-	form: {
-		getFieldDecorator,
-		validateFieldsAndScroll,
-		setFieldsValue,
-		getFieldsValue
-	},
+	loading
 }) => {
 
 	let { overviewData, activateData, activeData } = home;

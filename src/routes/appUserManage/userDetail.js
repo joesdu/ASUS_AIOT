@@ -7,15 +7,7 @@ const FormItem = Form.Item;
 
 const UserDetail = ({
   userDetail,
-  loading,
-  dispatch,
-  form: {
-    getFieldDecorator,
-    validateFieldsAndScroll,
-    validateFields,
-    setFieldsValue,
-    getFieldsValue
-  }
+  loading
 }) => {
   let { data } = userDetail;
 

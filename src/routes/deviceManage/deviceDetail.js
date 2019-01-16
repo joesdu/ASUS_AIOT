@@ -7,8 +7,7 @@ const FormItem = Form.Item;
 
 const DeviceDetail = ({
   deviceDetail,
-  loading,
-  dispatch
+  loading
 }) => {
   let { detailData } = deviceDetail;
 

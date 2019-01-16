@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { connect } from "dva";
 import { Button, Row, Form, Input, Checkbox } from "antd";
 import styles from "./login.less";
@@ -38,7 +37,7 @@ const Login = ({
   // 	document.getElementById('imgs').src = _url + Math.random();
   // }
   return (
-    <div classNanme={styles.box}>
+    <div className={styles.box}>
       <div className={styles.form}>
         <div className={styles.logo}>
           <span>A豆云平台后台系统</span>
@@ -86,7 +85,7 @@ const Login = ({
 						<img id='imgs' onClick={changeCode} style={{ marginLeft: '30px' }} src={_url} />
 						<div className={styles.iconCode}></div>
 					</FormItem> 
-          <div className={styles.checxBox}>
+          <div className={styles.checkBox}>
             <Checkbox>记住密码</Checkbox>
           </div>*/}
           <Button type="primary" size="large" onClick={handleOk}>

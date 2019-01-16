@@ -12,7 +12,7 @@ export default {
       pageCount: 0
     }, //分页数据
     searchList: {}, //查询条件
-    pageindex: 0, //分页开始 第几页
+    pageIndex: 0, //分页开始 第几页
     pagesize: 10 //返回条数
   },
   subscriptions: {
@@ -67,7 +67,7 @@ export default {
         data: [],
         pagination: {}, //分页数据
         searchList: {}, //查询条件
-        pageindex: 0, //分页开始 第几页
+        pageIndex: 0, //分页开始 第几页
         pagesize: 10 //返回条数
       };
     },
@@ -77,7 +77,7 @@ export default {
     },
     //分页参数
     setPage(state, action) {
-      return { ...state, pageindex: action.payload, pagesize: action.pageSize };
+      return { ...state, pageIndex: action.payload, pagesize: action.pageSize };
     },
     //查询条件
     searchList(state, action) {
