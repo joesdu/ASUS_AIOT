@@ -266,7 +266,7 @@ const Devices = ({
   const getNowPage = (current, pageSize) => {
     let values = getFieldsValue();
     let postObj = getJsonPrams(values, current - 1, pageSize);
-    console.log(postObj)
+    
     dispatch({ type: "devices/setPage", payload: current, size: pageSize });
     //判断查询条件
     if (JSON.stringify(searchList) !== "{}") {
