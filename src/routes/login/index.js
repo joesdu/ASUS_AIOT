@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "dva";
 import { Button, Row, Form, Input, Checkbox } from "antd";
-import { config } from "utils";
 import styles from "./login.less";
 
 const FormItem = Form.Item;
@@ -25,8 +24,7 @@ const Login = ({
   }
 }) => {
 
-  /*   //蒲公英特效
-    !function () {
+   !function () {
       function n(n, e, t) { return n.getAttribute(e) || t }
       function e(n) { return document.getElementsByTagName(n) }
       function t() { var t = e("script"), o = t.length, i = t[o - 1]; return { l: o, z: n(i, "zIndex", -1), o: n(i, "opacity", .4), c: n(i, "color", "0,0,0"), n: n(i, "count", 60) } }
@@ -45,7 +43,7 @@ const Login = ({
         var h = w() * a, g = w() * c, v = 2 * w() - 1, p = 2 * w() - 1; s.push({ x: h, y: g, xa: v, ya: p, max: 6e3 })
       }
       u = s.concat([y]), setTimeout(function () { i() }, 500)
-    }(); */
+    }();
 
   // let _url = urls + 'verificationCode/verificationCode.do?'
   function handleOk() {
