@@ -33,7 +33,7 @@ const DeviceDetail = ({
       let rowNum = parseInt((data.length - 1) / 3) + 1;
       const children = [];
       let index = 0;
-      for (let i = 0; i < rowNum; i++) {
+      for (let i = 1; i <= rowNum; i++) {
         let functionStatus = [];
         if (data.length >= i * 3)
           functionStatus = [data[index], data[index + 1], data[index + 2]];
@@ -65,8 +65,8 @@ const DeviceDetail = ({
       for (let i = 0; i < data.length; i++) {
         children.push(
           <Col md={8} sm={24}>
-            <FormItem label={data.name}>
-              <label>{data.value}</label>
+            <FormItem label={data[i].name}>
+              <label>{data[i].value}</label>
             </FormItem>
           </Col>
         );
@@ -196,7 +196,9 @@ const DeviceDetail = ({
         <div className={styles.tableList}>
           <div className={styles.tableListForm}>
             <Form layout="inline">
-              {getRows(detailData.functionStatus)}
+              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+                {getRows(detailData.functionStatus)}
+              </Row>
             </Form>
           </div>
         </div>
