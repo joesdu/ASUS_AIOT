@@ -194,9 +194,7 @@ const DeviceDetail = ({
         <div className={styles.tableList}>
           <div className={styles.tableListForm}>
             <Form layout="inline">
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 {getRows(detailData.functionStatus)}
-              </Row>
             </Form>
           </div>
         </div>
