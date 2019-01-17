@@ -1,7 +1,7 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { connect } from "dva";
 import moment from "moment";
-import { Pagination, Table, Card, Form, message } from "antd";
+import { Pagination, Table, Card, Form } from "antd";
 import styles from "../TableList.less";
 
 const DeviceLogs = ({
