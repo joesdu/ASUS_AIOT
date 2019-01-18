@@ -11,7 +11,7 @@ const fu = () => {
 module.exports = {
   userToken: userToken,
   userName: userName,
-  serverService: "http://106.15.176.36",
+  serverService: "https://139.224.168.3",
   name: "",
   prefix: "antdAdmin",
   footerText: "A豆云平台 © 2019 ASUS",
@@ -21,7 +21,7 @@ module.exports = {
   CORS: [],
   openPages: ["/login"],
   apiPrefix: "/api/v1",
-  apiUrl: "http://106.15.176.36" + APIV1,
+  apiUrl: "https://139.224.168.3" + APIV1,
   api: {
     //登录相关
     backUserLogin: "backUser/login",
