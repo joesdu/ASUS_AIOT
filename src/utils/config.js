@@ -1,5 +1,10 @@
 const APIV1 = "/v1.0/back/";
 
+const test = 0;
+const formal = 1;
+const current = test;
+const IP = current === test ? "http://106.15.176.36" : "https://139.224.168.3";
+
 let userToken = localStorage.getItem("userToken");
 let userName = localStorage.getItem("userName");
 
@@ -11,7 +16,7 @@ const fu = () => {
 module.exports = {
   userToken: userToken,
   userName: userName,
-  serverService: "https://139.224.168.3",
+  serverService: IP,
   name: "",
   prefix: "antdAdmin",
   footerText: "A豆云平台 © 2019 ASUS",
@@ -21,7 +26,7 @@ module.exports = {
   CORS: [],
   openPages: ["/login"],
   apiPrefix: "/api/v1",
-  apiUrl: "https://139.224.168.3" + APIV1,
+  apiUrl: IP + APIV1,
   api: {
     //登录相关
     backUserLogin: "backUser/login",

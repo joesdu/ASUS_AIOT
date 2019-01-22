@@ -108,7 +108,10 @@ export default {
     //退出登录
     *logout({ payload }, { call, put }) {
       const data = yield call(backUserLogoutApi, payload);
-      if (data.code == 0) {
+      if (data == null || data.code != 0) {
+        message.error("退出失败");
+      }
+      else {
         message.success("退出成功");
         localStorage.removeItem("userToken");
         localStorage.removeItem("userName");
@@ -117,15 +120,6 @@ export default {
             pathname: "/login"
           })
         );
-      } else if (data.code == -105) {
-        message.info(data.msg);
-        yield put(
-          routerRedux.push({
-            pathname: "/login"
-          })
-        );
-      } else {
-        message.error("退出失败");
       }
     },
     *changeNavbar(action, { put, select }) {

@@ -1,6 +1,5 @@
 import { userDetailApi } from "../services/api";
 import { message } from "antd";
-import { $ } from "jquery"
 
 export default {
     namespace: "userDetail",
@@ -25,10 +24,13 @@ export default {
     effects: {
         *queryRule({ payload }, { call, put }) {
             const data = yield call(userDetailApi, payload);
-            if (data.code == 0) {
-                yield put({ type: "querySuccess", payload: data.data });
+            if (data == null || data.length == 0 || data == {} || data.code != 0) {
+                message.error(data != null ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
             } else {
-                message.error("获取数据失败,错误信息:" + data.msg);
+                if (data.data == null || data.data == {})
+                    message.info("无数据");
+                else
+                    yield put({ type: "querySuccess", payload: data.data });
             }
         }
     },

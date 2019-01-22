@@ -25,54 +25,65 @@ export default {
   effects: {
     *overview({ payload }, { call, put }) {
       const data = yield call(statsDeviceSummaryApi, payload);
-      if (data.code == 0) {
-        yield put({ type: "overviewSuccess", payload: data.data });
+      if (data == null || data.length == 0 || data == {} || data.code != 0) {
+        message.error(data != null ? "获取数据概况失败,错误信息:" + data.msg : "获取数据概况失败");
       } else {
-        message.error("获取数据概况失败,错误信息:" + data.msg);
+        if (data.data == null || data.data == {})
+          message.info("无数据");
+        else
+          yield put({ type: "overviewSuccess", payload: data.data });
       }
     },
     *Activate({ payload }, { call, put }) {
       const data = yield call(statsDeviceActivateApi, payload);
       let activateData = null;
-      if (data.code == 0) {
-        let listArray = data.data;
-        let dateArray = [];
-        let numArray = [];
-        let totalArray = [];
-        for (var i = 0; i < listArray.length; i++) {
-          dateArray[i] = listArray[i].actDate;
-          numArray[i] = listArray[i].num;
-          totalArray[i] = listArray[i].total;
-        }
-        activateData = {
-          dateArray: dateArray,
-          numArray: numArray,
-          totalArray: totalArray,
-          listArray: listArray
-        };
-        yield put({ type: "ActivateSuccess", payload: activateData });
+      if (data == null || data.length == 0 || data == {} || data.code != 0) {
+        message.error(data != null ? "获取激活数据趋势失败,错误信息:" + data.msg : "获取激活数据趋势失败");
       } else {
-        message.error("获取激活数据趋势失败,错误信息:" + data.msg);
+        if (data.data == null || data.data == {})
+          message.info("无数据");
+        else {
+          let listArray = data.data;
+          let dateArray = [];
+          let numArray = [];
+          let totalArray = [];
+          for (var i = 0; i < listArray.length; i++) {
+            dateArray[i] = listArray[i].actDate;
+            numArray[i] = listArray[i].num;
+            totalArray[i] = listArray[i].total;
+          }
+          activateData = {
+            dateArray: dateArray,
+            numArray: numArray,
+            totalArray: totalArray,
+            listArray: listArray
+          };
+          yield put({ type: "ActivateSuccess", payload: activateData });
+        }
       }
     },
     *DeviceActive({ payload }, { call, put }) {
       const data = yield call(statsDeviceActiveApi, payload);
       let activeData = null;
-      if (data.code == 0) {
-        let dateArray = [];
-        let numArray = [];
-        for (var i = 0; i < data.data.length; i++) {
-          dateArray[i] = data.data[i].actDate;
-          numArray[i] = data.data[i].num;
-        }
-        activeData = {
-          dateArray: dateArray,
-          numArray: numArray,
-          listArray: data.data
-        };
-        yield put({ type: "DeviceActiveSuccess", payload: activeData });
+      if (data == null || data.length == 0 || data == {} || data.code != 0) {
+        message.error(data != null ? "获取活跃数据趋势失败,错误信息:" + data.msg : "获取活跃数据趋势失败");
       } else {
-        message.error("获取活跃数据趋势失败,错误信息:" + data.msg);
+        if (data.data == null || data.data == {})
+          message.info("无数据");
+        else {
+          let dateArray = [];
+          let numArray = [];
+          for (var i = 0; i < data.data.length; i++) {
+            dateArray[i] = data.data[i].actDate;
+            numArray[i] = data.data[i].num;
+          }
+          activeData = {
+            dateArray: dateArray,
+            numArray: numArray,
+            listArray: data.data
+          };
+          yield put({ type: "DeviceActiveSuccess", payload: activeData });
+        }
       }
     }
   },

@@ -34,7 +34,9 @@ export default {
   effects: {
     *queryRule({ payload }, { call, put }) {
       const data = yield call(deviceLogListApi, payload);
-      if (data.code == 0) {
+      if (data == null || data.length == 0 || data == {} || data.code != 0) {
+        message.error(data != null ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
+      } else {
         let result = data.data;
         let _pag = {};
         _pag.total = typeof result.totalRows == "undefined" ? 0 : result.totalRows;
@@ -44,9 +46,10 @@ export default {
           _pag.pageCount = 0;
         else
           _pag.pageCount = parseInt((result.totalRows - 1) / result.pageRows) + 1;
-        yield put({ type: "querySuccess", payload: result.deviceLogs, page: _pag, deviceId: payload.deviceId });
-      } else {
-        message.error("获取数据失败,错误信息:" + data.msg);
+        if (data.data == null || data.data == {})
+          message.info("无数据");
+        else
+          yield put({ type: "querySuccess", payload: result.deviceLogs, page: _pag, deviceId: payload.deviceId });
       }
     }
   },

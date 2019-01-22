@@ -54,40 +54,47 @@ export default {
       const data = yield call(devicesListApi, payload);
       let deviceListData = [];
       let _pag = {};
-      if (data.code == 0) {
-        let result = data.data;
-        _pag.total = typeof result.totalRows == "undefined" ? 0 : result.totalRows;
-        _pag.pageSize = typeof result.pageRows == "undefined" ? 0 : result.pageRows;
-        _pag.current = typeof result.pageNum == "undefined" ? 0 : result.pageNum;
-        if (typeof result.totalRows == "undefined" || typeof result.pageRows == "undefined")
-          _pag.pageCount = 0;
-        else
-          _pag.pageCount = parseInt((result.totalRows - 1) / result.pageRows) + 1;
-        let devices = result.devices;
-        for (var i = 0; i < devices.length; i++) {
-          deviceListData[i] = {
-            nameAndID: { deviceName: devices[i].deviceName, deviceId: devices[i].deviceId },
-            states: { isAct: devices[i].isAct, status: devices[i].status },
-            productsAndUUID: { productName: devices[i].productName, uuid: devices[i].uuid },
-            mobileAndSource: { mobile: devices[i].mobile, source: devices[i].source },
-            firstActTime: devices[i].actTime,
-            lastActTime: devices[i].lastActTime,
-            updateTime: devices[i].updateTime,
-            operation: devices[i].isAct
-          };
-        }
-        yield put({ type: "devicesListSuccess", payload: deviceListData, page: _pag });
+      if (data == null || data.length == 0 || data == {} || data.code != 0) {
+        message.error(data != null ? "获取设备列表数据失败,错误信息:" + data.msg : "获取设备列表数据失败");
       } else {
-        message.error("获取设备列表数据失败,错误信息:" + data.msg);
+        if (data.data == null || data.data == {})
+          message.info("无数据");
+        else {
+          let result = data.data;
+          _pag.total = typeof result.totalRows == "undefined" ? 0 : result.totalRows;
+          _pag.pageSize = typeof result.pageRows == "undefined" ? 0 : result.pageRows;
+          _pag.current = typeof result.pageNum == "undefined" ? 0 : result.pageNum;
+          if (typeof result.totalRows == "undefined" || typeof result.pageRows == "undefined")
+            _pag.pageCount = 0;
+          else
+            _pag.pageCount = parseInt((result.totalRows - 1) / result.pageRows) + 1;
+          let devices = result.devices;
+          for (var i = 0; i < devices.length; i++) {
+            deviceListData[i] = {
+              nameAndID: { deviceName: devices[i].deviceName, deviceId: devices[i].deviceId },
+              states: { isAct: devices[i].isAct, status: devices[i].status },
+              productsAndUUID: { productName: devices[i].productName, uuid: devices[i].uuid },
+              mobileAndSource: { mobile: devices[i].mobile, source: devices[i].source },
+              firstActTime: devices[i].actTime,
+              lastActTime: devices[i].lastActTime,
+              updateTime: devices[i].updateTime,
+              operation: devices[i].isAct
+            };
+          }
+          yield put({ type: "devicesListSuccess", payload: deviceListData, page: _pag });
+        }
       }
     },
     *productList({ payload }, { call, put }) {
       const prams = { userToken: localStorage.getItem("userToken") };
       const data = yield call(deviceProductListApi, prams);
-      if (data.code == 0) {
-        yield put({ type: "productListSuccess", payload: data.data });
+      if (data == null || data.length == 0 || data == {} || data.code != 0) {
+        message.error(data != null ? "获取产品列表数据失败,错误信息:" + data.msg : "获取产品列表数据失败");
       } else {
-        message.error("获取产品列表数据失败,错误信息:" + data.msg);
+        if (data.data == null || data.data == {})
+          message.info("无数据");
+        else
+          yield put({ type: "productListSuccess", payload: data.data });
       }
     }
   },
