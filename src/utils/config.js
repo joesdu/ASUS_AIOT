@@ -1,17 +1,12 @@
 const APIV1 = "/v1.0/back/";
 
-const test = 0;
-const formal = 1;
-const current = test;
-const IP = current === test ? "http://106.15.176.36" : "https://139.224.168.3";
+const test = "http://106.15.176.36";
+const formal = "https://139.224.168.3";
+const current = "https://adol.asus.com.cn";
+const IP = current;
 
 let userToken = localStorage.getItem("userToken");
 let userName = localStorage.getItem("userName");
-
-const fu = () => {
-  try {
-  } catch (e) { }
-};
 
 module.exports = {
   userToken: userToken,
