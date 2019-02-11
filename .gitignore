@@ -4,10 +4,5 @@ npm-debug.log
 output
 # ide
 .idea
-
-# Mac General
-.DS_Store
-.AppleDouble
-.LSOverride
 #vscode
 .vscode
