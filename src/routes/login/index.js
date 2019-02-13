@@ -22,7 +22,6 @@ const Login = ({
     getFieldsValue
   }
 }) => {
-  // let _url = urls + 'verificationCode/verificationCode.do?'
   function handleOk() {
     validateFields((err, values) => {
       if (!err) {
@@ -33,9 +32,6 @@ const Login = ({
       }
     });
   }
-  // const changeCode = () => {
-  // 	document.getElementById('imgs').src = _url + Math.random();
-  // }
   return (
     <div className={styles.box}>
       <div className={styles.form}>
