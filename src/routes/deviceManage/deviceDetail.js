@@ -53,9 +53,7 @@ const DeviceDetail = ({
         index = index + 3;
       }
       return children;
-    } catch (error) {
-      console.log("getRow:" + error);
-    }
+    } catch (error) { }
   };
 
   const getCol = (data) => {
@@ -71,9 +69,7 @@ const DeviceDetail = ({
         );
       }
       return children;
-    } catch (error) {
-      console.log("getCol:" + error);
-    }
+    } catch (error) { }
   };
 
   return (
@@ -194,7 +190,7 @@ const DeviceDetail = ({
         <div className={styles.tableList}>
           <div className={styles.tableListForm}>
             <Form layout="inline">
-                {getRows(detailData.functionStatus)}
+              {getRows(detailData.functionStatus)}
             </Form>
           </div>
         </div>

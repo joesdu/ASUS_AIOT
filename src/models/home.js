@@ -43,20 +43,20 @@ export default {
         if (data.data == null || data.data == {})
           message.info("无数据");
         else {
-          let listArray = data.data;
-          let dateArray = [];
-          let numArray = [];
-          let totalArray = [];
-          for (var i = 0; i < listArray.length; i++) {
-            dateArray[i] = listArray[i].actDate;
-            numArray[i] = listArray[i].num;
-            totalArray[i] = listArray[i].total;
-          }
+          let dateArray = data.data.map(function (obj) {
+            return obj.actDate;
+          });
+          let numArray = data.data.map(function (obj) {
+            return obj.num;
+          });
+          let totalArray = data.data.map(function (obj) {
+            return obj.total;
+          });
           activateData = {
             dateArray: dateArray,
             numArray: numArray,
             totalArray: totalArray,
-            listArray: listArray
+            listArray: data.data
           };
           yield put({ type: "ActivateSuccess", payload: activateData });
         }
@@ -71,12 +71,12 @@ export default {
         if (data.data == null || data.data == {})
           message.info("无数据");
         else {
-          let dateArray = [];
-          let numArray = [];
-          for (var i = 0; i < data.data.length; i++) {
-            dateArray[i] = data.data[i].actDate;
-            numArray[i] = data.data[i].num;
-          }
+          let dateArray = data.data.map(function (obj) {
+            return obj.actDate;
+          });
+          let numArray = data.data.map(function (obj) {
+            return obj.num;
+          });
           activeData = {
             dateArray: dateArray,
             numArray: numArray,

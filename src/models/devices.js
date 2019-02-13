@@ -52,7 +52,6 @@ export default {
   effects: {
     *devicesList({ payload }, { call, put }) {
       const data = yield call(devicesListApi, payload);
-      let deviceListData = [];
       let _pag = {};
       if (data == null || data.length == 0 || data == {} || data.code != 0) {
         message.error(data != null ? "获取设备列表数据失败,错误信息:" + data.msg : "获取设备列表数据失败");
@@ -68,19 +67,18 @@ export default {
             _pag.pageCount = 0;
           else
             _pag.pageCount = parseInt((result.totalRows - 1) / result.pageRows) + 1;
-          let devices = result.devices;
-          for (var i = 0; i < devices.length; i++) {
-            deviceListData[i] = {
-              nameAndID: { deviceName: devices[i].deviceName, deviceId: devices[i].deviceId },
-              states: { isAct: devices[i].isAct, status: devices[i].status },
-              productsAndUUID: { productName: devices[i].productName, uuid: devices[i].uuid },
-              mobileAndSource: { mobile: devices[i].mobile, source: devices[i].source },
-              firstActTime: devices[i].actTime,
-              lastActTime: devices[i].lastActTime,
-              updateTime: devices[i].updateTime,
-              operation: devices[i].isAct
+          let deviceListData = result.devices.map(function (obj) {
+            return {
+              nameAndID: { deviceName: obj.deviceName, deviceId: obj.deviceId },
+              states: { isAct: obj.isAct, status: obj.status },
+              productsAndUUID: { productName: obj.productName, uuid: obj.uuid },
+              mobileAndSource: { mobile: obj.mobile, source: obj.source },
+              firstActTime: obj.actTime,
+              lastActTime: obj.lastActTime,
+              updateTime: obj.updateTime,
+              operation: obj.isAct
             };
-          }
+          });
           yield put({ type: "devicesListSuccess", payload: deviceListData, page: _pag });
         }
       }

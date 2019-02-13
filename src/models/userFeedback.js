@@ -56,18 +56,16 @@ export default {
             _pag.pageCount = 0;
           else
             _pag.pageCount = parseInt((result.totalRows - 1) / result.pageRows) + 1;
-          let feedbacks = result.feedbacks;
-          let feedbackData = [];
-          for (var i = 0; i < feedbacks.length; i++) {
-            feedbackData[i] = {
-              description: feedbacks[i].description,
-              mobileAndNickname: { mobile: feedbacks[i].mobile, nickname: feedbacks[i].nickname },
-              productName: feedbacks[i].productName,
-              createTime: feedbacks[i].createTime,
-              feedbackId: feedbacks[i].feedbackId,
-              isProcessed: feedbacks[i].isProcessed
+          let feedbackData = result.feedbacks.map(function (obj) {
+            return {
+              description: obj.description,
+              mobileAndNickname: { mobile: obj.mobile, nickname: obj.nickname },
+              productName: obj.productName,
+              createTime: obj.createTime,
+              feedbackId: obj.feedbackId,
+              isProcessed: obj.isProcessed
             };
-          }
+          });
           yield put({ type: "feedbackListSuccess", payload: feedbackData, page: _pag });
         }
       }

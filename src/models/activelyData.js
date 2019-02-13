@@ -44,12 +44,12 @@ export default {
         if (data.data == null || data.data == {})
           message.info("无数据");
         else {
-          let dateArray = [];
-          let numArray = [];
-          for (var i = 0; i < data.data.length; i++) {
-            dateArray[i] = data.data[i].actDate;
-            numArray[i] = data.data[i].num;
-          }
+          let dateArray = data.data.map(function (obj) {
+            return obj.actDate;
+          });
+          let numArray = data.data.map(function (obj) {
+            return obj.num;
+          });
           activeData = {
             dateArray: dateArray,
             numArray: numArray,

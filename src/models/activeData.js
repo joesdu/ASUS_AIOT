@@ -45,14 +45,15 @@ export default {
           message.info("无数据");
         else {
           let listArray = data.data;
-          let dateArray = [];
-          let numArray = [];
-          let totalArray = [];
-          for (var i = 0; i < listArray.length; i++) {
-            dateArray[i] = listArray[i].actDate;
-            numArray[i] = listArray[i].num;
-            totalArray[i] = listArray[i].total;
-          }
+          let dateArray = listArray.map(function (obj) { 
+            return obj.actDate;
+          });
+          let numArray = listArray.map(function (obj) {
+            return obj.num;
+          });
+          let totalArray = listArray.map(function (obj) {
+            return obj.total;
+          });
           activateData = {
             dateArray: dateArray,
             numArray: numArray,

@@ -53,13 +53,12 @@ export default {
         if (data.data == null || data.data == {})
           message.info("无数据");
         else {
-          let tempArray = data.data;
-          let dateArray = [];
-          let numArray = [];
-          for (var i = 0; i < tempArray.length; i++) {
-            dateArray[i] = tempArray[i].actDate;
-            numArray[i] = tempArray[i].num;
-          }
+          let dateArray = data.data.map(function (obj) {
+            return obj.actDate;
+          });
+          let numArray = data.data.map(function (obj) {
+            return obj.num;
+          });
           activateData = { dateArray: dateArray, numArray: numArray };
           yield put({ type: "activateSuccess", payload: activateData });
         }
@@ -74,12 +73,12 @@ export default {
         if (data.data == null || data.data == {})
           message.info("无数据");
         else {
-          let dateArray = [];
-          let numArray = [];
-          for (var i = 0; i < data.data.length; i++) {
-            dateArray[i] = data.data[i].actDate;
-            numArray[i] = data.data[i].num;
-          }
+          let dateArray = data.data.map(function (obj) {
+            return obj.actDate;
+          });
+          let numArray = data.data.map(function (obj) {
+            return obj.num;
+          });
           activeData = { dateArray: dateArray, numArray: numArray };
           yield put({ type: "activeSuccess", payload: activeData });
         }
@@ -94,12 +93,12 @@ export default {
         if (data.data == null || data.data == {})
           message.info("无数据");
         else {
-          let areaArray = [];
-          let numArray = [];
-          for (var i = 0; i < data.data.length; i++) {
-            areaArray[i] = data.data[i].area;
-            numArray[i] = data.data[i].num;
-          }
+          let areaArray = data.data.map(function (obj) {
+            return obj.area;
+          });
+          let numArray = data.data.map(function (obj) {
+            return obj.num;
+          });
           areaData = { areaArray: areaArray, numArray: numArray };
           yield put({ type: "areaSuccess", payload: areaData });
         }
