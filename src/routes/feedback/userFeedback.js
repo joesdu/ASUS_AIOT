@@ -3,7 +3,6 @@ import { connect } from "dva";
 import moment from "moment";
 import { Pagination, Table, Row, Col, Card, Form, Select, Button, DatePicker, Radio, message, Modal } from "antd";
 import styles from "../TableList.less";
-import $ from "jquery";
 
 const FormItem = Form.Item;
 const { Option } = Select;

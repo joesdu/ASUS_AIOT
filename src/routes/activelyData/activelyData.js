@@ -3,7 +3,6 @@ import { connect } from "dva";
 import moment from "moment";
 import { Table, Row, Col, Card, Form, Select, message } from "antd";
 import styles from "./activelyData.less";
-import $ from "jquery";
 import classnames from "classnames";
 
 const ReactHighcharts = require("react-highcharts");

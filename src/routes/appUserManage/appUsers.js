@@ -4,7 +4,6 @@ import moment from "moment";
 import { Link } from "dva/router";
 import { Pagination, Table, Row, Col, Card, Form, Input, Select, Button, message } from "antd";
 import styles from "../TableList.less";
-import $ from "jquery";
 import { Redirect } from 'react-router-dom';
 
 const FormItem = Form.Item;
