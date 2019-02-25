@@ -98,7 +98,7 @@ const ActivelyData = ({
               <span className={styles.indexTop_text}>今日活跃</span>
               <span style={{ color: "#1890FF" }}>{activeSummaryData.todayActive}&nbsp;</span>
               <div className={styles.indexBottom_text}>
-                <span>昨日激活&nbsp;&nbsp;</span>
+                <span>昨日活跃&nbsp;&nbsp;</span>
                 <span>{activeSummaryData.yesterdayActive}&nbsp;</span>
               </div>
             </div>
@@ -112,10 +112,10 @@ const ActivelyData = ({
             </div>
             <div className={styles.indexCont_span} style={{ marginRight: "10%" }}>
               <span className={styles.indexTop_text}>今日活跃占比</span>
-              <span style={{ color: "#1890FF" }}>{activeSummaryData.activeRate * 100} %</span>
+              <span style={{ color: "#1890FF" }}>{activeSummaryData.activeRate * 10} %</span>
               <div className={styles.indexBottom_text}>
                 <span>昨日活跃占比&nbsp;&nbsp;</span>
-                <span>{activeSummaryData.yesterdayActiveRate * 100} %</span>
+                <span>{activeSummaryData.yesterdayActiveRate} %</span>
               </div>
             </div>
           </div>

@@ -2,7 +2,7 @@ const APIV1 = "/v1.0/back/";
 
 const test = "http://106.15.176.36";
 const formal = "https://139.224.168.3";
-const current = "https://adol.asus.com.cn";
+const current = "https://adol.asus.com.cn"; 
 const IP = test;
 
 let userToken = localStorage.getItem("userToken");
