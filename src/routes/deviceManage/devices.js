@@ -4,7 +4,6 @@ import moment from "moment";
 import { Link } from "dva/router";
 import { Pagination, Table, Row, Col, Card, Form, Input, Select, Button, DatePicker, message } from "antd";
 import styles from "../TableList.less";
-import $ from "jquery";
 
 const FormItem = Form.Item;
 const { Option } = Select;

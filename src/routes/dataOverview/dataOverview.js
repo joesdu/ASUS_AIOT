@@ -158,7 +158,7 @@ const DataOverview = ({
               {getDiv(overviewData.yesterdayActiveRate)}
               <div className={styles.indexBottom_text}>
                 <span>活跃占比&nbsp;&nbsp;</span>
-                <span>{overviewData.activeRate * 100}&nbsp;%</span>
+                <span>{overviewData.activeRate}&nbsp;%</span>
               </div>
             </div>
           </div>
