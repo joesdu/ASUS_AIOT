@@ -109,24 +109,6 @@ const Dashboard = ({
 			{/* <Card title='营销应用' style={{ marginTop: '15px' }}>
 				<div className={styles.indexBtmFlex}>
 					<div>
-						<div className={classnames({ [styles.img]: true, [styles.img1]: true })}>
-							<img src='./images/indexbtm1.png' />
-						</div>
-						<div className={styles.indexBtm_span}>
-							<div className={styles.indexBtm_span_num}>官网编辑</div>
-							<div>对小程序官网模块化编辑</div>
-						</div>
-					</div>
-					<div>
-						<div className={classnames({ [styles.img]: true, [styles.img2]: true })}>
-							<img src='./images/indexbtm2.png' />
-						</div>
-						<div className={styles.indexBtm_span}>
-							<div className={styles.indexBtm_span_num}>新增员工</div>
-							<div>在企业通讯录中快速新增员工</div>
-						</div>
-					</div>
-					<div>
 						<div className={classnames({ [styles.img]: true, [styles.img3]: true })}>
 							<img src='./images/indexbtm3.png' />
 						</div>
