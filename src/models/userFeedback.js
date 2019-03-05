@@ -59,7 +59,7 @@ export default {
           let feedbackData = result.feedbacks.map(function (obj) {
             return {
               description: obj.description,
-              mobileAndNickname: { mobile: obj.mobile, nickname: obj.nickname },
+              contact: obj.contact,
               productName: obj.productName,
               createTime: obj.createTime,
               feedbackId: obj.feedbackId,

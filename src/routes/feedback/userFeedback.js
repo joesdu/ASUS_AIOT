@@ -30,19 +30,10 @@ const UserFeedback = ({
       }
     },
     {
-      title: "用户账号/昵称",
-      dataIndex: "mobileAndNickname",
+      title: "联系方式",
+      dataIndex: "contact",
       render: (text, record) => {
-        return (
-          <div>
-            <div style={{ color: "#272727" }}>
-              {record.mobileAndNickname.mobile}
-            </div>
-            <div style={{ color: "#B3B3B3" }}>
-              {record.mobileAndNickname.nickname}
-            </div>
-          </div>
-        );
+        return <div style={{ color: "#272727" }}>{record.contact}</div>;
       }
     },
     {
