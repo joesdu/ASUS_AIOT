@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "dva";
 import { Table, Tabs, Row, Col, Card, Form, Select } from "antd";
 import styles from "./activeData.less";
-import CountUp from 'react-countup';
 
 const ReactHighcharts = require("react-highcharts");
 const FormItem = Form.Item;
@@ -66,14 +65,14 @@ const ActiveData = ({
       title: "每日激活数量",
       dataIndex: "num",
       render: (text, record) => {
-        return <div><CountUp start={0} end={record.num} /></div>;
+        return <div>{record.num}</div>;
       }
     },
     {
       title: "累计激活总数",
       dataIndex: "total",
       render: (text, record) => {
-        return <div><CountUp start={0} end={record.total} /></div>;
+        return <div>{record.total}</div>;
       }
     }
   ];
@@ -116,23 +115,23 @@ const ActiveData = ({
           <div className={styles.indexCont}>
             <div className={styles.indexCont_span} style={{ marginRight: "10%" }}>
               <span className={styles.indexTop_text}>今日激活</span>
-              <span style={{ color: "#1890FF" }}><CountUp start={0} end={activateSummaryData.todayActivate} />&nbsp;</span>
+              <span style={{ color: "#1890FF" }}>{activateSummaryData.todayActivate}&nbsp;</span>
               <div className={styles.indexBottom_text}>
                 <span>昨日激活&nbsp;&nbsp;</span>
-                <span><CountUp start={0} end={activateSummaryData.yesterdayActivate} />&nbsp;</span>
+                <span>{activateSummaryData.yesterdayActivate}&nbsp;</span>
               </div>
             </div>
             <div className={styles.indexCont_span} style={{ marginRight: "10%" }}>
               <span className={styles.indexTop_text}>近7日激活</span>
-              <span style={{ color: "#1890FF" }}><CountUp start={0} end={activateSummaryData.periodActivate} />&nbsp;</span>
+              <span style={{ color: "#1890FF" }}>{activateSummaryData.periodActivate}&nbsp;</span>
               <div className={styles.indexBottom_text}>
                 <span>上7日激活&nbsp;&nbsp;</span>
-                <span><CountUp start={0} end={activateSummaryData.prePeriodActivate} />&nbsp;</span>
+                <span>{activateSummaryData.prePeriodActivate}&nbsp;</span>
               </div>
             </div>
             <div className={styles.indexCont_span} style={{ marginTop: "-48px", marginRight: "10%" }}>
               <span className={styles.indexTop_text}>累计激活总数</span>
-              <span style={{ color: "#1890FF" }}><CountUp start={0} end={activateSummaryData.totalActivate} />&nbsp;</span>
+              <span style={{ color: "#1890FF" }}>{activateSummaryData.totalActivate}&nbsp;</span>
             </div>
           </div>
         </Card>

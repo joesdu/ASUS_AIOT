@@ -1,5 +1,4 @@
 /* global window */
-import classnames from 'classnames'
 import lodash from 'lodash'
 import config from './config'
 import request from './request'
@@ -103,7 +102,6 @@ module.exports = {
   config,
   request,
   color,
-  classnames,
   queryURL,
   queryArray,
   arrayToTree,

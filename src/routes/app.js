@@ -7,7 +7,7 @@ import pathToRegexp from "path-to-regexp";
 import { connect } from "dva";
 import { Loader, MyLayout } from "components";
 import { BackTop, Layout } from "antd";
-import { classnames, config } from "utils";
+import { config } from "utils";
 import { Helmet } from "react-helmet";
 import { withRouter } from "dva/router";
 import Error from "./error";

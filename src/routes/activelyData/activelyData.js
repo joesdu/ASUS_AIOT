@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "dva";
 import { Table, Row, Col, Card, Form, Select } from "antd";
 import styles from "./activelyData.less";
-import CountUp from 'react-countup';
 
 const ReactHighcharts = require("react-highcharts");
 const FormItem = Form.Item;
@@ -52,7 +51,7 @@ const ActivelyData = ({
       title: "每日活跃数量",
       dataIndex: "num",
       render: (text, record) => {
-        return <div><CountUp start={0} end={record.num} /></div>;
+        return <div>{record.num}</div>;
       }
     }
   ];
@@ -94,26 +93,27 @@ const ActivelyData = ({
           <div className={styles.indexCont}>
             <div className={styles.indexCont_span} style={{ marginRight: "10%" }}>
               <span className={styles.indexTop_text}>今日活跃</span>
-              <span style={{ color: "#1890FF" }}><CountUp start={0} end={activeSummaryData.todayActive} />&nbsp;</span>
+              <span style={{ color: "#1890FF" }}>{activeSummaryData.todayActive}&nbsp;</span>
               <div className={styles.indexBottom_text}>
                 <span>昨日活跃&nbsp;&nbsp;</span>
-                <span><CountUp start={0} end={activeSummaryData.yesterdayActive} />&nbsp;</span>
+                {console.log(activeSummaryData.yesterdayActive)}
+                <span>{activeSummaryData.yesterdayActive}&nbsp;</span>
               </div>
             </div>
             <div className={styles.indexCont_span} style={{ marginRight: "10%" }}>
               <span className={styles.indexTop_text}>近7日活跃</span>
-              <span style={{ color: "#1890FF" }}><CountUp start={0} end={activeSummaryData.periodActive} />&nbsp;</span>
+              <span style={{ color: "#1890FF" }}>{activeSummaryData.periodActive}&nbsp;</span>
               <div className={styles.indexBottom_text}>
                 <span>上7日活跃&nbsp;&nbsp;</span>
-                <span><CountUp start={0} end={activeSummaryData.prePeriodActive} />&nbsp;</span>
+                <span>{activeSummaryData.prePeriodActive}&nbsp;</span>
               </div>
             </div>
             <div className={styles.indexCont_span} style={{ marginRight: "10%" }}>
               <span className={styles.indexTop_text}>今日活跃占比</span>
-              <span style={{ color: "#1890FF" }}><CountUp start={0} end={activeSummaryData.activeRate} />&nbsp;%</span>
+              <span style={{ color: "#1890FF" }}>{activeSummaryData.activeRate}&nbsp;%</span>
               <div className={styles.indexBottom_text}>
                 <span>昨日活跃占比&nbsp;&nbsp;</span>
-                <span><CountUp start={0} end={activeSummaryData.yesterdayActiveRate} />&nbsp;%</span>
+                <span>{activeSummaryData.yesterdayActiveRate}&nbsp;%</span>
               </div>
             </div>
           </div>
