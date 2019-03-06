@@ -2,12 +2,10 @@ import React, { Fragment } from "react";
 import { connect } from "dva";
 import moment from "moment";
 import { Link } from "dva/router";
-import { Pagination, Table, Row, Col, Card, Form, Input, Select, Button, message } from "antd";
+import { Pagination, Table, Row, Col, Card, Form, Input, Button, message } from "antd";
 import styles from "../TableList.less";
-import { Redirect } from 'react-router-dom';
 
 const FormItem = Form.Item;
-const { Option } = Select;
 
 const AppUsers = ({
   appUsers,

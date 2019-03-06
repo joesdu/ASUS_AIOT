@@ -3,6 +3,7 @@ import { connect } from "dva";
 import { Icon, Row, Col, Card, Form, Select } from "antd";
 import styles from "./dataOverview.less";
 import ReactHighcharts from "react-highcharts";
+import CountUp from 'react-countup';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -68,11 +69,11 @@ const DataOverview = ({
   const getDiv = number => {
     if (number >= 0) {
       return (
-        <span style={{ color: "#FF5F00" }}>{number}%&nbsp;<Icon type="caret-up" style={{ color: "#FF5F00", fontSize: "15px" }} /></span>
+        <span style={{ color: "#FF5F00" }}><CountUp start={0} end={number} />%&nbsp;<Icon type="caret-up" style={{ color: "#FF5F00", fontSize: "15px" }} /></span>
       );
     } else {
       return (
-        <span style={{ color: "#13C2C2" }}>{number}%&nbsp;<Icon type="caret-down" style={{ color: "#13C2C2", fontSize: "15px" }} /></span>
+        <span style={{ color: "#13C2C2" }}><CountUp start={0} end={number} />%&nbsp;<Icon type="caret-down" style={{ color: "#13C2C2", fontSize: "15px" }} /></span>
       );
     }
   };
@@ -127,10 +128,10 @@ const DataOverview = ({
           <div className={styles.indexCont}>
             <div className={styles.indexCont_span} style={{ marginRight: "10%" }}>
               <span className={styles.indexTop_text}>今日激活</span>
-              <span style={{ color: "#1890FF" }}>{overviewData.todayActivate}&nbsp;</span>
+              <span style={{ color: "#1890FF" }}><CountUp start={0} end={overviewData.todayActivate} />&nbsp;</span>
               <div className={styles.indexBottom_text}>
                 <span>昨日激活&nbsp;&nbsp;</span>
-                <span>{overviewData.yesterdayActivate}</span>
+                <span><CountUp start={0} end={overviewData.yesterdayActivate} /></span>
               </div>
             </div>
             <div className={styles.indexCont_span}>
@@ -138,7 +139,7 @@ const DataOverview = ({
               {getDiv(overviewData.yesterdayActivateRate)}
               <div className={styles.indexBottom_text}>
                 <span>累计激活&nbsp;&nbsp;</span>
-                <span>{overviewData.totalActivate}</span>
+                <span><CountUp start={0} end={overviewData.totalActivate} /></span>
               </div>
             </div>
           </div>
@@ -147,10 +148,10 @@ const DataOverview = ({
           <div className={styles.indexCont}>
             <div className={styles.indexCont_span} style={{ marginRight: "10%" }}>
               <span className={styles.indexTop_text}>今日活跃</span>
-              <span style={{ color: "#1890FF" }}>{overviewData.todayActive}&nbsp;</span>
+              <span style={{ color: "#1890FF" }}><CountUp start={0} end={overviewData.todayActive} />&nbsp;</span>
               <div className={styles.indexBottom_text}>
                 <span>昨日活跃&nbsp;&nbsp;</span>
-                <span>{overviewData.yesterdayActive}</span>
+                <span><CountUp start={0} end={overviewData.yesterdayActive} /></span>
               </div>
             </div>
             <div className={styles.indexCont_span}>
@@ -158,7 +159,7 @@ const DataOverview = ({
               {getDiv(overviewData.yesterdayActiveRate)}
               <div className={styles.indexBottom_text}>
                 <span>活跃占比&nbsp;&nbsp;</span>
-                <span>{overviewData.activeRate}&nbsp;%</span>
+                <span><CountUp start={0} end={overviewData.activeRate} />&nbsp;%</span>
               </div>
             </div>
           </div>

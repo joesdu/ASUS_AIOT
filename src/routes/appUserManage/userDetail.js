@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { connect } from "dva";
 import { Table, Row, Col, Card, Form } from "antd";
 import styles from "../TableList.less";
