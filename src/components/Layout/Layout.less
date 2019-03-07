@@ -1,190 +1,157 @@
 @import "~themes/vars";
-
 :global {
-  .ant-layout-header {
-    padding: 0;
-  }
-
-  .ant-layout-sider {
-    transition: all 0.3s;
-
-    .ant-menu-root {
-      height: ~"calc(100vh - 144px)";
-      overflow-x: hidden;
-      border-right: none;
-
-      &::-webkit-scrollbar-thumb {
-        background-color: transparent;
-      }
-
-      &:hover {
-        &::-webkit-scrollbar-thumb {
-          background-color: rgba(0, 0, 0, 0.2);
+    .ant-layout-header {
+        padding: 0;
+    }
+    .ant-layout-sider {
+        transition: all 0.3s;
+        .ant-menu-root {
+            height: ~"calc(100vh - 144px)";
+            overflow-x: hidden;
+            border-right: none;
+            &::-webkit-scrollbar-thumb {
+                background-color: transparent;
+            }
+            &:hover {
+                &::-webkit-scrollbar-thumb {
+                    background-color: rgba(0, 0, 0, 0.2);
+                }
+            }
         }
-      }
+        .ant-menu {
+            .ant-menu-item,
+            .ant-menu-submenu-title {
+                overflow: hidden;
+                white-space: normal;
+            }
+        }
     }
-
-    .ant-menu {
-      .ant-menu-item,
-      .ant-menu-submenu-title {
-        overflow: hidden;
-        white-space: normal;
-      }
+    .ant-layout-footer {
+        text-align: center;
+        padding: 0 24px;
+        height: 40px;
+        font-size: 12px;
+        line-height: 40px;
     }
-  }
-
-  .ant-layout-footer {
-    text-align: center;
-    padding: 0 24px;
-    height: 40px;
-    font-size: 12px;
-    line-height: 40px;
-  }
-
-  .ant-back-top {
-    right: 50px;
-  }
-
-  .ant-switch.ant-switch-large {
-    line-height: 24px;
-    height: 26px;
-
-    &:after,
-    &:before {
-      width: 22px;
-      height: 22px;
+    .ant-back-top {
+        right: 50px;
     }
-
-    &.ant-switch-checked:after,
-    &.ant-switch-checked:before {
-      margin-left: -23px;
+    .ant-switch.ant-switch-large {
+        line-height: 24px;
+        height: 26px;
+        &:after,
+        &:before {
+            width: 22px;
+            height: 22px;
+        }
+        &.ant-switch-checked:after,
+        &.ant-switch-checked:before {
+            margin-left: -23px;
+        }
     }
-  }
-
-  .flex-vertical-center {
-    display: flex;
-    align-items: center;
-  }
-
-  .ant-form-item {
-    margin-bottom: 12px;
-  }
+    .flex-vertical-center {
+        display: flex;
+        align-items: center;
+    }
+    .ant-form-item {
+        margin-bottom: 12px;
+    }
 }
 
 .logo {
-  height: 70px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-
-  img {
-    margin-right: 0;
-  }
-
-  span {
-    vertical-align: text-bottom;
-    font-size: 16px;
-    display: inline-block;
-    color: #fff;
-  }
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    img {
+        margin-right: 0;
+    }
+    span {
+        vertical-align: text-bottom;
+        font-size: 16px;
+        display: inline-block;
+        color: #fff;
+    }
 }
 
 .switchtheme {
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  height: 48px;
-  background-color: #fff;
-  border-top: solid 1px #f8f8f8;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 16px;
-  overflow: hidden;
-  z-index: 9;
-  transition: all 0.3s;
-
-  span {
-    white-space: nowrap;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    height: 48px;
+    background-color: #fff;
+    border-top: solid 1px #f8f8f8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
     overflow: hidden;
-    font-size: 12px;
-  }
-
-  :global {
-    .anticon {
-      min-width: 14px;
-      margin-right: 4px;
-      font-size: 14px;
+    z-index: 9;
+    transition: all 0.3s;
+    span {
+        white-space: nowrap;
+        overflow: hidden;
+        font-size: 12px;
     }
-  }
+    :global {
+        .anticon {
+            min-width: 14px;
+            margin-right: 4px;
+            font-size: 14px;
+        }
+    }
 }
 
 .bread {
-  height: 50px;
-  line-height: 50px;
-  margin: 0 -15px;
-  margin-bottom: 15px;
-  background: #fff;
-  border-top: 1px solid #f1f1f1;
-
-  :global {
-    .ant-breadcrumb {
-      display: flex;
-      align-items: center;
-	  margin-top: 14px;
-	  margin-left: 15px;
+    height: 50px;
+    line-height: 50px;
+    margin: 0 -15px;
+    margin-bottom: 15px;
+    background: #fff;
+    border-top: 1px solid #f1f1f1;
+    :global {
+        .ant-breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-top: 14px;
+            margin-left: 15px;
+        }
     }
-  }
 }
 
 .dark {
-  .switchtheme {
-    background-color: #000d18;
-    border-color: #001629;
-  }
+    .switchtheme {
+        background-color: #000d18;
+        border-color: #001629;
+    }
 }
 
 .light {
-  :global {
-    .ant-layout-sider {
-      background: #fff;
+    :global {
+        .ant-layout-sider {
+            background: #fff;
+        }
     }
-  }
 }
+
 @media (max-width: 767px) {
-  .bread {
-    margin-bottom: 12px;
-  }
+    .bread {
+        margin-bottom: 12px;
+    }
+    :global {
+        .ant-layout-content {
+            padding: 12px;
+        }
+        .ant-back-top {
+            right: 20px;
+            bottom: 20px;
+        }
+    }
+}
 
-  :global {
+:global {
     .ant-layout-content {
-      padding: 12px;
+        padding: 0 15px;
     }
-
-    .ant-back-top {
-      right: 20px;
-      bottom: 20px;
-    }
-  }
 }
-
-:global{
-	.ant-layout-content{
-		padding: 0 15px;
-	}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-

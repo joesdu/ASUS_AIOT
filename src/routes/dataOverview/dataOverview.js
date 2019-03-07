@@ -35,7 +35,7 @@ const DataOverview = ({
   };
 
   var activateConfig = {
-    chart: { height: 450 },
+    chart: { type: "areaspline", height: 450 },
     xAxis: { categories: activateData.dateArray },
     yAxis: { title: { text: "激活设备/个" }, plotLines: [{ value: 0, width: 1, color: "#808080" }] },
     title: { text: null },
@@ -45,7 +45,7 @@ const DataOverview = ({
   };
 
   var activeConfig = {
-    chart: { height: 450 },
+    chart: { type: "areaspline", height: 450 },
     xAxis: { categories: activeData.dateArray },
     yAxis: { title: { text: "活跃设备/个" }, plotLines: [{ value: 0, width: 1, color: "#808080" }] },
     title: { text: null },
@@ -97,7 +97,6 @@ const DataOverview = ({
   return (
     <div>
       <Card>
-        <div className={styles.tableList}>
           <div className={styles.tableListForm}>
             <Form layout="inline">
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -118,7 +117,6 @@ const DataOverview = ({
               </Row>
             </Form>
           </div>
-        </div>
       </Card>
 
       <div style={{ marginTop: "15px" }} className={styles.indexTop}>

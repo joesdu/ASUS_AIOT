@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Tabs, Row, Col, Card, Form, Select } from "antd";
+import { Table, Tabs, Row, Col, Card, Form, Select, Divider } from "antd";
 import styles from "./activeData.less";
 
 const ReactHighcharts = require("react-highcharts");
@@ -10,7 +10,6 @@ const TabPane = Tabs.TabPane;
 
 const ActiveData = ({
   activeData,
-  loading,
   dispatch,
   form: {
     getFieldDecorator
@@ -30,7 +29,7 @@ const ActiveData = ({
   };
 
   let dailyConfig = {
-    chart: { height: 450 },
+    chart: { type: "areaspline", height: 450 },
     xAxis: { categories: activateData.dateArray },
     yAxis: { title: { text: "激活设备/个" }, plotLines: [{ value: 0, width: 1, color: "#808080" }] },
     title: { text: null },
@@ -40,7 +39,7 @@ const ActiveData = ({
   };
 
   let totalConfig = {
-    chart: { height: 450 },
+    chart: { type: "areaspline", height: 450 },
     xAxis: { categories: activateData.dateArray },
     yAxis: {
       title: { text: "激活设备/个" },
@@ -85,7 +84,7 @@ const ActiveData = ({
 
   return (
     <div>
-      <Card>
+      <Card bordered={false}>
         <div className={styles.tableList}>
           <div className={styles.tableListForm}>
             <Form layout="inline">
@@ -111,7 +110,7 @@ const ActiveData = ({
       </Card>
 
       <div style={{ marginTop: "15px" }} className={styles.indexTop}>
-        <Card className={styles.indexTopL}>
+        <Card className={styles.indexTopL} bordered={false}>
           <div className={styles.indexCont}>
             <div className={styles.indexCont_span} style={{ marginRight: "10%" }}>
               <span className={styles.indexTop_text}>今日激活</span>
@@ -137,8 +136,8 @@ const ActiveData = ({
         </Card>
       </div>
 
-      <Card style={{ marginTop: "15px" }}>
-        <Tabs defaultActiveKey="1">
+      <Card style={{ marginTop: "15px" }} bordered={false}>
+        <Tabs defaultActiveKey="1" size="large">
           <TabPane tab="每日激活趋势" key="1">
             <div className={styles.indexData}>
               <div className={styles.indexData_top}>
@@ -168,14 +167,13 @@ const ActiveData = ({
             </div>
           </TabPane>
         </Tabs>
-      </Card>
-      <Card title="激活数据明细">
-        <Table
-          columns={columns}
-          dataSource={activateData.listArray}
-          bordered={false}
-          pagination={false}
-        />
+        <Divider />
+        <div className={styles.indexData}>
+          <div className={styles.indexData_top}>
+            <span>激活数据明细</span>
+            <Table columns={columns} dataSource={activateData.listArray} bordered={false} pagination={false} />
+          </div>
+        </div>
       </Card>
     </div>
   );

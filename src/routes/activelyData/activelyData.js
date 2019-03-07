@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Row, Col, Card, Form, Select } from "antd";
+import { Table, Row, Col, Card, Form, Select, Divider } from "antd";
 import styles from "./activelyData.less";
 
 const ReactHighcharts = require("react-highcharts");
@@ -9,7 +9,6 @@ const { Option } = Select;
 
 const ActivelyData = ({
   activelyData,
-  loading,
   dispatch,
   form: {
     getFieldDecorator
@@ -29,7 +28,7 @@ const ActivelyData = ({
   };
 
   var activeConfig = {
-    chart: { height: 450 },
+    chart: { type: "areaspline", height: 450 },
     xAxis: { categories: activeData.dateArray },
     yAxis: { title: { text: "活跃设备/个" }, plotLines: [{ value: 0, width: 1, color: "#808080" }] },
     title: { text: null },
@@ -64,32 +63,30 @@ const ActivelyData = ({
 
   return (
     <div>
-      <Card>
-        <div className={styles.tableList}>
-          <div className={styles.tableListForm}>
-            <Form layout="inline">
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="产品" style={{ marginLeft: 30 }}>{getFieldDecorator("productId", { initialValue: "全部" })(
-                    <Select placeholder="全部" onChange={handleChange} style={{ width: "100%" }}>
-                      <Option value={0}>全部</Option>
-                      {deviceProductListData.map(product => (
-                        <Option value={product.productId}>
-                          {product.productName}
-                        </Option>
-                      ))}
-                    </Select>
-                  )}
-                  </FormItem>
-                </Col>
-              </Row>
-            </Form>
-          </div>
+      <Card bordered={false}>
+        <div className={styles.tableListForm}>
+          <Form layout="inline">
+            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+              <Col md={8} sm={24}>
+                <FormItem label="产品" style={{ marginLeft: 30 }}>{getFieldDecorator("productId", { initialValue: "全部" })(
+                  <Select placeholder="全部" onChange={handleChange} style={{ width: "100%" }}>
+                    <Option value={0}>全部</Option>
+                    {deviceProductListData.map(product => (
+                      <Option value={product.productId}>
+                        {product.productName}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+                </FormItem>
+              </Col>
+            </Row>
+          </Form>
         </div>
       </Card>
 
-      <div style={{ marginTop: "15px" }} className={styles.indexTop}>
-        <Card className={styles.indexTopL}>
+      <div style={{ marginTop: "15px" }} className={styles.indexTop} bordered={false}>
+        <Card className={styles.indexTopL} bordered={false}>
           <div className={styles.indexCont}>
             <div className={styles.indexCont_span} style={{ marginRight: "10%" }}>
               <span className={styles.indexTop_text}>今日活跃</span>
@@ -120,7 +117,7 @@ const ActivelyData = ({
         </Card>
       </div>
 
-      <Card style={{ marginTop: "15px" }}>
+      <Card style={{ marginTop: "15px" }} bordered={false}>
         <div className={styles.indexData}>
           <div className={styles.indexData_top}>
             <span>活跃数据趋势</span>
@@ -129,19 +126,15 @@ const ActivelyData = ({
               <li className={selected == 15 ? styles.active : ""} onClick={getData.bind(this, 15)}>近15天</li>
               <li className={selected == 30 ? styles.active : ""} onClick={getData.bind(this, 30)}>近30天</li>
             </ul>
-            <div style={{ width: "100%" }}>
+            <Divider />
+            <div style={{ width: "100%", marginTop: "5px" }}>
               <ReactHighcharts config={activeConfig} />
             </div>
+            <Divider />
+            <span>活跃数据明细</span>
+            <Table columns={columns} dataSource={activeData.listArray} bordered={false} pagination={false} />
           </div>
         </div>
-      </Card>
-      <Card title="活跃数据明细">
-        <Table
-          columns={columns}
-          dataSource={activeData.listArray}
-          bordered={false}
-          pagination={false}
-        />
       </Card>
     </div>
   );

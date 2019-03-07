@@ -66,12 +66,7 @@ const DeviceLogs = ({
 
     return (
         <Card style={{ marginTop: 20 }} title="设备日志">
-            <Table
-                columns={columns}
-                dataSource={data}
-                bordered={false}
-                pagination={paginationObj}
-            />
+            <Table columns={columns} dataSource={data} bordered={false} pagination={paginationObj} />
         </Card>
     );
 };

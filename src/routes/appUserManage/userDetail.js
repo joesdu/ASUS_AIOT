@@ -99,12 +99,7 @@ const UserDetail = ({
         </div>
       </Card>
       <Card style={{ marginTop: 20 }} title="绑定设备列表">
-        <Table
-          columns={columns}
-          dataSource={data.devices}
-          bordered={false}
-          pagination={false}
-        />
+        <Table columns={columns} dataSource={data.devices} bordered={false} pagination={false} />
       </Card>
     </div>
   );

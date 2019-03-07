@@ -1,39 +1,41 @@
 .tableListForm {
-  :global {
-    .ant-form-item {
-      margin-bottom: 24px;
-      margin-right: 0;
-      display: flex;
-      > .ant-form-item-label {
-        width: auto;
-        line-height: 32px;
-        padding-right: 8px;
-      }
-      .ant-form-item-control {
-        line-height: 32px;
-      }
+    :global {
+        .ant-form-item {
+            margin-bottom: 24px;
+            margin-right: 0;
+            display: flex;
+            >.ant-form-item-label {
+                width: auto;
+                line-height: 32px;
+                padding-right: 8px;
+            }
+            .ant-form-item-control {
+                line-height: 32px;
+            }
+        }
+        .ant-form-item-control-wrapper {
+            flex: 1;
+        }
     }
-    .ant-form-item-control-wrapper {
-      flex: 1;
+    .submitButtons {
+        white-space: nowrap;
+        margin-bottom: 24px;
     }
-  }
-  .submitButtons {
-    white-space: nowrap;
-    margin-bottom: 24px;
-  }
 }
 
-:global(.paddings) :global(.ant-card-body){
-	padding: 14px;
-	padding-bottom: 0;
-}
-.marginBottom{
-	margin-bottom: 14px;
-}
-.marginRight{
-	margin-right: 10px;
-}
-.marginTop{
-	margin-top: 14px;
+:global(.paddings) :global(.ant-card-body) {
+    padding: 14px;
+    padding-bottom: 0;
 }
 
+.marginBottom {
+    margin-bottom: 14px;
+}
+
+.marginRight {
+    margin-right: 10px;
+}
+
+.marginTop {
+    margin-top: 14px;
+}

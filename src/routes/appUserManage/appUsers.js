@@ -133,8 +133,8 @@ const AppUsers = ({
     dispatch({ type: "appUsers/searchList", payload: [] });
   };
 
-/**分页合集 start **/
-  
+  /**分页合集 start **/
+
   let paginationObj = {
     style: { padding: "20px 0 0", textAlign: "center", marginBottom: "10px" },
     total: pagination.total,
@@ -204,10 +204,12 @@ const AppUsers = ({
                   )}
                 </FormItem>
               </Col>
+            </Row>
+            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <div style={{ overflow: "hidden" }}>
-                <span style={{ float: "right", marginBottom: 24 }}>
+                <span style={{ float: "right", marginRight: 14 }}>
                   <Button type="primary" htmlType="submit">查询</Button>
-                  <Button style={{ marginLeft: 8 }} onClick={handleFormReset}>重置</Button>
+                  <Button style={{ marginLeft: 14 }} onClick={handleFormReset}>重置</Button>
                 </span>
               </div>
             </Row>
@@ -216,12 +218,7 @@ const AppUsers = ({
       </Card>
 
       <Card style={{ marginTop: 20 }} title="设备列表">
-        <Table
-          columns={columns}
-          dataSource={data}
-          bordered={false}
-          pagination={paginationObj}
-        />
+        <Table columns={columns} dataSource={data} bordered={false} pagination={paginationObj} />
       </Card>
     </div>
   );

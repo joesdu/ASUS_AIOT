@@ -285,129 +285,124 @@ const Devices = ({
   return (
     <div>
       <Card>
-          <div className={styles.tableListForm}>
-            <Form onSubmit={handleSearch} layout="inline">
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="设备ID" style={{ marginLeft: 18 }}>
-                    {getFieldDecorator("deviceId")(
-                      <Input placeholder="请输入" />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="设备名称" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator("deviceName")(
-                      <Input placeholder="请输入" />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="生产UUID">
-                    {getFieldDecorator("uuid")(<Input placeholder="请输入" />)}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="绑定用户" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator("mobile")(
-                      <Input placeholder="请输入" />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="是否激活" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator("isAct", { initialValue: "全部" })(
-                      <Select placeholder="全部" style={{ width: "100%" }}>
-                        <Option value={"全部"}>全部</Option>
-                        <Option value={"未激活"}>未激活</Option>
-                        <Option value={"已激活"}>已激活</Option>
-                      </Select>
-                    )}
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="是否在线" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator("status", { initialValue: "全部" })(
-                      <Select placeholder="全部" style={{ width: "100%" }}>
-                        <Option value={"全部"}>全部</Option>
-                        <Option value={"离线"}>离线</Option>
-                        <Option value={"在线"}>在线</Option>
-                      </Select>
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="产品" style={{ marginLeft: 30 }}>
-                    {getFieldDecorator("productId", { initialValue: "全部" })(
-                      <Select placeholder="全部" style={{ width: "100%" }}>
-                        <Option value={null}>全部</Option>
-                        {deviceProductListData.map(product => (
-                          <Option value={product.productId}>
-                            {product.productName}
-                          </Option>
-                        ))}
-                      </Select>
-                    )}
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="渠道" style={{ marginLeft: 30 }}>
-                    {getFieldDecorator("source", { initialValue: "全部" })(
-                      <Select placeholder="全部" style={{ width: "100%" }}>
-                        <Option value={"全部"}>全部</Option>
-                        <Option value={"Android"}>Android</Option>
-                        <Option value={"IOS"}>IOS</Option>
-                      </Select>
-                    )}
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="首次激活" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator("firstActivated")(
-                      <RangePicker format={dateFormat} />
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="最近激活" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator("recentActivated")(
-                      <RangePicker format={dateFormat} />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="最近更新" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator("recentUpdates")(
-                      <RangePicker format={dateFormat} />
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <div style={{ overflow: "hidden" }}>
-                  <span style={{ float: "right", marginBottom: 24 }}>
-                    <Button type="primary" htmlType="submit">查询</Button>
-                    <Button style={{ marginLeft: 8 }} onClick={handleFormReset}>重置</Button>
-                  </span>
-                </div>
-              </Row>
-            </Form>
-          </div>
+        <div className={styles.tableListForm}>
+          <Form onSubmit={handleSearch} layout="inline">
+            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+              <Col md={8} sm={24}>
+                <FormItem label="设备ID" style={{ marginLeft: 18 }}>
+                  {getFieldDecorator("deviceId")(
+                    <Input placeholder="请输入" />
+                  )}
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="设备名称" style={{ marginLeft: 4 }}>
+                  {getFieldDecorator("deviceName")(
+                    <Input placeholder="请输入" />
+                  )}
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="生产UUID">
+                  {getFieldDecorator("uuid")(<Input placeholder="请输入" />)}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+              <Col md={8} sm={24}>
+                <FormItem label="绑定用户" style={{ marginLeft: 4 }}>
+                  {getFieldDecorator("mobile")(
+                    <Input placeholder="请输入" />
+                  )}
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="是否激活" style={{ marginLeft: 4 }}>
+                  {getFieldDecorator("isAct", { initialValue: "全部" })(
+                    <Select placeholder="全部" style={{ width: "100%" }}>
+                      <Option value={"全部"}>全部</Option>
+                      <Option value={"未激活"}>未激活</Option>
+                      <Option value={"已激活"}>已激活</Option>
+                    </Select>
+                  )}
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="是否在线" style={{ marginLeft: 4 }}>
+                  {getFieldDecorator("status", { initialValue: "全部" })(
+                    <Select placeholder="全部" style={{ width: "100%" }}>
+                      <Option value={"全部"}>全部</Option>
+                      <Option value={"离线"}>离线</Option>
+                      <Option value={"在线"}>在线</Option>
+                    </Select>
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+              <Col md={8} sm={24}>
+                <FormItem label="产品" style={{ marginLeft: 30 }}>
+                  {getFieldDecorator("productId", { initialValue: "全部" })(
+                    <Select placeholder="全部" style={{ width: "100%" }}>
+                      <Option value={null}>全部</Option>
+                      {deviceProductListData.map(product => (
+                        <Option value={product.productId}>
+                          {product.productName}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="渠道" style={{ marginLeft: 30 }}>
+                  {getFieldDecorator("source", { initialValue: "全部" })(
+                    <Select placeholder="全部" style={{ width: "100%" }}>
+                      <Option value={"全部"}>全部</Option>
+                      <Option value={"Android"}>Android</Option>
+                      <Option value={"IOS"}>IOS</Option>
+                    </Select>
+                  )}
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="首次激活" style={{ marginLeft: 4 }}>
+                  {getFieldDecorator("firstActivated")(
+                    <RangePicker format={dateFormat} />
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+              <Col md={8} sm={24}>
+                <FormItem label="最近激活" style={{ marginLeft: 4 }}>
+                  {getFieldDecorator("recentActivated")(
+                    <RangePicker format={dateFormat} />
+                  )}
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="最近更新" style={{ marginLeft: 4 }}>
+                  {getFieldDecorator("recentUpdates")(
+                    <RangePicker format={dateFormat} />
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+              <div style={{ overflow: "hidden" }}>
+                <span style={{ float: "right", marginRight: 14 }}>
+                  <Button type="primary" htmlType="submit">查询</Button>
+                  <Button style={{ marginLeft: 14 }} onClick={handleFormReset}>重置</Button>
+                </span>
+              </div>
+            </Row>
+          </Form>
+        </div>
       </Card>
 
       <Card style={{ marginTop: 20 }} title="设备列表">
-        <Table
-          columns={columns}
-          dataSource={deviceListData}
-          bordered={false}
-          pagination={paginationObj}
-        />
+        <Table columns={columns} dataSource={deviceListData} bordered={false} pagination={paginationObj} />
       </Card>
     </div>
   );
