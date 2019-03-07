@@ -9,7 +9,6 @@ const { Option } = Select;
 
 const DataOverview = ({
   dataOverview,
-  loading,
   dispatch,
   form: {
     getFieldDecorator

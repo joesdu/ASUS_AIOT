@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { connect } from "dva";
 import moment from "moment";
-import { Pagination, Table, Row, Col, Card, Form, Select, Button, DatePicker, message, Modal } from "antd";
+import { Table, Row, Col, Card, Form, Select, Button, DatePicker, message, Modal } from "antd";
 import styles from "../TableList.less";
 
 const FormItem = Form.Item;
@@ -10,7 +10,6 @@ const { RangePicker } = DatePicker;
 
 const UserFeedback = ({
   userFeedback,
-  loading,
   dispatch,
   form: {
     getFieldDecorator,
@@ -18,27 +17,48 @@ const UserFeedback = ({
     getFieldsValue
   }
 }) => {
-  let { feedbackData, deviceProductListData, pagination, searchList, pageIndex, pagesize } = userFeedback;
+  let { feedbackData, deviceProductListData, pagination, searchList } = userFeedback;
 
   //定义表头
   const columns = [
     {
       title: "反馈内容",
-      dataIndex: "description",
+      dataIndex: "descriptionAndRemark",
+      align: 'left',
       render: (text, record) => {
-        return <div>{record.description}</div>;
+        return (
+          <div>
+            <div>{record.descriptionAndRemark.description}</div>
+            <div>{record.descriptionAndRemark.remark}</div>
+          </div>
+        );
       }
     },
     {
       title: "联系方式",
       dataIndex: "contact",
+      align: 'left',
       render: (text, record) => {
         return <div style={{ color: "#272727" }}>{record.contact}</div>;
       }
     },
     {
+      title: "用户账号/昵称",
+      dataIndex: "mobileAndNickname",
+      align: 'left',
+      render: (text, record) => {
+        return (
+          <div>
+            <div style={{ color: "#272727" }}>{record.mobileAndNickname.mobile}</div>
+            <div style={{ color: "#B3B3B3" }}>{record.mobileAndNickname.nickname}</div>
+          </div>
+        );
+      }
+    },
+    {
       title: "产品名称",
       dataIndex: "productName",
+      align: 'left',
       render: (text, record) => {
         return <div style={{ color: "#272727" }}>{record.productName}</div>;
       }
@@ -47,8 +67,8 @@ const UserFeedback = ({
       title: "状态",
       dataIndex: "isProcessed",
       render: (text, record) => {
-        if (record.isProcessed == "1" || record.isProcessed == 1) {
-          return <div style={{ color: "#272727" }}>已处理</div>;
+        if (record.isProcessed === "1" || record.isProcessed === 1) {
+          return <div style={{ color: "#40D4D4" }}>已处理</div>;
         } else {
           return <div style={{ color: "#1E1E1E" }}>未处理</div>;
         }
@@ -147,36 +167,37 @@ const UserFeedback = ({
   };
 
   /**分页合集 start **/
-  const showTotal = total => { return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${pagination.pageCount} 页`; };
-
-  const onShowSizeChange = (current, pageSize) => {
-    let values = getFieldsValue();
-    let postObj = getJsonPrams(values, current - 1, pageSize);
-
-    dispatch({ type: "userFeedback/setPage", payload: current, size: pageSize });
-    //判断查询条件
-    if (JSON.stringify(searchList) !== "{}") {
-      let _c = {};
-      _c = $.extend(postObj, searchList);
-      dispatch({ type: "userFeedback/feedbackList", payload: postObj });
-    } else {
-      dispatch({ type: "userFeedback/feedbackList", payload: postObj });
+  let paginationObj = {
+    style: { padding: "20px 0 0", textAlign: "center", marginBottom: "10px" },
+    total: pagination.total,
+    defaultCurrent: 1,
+    pageSize: pagination.pageSize,
+    showSizeChanger: true,
+    showQuickJumper: true,
+    onShowSizeChange: (current, pageSize) => {
+      let values = getFieldsValue();
+      let postObj = getJsonPrams(values, current - 1, pageSize);
+      //判断查询条件
+      if (JSON.stringify(searchList) !== "{}") {
+        dispatch({ type: "userFeedback/feedbackList", payload: postObj });
+      } else {
+        dispatch({ type: "userFeedback/feedbackList", payload: postObj });
+      }
+    },
+    onChange: (current, pageSize) => {
+      let values = getFieldsValue();
+      let postObj = getJsonPrams(values, current - 1, pageSize);
+      //判断查询条件
+      if (JSON.stringify(searchList) !== "{}") {
+        dispatch({ type: "userFeedback/feedbackList", payload: postObj });
+      } else {
+        dispatch({ type: "userFeedback/feedbackList", payload: postObj });
+      }
+    },
+    showTotal: () => {
+      return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${pagination.pageCount} 页`;
     }
-  };
-
-  const getNowPage = (current, pageSize) => {
-    let values = getFieldsValue();
-    let postObj = getJsonPrams(values, current - 1, pageSize);
-    dispatch({ type: "userFeedback/setPage", payload: current, size: pageSize });
-    //判断查询条件
-    if (JSON.stringify(searchList) !== "{}") {
-      let _c = {};
-      _c = $.extend(postObj, searchList);
-      dispatch({ type: "userFeedback/feedbackList", payload: postObj });
-    } else {
-      dispatch({ type: "userFeedback/feedbackList", payload: postObj });
-    }
-  };
+  }
   /**分页合集 end **/
 
   const dateFormat = "YYYY-MM-DD";
@@ -223,63 +244,61 @@ const UserFeedback = ({
   return (
     <div>
       <Card>
-        <div className={styles.tableList}>
-          <div className={styles.tableListForm}>
-            <Form onSubmit={handleSearch} layout="inline">
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="应用" style={{ marginLeft: 30 }}>
-                    {getFieldDecorator("application", { initialValue: "全部" })(
-                      <Select placeholder="全部" style={{ width: "100%" }} disabled>
-                        <Option value={"全部"}>全部</Option>
-                        <Option value={1}>11111</Option>
-                      </Select>
-                    )}
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="产品" style={{ marginLeft: 30 }}>
-                    {getFieldDecorator("productId", { initialValue: "全部" })(
-                      <Select placeholder="全部" style={{ width: "100%" }}>
-                        <Option value={null}>全部</Option>
-                        {deviceProductListData.map(product => (
-                          <Option value={product.productId}>
-                            {product.productName}
-                          </Option>
-                        ))}
-                      </Select>
-                    )}
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="状态" style={{ marginLeft: 30 }}>
-                    {getFieldDecorator("isProcessed", { initialValue: "全部" })(
-                      <Select placeholder="全部" style={{ width: "100%" }}>
-                        <Option value={"全部"}>全部</Option>
-                        <Option value={"未处理"}>未处理</Option>
-                        <Option value={"已处理"}>已处理</Option>
-                      </Select>
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="反馈时间" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator("recentActivated")(
-                      <RangePicker format={dateFormat} />
-                    )}
-                  </FormItem>
-                </Col>
-                <div style={{ overflow: "hidden" }}>
-                  <span style={{ float: "right", marginBottom: 24 }}>
-                    <Button type="primary" htmlType="submit">查询</Button>
-                    <Button style={{ marginLeft: 8 }} onClick={handleFormReset}>重置</Button>
-                  </span>
-                </div>
-              </Row>
-            </Form>
-          </div>
+        <div className={styles.tableListForm}>
+          <Form onSubmit={handleSearch} layout="inline">
+            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+              <Col md={8} sm={24}>
+                <FormItem label="应用" style={{ marginLeft: 30 }}>
+                  {getFieldDecorator("application", { initialValue: "全部" })(
+                    <Select placeholder="全部" style={{ width: "100%" }} disabled>
+                      <Option value={"全部"}>全部</Option>
+                      <Option value={1}>11111</Option>
+                    </Select>
+                  )}
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="产品" style={{ marginLeft: 30 }}>
+                  {getFieldDecorator("productId", { initialValue: "全部" })(
+                    <Select placeholder="全部" style={{ width: "100%" }}>
+                      <Option value={null}>全部</Option>
+                      {deviceProductListData.map(product => (
+                        <Option value={product.productId}>
+                          {product.productName}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="状态" style={{ marginLeft: 30 }}>
+                  {getFieldDecorator("isProcessed", { initialValue: "全部" })(
+                    <Select placeholder="全部" style={{ width: "100%" }}>
+                      <Option value={"全部"}>全部</Option>
+                      <Option value={"未处理"}>未处理</Option>
+                      <Option value={"已处理"}>已处理</Option>
+                    </Select>
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+              <Col md={8} sm={24}>
+                <FormItem label="反馈时间" style={{ marginLeft: 4 }}>
+                  {getFieldDecorator("recentActivated")(
+                    <RangePicker format={dateFormat} />
+                  )}
+                </FormItem>
+              </Col>
+              <div style={{ overflow: "hidden" }}>
+                <span style={{ float: "right", marginBottom: 24 }}>
+                  <Button type="primary" htmlType="submit">查询</Button>
+                  <Button style={{ marginLeft: 8 }} onClick={handleFormReset}>重置</Button>
+                </span>
+              </div>
+            </Row>
+          </Form>
         </div>
       </Card>
 
@@ -288,17 +307,7 @@ const UserFeedback = ({
           columns={columns}
           dataSource={feedbackData}
           bordered={false}
-          pagination={false}
-        />
-        <Pagination
-          style={{ padding: "20px 0 0", textAlign: "center", marginBottom: "10px" }}
-          showSizeChanger
-          showQuickJumper
-          showTotal={showTotal}
-          onChange={getNowPage}
-          onShowSizeChange={onShowSizeChange}
-          defaultCurrent={1}
-          total={pagination.total}
+          pagination={paginationObj}
         />
       </Card>
     </div>

@@ -7,13 +7,11 @@ export default {
     data: [], //列表数据
     pagination: {
       total: 0,
-      pageSize: 0,
+      pageSize: 10,
       current: 0,
       pageCount: 0
     }, //分页数据
-    searchList: {}, //查询条件
-    pageIndex: 0, //分页开始 第几页
-    pagesize: 10 //返回条数
+    searchList: {} //查询条件
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -65,19 +63,18 @@ export default {
       return {
         ...state,
         data: [],
-        pagination: {}, //分页数据
-        searchList: {}, //查询条件
-        pageIndex: 0, //分页开始 第几页
-        pagesize: 10 //返回条数
+        pagination: {
+          total: 0,
+          pageSize: 10,
+          current: 0,
+          pageCount: 0
+        }, //分页数据
+        searchList: {} //查询条件
       };
     },
     //返回数据列表
     querySuccess(state, action) {
       return { ...state, data: action.payload, pagination: action.page };
-    },
-    //分页参数
-    setPage(state, action) {
-      return { ...state, pageIndex: action.payload, pagesize: action.pageSize };
     },
     //查询条件
     searchList(state, action) {

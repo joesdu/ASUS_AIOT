@@ -8,13 +8,11 @@ export default {
     deviceProductListData: [],
     pagination: {
       total: 0,
-      pageSize: 0,
+      pageSize: 10,
       current: 0,
       pageCount: 0
     }, //分页数据
-    searchList: {}, //查询条件
-    pageIndex: 0, //分页开始 第几页
-    pagesize: 10 //返回条数
+    searchList: {} //查询条件
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -58,8 +56,9 @@ export default {
             _pag.pageCount = parseInt((result.totalRows - 1) / result.pageRows) + 1;
           let feedbackData = result.feedbacks.map(function (obj) {
             return {
-              description: obj.description,
+              descriptionAndRemark: { description: obj.description, remark: obj.remark },
               contact: obj.contact,
+              mobileAndNickname: { mobile: obj.mobile, nickname: obj.nickName },
               productName: obj.productName,
               createTime: obj.createTime,
               feedbackId: obj.feedbackId,
@@ -98,10 +97,13 @@ export default {
         ...state,
         feedbackData: [],
         deviceProductListData: [],
-        pagination: {},
-        searchList: {},
-        pageIndex: 0,
-        pagesize: 10
+        pagination: {
+          total: 0,
+          pageSize: 10,
+          current: 0,
+          pageCount: 0
+        },
+        searchList: {}
       };
     },
     //返回数据列表
@@ -110,10 +112,6 @@ export default {
     },
     productListSuccess(state, action) {
       return { ...state, deviceProductListData: action.payload };
-    },
-    //分页参数
-    setPage(state, action) {
-      return { ...state, pageIndex: action.payload, pagesize: action.pageSize };
     },
     //查询条件
     searchList(state, action) {

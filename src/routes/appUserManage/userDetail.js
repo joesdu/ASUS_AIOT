@@ -6,8 +6,7 @@ import styles from "../TableList.less";
 const FormItem = Form.Item;
 
 const UserDetail = ({
-  userDetail,
-  loading
+  userDetail
 }) => {
   let { data } = userDetail;
 
@@ -58,47 +57,45 @@ const UserDetail = ({
   ];
 
   return (
-    <div className={styles.tableList}>
+    <div>
       <Card title="基本信息">
-        <div className={styles.tableList}>
-          <div className={styles.tableListForm}>
-            <Form layout="inline">
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="应用">
-                    <label>{data.appSource}</label>
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="注册账号">
-                    <label>{data.mobile}</label>
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="手机号">
-                    <label>{data.mobile}</label>
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="昵称">
-                    <label>{data.nickName}</label>
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="注册时间">
-                    <label>{data.createdTime}</label>
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="绑定设备">
-                    <label style={{ fontWeight: "bold" }}>{data.deviceNum}个设备</label>
-                  </FormItem>
-                </Col>
-              </Row>
-            </Form>
-          </div>
+        <div className={styles.tableListForm}>
+          <Form layout="inline">
+            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+              <Col md={8} sm={24}>
+                <FormItem label="应用">
+                  <label>{data.appSource}</label>
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="注册账号">
+                  <label>{data.mobile}</label>
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="手机号">
+                  <label>{data.mobile}</label>
+                </FormItem>
+              </Col>
+            </Row>
+            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+              <Col md={8} sm={24}>
+                <FormItem label="昵称">
+                  <label>{data.nickName}</label>
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="注册时间">
+                  <label>{data.createdTime}</label>
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="绑定设备">
+                  <label style={{ fontWeight: "bold" }}>{data.deviceNum}个设备</label>
+                </FormItem>
+              </Col>
+            </Row>
+          </Form>
         </div>
       </Card>
       <Card style={{ marginTop: 20 }} title="绑定设备列表">

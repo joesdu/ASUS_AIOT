@@ -55,19 +55,11 @@ export async function query() {
         mpid: 0
       },
       {
-        route: "/dataOverview",
-        bpid: 3,
-        icon: "",
-        name: "数据概况",
-        id: 31,
-        mpid: 3
-      },
-      {
         route: "/activeData",
         bpid: 3,
         icon: "",
         name: "激活数据",
-        id: 32,
+        id: 31,
         mpid: 3
       },
       {
@@ -75,7 +67,7 @@ export async function query() {
         bpid: 3,
         icon: "",
         name: "活跃数据",
-        id: 33,
+        id: 32,
         mpid: 3
       }
     ],

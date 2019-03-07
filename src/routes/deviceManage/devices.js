@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { connect } from "dva";
 import moment from "moment";
 import { Link } from "dva/router";
-import { Pagination, Table, Row, Col, Card, Form, Input, Select, Button, DatePicker, message } from "antd";
+import { Table, Row, Col, Card, Form, Input, Select, Button, DatePicker, message } from "antd";
 import styles from "../TableList.less";
 
 const FormItem = Form.Item;
@@ -11,7 +11,6 @@ const { RangePicker } = DatePicker;
 
 const Devices = ({
   devices,
-  loading,
   dispatch,
   form: {
     getFieldDecorator,
@@ -19,18 +18,17 @@ const Devices = ({
     getFieldsValue
   }
 }) => {
-  let { deviceListData, deviceProductListData, pagination, searchList, pageIndex, pagesize } = devices;
+  let { deviceListData, deviceProductListData, pagination, searchList } = devices;
   //定义表头
   const columns = [
     {
       title: "设备名称/ID",
       dataIndex: "nameAndID",
+      align: 'left',
       render: (text, record) => {
         return (
           <div>
-            <div style={{ color: "#272727" }}>
-              {record.nameAndID.deviceName}
-            </div>
+            <div style={{ color: "#272727" }}>{record.nameAndID.deviceName}</div>
             <div style={{ color: "#B3B3B3" }}>{record.nameAndID.deviceId}</div>
           </div>
         );
@@ -40,65 +38,73 @@ const Devices = ({
       title: "状态",
       dataIndex: "states",
       render: (text, record) => {
-        return (
-          <div>
-            <div style={{ color: "#40D4D4" }}>{record.states.isAct}</div>
-            <div style={{ color: "#B3B3B3" }}>{record.states.status}</div>
-          </div>
-        );
+        if (record.states.isAct === '激活') {
+          return (
+            <div>
+              <div style={{ color: "#40D4D4" }}>{record.states.isAct}</div>
+              <div style={{ color: "#B3B3B3" }}>{record.states.status}</div>
+            </div>
+          );
+        } else {
+          return (
+            <div>
+              <div style={{ color: "#272727" }}>{record.states.isAct}</div>
+              <div style={{ color: "#B3B3B3" }}>{record.states.status}</div>
+            </div>
+          );
+        }
+
       }
     },
     {
       title: "所属产品/生产UUID",
       dataIndex: "productsAndUUID",
+      align: 'left',
       render: (text, record) => {
         return (
           <div>
-            <div style={{ color: "#272727" }}>
-              {record.productsAndUUID.productName}
-            </div>
-            <div style={{ color: "#B3B3B3" }}>
-              {record.productsAndUUID.uuid}
-            </div>
+            <div style={{ color: "#272727" }}>{record.productsAndUUID.productName}</div>
+            <div style={{ color: "#B3B3B3" }}>{record.productsAndUUID.uuid}</div>
           </div>
         );
       }
     },
     {
       title: "绑定用户/渠道",
+      width: 150,
       dataIndex: "mobileAndSource",
+      align: 'left',
       render: (text, record) => {
         return (
           <div>
-            <div style={{ color: "#272727" }}>
-              {record.mobileAndSource.mobile}
-            </div>
-            <div style={{ color: "#B3B3B3" }}>
-              {record.mobileAndSource.source}
-            </div>
+            <div style={{ color: "#272727" }}>{record.mobileAndSource.mobile}</div>
+            <div style={{ color: "#B3B3B3" }}>{record.mobileAndSource.source}</div>
           </div>
         );
       }
     },
     {
       title: "首次激活",
+      width: 150,
       dataIndex: "firstActTime",
       render: (text, record) => {
-        return <div>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
+        return <div style={{ color: "#B3B3B3" }}>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
       }
     },
     {
       title: "最近激活",
+      width: 150,
       dataIndex: "lastActTime",
       render: (text, record) => {
-        return <div>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
+        return <div style={{ color: "#B3B3B3" }}>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
       }
     },
     {
       title: "最近更新",
+      width: 150,
       dataIndex: "updateTime",
       render: (text, record) => {
-        return <div>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
+        return <div style={{ color: "#B3B3B3" }}>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
       }
     },
     {
@@ -215,7 +221,6 @@ const Devices = ({
     let _value = getJsonPrams(values, pageIndex, pagesize);
     //赛选数据
     dispatch({ type: "devices/devicesList", payload: _value });
-
     //保存查询条件
     dispatch({ type: "devices/searchList", payload: _value });
   };
@@ -242,37 +247,37 @@ const Devices = ({
   };
 
   /**分页合集 start **/
-  const showTotal = () => { return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${pagination.pageCount} 页`; };
-
-  const onShowSizeChange = (current, pageSize) => {
-    let values = getFieldsValue();
-    let postObj = getJsonPrams(values, current - 1, pageSize);
-    console.log(postObj)
-    dispatch({ type: "devices/setPage", payload: current, size: pageSize });
-    //判断查询条件
-    if (JSON.stringify(searchList) !== "{}") {
-      let _c = {};
-      _c = $.extend(postObj, searchList);
-      dispatch({ type: "devices/devicesList", payload: postObj });
-    } else {
-      dispatch({ type: "devices/devicesList", payload: postObj });
+  let paginationObj = {
+    style: { padding: "20px 0 0", textAlign: "center", marginBottom: "10px" },
+    total: pagination.total,
+    defaultCurrent: 1,
+    pageSize: pagination.pageSize,
+    showSizeChanger: true,
+    showQuickJumper: true,
+    onShowSizeChange: (current, pageSize) => {
+      let values = getFieldsValue();
+      let postObj = getJsonPrams(values, current - 1, pageSize);
+      //判断查询条件
+      if (JSON.stringify(searchList) !== "{}") {
+        dispatch({ type: "devices/devicesList", payload: postObj });
+      } else {
+        dispatch({ type: "devices/devicesList", payload: postObj });
+      }
+    },
+    onChange: (current, pageSize) => {
+      let values = getFieldsValue();
+      let postObj = getJsonPrams(values, current - 1, pageSize);
+      //判断查询条件
+      if (JSON.stringify(searchList) !== "{}") {
+        dispatch({ type: "devices/devicesList", payload: postObj });
+      } else {
+        dispatch({ type: "devices/devicesList", payload: postObj });
+      }
+    },
+    showTotal: () => {
+      return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${pagination.pageCount} 页`;
     }
-  };
-
-  const getNowPage = (current, pageSize) => {
-    let values = getFieldsValue();
-    let postObj = getJsonPrams(values, current - 1, pageSize);
-    
-    dispatch({ type: "devices/setPage", payload: current, size: pageSize });
-    //判断查询条件
-    if (JSON.stringify(searchList) !== "{}") {
-      let _c = {};
-      _c = $.extend(postObj, searchList);
-      dispatch({ type: "devices/devicesList", payload: postObj });
-    } else {
-      dispatch({ type: "devices/devicesList", payload: postObj });
-    }
-  };
+  }
   /**分页合集 end **/
 
   const dateFormat = "YYYY-MM-DD";
@@ -280,7 +285,6 @@ const Devices = ({
   return (
     <div>
       <Card>
-        <div className={styles.tableList}>
           <div className={styles.tableListForm}>
             <Form onSubmit={handleSearch} layout="inline">
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -395,7 +399,6 @@ const Devices = ({
               </Row>
             </Form>
           </div>
-        </div>
       </Card>
 
       <Card style={{ marginTop: 20 }} title="设备列表">
@@ -403,17 +406,7 @@ const Devices = ({
           columns={columns}
           dataSource={deviceListData}
           bordered={false}
-          pagination={false}
-        />
-        <Pagination
-          style={{ padding: "20px 0 0", textAlign: "center", marginBottom: "10px" }}
-          showSizeChanger
-          showQuickJumper
-          showTotal={showTotal}
-          onChange={getNowPage}
-          onShowSizeChange={onShowSizeChange}
-          defaultCurrent={1}
-          total={pagination.total}
+          pagination={paginationObj}
         />
       </Card>
     </div>

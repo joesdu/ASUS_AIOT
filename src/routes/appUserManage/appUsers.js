@@ -9,7 +9,6 @@ const FormItem = Form.Item;
 
 const AppUsers = ({
   appUsers,
-  loading,
   dispatch,
   form: {
     getFieldDecorator,
@@ -17,7 +16,7 @@ const AppUsers = ({
     getFieldsValue
   }
 }) => {
-  let { data, pagination, searchList, pageIndex, pagesize } = appUsers;
+  let { data, pagination, searchList } = appUsers;
   //定义表头
   const columns = [
     {
@@ -134,84 +133,85 @@ const AppUsers = ({
     dispatch({ type: "appUsers/searchList", payload: [] });
   };
 
-  /**分页合集 start **/
-  const showTotal = () => { return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${pagination.pageCount} 页`; };
-
-  const onShowSizeChange = (current, pageSize) => {
-    let values = getFieldsValue();
-    let postObj = getJsonPrams(values, current - 1, pageSize);
-    dispatch({ type: "appUsers/setPage", payload: current, size: pageSize });
-    //判断查询条件
-    if (JSON.stringify(searchList) !== "{}") {
-      let _c = {};
-      _c = $.extend(postObj, searchList);
-      dispatch({ type: "appUsers/queryRule", payload: postObj });
-    } else {
-      dispatch({ type: "appUsers/queryRule", payload: postObj });
+/**分页合集 start **/
+  
+  let paginationObj = {
+    style: { padding: "20px 0 0", textAlign: "center", marginBottom: "10px" },
+    total: pagination.total,
+    defaultCurrent: 1,
+    pageSize: pagination.pageSize,
+    showSizeChanger: true,
+    showQuickJumper: true,
+    onShowSizeChange: (current, pageSize) => {
+      let values = getFieldsValue();
+      let postObj = getJsonPrams(values, current - 1, pageSize);
+      //判断查询条件
+      if (JSON.stringify(searchList) !== "{}") {
+        dispatch({ type: "appUsers/queryRule", payload: postObj });
+      } else {
+        dispatch({ type: "appUsers/queryRule", payload: postObj });
+      }
+    },
+    onChange: (current, pageSize) => {
+      let values = getFieldsValue();
+      let postObj = getJsonPrams(values, current - 1, pageSize);
+      //判断查询条件
+      if (JSON.stringify(searchList) !== "{}") {
+        dispatch({ type: "appUsers/queryRule", payload: postObj });
+      } else {
+        dispatch({ type: "appUsers/queryRule", payload: postObj });
+      }
+    },
+    showTotal: () => {
+      return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${pagination.pageCount} 页`;
     }
-  };
-
-  const getNowPage = (current, pageSize) => {
-    let values = getFieldsValue();
-    let postObj = getJsonPrams(values, current - 1, pageSize);
-    dispatch({ type: "appUsers/setPage", payload: current, size: pageSize });
-    //判断查询条件
-    if (JSON.stringify(searchList) !== "{}") {
-      let _c = {};
-      _c = $.extend(postObj, searchList);
-      dispatch({ type: "appUsers/queryRule", payload: postObj });
-    } else {
-      dispatch({ type: "appUsers/queryRule", payload: postObj });
-    }
-  };
+  }
   /**分页合集 end **/
 
   return (
     <div>
       <Card>
-        <div className={styles.tableList}>
-          <div className={styles.tableListForm}>
-            <Form onSubmit={handleSearch} layout="inline">
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="应用" style={{ marginLeft: 30 }}>
-                    {getFieldDecorator("appSource")(
-                      < Input placeholder="请输入" />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="注册邮箱" style={{ marginLeft: 4 }} disabled>
-                    {getFieldDecorator("regEmail")(
-                      <Input placeholder="请输入" />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="手机号" style={{ marginLeft: 17 }}>
-                    {getFieldDecorator("mobile")(
-                      <Input placeholder="请输入" />
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="用户昵称" style={{ marginLeft: 4 }}>
-                    {getFieldDecorator("nickName")(
-                      <Input placeholder="请输入" />
-                    )}
-                  </FormItem>
-                </Col>
-                <div style={{ overflow: "hidden" }}>
-                  <span style={{ float: "right", marginBottom: 24 }}>
-                    <Button type="primary" htmlType="submit">查询</Button>
-                    <Button style={{ marginLeft: 8 }} onClick={handleFormReset}>重置</Button>
-                  </span>
-                </div>
-              </Row>
-            </Form>
-          </div>
+        <div className={styles.tableListForm}>
+          <Form onSubmit={handleSearch} layout="inline">
+            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+              <Col md={8} sm={24}>
+                <FormItem label="应用" style={{ marginLeft: 30 }}>
+                  {getFieldDecorator("appSource")(
+                    < Input placeholder="请输入" />
+                  )}
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="注册邮箱" style={{ marginLeft: 4 }} disabled>
+                  {getFieldDecorator("regEmail")(
+                    <Input placeholder="请输入" />
+                  )}
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="手机号" style={{ marginLeft: 17 }}>
+                  {getFieldDecorator("mobile")(
+                    <Input placeholder="请输入" />
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+              <Col md={8} sm={24}>
+                <FormItem label="用户昵称" style={{ marginLeft: 4 }}>
+                  {getFieldDecorator("nickName")(
+                    <Input placeholder="请输入" />
+                  )}
+                </FormItem>
+              </Col>
+              <div style={{ overflow: "hidden" }}>
+                <span style={{ float: "right", marginBottom: 24 }}>
+                  <Button type="primary" htmlType="submit">查询</Button>
+                  <Button style={{ marginLeft: 8 }} onClick={handleFormReset}>重置</Button>
+                </span>
+              </div>
+            </Row>
+          </Form>
         </div>
       </Card>
 
@@ -220,17 +220,7 @@ const AppUsers = ({
           columns={columns}
           dataSource={data}
           bordered={false}
-          pagination={false}
-        />
-        <Pagination
-          style={{ padding: "20px 0 0", textAlign: "center", marginBottom: "10px" }}
-          showSizeChanger
-          showQuickJumper
-          showTotal={showTotal}
-          onChange={getNowPage}
-          onShowSizeChange={onShowSizeChange}
-          defaultCurrent={1}
-          total={pagination.total}
+          pagination={paginationObj}
         />
       </Card>
     </div>

@@ -1,4 +1,3 @@
-import { routerRedux } from "dva/router";
 import { devicesListApi, deviceProductListApi } from "../services/api";
 import { message } from "antd";
 
@@ -9,13 +8,11 @@ export default {
     deviceProductListData: [],
     pagination: {
       total: 0,
-      pageSize: 0,
+      pageSize: 10,
       current: 0,
       pageCount: 0
     }, //分页数据
-    searchList: {}, //查询条件
-    pageIndex: 0, //分页开始 第几页
-    pagesize: 10 //返回条数
+    searchList: {} //查询条件
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -102,10 +99,13 @@ export default {
         ...state,
         deviceListData: [],
         deviceProductListData: [],
-        pagination: {}, //分页数据
-        searchList: {}, //查询条件
-        pageIndex: 0, //分页开始 第几页
-        pagesize: 10 //返回条数
+        pagination: {
+          total: 0,
+          pageSize: 10,
+          current: 0,
+          pageCount: 0
+        }, //分页数据
+        searchList: {} //查询条件
       };
     },
     //返回数据列表
@@ -114,10 +114,6 @@ export default {
     },
     productListSuccess(state, action) {
       return { ...state, deviceProductListData: action.payload };
-    },
-    //分页参数
-    setPage(state, action) {
-      return { ...state, pageIndex: action.payload, pagesize: action.pageSize };
     },
     //查询条件
     searchList(state, action) {

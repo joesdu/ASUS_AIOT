@@ -6,8 +6,7 @@ import styles from "../TableList.less";
 const FormItem = Form.Item;
 
 const DeviceDetail = ({
-  deviceDetail,
-  loading
+  deviceDetail
 }) => {
   let { detailData } = deviceDetail;
 
@@ -75,124 +74,118 @@ const DeviceDetail = ({
   return (
     <div>
       <Card title="基本信息">
-        <div className={styles.tableList}>
-          <div className={styles.tableListForm}>
-            <Form layout="inline">
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="设备ID">
-                    <label>{detailData.deviceId}</label>
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="生产UUID">
-                    <label>{detailData.uuid}</label>
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="自定义名称">
-                    <label>{detailData.customName}</label>
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="默认名称">
-                    <label>{detailData.defaultName}</label>
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="所属产品">
-                    <label>{detailData.productName}</label>
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="产品ID">
-                    <label>{detailData.productCode}</label>
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="首次激活时间">
-                    <label>{detailData.firstActTime}</label>
-                  </FormItem>
-                </Col>
-              </Row>
-            </Form>
-          </div>
+        <div className={styles.tableListForm}>
+          <Form layout="inline">
+            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+              <Col md={8} sm={24}>
+                <FormItem label="设备ID">
+                  <label>{detailData.deviceId}</label>
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="生产UUID">
+                  <label>{detailData.uuid}</label>
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="自定义名称">
+                  <label>{detailData.customName}</label>
+                </FormItem>
+              </Col>
+            </Row>
+            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+              <Col md={8} sm={24}>
+                <FormItem label="默认名称">
+                  <label>{detailData.defaultName}</label>
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="所属产品">
+                  <label>{detailData.productName}</label>
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="产品ID">
+                  <label>{detailData.productCode}</label>
+                </FormItem>
+              </Col>
+            </Row>
+            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+              <Col md={8} sm={24}>
+                <FormItem label="首次激活时间">
+                  <label>{detailData.firstActTime}</label>
+                </FormItem>
+              </Col>
+            </Row>
+          </Form>
         </div>
       </Card>
 
-      <Card title="设备激活信息">
-        <div className={styles.tableList}>
-          <div className={styles.tableListForm}>
-            <Form layout="inline">
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="是否激活">
-                    <label>是</label>
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="首次激活时间">
-                    <label>{detailData.firstActTime}</label>
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="最近激活时间">
-                    <label>{detailData.lastActTime}</label>
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="更新时间">
-                    <label>{detailData.updateTime}</label>
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="当前在线">
-                    {getOnline(detailData.onlineStatus)}
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="绑定用户">
-                    <label>{detailData.userMobile}</label>
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="经纬度">
-                    <label>
-                      {detailData.lng}，{detailData.lat}
-                    </label>
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="地理位置">
-                    <label>{detailData.city}</label>
-                  </FormItem>
-                </Col>
-                <Col md={8} sm={24}>
-                  <FormItem label="渠道">
-                    <label>{getSource(detailData.source)}</label>
-                  </FormItem>
-                </Col>
-              </Row>
-            </Form>
-          </div>
+      <Card style={{ marginTop: 20 }} title="设备激活信息">
+        <div className={styles.tableListForm}>
+          <Form layout="inline">
+            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+              <Col md={8} sm={24}>
+                <FormItem label="是否激活">
+                  <label>是</label>
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="首次激活时间">
+                  <label>{detailData.firstActTime}</label>
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="最近激活时间">
+                  <label>{detailData.lastActTime}</label>
+                </FormItem>
+              </Col>
+            </Row>
+            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+              <Col md={8} sm={24}>
+                <FormItem label="更新时间">
+                  <label>{detailData.updateTime}</label>
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="当前在线">
+                  {getOnline(detailData.onlineStatus)}
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="绑定用户">
+                  <label>{detailData.userMobile}</label>
+                </FormItem>
+              </Col>
+            </Row>
+            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+              <Col md={8} sm={24}>
+                <FormItem label="经纬度">
+                  <label>
+                    {detailData.lng}，{detailData.lat}
+                  </label>
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="地理位置">
+                  <label>{detailData.city}</label>
+                </FormItem>
+              </Col>
+              <Col md={8} sm={24}>
+                <FormItem label="渠道">
+                  <label>{getSource(detailData.source)}</label>
+                </FormItem>
+              </Col>
+            </Row>
+          </Form>
         </div>
       </Card>
 
-      <Card title="设备运行状态">
-        <div className={styles.tableList}>
-          <div className={styles.tableListForm}>
-            <Form layout="inline">
-              {getRows(detailData.functionStatus)}
-            </Form>
-          </div>
+      <Card style={{ marginTop: 20 }} title="设备运行状态">
+        <div className={styles.tableListForm}>
+          <Form layout="inline">
+            {getRows(detailData.functionStatus)}
+          </Form>
         </div>
       </Card>
     </div>

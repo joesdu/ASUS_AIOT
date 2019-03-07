@@ -21,8 +21,8 @@ const Routers = function ({ history, app }) {
     },
     {
       path: "/dashboard", //首页
-      models: () => [import("./models/home")],
-      component: () => import("./routes/dashboard/index")
+      models: () => [import("./models/dataOverview")],
+      component: () => import("./routes/dataOverview/dataOverview")
     },
     {
       path: "/devices", //设备管理
@@ -53,11 +53,6 @@ const Routers = function ({ history, app }) {
       path: "/userDetail", //用户详情
       models: () => [import("./models/userDetail")],
       component: () => import("./routes/appUserManage/userDetail")
-    },
-    {
-      path: "/dataOverview", //数据概览
-      models: () => [import("./models/dataOverview")],
-      component: () => import("./routes/dataOverview/dataOverview")
     },
     {
       path: "/activeData", //激活数据

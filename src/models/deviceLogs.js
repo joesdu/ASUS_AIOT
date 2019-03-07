@@ -7,7 +7,7 @@ export default {
     data: [], //列表数据
     pagination: {
       total: 0,
-      pageSize: 0,
+      pageSize: 10,
       current: 0,
       pageCount: 0
     }, //分页数据
@@ -58,7 +58,12 @@ export default {
       return {
         ...state,
         data: [],
-        pagination: {}
+        pagination: {
+          total: 0,
+          pageSize: 10,
+          current: 0,
+          pageCount: 0
+        }
       };
     },
     //返回数据列表
