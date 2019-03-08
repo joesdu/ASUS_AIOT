@@ -23,6 +23,31 @@
     }
 }
 
+.tableForm {
+    :global {
+        .ant-form-item {
+            margin-bottom: 5px;
+            margin-right: 0;
+            display: flex;
+            >.ant-form-item-label {
+                width: auto;
+                line-height: 32px;
+                padding-right: 8px;
+            }
+            .ant-form-item-control {
+                line-height: 32px;
+            }
+        }
+        .ant-form-item-control-wrapper {
+            flex: 1;
+        }
+    }
+    .submitButtons {
+        white-space: nowrap;
+        margin-bottom: 24px;
+    }
+}
+
 :global(.paddings) :global(.ant-card-body) {
     padding: 14px;
     padding-bottom: 0;

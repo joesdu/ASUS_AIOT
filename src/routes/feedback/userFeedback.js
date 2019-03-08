@@ -1,12 +1,12 @@
 import React, { Fragment } from "react";
 import { connect } from "dva";
 import moment from "moment";
-import { Table, Row, Col, Card, Form, Select, Button, DatePicker, message, Modal } from "antd";
+import { Table, Row, Col, Card, Form, Select, Button, DatePicker, message, Modal, Radio, Input } from "antd";
 import styles from "../TableList.less";
 
-const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
+const { TextArea } = Input;
 
 const UserFeedback = ({
   userFeedback,
@@ -26,12 +26,21 @@ const UserFeedback = ({
       dataIndex: "descriptionAndRemark",
       align: 'left',
       render: (text, record) => {
-        return (
-          <div>
-            <div>{record.descriptionAndRemark.description}</div>
-            <div>{record.descriptionAndRemark.remark}</div>
-          </div>
-        );
+        if (record.isProcessed === "1" || record.isProcessed === 1) {
+          return (
+            <div style={{ color: "#272727" }}>
+              <div>【{record.productName}】{record.descriptionAndRemark.description}</div>
+              <div>【处理批注】{record.descriptionAndRemark.remark}</div>
+            </div>
+          );
+        } else {
+          return (
+            <div style={{ color: "#272727" }}>
+              <div>【{record.productName}】{record.descriptionAndRemark.description}</div>
+              <div>{record.descriptionAndRemark.remark}</div>
+            </div>
+          );
+        }
       }
     },
     {
@@ -88,7 +97,7 @@ const UserFeedback = ({
         return (
           <div>
             <Fragment>
-              <a onClick={showModal.bind(this, { feedbackId: record.feedbackId, isProcessed: record.isProcessed })}>标记</a>
+              <a onClick={showModal.bind(this, { feedbackId: record.feedbackId, isProcessed: record.isProcessed, remark: record.descriptionAndRemark.remark })}>标记</a>
             </Fragment>
           </div>
         );
@@ -137,10 +146,9 @@ const UserFeedback = ({
       message.warning("请选择查询条件");
       return;
     }
-    let _value = getJsonPrams(values, pageIndex, pagesize);
+    let _value = getJsonPrams(values, pagination.current, pagesize);
     //赛选数据
     dispatch({ type: "userFeedback/feedbackList", payload: _value });
-
     //保存查询条件
     dispatch({ type: "userFeedback/searchList", payload: _value });
   };
@@ -202,35 +210,35 @@ const UserFeedback = ({
 
   const dateFormat = "YYYY-MM-DD";
 
-  const showModal = e => {
+  const showModal = (e) => {
     Modal.confirm({
       title: "标记",
       okText: "确认",
       cancelText: "取消",
       content: (
-        <div>
-          <label>标记 : </label>
-          {/* <RadioGroup style={{ marginTop: "20px" }}>
-            <Radio value={1} style={{ marginRight: "50px" }}>
-              已处理
-            </Radio>
-            <Radio value={2} style={{ marginLeft: "50px" }}>
-              未处理
-            </Radio>
-          </RadioGroup> */}
-          <span>是否调整反馈状态?</span>
+        <div className={styles.tableForm}>
+          <Form>
+            <Form.Item label="标记" style={{ marginLeft: 30 }}>
+              {getFieldDecorator('radioSelect')(
+                <Radio.Group defaultValue={1}>
+                  <Radio value={1}>已处理</Radio>
+                  <Radio value={0}>未处理</Radio>
+                </Radio.Group>
+              )}
+            </Form.Item>
+            <Form.Item label="处理批注" style={{ marginLeft: 4 }}>
+              {getFieldDecorator('txtRemark')(
+                <TextArea placeholder="请输入你的处理批注信息" autosize={{ minRows: 3, maxRows: 5 }} style={{ marginTop: "10px" }} />
+              )}
+            </Form.Item>
+          </Form>
         </div>
       ),
       onOk() {
-        if (e.isProcessed == "1" || e.isProcessed == 1) {
-          e.isProcessed = 0;
-        } else {
-          e.isProcessed = 1;
-        }
         let values = getFieldsValue();
-        let _value = getJsonPrams(values, pageIndex, pagesize);
+        let _value = getJsonPrams(values, pagination.current, pagination.pageSize);
         let _object = {
-          update: { feedbackId: e.feedbackId, isProcessed: e.isProcessed, userToken: localStorage.getItem("userToken") },
+          update: { feedbackId: e.feedbackId, isProcessed: values.radioSelect, remark: values.txtRemark, userToken: localStorage.getItem("userToken") },
           query: _value
         };
         dispatch({ type: "userFeedback/updateFeedback", payload: _object });
@@ -248,17 +256,17 @@ const UserFeedback = ({
           <Form onSubmit={handleSearch} layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-                <FormItem label="应用" style={{ marginLeft: 30 }}>
+                <Form.Item label="应用" style={{ marginLeft: 30 }}>
                   {getFieldDecorator("application", { initialValue: "全部" })(
                     <Select placeholder="全部" style={{ width: "100%" }} disabled>
                       <Option value={"全部"}>全部</Option>
                       <Option value={1}>11111</Option>
                     </Select>
                   )}
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="产品" style={{ marginLeft: 30 }}>
+                <Form.Item label="产品" style={{ marginLeft: 30 }}>
                   {getFieldDecorator("productId", { initialValue: "全部" })(
                     <Select placeholder="全部" style={{ width: "100%" }}>
                       <Option value={null}>全部</Option>
@@ -269,10 +277,10 @@ const UserFeedback = ({
                       ))}
                     </Select>
                   )}
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="状态" style={{ marginLeft: 30 }}>
+                <Form.Item label="状态" style={{ marginLeft: 30 }}>
                   {getFieldDecorator("isProcessed", { initialValue: "全部" })(
                     <Select placeholder="全部" style={{ width: "100%" }}>
                       <Option value={"全部"}>全部</Option>
@@ -280,16 +288,16 @@ const UserFeedback = ({
                       <Option value={"已处理"}>已处理</Option>
                     </Select>
                   )}
-                </FormItem>
+                </Form.Item>
               </Col>
             </Row>
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-                <FormItem label="反馈时间" style={{ marginLeft: 4 }}>
+                <Form.Item label="反馈时间" style={{ marginLeft: 4 }}>
                   {getFieldDecorator("recentActivated")(
                     <RangePicker format={dateFormat} />
                   )}
-                </FormItem>
+                </Form.Item>
               </Col>
             </Row>
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>

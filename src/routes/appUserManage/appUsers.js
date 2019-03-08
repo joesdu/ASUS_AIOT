@@ -24,7 +24,7 @@ const AppUsers = ({
       dataIndex: "appSource",
       render: (text, record) => {
         return (
-          <div>{record.appSource}</div>
+          <div style={{ color: "#272727" }}>{record.appSource}</div>
         );
       }
     },
