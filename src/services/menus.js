@@ -1,7 +1,5 @@
 //得到菜单数据
 export async function query() {
-  //let _url = urls+'login/menu.do?' + stringify(params)
-  //return request(_url)
   return {
     msg: "提交成功!",
     code: 0,

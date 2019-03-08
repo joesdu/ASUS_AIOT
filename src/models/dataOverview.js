@@ -18,7 +18,7 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen(location => {
-        if (location.pathname === "/dataOverview") {
+        if (location.pathname === "/dashboard") {
           let overview = { userToken: localStorage.getItem("userToken"), productId: 0 };
           let activate = { userToken: localStorage.getItem("userToken"), period: 7, productId: 0 };
           let active = { userToken: localStorage.getItem("userToken"), period: 7, productId: 0 };

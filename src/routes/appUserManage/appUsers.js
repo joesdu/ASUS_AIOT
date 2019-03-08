@@ -71,7 +71,7 @@ const AppUsers = ({
         return (
           <div>
             <Fragment>
-              <Link to={{ pathname: `./userDetail`, state: { userId: record.userId } }}>查看详情</Link>
+              <Link to={{ pathname: `/appUsers/Detail`, state: { userId: record.userId } }}>查看详情</Link>
             </Fragment>
           </div>
         );

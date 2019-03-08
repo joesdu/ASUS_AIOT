@@ -37,7 +37,8 @@ const DataOverview = ({
   var activateConfig = {
     chart: { type: "areaspline", height: 450 },
     xAxis: { categories: activateData.dateArray },
-    yAxis: { title: { text: "激活设备/个" }, plotLines: [{ value: 0, width: 1, color: "#808080" }] },
+    yAxis: { title: { text: "激活设备/个" }, plotLines: [{ value: 0, width: 1, color: "#81BCFF" }] },
+    colors: ['#81BCFF'],
     title: { text: null },
     legend: { enabled: false },
     credits: { enabled: false }, // 隐藏右下角版权
@@ -47,7 +48,8 @@ const DataOverview = ({
   var activeConfig = {
     chart: { type: "areaspline", height: 450 },
     xAxis: { categories: activeData.dateArray },
-    yAxis: { title: { text: "活跃设备/个" }, plotLines: [{ value: 0, width: 1, color: "#808080" }] },
+    yAxis: { title: { text: "活跃设备/个" }, plotLines: [{ value: 0, width: 1, color: "#81BCFF" }] },
+    colors: ['#81BCFF'],
     title: { text: null },
     legend: { enabled: false },
     credits: { enabled: false }, // 隐藏右下角版权
@@ -57,7 +59,8 @@ const DataOverview = ({
   var areaConfig = {
     chart: { height: 450, type: "column" },
     xAxis: { categories: areaData.areaArray },
-    yAxis: { title: { text: "活跃数量/个" }, plotLines: [{ value: 0, width: 1, color: "#808080" }] },
+    yAxis: { title: { text: "活跃数量/个" }, plotLines: [{ value: 0, width: 1, color: "#81BCFF" }] },
+    colors: ['#81BCFF'],
     title: { text: null },
     legend: { enabled: false },
     credits: { enabled: false }, // 隐藏右下角版权
@@ -97,26 +100,26 @@ const DataOverview = ({
   return (
     <div>
       <Card>
-          <div className={styles.tableListForm}>
-            <Form layout="inline">
-              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={8} sm={24}>
-                  <FormItem label="产品" style={{ marginLeft: 30 }}>
-                    {getFieldDecorator("productId", { initialValue: "全部" })(
-                      <Select placeholder="全部" onChange={handleChange} style={{ width: "100%" }}>
-                        <Option value={0}>全部</Option>
-                        {deviceProductListData.map(product => (
-                          <Option value={product.productId}>
-                            {product.productName}
-                          </Option>
-                        ))}
-                      </Select>
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-            </Form>
-          </div>
+        <div className={styles.tableListForm}>
+          <Form layout="inline">
+            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+              <Col md={8} sm={24}>
+                <FormItem label="产品" style={{ marginLeft: 30 }}>
+                  {getFieldDecorator("productId", { initialValue: "全部" })(
+                    <Select placeholder="全部" onChange={handleChange} style={{ width: "100%" }}>
+                      <Option value={0}>全部</Option>
+                      {deviceProductListData.map(product => (
+                        <Option value={product.productId}>
+                          {product.productName}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+          </Form>
+        </div>
       </Card>
 
       <div style={{ marginTop: "15px" }} className={styles.indexTop}>

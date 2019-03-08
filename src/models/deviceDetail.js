@@ -10,7 +10,7 @@ export default {
     setup({ dispatch, history }) {
       history.listen(location => {
         //页面初始化执行
-        if (location.pathname === "/deviceDetail") {
+        if (location.pathname === "/devices/Detail") {
           let _ars = { deviceId: location.state.deviceId };
           dispatch({ type: "queryDetail", payload: _ars });
         }

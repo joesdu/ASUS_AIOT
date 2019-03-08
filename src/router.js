@@ -30,12 +30,12 @@ const Routers = function ({ history, app }) {
       component: () => import("./routes/deviceManage/devices")
     },
     {
-      path: "/deviceDetail", //设备详情
+      path: "/devices/Detail", //设备详情
       models: () => [import("./models/deviceDetail")],
       component: () => import("./routes/deviceManage/deviceDetail")
     },
     {
-      path: "/deviceLogs", //设备日志
+      path: "/devices/Logs", //设备日志
       models: () => [import("./models/deviceLogs")],
       component: () => import("./routes/deviceManage/deviceLogs")
     },
@@ -50,7 +50,7 @@ const Routers = function ({ history, app }) {
       component: () => import("./routes/appUserManage/appUsers")
     },
     {
-      path: "/userDetail", //用户详情
+      path: "/appUsers/Detail", //用户详情
       models: () => [import("./models/userDetail")],
       component: () => import("./routes/appUserManage/userDetail")
     },
