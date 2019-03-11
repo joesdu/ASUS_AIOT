@@ -39,14 +39,14 @@ export default {
       } else {
         let result = data.data;
         let _pag = {};
-        _pag.total = typeof result.totalRows == "undefined" ? 0 : result.totalRows;
-        _pag.pageSize = typeof result.pageRows == "undefined" ? 0 : result.pageRows;
-        _pag.current = typeof result.pageNum == "undefined" ? 0 : result.pageNum;
-        if (typeof result.totalRows == "undefined" || typeof result.pageRows == "undefined")
+        _pag.total = typeof result.totalRows == undefined ? 0 : result.totalRows;
+        _pag.pageSize = typeof result.pageRows == undefined ? 0 : result.pageRows;
+        _pag.current = typeof result.pageNum == undefined ? 0 : result.pageNum;
+        if (typeof result.totalRows == undefined || typeof result.pageRows == undefined)
           _pag.pageCount = 0;
         else
           _pag.pageCount = parseInt((result.totalRows - 1) / result.pageRows) + 1;
-        if (data.data == null || data.data == {})
+        if (data.data == null || data.data == {} || data.data == undefined)
           message.info("无数据");
         else
           yield put({ type: "querySuccess", payload: result.deviceLogs, page: _pag, deviceId: payload.deviceId });

@@ -27,7 +27,7 @@ export default {
             if (data == null || data.length == 0 || data == {} || data.code != 0) {
                 message.error(data != null ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
             } else {
-                if (data.data == null || data.data == {})
+                if (data.data == null || data.data == {} || data.data == undefined)
                     message.info("无数据");
                 else
                     yield put({ type: "querySuccess", payload: data.data });

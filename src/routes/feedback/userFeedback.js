@@ -25,21 +25,12 @@ const UserFeedback = ({
       dataIndex: "descriptionAndRemark",
       align: 'left',
       render: (text, record) => {
-        if ((record.isProcessed === "1" || record.isProcessed === 1) && record.descriptionAndRemark.remark.length > 0) {
-          return (
-            <div style={{ color: "#272727" }}>
-              <div>【{record.productName}】{record.descriptionAndRemark.description}</div>
-              <div>【处理批注】{record.descriptionAndRemark.remark}</div>
-            </div>
-          );
-        } else {
-          return (
-            <div style={{ color: "#272727" }}>
-              <div>【{record.productName}】{record.descriptionAndRemark.description}</div>
-              <div>{record.descriptionAndRemark.remark}</div>
-            </div>
-          );
-        }
+        return (
+          <div style={{ color: "#272727" }}>
+            <div>{record.descriptionAndRemark.description}</div>
+            <div>{record.descriptionAndRemark.remark}</div>
+          </div>
+        );
       }
     },
     {

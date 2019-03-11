@@ -29,7 +29,7 @@ export default {
       if (data == null || data.length == 0 || data == {} || data.code != 0) {
         message.error(data != null ? "获取数据概况失败,错误信息:" + data.msg : "获取数据概况失败");
       } else {
-        if (data.data == null || data.data == {})
+        if (data.data == null || data.data == {} || data.data == undefined)
           message.info("无数据");
         else
           yield put({ type: "ActiveSummarySuccess", payload: data.data });
@@ -41,7 +41,7 @@ export default {
       if (data == null || data.length == 0 || data == {} || data.code != 0) {
         message.error(data != null ? "获取活跃数据趋势失败,错误信息:" + data.msg : "获取活跃数据趋势失败");
       } else {
-        if (data.data == null || data.data == {})
+        if (data.data == null || data.data == {} || data.data == undefined)
           message.info("无数据");
         else {
           let dateArray = data.data.map(function (obj) {
@@ -65,7 +65,7 @@ export default {
       if (data == null || data.length == 0 || data == {} || data.code != 0) {
         message.error(data != null ? "获取产品列表数据失败,错误信息:" + data.msg : "获取产品列表数据失败");
       } else {
-        if (data.data == null || data.data == {})
+        if (data.data == null || data.data == {} || data.data == undefined)
           message.info("无数据");
         else
           yield put({ type: "ProductListSuccess", payload: data.data });
