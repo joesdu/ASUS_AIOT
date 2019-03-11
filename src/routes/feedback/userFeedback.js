@@ -6,7 +6,6 @@ import styles from "../TableList.less";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
-const { TextArea } = Input;
 
 const UserFeedback = ({
   userFeedback,
@@ -26,7 +25,7 @@ const UserFeedback = ({
       dataIndex: "descriptionAndRemark",
       align: 'left',
       render: (text, record) => {
-        if (record.isProcessed === "1" || record.isProcessed === 1) {
+        if ((record.isProcessed === "1" || record.isProcessed === 1) && record.descriptionAndRemark.remark.length > 0) {
           return (
             <div style={{ color: "#272727" }}>
               <div>【{record.productName}】{record.descriptionAndRemark.description}</div>
@@ -210,6 +209,16 @@ const UserFeedback = ({
 
   const dateFormat = "YYYY-MM-DD";
 
+  let radioSelect = 1;
+  const radioChange = (e) => {
+    radioSelect = e.target.value;
+  };
+
+  let radioOption = [
+    { label: "已处理", value: 1 },
+    { label: "未处理", value: 0 }
+  ];
+
   const showModal = (e) => {
     Modal.confirm({
       title: "标记",
@@ -219,17 +228,10 @@ const UserFeedback = ({
         <div className={styles.tableForm}>
           <Form>
             <Form.Item label="标记" style={{ marginLeft: 30 }}>
-              {getFieldDecorator('radioSelect')(
-                <Radio.Group defaultValue={1}>
-                  <Radio value={1}>已处理</Radio>
-                  <Radio value={0}>未处理</Radio>
-                </Radio.Group>
-              )}
+              <Radio.Group defaultValue={1} options={radioOption} onChange={radioChange} />
             </Form.Item>
             <Form.Item label="处理批注" style={{ marginLeft: 4 }}>
-              {getFieldDecorator('txtRemark')(
-                <TextArea placeholder="请输入你的处理批注信息" autosize={{ minRows: 3, maxRows: 5 }} style={{ marginTop: "10px" }} />
-              )}
+              <Input.TextArea id="markText" placeholder="请输入你的处理批注信息" autosize={{ minRows: 3, maxRows: 5 }} style={{ marginTop: "10px" }} />
             </Form.Item>
           </Form>
         </div>
@@ -237,8 +239,9 @@ const UserFeedback = ({
       onOk() {
         let values = getFieldsValue();
         let _value = getJsonPrams(values, pagination.current, pagination.pageSize);
+        let markText = document.getElementById("markText").value;
         let _object = {
-          update: { feedbackId: e.feedbackId, isProcessed: values.radioSelect, remark: values.txtRemark, userToken: localStorage.getItem("userToken") },
+          update: { feedbackId: e.feedbackId, isProcessed: radioSelect, remark: markText, userToken: localStorage.getItem("userToken") },
           query: _value
         };
         dispatch({ type: "userFeedback/updateFeedback", payload: _object });
