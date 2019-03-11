@@ -29,7 +29,7 @@ const Menus = ({ siderFold, navOpenKeys, changeOpenKeys, menu, location }) => {
         )
       }
       return (
-        <Menu.Item key={item.id}>
+        <Menu.Item key={item.id} title={item.name}>
           <Link to={item.route || '#'}>
             {item.icon && <Icon type={item.icon} />}
             {(!siderFoldN || !menuTree.includes(item)) && item.name}

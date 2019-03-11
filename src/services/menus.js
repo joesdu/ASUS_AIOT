@@ -6,64 +6,46 @@ export async function query() {
     data: [
       {
         route: "/dashboard",
-        bpid: 0,
         icon: "dashboard",
         name: "首页",
-        id: 1,
-        mpid: 0
+        id: 1
       },
       {
-        route: null,
-        bpid: 0,
         icon: "table",
         name: "运营中心",
-        id: 2,
-        mpid: 0
+        id: 2
       },
       {
         route: "/devices",
-        bpid: 2,
-        icon: "",
         name: "设备管理",
         id: 21,
         mpid: 2
       },
       {
         route: "/userFeedback",
-        bpid: 2,
-        icon: "",
         name: "用户反馈",
         id: 22,
         mpid: 2
       },
       {
         route: "/appUsers",
-        bpid: 2,
-        icon: "",
         name: "APP用户管理",
         id: 23,
         mpid: 2
       },
       {
-        route: null,
-        bpid: 0,
         icon: "table",
         name: "数据中心",
-        id: 3,
-        mpid: 0
+        id: 3
       },
       {
         route: "/activeData",
-        bpid: 3,
-        icon: "",
         name: "激活数据",
         id: 31,
         mpid: 3
       },
       {
         route: "/activelyData",
-        bpid: 3,
-        icon: "",
         name: "活跃数据",
         id: 32,
         mpid: 3
