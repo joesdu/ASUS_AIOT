@@ -105,7 +105,7 @@ const AppUsers = ({
       message.warning("请选择查询条件");
       return;
     }
-    let _value = getJsonPrams(values, pageIndex, pagesize);
+    let _value = getJsonPrams(values, pagination.current, pagination.pageSize);
     //赛选数据
     dispatch({ type: "appUsers/queryRule", payload: _value });
 
