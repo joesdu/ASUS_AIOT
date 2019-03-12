@@ -24,6 +24,7 @@ const Devices = ({
     {
       title: "设备名称/ID",
       dataIndex: "nameAndID",
+      width: 200,
       align: 'left',
       render: (text, record) => {
         return (
@@ -36,6 +37,7 @@ const Devices = ({
     },
     {
       title: "状态",
+      width: 150,
       dataIndex: "states",
       render: (text, record) => {
         if (record.states.isAct === '激活') {
@@ -53,12 +55,12 @@ const Devices = ({
             </div>
           );
         }
-
       }
     },
     {
       title: "所属产品/生产UUID",
       dataIndex: "productsAndUUID",
+      width: 250,
       align: 'left',
       render: (text, record) => {
         return (
@@ -71,7 +73,6 @@ const Devices = ({
     },
     {
       title: "绑定用户/渠道",
-      width: 150,
       dataIndex: "mobileAndSource",
       align: 'left',
       render: (text, record) => {
@@ -85,7 +86,6 @@ const Devices = ({
     },
     {
       title: "首次激活",
-      width: 150,
       dataIndex: "firstActTime",
       render: (text, record) => {
         return <div style={{ color: "#B3B3B3" }}>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
@@ -93,7 +93,6 @@ const Devices = ({
     },
     {
       title: "最近激活",
-      width: 150,
       dataIndex: "lastActTime",
       render: (text, record) => {
         return <div style={{ color: "#B3B3B3" }}>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
@@ -101,7 +100,6 @@ const Devices = ({
     },
     {
       title: "最近更新",
-      width: 150,
       dataIndex: "updateTime",
       render: (text, record) => {
         return <div style={{ color: "#B3B3B3" }}>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
@@ -109,6 +107,7 @@ const Devices = ({
     },
     {
       title: "操作",
+      width: 150,
       dataIndex: "operation",
       render: (text, record) => {
         if (record.operation == "激活") {

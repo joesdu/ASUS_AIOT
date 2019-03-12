@@ -10,10 +10,10 @@ const Bread = ({ menu, location }) => {
   let pathArray = []
   let current
   let _name2 = location.pathname.indexOf('/', location.pathname.indexOf('/') + 1)
-  let _arrs = ''
+  let temp = ''
 
   for (let index in menu) {
-    //赛选正则匹配
+    //賽選正则匹配
     if (menu[index].route && pathToRegexp(menu[index].route).exec(location.pathname)) {
       current = menu[index]
       break
@@ -21,9 +21,9 @@ const Bread = ({ menu, location }) => {
   }
 
   if (_name2 > 0) {
-    _arrs = location.pathname.substring(0, _name2)
+    temp = location.pathname.substring(0, _name2)
     for (let index in menu) {
-      if (menu[index].route && pathToRegexp(menu[index].route).exec(_arrs)) {
+      if (menu[index].route && pathToRegexp(menu[index].route).exec(temp)) {
         current = menu[index]
         break
       }
@@ -87,6 +87,7 @@ const Bread = ({ menu, location }) => {
       <Breadcrumb>
         {breads}
       </Breadcrumb>
+      <div style={{ marginLeft: "14.5px", fontSize: "20px", fontStyle: { fontcolor: "#FFFFFF" }, fontFamily: "Microsoft YaHei UI" }}>{pathArray[pathArray.length-1].name}</div>
     </div>
   )
 }

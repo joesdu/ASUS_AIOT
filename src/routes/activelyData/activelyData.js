@@ -94,7 +94,6 @@ const ActivelyData = ({
               <span style={{ color: "#1890FF" }}>{activeSummaryData.todayActive}&nbsp;</span>
               <div className={styles.indexBottom_text}>
                 <span>昨日活跃&nbsp;&nbsp;</span>
-                {console.log(activeSummaryData.yesterdayActive)}
                 <span>{activeSummaryData.yesterdayActive}&nbsp;</span>
               </div>
             </div>
