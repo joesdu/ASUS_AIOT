@@ -1,4 +1,4 @@
-import { feedbackListApi, deviceProductListApi, feedbackUpdateApi } from "../../services/api";
+import { backTestUserDeleteApi, backTestUserDetailApi, backTestUserListApi, backTestUserSaveApi, backTestUseUpdateApi, deviceProductListApi } from "../../services/api";
 import { message } from "antd";
 
 export default {
@@ -18,7 +18,7 @@ export default {
     setup({ dispatch, history }) {
       history.listen(location => {
         //页面初始化执行
-          if (location.pathname === "/textAccount") {
+        if (location.pathname === "/textAccount") {
           let _ars = {
             userToken: localStorage.getItem("userToken"),
             firstRow: null,
@@ -27,7 +27,7 @@ export default {
             pageRows: 10,
             productId: null
           };
-              dispatch({ type: "accountList", payload: _ars });
+          dispatch({ type: "accountList", payload: _ars });
           dispatch({ type: "productList" });
         }
       });
@@ -69,7 +69,7 @@ export default {
               isProcessed: obj.isProcessed
             };
           });
-            yield put({ type: "accountListListSuccess", payload: feedbackData, page: _pag });
+          yield put({ type: "accountListListSuccess", payload: feedbackData, page: _pag });
         }
       }
     },
@@ -111,7 +111,7 @@ export default {
       };
     },
     //返回数据列表
-      accountListListSuccess(state, action) {
+    accountListListSuccess(state, action) {
       return { ...state, feedbackData: action.payload, pagination: action.page };
     },
     productListSuccess(state, action) {

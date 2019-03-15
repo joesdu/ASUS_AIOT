@@ -109,3 +109,34 @@ export async function statsDeviceSummaryApi(params) {
   let _url = apiUrl + api.statsDeviceSummary;
   return request(_url, { method: "POST", body: params });
 }
+
+//測試賬號管理
+/***********刪除測試賬號**********/
+export async function backTestUserDeleteApi(params) {
+  let _url = apiUrl + api.backTestUserDelete;
+  return request(_url, { method: "POST", body: params });
+}
+
+/***********測試賬號詳情**********/
+export async function backTestUserDetailApi(params) {
+  let _url = apiUrl + api.backTestUserDetail;
+  return request(_url, { method: "POST", body: params });
+}
+
+/***********測試賬號列表**********/
+export async function backTestUserListApi(params) {
+  let _url = apiUrl + api.backTestUserList;
+  return request(_url, { method: "POST", body: params });
+}
+
+/***********添加測試賬號**********/
+export async function backTestUserSaveApi(params) {
+  let _url = apiUrl + api.backTestUserSave;
+  return request(_url, { method: "POST", body: params });
+}
+
+/***********更新測試賬號**********/
+export async function backTestUseUpdateApi(params) {
+  let _url = apiUrl + api.backTestUseUpdate;
+  return request(_url, { method: "POST", body: params });
+}
