@@ -22,47 +22,52 @@ const Routers = function ({ history, app }) {
     {
       path: "/dashboard", //首页
       models: () => [import("./models/dataOverview")],
-      component: () => import("./routes/dataOverview/dataOverview")
+      component: () => import("./routes/dataOverview")
     },
     {
       path: "/devices", //设备管理
-      models: () => [import("./models/devices")],
-      component: () => import("./routes/deviceManage/devices")
+      models: () => [import("./models/deviceManage")],
+      component: () => import("./routes/deviceManage")
     },
     {
       path: "/devices/Detail", //设备详情
-      models: () => [import("./models/deviceDetail")],
+      models: () => [import("./models/deviceManage/deviceDetail")],
       component: () => import("./routes/deviceManage/deviceDetail")
     },
     {
       path: "/devices/Logs", //设备日志
-      models: () => [import("./models/deviceLogs")],
+      models: () => [import("./models/deviceManage/deviceLogs")],
       component: () => import("./routes/deviceManage/deviceLogs")
     },
     {
       path: "/userFeedback", //用户反馈
-      models: () => [import("./models/userFeedback")],
-      component: () => import("./routes/feedback/userFeedback")
+      models: () => [import("./models/feedback")],
+      component: () => import("./routes/feedback")
     },
     {
       path: "/appUsers", //APP用户管理
-      models: () => [import("./models/appUsers")],
-      component: () => import("./routes/appUserManage/appUsers")
+      models: () => [import("./models/appUserManage")],
+      component: () => import("./routes/appUserManage")
     },
     {
       path: "/appUsers/Detail", //用户详情
-      models: () => [import("./models/userDetail")],
+      models: () => [import("./models/appUserManage/userDetail")],
       component: () => import("./routes/appUserManage/userDetail")
     },
     {
       path: "/activeData", //激活数据
       models: () => [import("./models/activeData")],
-      component: () => import("./routes/activeData/activeData")
+      component: () => import("./routes/activeData")
     },
     {
       path: "/activelyData", //活跃数据
       models: () => [import("./models/activelyData")],
-      component: () => import("./routes/activelyData/activelyData")
+      component: () => import("./routes/activelyData")
+    },
+    {
+      path: "/testAccount", //测试账号管理
+      models: () => [import("./models/testAccount")],
+      component: () => import("./routes/testAccount")
     }
   ];
 

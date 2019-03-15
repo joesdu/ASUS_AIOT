@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "dva";
 import { Table, Tabs, Row, Col, Card, Form, Select, Divider } from "antd";
-import styles from "./activeData.less";
+import styles from "./index.less";
 
 const ReactHighcharts = require("react-highcharts");
 const FormItem = Form.Item;

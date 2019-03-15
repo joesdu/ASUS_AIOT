@@ -1,4 +1,4 @@
-import { deviceDetailApi } from "../services/api";
+import { deviceDetailApi } from "../../services/api";
 import { message } from "antd";
 
 export default {

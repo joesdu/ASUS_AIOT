@@ -1,8 +1,8 @@
-import { feedbackListApi, deviceProductListApi, feedbackUpdateApi } from "../services/api";
+import { feedbackListApi, deviceProductListApi, feedbackUpdateApi } from "../../services/api";
 import { message } from "antd";
 
 export default {
-  namespace: "userFeedback",
+  namespace: "textAccount",
   state: {
     feedbackData: [],
     deviceProductListData: [],
@@ -18,18 +18,16 @@ export default {
     setup({ dispatch, history }) {
       history.listen(location => {
         //页面初始化执行
-        if (location.pathname === "/userFeedback") {
+          if (location.pathname === "/textAccount") {
           let _ars = {
             userToken: localStorage.getItem("userToken"),
-            endTime: null,
             firstRow: null,
             isProcessed: null,
             pageNum: 0,
             pageRows: 10,
-            productId: null,
-            startTime: null
+            productId: null
           };
-          dispatch({ type: "feedbackList", payload: _ars });
+              dispatch({ type: "accountList", payload: _ars });
           dispatch({ type: "productList" });
         }
       });
@@ -37,7 +35,7 @@ export default {
   },
 
   effects: {
-    *feedbackList({ payload }, { call, put }) {
+    *accountList({ payload }, { call, put }) {
       const data = yield call(feedbackListApi, payload);
       if (data == null || data.length == 0 || data == {} || data.code != 0) {
         message.error(data != null ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
@@ -71,7 +69,7 @@ export default {
               isProcessed: obj.isProcessed
             };
           });
-          yield put({ type: "feedbackListSuccess", payload: feedbackData, page: _pag });
+            yield put({ type: "accountListListSuccess", payload: feedbackData, page: _pag });
         }
       }
     },
@@ -113,7 +111,7 @@ export default {
       };
     },
     //返回数据列表
-    feedbackListSuccess(state, action) {
+      accountListListSuccess(state, action) {
       return { ...state, feedbackData: action.payload, pagination: action.page };
     },
     productListSuccess(state, action) {

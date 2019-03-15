@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "dva";
 import { Icon, Row, Col, Card, Form, Select } from "antd";
-import styles from "./dataOverview.less";
+import styles from "./index.less";
 import ReactHighcharts from "react-highcharts";
 
 const FormItem = Form.Item;

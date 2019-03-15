@@ -1,5 +1,5 @@
 import { routerRedux } from "dva/router";
-import { backUserLoginApi } from "../services/api";
+import { backUserLoginApi } from "../../services/api";
 import { message } from "antd";
 
 export default {

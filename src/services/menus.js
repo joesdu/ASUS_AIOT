@@ -61,7 +61,21 @@ export async function query() {
         id: 32,
         bpid: 3,
         mpid: 3
-      }
+      },
+      {
+        icon: "setting",
+        name: "设置",
+        id: 4,
+        bpid: 0,
+        mpid: 0
+      },
+      {
+        route: "/testAccount",
+        name: "测试账号管理",
+        id: 41,
+        mpid: 4,
+        bpid: 4
+      },
     ],
     isSuccess: true
   };
