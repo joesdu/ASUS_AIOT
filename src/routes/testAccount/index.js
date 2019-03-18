@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { connect } from "dva";
 import moment from "moment";
-import { Table, Row, Col, Card, Form, Select, Button, message, Modal, Radio, Input } from "antd";
+import { Table, Row, Col, Card, Form, Select, Button, message, Modal, Input, Icon } from "antd";
 import styles from "../TableList.less";
 
 const { Option } = Select;
@@ -15,48 +15,49 @@ const TestAccount = ({
         getFieldsValue
     }
 }) => {
-    let { pagination, searchList } = testAccount;
+    let { deviceProductListData, testUserData, pagination, searchList, addBtnVisible } = testAccount;
 
     //定义表头
     const columns = [
         {
             title: "所属产品",
-            dataIndex: "",
+            dataIndex: "productName",
+            align: 'left',
             render: (text, record) => {
                 return (
-                    <div style={{ color: "#272727" }}>{"所属产品"}}</div>
+                    <div style={{ color: "#272727" }}>{record.productName}</div>
                 );
             }
         },
         {
             title: "手机号",
-            dataIndex: "",
+            dataIndex: "mobile",
             align: 'left',
             render: (text, record) => {
-                return <div style={{ color: "#272727" }}>{"234624572458745"}</div>;
+                return <div style={{ color: "#272727" }}>{record.mobile}</div>;
             }
         },
         {
             title: "生产商",
-            dataIndex: "",
+            dataIndex: "producer",
             align: 'left',
             render: (text, record) => {
                 return (
-                    <div style={{ color: "#272727" }}>{"东莞灯场"}</div>
+                    <div style={{ color: "#272727" }}>{record.producer}</div>
                 );
             }
         },
         {
             title: "备注",
-            dataIndex: "",
+            dataIndex: "remark",
             align: 'left',
             render: (text, record) => {
-                return <div style={{ color: "#272727" }}>{"--"}</div>;
+                return <div style={{ color: "#272727" }}>{record.remark}</div>;
             }
         },
         {
             title: "创建时间",
-            dataIndex: "createTime",
+            dataIndex: "createdTime",
             render: (text, record) => {
                 return <div>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
             }
@@ -69,12 +70,8 @@ const TestAccount = ({
                     <div>
                         <div>
                             <Fragment>
-                                <Link to={{ pathname: `/devices/Logs`, state: { deviceId: record.nameAndID.deviceId } }}>删除</Link>
-                            </Fragment>
-                        </div>
-                        <div>
-                            <Fragment>
-                                <Link to={{ pathname: `/devices/Detail`, state: { deviceId: record.nameAndID.deviceId } }}>编辑</Link>
+                                <a style={{ marginRight: 10 }} onClick={showDeleteConfirm.bind(this, { testUserId: record.testUserId, userToken: localStorage.getItem("userToken") })}>删除</a>
+                                <a style={{ marginLeft: 10 }} onClick={showEditConfirm.bind(this, { record: record })}>编辑</a>
                             </Fragment>
                         </div>
                     </div>
@@ -82,6 +79,75 @@ const TestAccount = ({
             }
         }
     ];
+
+    const showEditConfirm = (e) => {
+        Modal.confirm({
+            title: '账户信息',
+            okText: '确认',
+            cancelText: '取消',
+            destroyOnClose: true,
+            width: 550,
+            icon: (
+                <Icon />
+            ),
+            content: (<div className={styles.tableListForm}>
+                <Form layout="inline">
+                    <Form.Item label="所属产品" style={{ marginLeft: 5 }}>
+                        {getFieldDecorator("productId_edit", {
+                            rules: [{ required: true, message: "请选择一个所属产品" }]
+                        })(
+                            <Select style={{ width: "100%" }}>
+                                {deviceProductListData.map(product => (
+                                    <Option value={product.productId}>
+                                        {product.productName}
+                                    </Option>
+                                ))}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label="手机号" style={{ marginLeft: 18 }}>
+                        {getFieldDecorator("phone_edit", {
+                            rules: [{ required: true, message: "请输入手机号码!" }]
+                        })(<Input placeholder="请输入手机号" defaultValue={e.record.mobile} />)}
+                    </Form.Item>
+                    <Form.Item label="生产商" style={{ marginLeft: 29 }}>
+                        {getFieldDecorator("producer_edit")(<Input placeholder="请输入生产商" defaultValue={e.record.producer} />)}
+                    </Form.Item>
+                    <Form.Item label="备注" style={{ marginLeft: 41, marginBottom: 0 }}>
+                        {getFieldDecorator("remark_edit")(<Input placeholder="请输入备注内容" defaultValue={e.record.remark} />)}
+                    </Form.Item>
+                </Form>
+            </div>),
+            onOk() {
+                let values = getFieldsValue();
+                if (values.productId_edit == "" || values.productId_edit == null || values.productId_edit == undefined) {
+                    message.error("请选择一个所属产品");
+                    return;
+                }
+                if (values.phone_edit == "" || values.phone_edit == null || values.phone_edit == undefined) {
+                    message.error("手机号不能为空");
+                    return;
+                }
+                let obj = {
+                    mobile: values.phone_edit,
+                    producer: values.producer_edit,
+                    productId: values.productId_edit,
+                    remark: values.remark_edit,
+                    testUserId: e.record.testUserId,
+                    userToken: localStorage.getItem("userToken")
+                }
+                let _value = getJsonPrams(values, pagination.current, pagination.pageSize);
+                let _object = {
+                    update: obj,
+                    query: _value
+                };
+                dispatch({ type: "testAccount/update", payload: _object });
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
+    }
 
     const getJsonPrams = (parm, pageNum, pageRows) => {
         let productId = null;
@@ -116,7 +182,7 @@ const TestAccount = ({
         }
         let _value = getJsonPrams(values, pagination.current, pagination.pageSize);
         //赛选数据
-        dispatch({ type: "testAccount/feedbackList", payload: _value });
+        dispatch({ type: "testAccount/getList", payload: _value });
         //保存查询条件
         dispatch({ type: "testAccount/searchList", payload: _value });
     };
@@ -134,10 +200,10 @@ const TestAccount = ({
         }
         setFieldsValue(fields);
         dispatch({ type: "testAccount/clearData" });
+        dispatch({ type: "testAccount/productList" });
         //重置查询所有
         let _ars = getJsonPrams(null, 0, 10);
-        dispatch({ type: "testAccount/feedbackList", payload: _ars });
-        dispatch({ type: "testAccount/productList", payload: null });
+        dispatch({ type: "testAccount/getList", payload: _ars });
         //重置查询条件
         dispatch({ type: "testAccount/searchList", payload: [] });
     };
@@ -155,9 +221,9 @@ const TestAccount = ({
             let postObj = getJsonPrams(values, current - 1, pageSize);
             //判断查询条件
             if (JSON.stringify(searchList) !== "{}") {
-                dispatch({ type: "testAccount/feedbackList", payload: postObj });
+                dispatch({ type: "testAccount/getList", payload: postObj });
             } else {
-                dispatch({ type: "testAccount/feedbackList", payload: postObj });
+                dispatch({ type: "testAccount/getList", payload: postObj });
             }
         },
         onChange: (current, pageSize) => {
@@ -165,9 +231,9 @@ const TestAccount = ({
             let postObj = getJsonPrams(values, current - 1, pageSize);
             //判断查询条件
             if (JSON.stringify(searchList) !== "{}") {
-                dispatch({ type: "testAccount/feedbackList", payload: postObj });
+                dispatch({ type: "testAccount/getList", payload: postObj });
             } else {
-                dispatch({ type: "testAccount/feedbackList", payload: postObj });
+                dispatch({ type: "testAccount/getList", payload: postObj });
             }
         },
         showTotal: () => {
@@ -176,61 +242,74 @@ const TestAccount = ({
     }
     /**分页合集 end **/
 
-    let radioSelect = 1;
-    const radioChange = (e) => {
-        radioSelect = e.target.value;
-    };
-
-    let radioOption = [
-        { label: "已处理", value: 1 },
-        { label: "未处理", value: 0 }
-    ];
-
-    const showModal = (e) => {
+    const showDeleteConfirm = (e) => {
         Modal.confirm({
-            title: "标记",
-            okText: "确认",
-            cancelText: "取消",
-            content: (
-                <div className={styles.tableForm}>
-                    <Form>
-                        <Form.Item label="标记" style={{ marginLeft: 30 }}>
-                            <Radio.Group defaultValue={1} options={radioOption} onChange={radioChange} />
-                        </Form.Item>
-                        <Form.Item label="处理批注" style={{ marginLeft: 4 }}>
-                            <Input.TextArea id="markText" placeholder="请输入你的处理批注信息" autosize={{ minRows: 3, maxRows: 5 }} style={{ marginTop: "10px" }} />
-                        </Form.Item>
-                    </Form>
-                </div>
+            title: '确认要删除吗？',
+            okText: '删除',
+            okType: 'danger',
+            cancelText: '取消',
+            destroyOnClose: true,
+            icon: (
+                <Icon type="close-circle" theme="twoTone" twoToneColor="#CD0000" />
             ),
             onOk() {
                 let values = getFieldsValue();
                 let _value = getJsonPrams(values, pagination.current, pagination.pageSize);
-                let markText = document.getElementById("markText").value;
                 let _object = {
-                    update: { feedbackId: e.feedbackId, isProcessed: radioSelect, remark: markText, userToken: localStorage.getItem("userToken") },
+                    delete: e,
                     query: _value
                 };
-                dispatch({ type: "userFeedback/updateFeedback", payload: _object });
+                dispatch({ type: "testAccount/delete", payload: _object });
             },
             onCancel() {
-                console.log("Cancel");
-            }
+                console.log('CancelDelete');
+            },
         });
-    };
+    }
+
+    const addModalSH = () => dispatch({ type: "testAccount/setAddVisibleState", visible: !addBtnVisible });
+    const addModalOk = () => {
+        let values = getFieldsValue();
+        if (values.productId_add == "" || values.productId_add == null || values.productId_add == undefined) {
+            message.error("请选择一个所属产品");
+            return;
+        }
+        if (values.phone_add == "" || values.phone_add == null || values.phone_add == undefined) {
+            message.error("手机号不能为空");
+            return;
+        }
+        let obj = {
+            mobile: values.phone_add,
+            producer: values.producer_add,
+            productId: values.productId_add,
+            remark: values.remark_add,
+            userToken: localStorage.getItem("userToken")
+        }
+        let _value = getJsonPrams(values, pagination.current, pagination.pageSize);
+        let _object = {
+            save: obj,
+            query: _value
+        };
+        dispatch({ type: "testAccount/save", payload: _object });
+        addModalSH();
+    }
 
     return (
         <div>
             <Card>
-                <div className={styles.tableListForm}>
+                <div className={styles.tableForm}>
                     <Form onSubmit={handleSearch} layout="inline">
                         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                             <Col md={8} sm={24}>
                                 <Form.Item label="所属产品" style={{ marginLeft: 4 }}>
                                     {getFieldDecorator("productId", { initialValue: "全部" })(
-                                        <Select placeholder="全部" style={{ width: "100%" }} disabled>
-                                            <Option value={"全部"}>全部</Option>
-                                            <Option value={1}>11111</Option>
+                                        <Select placeholder="全部" style={{ width: "100%" }}>
+                                            <Option value={null}>全部</Option>
+                                            {deviceProductListData.map(product => (
+                                                <Option value={product.productId}>
+                                                    {product.productName}
+                                                </Option>
+                                            ))}
                                         </Select>
                                     )}
                                 </Form.Item>
@@ -254,14 +333,40 @@ const TestAccount = ({
             </Card>
 
             <Card style={{ marginTop: 20 }} title="设备列表">
-                <Form onSubmit={handleSearch} layout="inline">
-                    <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                        <Col md={8} sm={24}>
-                            <Button type="primary">添加账号</Button>
-                        </Col>
-                    </Row>
-                </Form>
-                <Table columns={columns} dataSource={null} bordered={false} pagination={paginationObj} />
+                <div style={{ marginBottom: 15 }}>
+                    <Button type="primary" onClick={addModalSH}>添加账号</Button>
+                    <Modal title="账户信息" visible={addBtnVisible} onOk={addModalOk} onCancel={addModalSH} okText="确认" cancelText="取消" destroyOnClose={true}>
+                        <div className={styles.tableListForm}>
+                            <Form layout="inline">
+                                <Form.Item label="所属产品" style={{ marginLeft: 5 }}>
+                                    {getFieldDecorator("productId_add", {
+                                        rules: [{ required: true, message: "请选择一个所属产品" }]
+                                    })(
+                                        <Select style={{ width: "100%" }}>
+                                            {deviceProductListData.map(product => (
+                                                <Option value={product.productId}>
+                                                    {product.productName}
+                                                </Option>
+                                            ))}
+                                        </Select>
+                                    )}
+                                </Form.Item>
+                                <Form.Item label="手机号" style={{ marginLeft: 18 }}>
+                                    {getFieldDecorator("phone_add", {
+                                        rules: [{ required: true, message: "请输入手机号码!" }]
+                                    })(<Input placeholder="请输入手机号" />)}
+                                </Form.Item>
+                                <Form.Item label="生产商" style={{ marginLeft: 29 }}>
+                                    {getFieldDecorator("producer_add")(<Input placeholder="请输入生产商" />)}
+                                </Form.Item>
+                                <Form.Item label="备注" style={{ marginLeft: 41, marginBottom: 0 }}>
+                                    {getFieldDecorator("remark_add")(<Input placeholder="请输入备注内容" />)}
+                                </Form.Item>
+                            </Form>
+                        </div>
+                    </Modal>
+                </div>
+                <Table columns={columns} dataSource={testUserData} bordered={false} pagination={paginationObj} />
             </Card>
         </div>
     );

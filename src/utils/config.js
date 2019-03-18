@@ -3,7 +3,7 @@ const APIV1 = "/v1.0/back/";
 const test = "http://106.15.176.36";
 const formal = "https://139.224.168.3";
 const current = "https://adol.asus.com.cn";
-const IP = current;
+const IP = test;
 
 let userToken = localStorage.getItem("userToken");
 let userName = localStorage.getItem("userName");
@@ -54,4 +54,4 @@ module.exports = {
     backTestUseUpdate: "backTestUser/update"
   }
 };
-//   Swagger:       http://106.15.176.36:9008/swagger-ui.html#/
+//   Swagger:       http://106.15.176.36:9008/swagger-ui.html#/*

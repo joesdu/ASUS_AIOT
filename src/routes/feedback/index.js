@@ -156,10 +156,10 @@ const UserFeedback = ({
     }
     setFieldsValue(fields);
     dispatch({ type: "userFeedback/clearData" });
+    dispatch({ type: "userFeedback/productList" });
     //重置查询所有
     let _ars = getJsonPrams(null, 0, 10);
     dispatch({ type: "userFeedback/feedbackList", payload: _ars });
-    dispatch({ type: "userFeedback/productList", payload: null });
     //重置查询条件
     dispatch({ type: "userFeedback/searchList", payload: [] });
   };
@@ -215,6 +215,7 @@ const UserFeedback = ({
       title: "标记",
       okText: "确认",
       cancelText: "取消",
+      destroyOnClose: true,
       content: (
         <div className={styles.tableForm}>
           <Form>

@@ -1,10 +1,11 @@
-import { backTestUserDeleteApi, backTestUserDetailApi, backTestUserListApi, backTestUserSaveApi, backTestUseUpdateApi, deviceProductListApi } from "../../services/api";
+import { backTestUserDeleteApi, backTestUserListApi, backTestUserSaveApi, backTestUseUpdateApi, deviceProductListApi } from "../../services/api";
 import { message } from "antd";
 
 export default {
-  namespace: "textAccount",
+  namespace: "testAccount",
   state: {
-    feedbackData: [],
+    addBtnVisible: false,
+    testUserData: [],
     deviceProductListData: [],
     pagination: {
       total: 0,
@@ -18,25 +19,24 @@ export default {
     setup({ dispatch, history }) {
       history.listen(location => {
         //页面初始化执行
-        if (location.pathname === "/textAccount") {
-          let _ars = {
-            userToken: localStorage.getItem("userToken"),
+        if (location.pathname === "/testAccount") {
+          let listPram = {
             firstRow: null,
-            isProcessed: null,
+            mobile: null,
             pageNum: 0,
             pageRows: 10,
-            productId: null
+            productId: null,
+            userToken: localStorage.getItem("userToken")
           };
-          dispatch({ type: "accountList", payload: _ars });
+          dispatch({ type: "getList", payload: listPram });
           dispatch({ type: "productList" });
         }
       });
     }
   },
-
   effects: {
-    *accountList({ payload }, { call, put }) {
-      const data = yield call(feedbackListApi, payload);
+    *getList({ payload }, { call, put }) {
+      const data = yield call(backTestUserListApi, payload);
       if (data == null || data.length == 0 || data == {} || data.code != 0) {
         message.error(data != null ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
       } else {
@@ -52,24 +52,52 @@ export default {
             _pag.pageCount = 0;
           else
             _pag.pageCount = parseInt((result.totalRows - 1) / result.pageRows) + 1;
-          let feedbackData = result.feedbacks.map(function (obj) {
-            let remarks = "";
-            if ((obj.remark == null | obj.remark == "" | obj.remark == undefined)) {
-              remarks = obj.remark;
-            } else {
-              remarks = "【处理批注】" + obj.remark;
-            }
-            return {
-              descriptionAndRemark: { description: "【" + obj.productName + " 】" + obj.description, remark: remarks },
-              contact: obj.contact,
-              mobileAndNickname: { mobile: obj.mobile, nickname: obj.nickName },
-              productName: obj.productName,
-              createTime: obj.createTime,
-              feedbackId: obj.feedbackId,
-              isProcessed: obj.isProcessed
-            };
-          });
-          yield put({ type: "accountListListSuccess", payload: feedbackData, page: _pag });
+          yield put({ type: "getListSuccess", payload: result.testUsers, page: _pag });
+        }
+      }
+    },
+    *delete({ payload }, { call, put }) {
+      const data = yield call(backTestUserDeleteApi, payload.delete);
+      if (data == null || data.length == 0 || data == {} || data.code != 0) {
+        message.error(data != null ? "删除数据失败,错误信息:" + data.msg : "删除数据失败");
+      } else {
+        if (data.code === 0 || data.code === "0") {
+          message.info("刪除成功");
+          //Todo 刷新列表
+          yield put({ type: "getList", payload: payload.query });
+        }
+        else {
+          message.info("删除失败,原因:" + data.msg)
+        }
+      }
+    },
+    *save({ payload }, { call, put }) {
+      const data = yield call(backTestUserSaveApi, payload.save);
+      if (data == null || data.length == 0 || data == {} || data.code != 0) {
+        message.error(data != null ? "保存数据失败,错误信息:" + data.msg : "保存数据失败");
+      } else {
+        if (data.code === 0 || data.code === "0") {
+          message.info("保存成功");
+          //Todo 刷新列表
+          yield put({ type: "getList", payload: payload.query });
+        }
+        else {
+          message.info("保存失败,原因:" + data.msg)
+        }
+      }
+    },
+    *update({ payload }, { call, put }) {
+      const data = yield call(backTestUseUpdateApi, payload.update);
+      if (data == null || data.length == 0 || data == {} || data.code != 0) {
+        message.error(data != null ? "更新数据失败,错误信息:" + data.msg : "更新数据失败");
+      } else {
+        if (data.code === 0 || data.code === "0") {
+          message.info("更新成功");
+          //Todo 刷新列表
+          yield put({ type: "getList", payload: payload.query });
+        }
+        else {
+          message.info("更新失败,原因:" + data.msg)
         }
       }
     },
@@ -80,18 +108,9 @@ export default {
         message.error(data != null ? "获取产品列表数据失败,错误信息:" + data.msg : "获取产品列表数据失败");
       } else {
         if (data.data == null || data.data == {} || data.data == undefined)
-          message.info("无数据");
+          message.info("无产品数据");
         else
           yield put({ type: "productListSuccess", payload: data.data });
-      }
-    },
-    *updateFeedback({ payload }, { call, put }) {
-      const data = yield call(feedbackUpdateApi, payload.update);
-      if (data == null || data.length == 0 || data == {} || data.code != 0) {
-        message.error(data != null ? "更新失败,错误信息:" + data.msg : "更新失败");
-      } else {
-        message.info("更新成功:" + data.msg);
-        yield put({ type: "feedbackList", payload: payload.query });
       }
     }
   },
@@ -99,7 +118,8 @@ export default {
     clearData(state) {
       return {
         ...state,
-        feedbackData: [],
+        addBtnVisible: false,
+        testUserData: [],
         deviceProductListData: [],
         pagination: {
           total: 0,
@@ -110,16 +130,17 @@ export default {
         searchList: {}
       };
     },
-    //返回数据列表
-    accountListListSuccess(state, action) {
-      return { ...state, feedbackData: action.payload, pagination: action.page };
+    getListSuccess(state, action) {
+      return { ...state, testUserData: action.payload, pagination: action.page };
     },
     productListSuccess(state, action) {
       return { ...state, deviceProductListData: action.payload };
     },
-    //查询条件
     searchList(state, action) {
       return { ...state, searchList: action.payload };
+    },
+    setAddVisibleState(state, action) {
+      return { ...state, addBtnVisible: action.visible };
     }
   }
 };

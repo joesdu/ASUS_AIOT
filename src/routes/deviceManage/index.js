@@ -237,10 +237,10 @@ const Devices = ({
     }
     setFieldsValue(fields);
     dispatch({ type: "devices/clearData" });
+    dispatch({ type: "devices/productList" });
     //重置查询所有
     let _ars = getJsonPrams(null, 0, 10);
     dispatch({ type: "devices/devicesList", payload: _ars });
-    dispatch({ type: "devices/productList", payload: null });
     //重置查询条件
     dispatch({ type: "devices/searchList", payload: [] });
   };
