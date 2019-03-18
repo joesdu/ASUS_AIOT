@@ -221,7 +221,7 @@ const TestAccount = ({
             let postObj = getJsonPrams(values, current - 1, pageSize);
             //判断查询条件
             if (JSON.stringify(searchList) !== "{}") {
-                dispatch({ type: "testAccount/getList", payload: postObj });
+                dispatch({ type: "testAccount/getList", payload: postObj }); 
             } else {
                 dispatch({ type: "testAccount/getList", payload: postObj });
             }
