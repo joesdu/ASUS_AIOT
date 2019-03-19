@@ -103,7 +103,7 @@ const TestAccount = ({
                             )}
                         </Form.Item>
                         <Form.Item label="手机号" style={{ marginLeft: 18 }}>
-                            {getFieldDecorator("phone_edit", {
+                            {getFieldDecorator("mobile_edit", {
                                 rules: [{ required: true, message: "请输入手机号码!", pattern: /^1[34578]\d{9}$/ }],
                                 initialValue: e.mobile
                             })(<Input placeholder="请输入手机号" />)}
@@ -127,12 +127,12 @@ const TestAccount = ({
                     message.error("请选择一个所属产品");
                     return;
                 }
-                if (values.phone_edit == "" || values.phone_edit == null || values.phone_edit == undefined) {
+                if (values.mobile_edit == "" || values.mobile_edit == null || values.mobile_edit == undefined) {
                     message.error("手机号不能为空");
                     return;
                 }
                 let obj = {
-                    mobile: values.phone_edit,
+                    mobile: values.mobile_edit,
                     producer: values.producer_edit,
                     productId: values.productId_edit,
                     remark: values.remark_edit,
@@ -155,16 +155,16 @@ const TestAccount = ({
         } else {
             productId = parm.productId;
         }
-        let phone = null;
-        if (parm.phone == null || parm.phone == "") {
-            phone = null;
+        let mobile = null;
+        if (parm.mobile == null || parm.mobile == "") {
+            mobile = null;
         } else {
-            phone = parm.phone;
+            mobile = parm.mobile;
         }
         return {
             userToken: localStorage.getItem("userToken"),
             firstRow: null,
-            phone: phone,
+            mobile: mobile,
             pageNum: pageNum,
             pageRows: pageRows,
             productId: productId
@@ -263,12 +263,12 @@ const TestAccount = ({
             message.error("请选择一个所属产品");
             return;
         }
-        if (values.phone_add == "" || values.phone_add == null || values.phone_add == undefined) {
+        if (values.mobile_add == "" || values.mobile_add == null || values.mobile_add == undefined) {
             message.error("手机号不能为空");
             return;
         }
         let obj = {
-            mobile: values.phone_add,
+            mobile: values.mobile_add,
             producer: values.producer_add,
             productId: values.productId_add,
             remark: values.remark_add,
@@ -305,7 +305,7 @@ const TestAccount = ({
                             </Col>
                             <Col md={8} sm={24}>
                                 <Form.Item label="手机号" style={{ marginLeft: 18 }}>
-                                    {getFieldDecorator("phone")(<Input placeholder="请输入" />)}
+                                    {getFieldDecorator("mobile")(<Input placeholder="请输入" />)}
                                 </Form.Item>
                             </Col>
                             <Col md={8} sm={24}>
@@ -341,7 +341,7 @@ const TestAccount = ({
                                     )}
                                 </Form.Item>
                                 <Form.Item label="手机号" style={{ marginLeft: 18 }}>
-                                    {getFieldDecorator("phone_add", {
+                                    {getFieldDecorator("mobile_add", {
                                         rules: [{ required: true, message: "请输入正确的手机号码!", pattern: /^1[34578]\d{9}$/ }],
                                     })(<Input placeholder="请输入手机号" />)}
                                 </Form.Item>
