@@ -5,6 +5,8 @@ export default {
   namespace: "testAccount",
   state: {
     addBtnVisible: false,
+    editBtnVisible: false,
+    editModalData: {},
     testUserData: [],
     deviceProductListData: [],
     pagination: {
@@ -119,6 +121,8 @@ export default {
       return {
         ...state,
         addBtnVisible: false,
+        editBtnVisible: false,
+        editModalData: {},
         testUserData: [],
         deviceProductListData: [],
         pagination: {
@@ -141,6 +145,12 @@ export default {
     },
     setAddVisibleState(state, action) {
       return { ...state, addBtnVisible: action.visible };
+    },
+    setEditVisibleState(state, action) {
+      return { ...state, editBtnVisible: action.visible };
+    },
+    setEditModalData(state, action) {
+      return { ...state, editModalData: action.data };
     }
   }
 };

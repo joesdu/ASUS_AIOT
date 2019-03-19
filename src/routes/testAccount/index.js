@@ -15,7 +15,7 @@ const TestAccount = ({
         getFieldsValue
     }
 }) => {
-    let { deviceProductListData, testUserData, pagination, searchList, addBtnVisible } = testAccount;
+    let { deviceProductListData, testUserData, pagination, searchList, addBtnVisible, editBtnVisible, editModalData } = testAccount;
 
     //定义表头
     const columns = [
@@ -70,83 +70,12 @@ const TestAccount = ({
                 return (
                     <Fragment>
                         <a style={{ marginRight: 10 }} onClick={showDeleteConfirm.bind(this, { testUserId: record.testUserId, userToken: localStorage.getItem("userToken") })}>删除</a>
-                        <a style={{ marginLeft: 10 }} onClick={showEditConfirm.bind(this, record)}>编辑</a>
+                        <a style={{ marginLeft: 10 }} onClick={editModalShow.bind(this, record)}>编辑</a>
                     </Fragment>
                 );
             }
         }
     ];
-
-    const showEditConfirm = (e) => {
-        Modal.confirm({
-            title: '账户信息',
-            okText: '确定',
-            cancelText: '取消',
-            destroyOnClose: true,
-            icon: (<Icon />),
-            width: 500,
-            content: (
-                <div className={styles.tableListForm} style={{ marginTop: 20, marginBottom: 10 }}>
-                    <Form layout="inline">
-                        <Form.Item label="所属产品" style={{ marginLeft: 5 }}>
-                            {getFieldDecorator("productId_edit", {
-                                rules: [{ required: true, message: "请选择一个所属产品" }],
-                                initialValue: e.productId
-                            })(
-                                <Select placeholder="请选择一个所属产品">
-                                    {deviceProductListData.map(product => (
-                                        <Option value={product.productId}>
-                                            {product.productName}
-                                        </Option>
-                                    ))}
-                                </Select>
-                            )}
-                        </Form.Item>
-                        <Form.Item label="手机号" style={{ marginLeft: 18 }}>
-                            {getFieldDecorator("mobile_edit", {
-                                rules: [{ required: true, message: "请输入手机号码!", pattern: /^1[34578]\d{9}$/ }],
-                                initialValue: e.mobile
-                            })(<Input placeholder="请输入手机号" />)}
-                        </Form.Item>
-                        <Form.Item label="生产商" style={{ marginLeft: 29 }}>
-                            {getFieldDecorator("producer_edit",
-                                { initialValue: e.producer }
-                            )(<Input placeholder="请输入生产商" />)}
-                        </Form.Item>
-                        <Form.Item label="备注" style={{ marginLeft: 41, marginBottom: 0 }}>
-                            {getFieldDecorator("remark_edit",
-                                { initialValue: e.remark }
-                            )(<Input placeholder="请输入备注内容" />)}
-                        </Form.Item>
-                    </Form>
-                </div>
-            ),
-            onOk() {
-                let values = getFieldsValue();
-                if (values.productId_edit == "" || values.productId_edit == null || values.productId_edit == undefined) {
-                    message.error("请选择一个所属产品");
-                    return;
-                }
-                if (values.mobile_edit == "" || values.mobile_edit == null || values.mobile_edit == undefined) {
-                    message.error("手机号不能为空");
-                    return;
-                }
-                let obj = {
-                    mobile: values.mobile_edit,
-                    producer: values.producer_edit,
-                    productId: values.productId_edit,
-                    remark: values.remark_edit,
-                    testUserId: e.testUserId,
-                    userToken: localStorage.getItem("userToken")
-                }
-                let _value = getJsonPrams(values, pagination.current, pagination.pageSize);
-                dispatch({ type: "testAccount/update", payload: { update: obj, query: _value } });
-            },
-            onCancel() {
-                console.log('CancelEdit');
-            },
-        });
-    }
 
     const getJsonPrams = (parm, pageNum, pageRows) => {
         let productId = null;
@@ -243,16 +172,11 @@ const TestAccount = ({
             okType: 'danger',
             cancelText: '取消',
             destroyOnClose: true,
-            icon: (
-                <Icon type="close-circle" theme="twoTone" twoToneColor="#CD0000" />
-            ),
+            icon: (<Icon type="close-circle" theme="twoTone" twoToneColor="#CD0000" />),
             onOk() {
-                let _value = getJsonPrams(getFieldsValue(), pagination.current, pagination.pageSize);
-                dispatch({ type: "testAccount/delete", payload: { delete: e, query: _value } });
+                dispatch({ type: "testAccount/delete", payload: { delete: e, query: getJsonPrams(getFieldsValue(), pagination.current, pagination.pageSize) } });
             },
-            onCancel() {
-                console.log('CancelDelete');
-            },
+            onCancel() { console.log('CancelDelete'); },
         });
     }
 
@@ -274,13 +198,42 @@ const TestAccount = ({
             remark: values.remark_add,
             userToken: localStorage.getItem("userToken")
         }
-        let _value = getJsonPrams(values, pagination.current, pagination.pageSize);
         let _object = {
             save: obj,
-            query: _value
+            query: getJsonPrams(values, pagination.current, pagination.pageSize)
         };
         dispatch({ type: "testAccount/save", payload: _object });
         addModalSH();
+    }
+
+    const editModalShow = (e) => {
+        dispatch({ type: "testAccount/setEditModalData", data: e })
+        dispatch({ type: "testAccount/setEditVisibleState", visible: true })
+    };
+    const editModalOk = () => {
+        let values = getFieldsValue();
+        if (values.productId_edit == "" || values.productId_edit == null || values.productId_edit == undefined) {
+            message.error("请选择一个所属产品");
+            return;
+        }
+        if (values.mobile_edit == "" || values.mobile_edit == null || values.mobile_edit == undefined) {
+            message.error("手机号不能为空");
+            return;
+        }
+        let obj = {
+            mobile: values.mobile_edit,
+            producer: values.producer_edit,
+            productId: values.productId_edit,
+            remark: values.remark_edit,
+            testUserId: editModalData.testUserId,
+            userToken: localStorage.getItem("userToken")
+        }
+        let _value = getJsonPrams(values, pagination.current, pagination.pageSize);
+        dispatch({ type: "testAccount/update", payload: { update: obj, query: _value } });
+        dispatch({ type: "testAccount/setEditVisibleState", visible: false })
+    }
+    const editModalHide = () => {
+        dispatch({ type: "testAccount/setEditVisibleState", visible: false })
     }
 
     return (
@@ -295,9 +248,7 @@ const TestAccount = ({
                                         <Select placeholder="全部" style={{ width: "100%" }}>
                                             <Option value={null}>全部</Option>
                                             {deviceProductListData.map(product => (
-                                                <Option value={product.productId}>
-                                                    {product.productName}
-                                                </Option>
+                                                <Option value={product.productId}>{product.productName}</Option>
                                             ))}
                                         </Select>
                                     )}
@@ -333,23 +284,47 @@ const TestAccount = ({
                                     })(
                                         <Select style={{ width: "100%" }}>
                                             {deviceProductListData.map(product => (
-                                                <Option value={product.productId}>
-                                                    {product.productName}
-                                                </Option>
+                                                <Option value={product.productId}>{product.productName}</Option>
                                             ))}
                                         </Select>
                                     )}
                                 </Form.Item>
                                 <Form.Item label="手机号" style={{ marginLeft: 18 }}>
-                                    {getFieldDecorator("mobile_add", {
-                                        rules: [{ required: true, message: "请输入正确的手机号码!", pattern: /^1[34578]\d{9}$/ }],
-                                    })(<Input placeholder="请输入手机号" />)}
+                                    {getFieldDecorator("mobile_add", { rules: [{ required: true, message: "请输入正确的手机号码!", pattern: /^1[34578]\d{9}$/ }], })(<Input placeholder="请输入手机号" />)}
                                 </Form.Item>
                                 <Form.Item label="生产商" style={{ marginLeft: 29 }}>
                                     {getFieldDecorator("producer_add")(<Input placeholder="请输入生产商" />)}
                                 </Form.Item>
                                 <Form.Item label="备注" style={{ marginLeft: 41, marginBottom: 0 }}>
                                     {getFieldDecorator("remark_add")(<Input placeholder="请输入备注内容" />)}
+                                </Form.Item>
+                            </Form>
+                        </div>
+                    </Modal>
+
+                    <Modal title="账户信息" visible={editBtnVisible} onOk={editModalOk} onCancel={editModalHide} okText="确认" cancelText="取消" destroyOnClose={true}>
+                        <div className={styles.tableListForm}>
+                            <Form layout="inline">
+                                <Form.Item label="所属产品" style={{ marginLeft: 5 }}>
+                                    {getFieldDecorator("productId_edit", {
+                                        rules: [{ required: true, message: "请选择一个所属产品" }],
+                                        initialValue: editModalData.productId
+                                    })(
+                                        <Select placeholder="请选择一个所属产品">
+                                            {deviceProductListData.map(product => (
+                                                <Option value={product.productId}>{product.productName}</Option>
+                                            ))}
+                                        </Select>
+                                    )}
+                                </Form.Item>
+                                <Form.Item label="手机号" style={{ marginLeft: 18 }}>
+                                    {getFieldDecorator("mobile_edit", { rules: [{ required: true, message: "请输入手机号码!", pattern: /^1[34578]\d{9}$/ }], initialValue: editModalData.mobile })(<Input placeholder="请输入手机号" />)}
+                                </Form.Item>
+                                <Form.Item label="生产商" style={{ marginLeft: 29 }}>
+                                    {getFieldDecorator("producer_edit", { initialValue: editModalData.producer })(<Input placeholder="请输入生产商" />)}
+                                </Form.Item>
+                                <Form.Item label="备注" style={{ marginLeft: 41, marginBottom: 0 }}>
+                                    {getFieldDecorator("remark_edit", { initialValue: editModalData.remark })(<Input placeholder="请输入备注内容" />)}
                                 </Form.Item>
                             </Form>
                         </div>

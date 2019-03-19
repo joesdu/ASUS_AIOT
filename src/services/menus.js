@@ -75,7 +75,7 @@ export async function query() {
         id: 41,
         mpid: 4,
         bpid: 4
-      },
+      }
     ],
     isSuccess: true
   };
