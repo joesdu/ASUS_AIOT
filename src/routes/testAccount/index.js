@@ -65,6 +65,7 @@ const TestAccount = ({
         {
             title: "操作",
             dataIndex: "",
+            width: 150,
             render: (text, record) => {
                 return (
                     <Fragment>
@@ -83,7 +84,7 @@ const TestAccount = ({
             cancelText: '取消',
             destroyOnClose: true,
             icon: (<Icon />),
-            width: 550,
+            width: 500,
             content: (
                 <div className={styles.tableListForm} style={{ marginTop: 20, marginBottom: 10 }}>
                     <Form layout="inline">
@@ -341,7 +342,7 @@ const TestAccount = ({
                                 </Form.Item>
                                 <Form.Item label="手机号" style={{ marginLeft: 18 }}>
                                     {getFieldDecorator("phone_add", {
-                                        rules: [{ required: true, message: "请输入手机号码!", pattern: /^1[34578]\d{9}$/ }],
+                                        rules: [{ required: true, message: "请输入正确的手机号码!", pattern: /^1[34578]\d{9}$/ }],
                                     })(<Input placeholder="请输入手机号" />)}
                                 </Form.Item>
                                 <Form.Item label="生产商" style={{ marginLeft: 29 }}>
