@@ -24,6 +24,7 @@ const UserFeedback = ({
       title: "反馈内容",
       dataIndex: "descriptionAndRemark",
       align: 'left',
+      width: 300,
       render: (text, record) => {
         return (
           <div style={{ color: "#272727" }}>
@@ -37,6 +38,7 @@ const UserFeedback = ({
       title: "联系方式",
       dataIndex: "contact",
       align: 'left',
+      width: 200,
       render: (text, record) => {
         return <div style={{ color: "#272727" }}>{record.contact}</div>;
       }
@@ -65,6 +67,7 @@ const UserFeedback = ({
     {
       title: "状态",
       dataIndex: "isProcessed",
+      width: 150,
       render: (text, record) => {
         if (record.isProcessed === "1" || record.isProcessed === 1) {
           return <div style={{ color: "#40D4D4" }}>已处理</div>;
