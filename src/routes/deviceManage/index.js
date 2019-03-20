@@ -24,7 +24,7 @@ const Devices = ({
     {
       title: "设备名称/ID",
       dataIndex: "nameAndID",
-      width: 200,
+      width: 250,
       align: 'left',
       render: (text, record) => {
         return (

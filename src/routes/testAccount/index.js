@@ -23,6 +23,7 @@ const TestAccount = ({
             title: "所属产品",
             dataIndex: "productName",
             align: 'left',
+            width: 350,
             render: (text, record) => {
                 return (
                     <div style={{ color: "#272727" }}>{record.productName}</div>
@@ -33,6 +34,7 @@ const TestAccount = ({
             title: "手机号",
             dataIndex: "mobile",
             align: 'left',
+            width: 200,
             render: (text, record) => {
                 return <div style={{ color: "#272727" }}>{record.mobile}</div>;
             }
@@ -41,6 +43,7 @@ const TestAccount = ({
             title: "生产商",
             dataIndex: "producer",
             align: 'left',
+            width: 350,
             render: (text, record) => {
                 return (
                     <div style={{ color: "#272727" }}>{record.producer}</div>
@@ -58,6 +61,7 @@ const TestAccount = ({
         {
             title: "创建时间",
             dataIndex: "createdTime",
+            width: 200,
             render: (text, record) => {
                 return <div>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
             }

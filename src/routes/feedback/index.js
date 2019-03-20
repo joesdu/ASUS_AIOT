@@ -76,6 +76,7 @@ const UserFeedback = ({
     {
       title: "反馈时间",
       dataIndex: "createTime",
+      width: 200,
       render: (text, record) => {
         return <div>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
       }
@@ -83,6 +84,7 @@ const UserFeedback = ({
     {
       title: "操作",
       dataIndex: "",
+      width: 150,
       render: (text, record) => {
         return (
           <div>

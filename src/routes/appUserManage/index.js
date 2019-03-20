@@ -22,6 +22,8 @@ const AppUsers = ({
     {
       title: "应用",
       dataIndex: "appSource",
+      align: "left",
+      width: 300,
       render: (text, record) => {
         return (
           <div style={{ color: "#272727" }}>{record.appSource}</div>
@@ -31,6 +33,7 @@ const AppUsers = ({
     {
       title: "注册账号",
       dataIndex: "userName",
+      width: 250,
       render: (text, record) => {
         return (
           <div style={{ color: "#272727" }}>{record.userName}</div>
@@ -40,6 +43,7 @@ const AppUsers = ({
     {
       title: "手机号",
       dataIndex: "mobile",
+      width: 250,
       render: (text, record) => {
         return (
           <div style={{ color: "#272727" }}>{record.mobile}</div>
@@ -49,6 +53,7 @@ const AppUsers = ({
     {
       title: "昵称",
       dataIndex: "nickName",
+      align: "left",
       render: (text, record) => {
         return (
           <div style={{ color: "#40272727D4D4" }}>{record.nickName}</div>
@@ -58,6 +63,7 @@ const AppUsers = ({
     {
       title: "注册时间",
       dataIndex: "createTime",
+      width: 200,
       render: (text, record) => {
         return (
           <div>{moment(record.createTime).format("YYYY-MM-DD HH:mm:ss")}</div>
@@ -67,6 +73,7 @@ const AppUsers = ({
     {
       title: "操作",
       dataIndex: "",
+      width: 150,
       render: (text, record) => {
         return (
           <div>
