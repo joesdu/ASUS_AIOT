@@ -64,7 +64,7 @@ export async function query() {
       },
       {
         route: "/appUsersDetail",
-        name: "设备详情",
+        name: "用户详情",
         id: 231,
         mpid: 23,
         bpid: 23,
