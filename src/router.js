@@ -30,12 +30,12 @@ const Routers = function ({ history, app }) {
       component: () => import("./routes/deviceManage")
     },
     {
-      path: "/devices/Detail", //设备详情
+      path: "/devicesDetail", //设备详情
       models: () => [import("./models/deviceManage/deviceDetail")],
       component: () => import("./routes/deviceManage/deviceDetail")
     },
     {
-      path: "/devices/Logs", //设备日志
+      path: "/devicesLogs", //设备日志
       models: () => [import("./models/deviceManage/deviceLogs")],
       component: () => import("./routes/deviceManage/deviceLogs")
     },
@@ -50,7 +50,7 @@ const Routers = function ({ history, app }) {
       component: () => import("./routes/appUserManage")
     },
     {
-      path: "/appUsers/Detail", //用户详情
+      path: "/appUsersDetail", //用户详情
       models: () => [import("./models/appUserManage/userDetail")],
       component: () => import("./routes/appUserManage/userDetail")
     },
@@ -78,15 +78,7 @@ const Routers = function ({ history, app }) {
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
             {routes.map(({ path, ...dynamics }, key) => (
-              <Route
-                key={key}
-                exact
-                path={path}
-                component={dynamic({
-                  app,
-                  ...dynamics
-                })}
-              />
+              <Route key={key} exact path={path} component={dynamic({ app, ...dynamics })} />
             ))}
             <Route component={error} />
           </Switch>

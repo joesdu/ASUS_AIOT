@@ -17,7 +17,7 @@ export default {
     setup({ dispatch, history }) {
       history.listen(location => {
         //页面初始化执行
-        if (location.pathname === "/devices/Logs") {
+        if (location.pathname === "/devicesLogs") {
           let _ars = {
             userToken: localStorage.getItem("userToken"),
             deviceId: location.state.deviceId,

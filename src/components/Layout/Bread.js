@@ -38,7 +38,7 @@ const Bread = ({ menu, location }) => {
   }
 
   let paramMap = {}
-
+  
   if (!current) {
     pathArray.push(menu[0] || {
       id: 1,

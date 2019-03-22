@@ -115,12 +115,12 @@ const Devices = ({
             <div>
               <div>
                 <Fragment>
-                  <Link to={{ pathname: `/devices/Logs`, state: { deviceId: record.nameAndID.deviceId } }}>日志</Link>
+                  <Link to={{ pathname: `/devicesLogs`, state: { deviceId: record.nameAndID.deviceId } }}>日志</Link>
                 </Fragment>
               </div>
               <div>
                 <Fragment>
-                  <Link to={{ pathname: `/devices/Detail`, state: { deviceId: record.nameAndID.deviceId } }}>设备详情</Link>
+                  <Link to={{ pathname: `/devicesDetail`, state: { deviceId: record.nameAndID.deviceId } }}>设备详情</Link>
                 </Fragment>
               </div>
             </div>
@@ -129,7 +129,7 @@ const Devices = ({
           return (
             <div>
               <Fragment>
-                <Link to={{ pathname: `/devices/Logs`, state: { deviceId: record.nameAndID.deviceId } }}>日志</Link>
+                <Link to={{ pathname: `/devicesLogs`, state: { deviceId: record.nameAndID.deviceId } }}>日志</Link>
               </Fragment>
             </div>
           );

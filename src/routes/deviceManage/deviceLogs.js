@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "dva";
 import moment from "moment";
 import { Table, Card, Form } from "antd";
-import styles from "../TableList.less";
 
 const DeviceLogs = ({
     deviceLogs,

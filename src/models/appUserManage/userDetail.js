@@ -10,7 +10,7 @@ export default {
         setup({ dispatch, history }) {
             history.listen(location => {
                 //页面初始化执行
-                if (location.pathname === "/appUsers/Detail") {
+                if (location.pathname === "/appUsersDetail") {
                     let _ars = {
                         userId: location.state.userId,
                         userToken: localStorage.getItem("userToken")

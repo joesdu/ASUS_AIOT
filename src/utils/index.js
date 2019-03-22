@@ -79,7 +79,13 @@ const queryArray = (array, key, keyAlias = 'key') => {
  * @return  {Array}
  */
 const arrayToTree = (array, id = 'id', pid = 'pid', children = 'children') => {
-  let data = lodash.cloneDeep(array)
+  let temp = [];
+  array.forEach((item) => {
+    if (item.display) {
+      temp.push(item);
+    }
+  })
+  let data = lodash.cloneDeep(temp)
   let result = []
   let hash = {}
   data.forEach((item, index) => {

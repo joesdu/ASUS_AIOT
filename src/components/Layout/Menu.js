@@ -8,6 +8,7 @@ import pathToRegexp from 'path-to-regexp'
 const Menus = ({ siderFold, navOpenKeys, changeOpenKeys, menu, location }) => {
   // 生成树状
   const menuTree = arrayToTree(menu.filter(_ => _.mpid !== '-1'), 'id', 'mpid')
+  
   const levelMap = {}
   // 递归生成菜单
   const getMenus = (menuTreeN, siderFoldN) => {
