@@ -136,43 +136,25 @@ const ActiveData = ({
       </div>
 
       <Card style={{ marginTop: "15px" }} bordered={false}>
-        <Tabs defaultActiveKey="1" size="large">
+        <Tabs defaultActiveKey="1" size="large" tabBarExtraContent={
+          <ul className={styles.indexData_topUL} style={{ float: "right" }}>
+            <li className={selected == 7 ? styles.active : ""} onClick={getData.bind(this, 7)}>近7天</li>
+            <li className={selected == 15 ? styles.active : ""} onClick={getData.bind(this, 15)}>近15天</li>
+            <li className={selected == 30 ? styles.active : ""} onClick={getData.bind(this, 30)}>近30天</li>
+          </ul>
+        }>
           <TabPane tab="每日激活趋势" key="1">
-            <div className={styles.indexData}>
-              <div className={styles.indexData_top}>
-                <ul className={styles.indexData_topUL} style={{ float: "right" }}>
-                  <li className={selected == 7 ? styles.active : ""} onClick={getData.bind(this, 7)}>近7天</li>
-                  <li className={selected == 15 ? styles.active : ""} onClick={getData.bind(this, 15)}>近15天</li>
-                  <li className={selected == 30 ? styles.active : ""} onClick={getData.bind(this, 30)}>近30天</li>
-                </ul>
-                <div style={{ width: "100%" }}>
-                  <ReactHighcharts config={dailyConfig} />
-                </div>
-              </div>
-            </div>
+            <ReactHighcharts config={dailyConfig} />
           </TabPane>
           <TabPane tab="累计激活趋势" key="2">
-            <div className={styles.indexData}>
-              <div className={styles.indexData_top}>
-                <ul className={styles.indexData_topUL} style={{ float: "right" }}>
-                  <li className={selected == 7 ? styles.active : ""} onClick={getData.bind(this, 7)}>近7天</li>
-                  <li className={selected == 15 ? styles.active : ""} onClick={getData.bind(this, 15)}>近15天</li>
-                  <li className={selected == 30 ? styles.active : ""} onClick={getData.bind(this, 30)}>近30天</li>
-                </ul>
-                <div style={{ width: "100%" }}>
-                  <ReactHighcharts config={totalConfig} />
-                </div>
-              </div>
-            </div>
+            <ReactHighcharts config={totalConfig} />
           </TabPane>
         </Tabs>
         <Divider />
-        <div className={styles.indexData}>
           <div className={styles.indexData_top}>
             <span>激活数据明细</span>
             <Table columns={columns} dataSource={activateData.listArray} bordered={false} pagination={false} />
           </div>
-        </div>
       </Card>
     </div>
   );
