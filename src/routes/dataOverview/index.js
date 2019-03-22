@@ -38,7 +38,7 @@ const DataOverview = ({
     chart: { type: "areaspline", height: 450 },
     xAxis: { categories: activateData.dateArray },
     yAxis: { title: { text: "激活设备/个" }, plotLines: [{ value: 0, width: 1, color: "#81BCFF" }] },
-    colors: ['#81BCFF'],
+    plotOptions: { areaspline: { color: '#1890FF', fillOpacity: 0.5 } },
     title: { text: null },
     legend: { enabled: false },
     credits: { enabled: false }, // 隐藏右下角版权
@@ -49,7 +49,7 @@ const DataOverview = ({
     chart: { type: "areaspline", height: 450 },
     xAxis: { categories: activeData.dateArray },
     yAxis: { title: { text: "活跃设备/个" }, plotLines: [{ value: 0, width: 1, color: "#81BCFF" }] },
-    colors: ['#81BCFF'],
+    plotOptions: { areaspline: { color: '#1890FF', fillOpacity: 0.5 } },
     title: { text: null },
     legend: { enabled: false },
     credits: { enabled: false }, // 隐藏右下角版权
@@ -60,7 +60,7 @@ const DataOverview = ({
     chart: { height: 450, type: "column" },
     xAxis: { categories: areaData.areaArray },
     yAxis: { title: { text: "活跃数量/个" }, plotLines: [{ value: 0, width: 1, color: "#81BCFF" }] },
-    colors: ['#81BCFF'],
+    colors: ['#1890FF'],
     title: { text: null },
     legend: { enabled: false },
     credits: { enabled: false }, // 隐藏右下角版权

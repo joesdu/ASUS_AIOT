@@ -30,9 +30,9 @@ const ActivelyData = ({
   var activeConfig = {
     chart: { type: "areaspline", height: 450 },
     xAxis: { categories: activeData.dateArray },
-    yAxis: { title: { text: "活跃设备/个" }, plotLines: [{ value: 0, width: 1, color: "#81BCFF" }] },
-    colors: ['#81BCFF'],
+    yAxis: { title: { text: "活跃设备/个" }, plotLines: [{ value: 0, width: 1, color: "#1890FF" }] },
     title: { text: null },
+    plotOptions: { areaspline: { color: '#1890FF', fillOpacity: 0.5 } },
     legend: { enabled: false },
     credits: { enabled: false }, // 隐藏右下角版权
     series: [{ name: "活跃设备/个", data: activeData.numArray }]
