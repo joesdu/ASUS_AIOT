@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import { Icon, Row, Col, Card, Form, Select } from "antd";
+import { Icon, Row, Col, Card, Form, Select, Divider } from "antd";
 import styles from "./index.less";
 import ReactHighcharts from "react-highcharts";
 
@@ -174,7 +174,8 @@ const DataOverview = ({
               <li className={activateSelected == 15 ? styles.active : ""} onClick={getActivateData.bind(this, 15)}>近15天</li>
               <li className={activateSelected == 30 ? styles.active : ""} onClick={getActivateData.bind(this, 30)}>近30天</li>
             </ul>
-            <div style={{ width: "100%" }}>
+            <Divider />
+            <div style={{ width: "100%", marginTop: "24px" }}>
               <ReactHighcharts config={activateConfig} />
             </div>
           </div>
@@ -189,7 +190,8 @@ const DataOverview = ({
               <li className={activeSelected == 15 ? styles.active : ""} onClick={getActiveData.bind(this, 15)}>近15天</li>
               <li className={activeSelected == 30 ? styles.active : ""} onClick={getActiveData.bind(this, 30)}>近30天</li>
             </ul>
-            <div style={{ width: "100%" }}>
+            <Divider />
+            <div style={{ width: "100%", marginTop: "24px" }}>
               <ReactHighcharts config={activeConfig} />
             </div>
           </div>
@@ -205,7 +207,8 @@ const DataOverview = ({
               <li className={areaSelected == 15 ? styles.active : ""} onClick={getAreaData.bind(this, 15)}>近15天</li>
               <li className={areaSelected == 30 ? styles.active : ""} onClick={getAreaData.bind(this, 30)}>近30天</li>
             </ul>
-            <div style={{ width: "100%" }}>
+            <Divider />
+            <div style={{ width: "100%", marginTop: "24px" }}>
               <ReactHighcharts config={areaConfig} />
             </div>
           </div>

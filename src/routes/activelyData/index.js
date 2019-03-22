@@ -127,7 +127,7 @@ const ActivelyData = ({
               <li className={selected == 30 ? styles.active : ""} onClick={getData.bind(this, 30)}>近30天</li>
             </ul>
             <Divider />
-            <div style={{ width: "100%", marginTop: "5px" }}>
+            <div style={{ width: "100%", marginTop: "24px" }}>
               <ReactHighcharts config={activeConfig} />
             </div>
             <Divider />
