@@ -11,18 +11,22 @@ const DeviceDetail = ({
   let { detailData } = deviceDetail;
 
   const getOnline = key => {
-    if (key == 0) {
+    if (key === 0 || key === "0") {
       return <label>否</label>;
-    } else {
+    } else if (key === 1 || key === "1") {
       return <label>是</label>;
+    } else {
+      return <label></label>;
     }
   };
 
   const getSource = key => {
-    if (key == 0) {
+    if (key === 0 || key === "0") {
       return <label>Android</label>;
-    } else {
+    } else if (key === 1 || key === "1") {
       return <label>IOS</label>;
+    } else {
+      return <label></label>;
     }
   };
 

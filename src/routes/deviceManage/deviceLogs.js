@@ -16,6 +16,7 @@ const DeviceLogs = ({
             title: "时间",
             dataIndex: "createTime",
             key: "createTime",
+            width: 400,
             render: (text, record) => {
                 return (
                     <div>{moment(record.createTime).format("YYYY-MM-DD HH:mm:ss")}</div>
