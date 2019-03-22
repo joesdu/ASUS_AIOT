@@ -15,7 +15,7 @@ module.exports = {
   name: "",
   prefix: "antdAdmin",
   footerText: "A豆云平台 © 2019 ASUS",
-  logo: "./images/logo.png",
+  logo: "./images/logo.svg",
   iconFontCSS: "./iconfont.css",
   iconFontJS: "./iconfont.js",
   CORS: [],
