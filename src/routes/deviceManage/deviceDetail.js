@@ -30,6 +30,25 @@ const DeviceDetail = ({
     }
   };
 
+  const getCard = (data) => {
+    try {
+      if (parseInt(data.length) <= 0) {
+        return;
+      }
+      else {
+        return (
+          <Card style={{ marginTop: 20 }} title="设备运行状态">
+            <div className={styles.tableListForm}>
+              <Form layout="inline">
+                {getRows(data)}
+              </Form>
+            </div>
+          </Card>
+        );
+      }
+    } catch (error) { }
+  }
+
   const getRows = (data) => {
     try {
       let rowNum = parseInt((data.length - 1) / 3) + 1;
@@ -184,14 +203,7 @@ const DeviceDetail = ({
           </Form>
         </div>
       </Card>
-
-      <Card style={{ marginTop: 20 }} title="设备运行状态">
-        <div className={styles.tableListForm}>
-          <Form layout="inline">
-            {getRows(detailData.functionStatus)}
-          </Form>
-        </div>
-      </Card>
+      {getCard(detailData.functionStatus)}
     </div>
   );
 };
