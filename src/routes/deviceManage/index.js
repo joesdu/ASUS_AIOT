@@ -88,21 +88,27 @@ const Devices = ({
       title: "首次激活",
       dataIndex: "firstActTime",
       render: (text, record) => {
-        return <div style={{ color: "#B3B3B3" }}>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
+        if (record.operation === "激活" || record.firstActTime != null) {
+          return <div style={{ color: "#B3B3B3" }}>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
+        }
       }
     },
     {
       title: "最近激活",
       dataIndex: "lastActTime",
       render: (text, record) => {
-        return <div style={{ color: "#B3B3B3" }}>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
+        if (record.operation === "激活" || record.lastActTime != null) {
+          return <div style={{ color: "#B3B3B3" }}>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
+        }
       }
     },
     {
       title: "最近更新",
       dataIndex: "updateTime",
       render: (text, record) => {
-        return <div style={{ color: "#B3B3B3" }}>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
+        if (record.operation === "激活" || record.updateTime != null) {
+          return <div style={{ color: "#B3B3B3" }}>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
+        }
       }
     },
     {
@@ -110,7 +116,7 @@ const Devices = ({
       width: 150,
       dataIndex: "operation",
       render: (text, record) => {
-        if (record.operation == "激活") {
+        if (record.operation === "激活") {
           return (
             <div>
               <div>
