@@ -5,7 +5,7 @@ export async function query() {
     code: 0,
     data: [
       {
-        route: "/dashboard",
+        route: "/home",
         icon: "dashboard",
         name: "首页",
         id: 1,
@@ -95,9 +95,33 @@ export async function query() {
         display: true
       },
       {
+        icon: "table",
+        name: "权限管理",
+        id: 4,
+        bpid: 0,
+        mpid: 0,
+        display: true
+      },
+      {
+        route: "/personnelManagement",
+        name: "人员管理",
+        id: 41,
+        mpid: 4,
+        bpid: 4,
+        display: true
+      },
+      {
+        route: "/roleManagement",
+        name: "角色管理",
+        id: 42,
+        mpid: 4,
+        bpid: 4,
+        display: true
+      },
+      {
         icon: "setting",
         name: "设置",
-        id: 4,
+        id: 99,
         bpid: 0,
         mpid: 0,
         display: true
@@ -105,9 +129,9 @@ export async function query() {
       {
         route: "/testAccount",
         name: "测试账号管理",
-        id: 41,
-        mpid: 4,
-        bpid: 4,
+        id: 991,
+        mpid: 99,
+        bpid: 99,
         display: true
       }
     ],

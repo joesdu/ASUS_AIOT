@@ -11,63 +11,63 @@ const { ConnectedRouter } = routerRedux;
 const Routers = function ({ history, app }) {
   const error = dynamic({
     app,
-    component: () => import("./routes/error")
+    component: () => import("./routes/00LoginAndHome/error")
   });
   const routes = [
     {
       path: "/login", //登录
-      models: () => [import("./models/login")],
-      component: () => import("./routes/login")
+      models: () => [import("./models/00LoginAndHome/login")],
+      component: () => import("./routes/00LoginAndHome/login")
     },
     {
-      path: "/dashboard", //首页
-      models: () => [import("./models/dataOverview")],
-      component: () => import("./routes/dataOverview")
+      path: "/home", //首页
+      models: () => [import("./models/00LoginAndHome/home")],
+      component: () => import("./routes/00LoginAndHome/home")
     },
     {
       path: "/devices", //设备管理
-      models: () => [import("./models/deviceManage")],
-      component: () => import("./routes/deviceManage")
+      models: () => [import("./models/01OperationsCenter/deviceManage")],
+      component: () => import("./routes/01OperationsCenter/deviceManage")
     },
     {
       path: "/devicesDetail", //设备详情
-      models: () => [import("./models/deviceManage/deviceDetail")],
-      component: () => import("./routes/deviceManage/deviceDetail")
+      models: () => [import("./models/01OperationsCenter/deviceManage/deviceDetail")],
+      component: () => import("./routes/01OperationsCenter/deviceManage/deviceDetail")
     },
     {
       path: "/devicesLogs", //设备日志
-      models: () => [import("./models/deviceManage/deviceLogs")],
-      component: () => import("./routes/deviceManage/deviceLogs")
+      models: () => [import("./models/01OperationsCenter/deviceManage/deviceLogs")],
+      component: () => import("./routes/01OperationsCenter/deviceManage/deviceLogs")
     },
     {
       path: "/userFeedback", //用户反馈
-      models: () => [import("./models/feedback")],
-      component: () => import("./routes/feedback")
+      models: () => [import("./models/01OperationsCenter/feedback")],
+      component: () => import("./routes/01OperationsCenter/feedback")
     },
     {
       path: "/appUsers", //APP用户管理
-      models: () => [import("./models/appUserManage")],
-      component: () => import("./routes/appUserManage")
+      models: () => [import("./models/01OperationsCenter/appUserManage")],
+      component: () => import("./routes/01OperationsCenter/appUserManage")
     },
     {
       path: "/appUsersDetail", //用户详情
-      models: () => [import("./models/appUserManage/userDetail")],
-      component: () => import("./routes/appUserManage/userDetail")
+      models: () => [import("./models/01OperationsCenter/appUserManage/userDetail")],
+      component: () => import("./routes/01OperationsCenter/appUserManage/userDetail")
     },
     {
       path: "/activeData", //激活数据
-      models: () => [import("./models/activeData")],
-      component: () => import("./routes/activeData")
+      models: () => [import("./models/02DataCenter/activeData")],
+      component: () => import("./routes/02DataCenter/activeData")
     },
     {
       path: "/activelyData", //活跃数据
-      models: () => [import("./models/activelyData")],
-      component: () => import("./routes/activelyData")
+      models: () => [import("./models/02DataCenter/activelyData")],
+      component: () => import("./routes/02DataCenter/activelyData")
     },
     {
       path: "/testAccount", //测试账号管理
-      models: () => [import("./models/testAccount")],
-      component: () => import("./routes/testAccount")
+      models: () => [import("./models/99Setting/testAccount")],
+      component: () => import("./routes/99Setting/testAccount")
     }
   ];
 
