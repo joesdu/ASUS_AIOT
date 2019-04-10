@@ -1,11 +1,7 @@
 import React, { Fragment } from "react";
 import { connect } from "dva";
 import moment from "moment";
-import { Table, Row, Col, Card, Form, Select, Button, DatePicker, Switch, message, Modal, Radio, Input } from "antd";
-import styles from "../../TableList.less";
-
-const { Option } = Select;
-const { RangePicker } = DatePicker;
+import { Table, Row, Col, Card, Form, Button, Switch, Modal, Radio, Input, Divider } from "antd";
 
 const RoleManagement = ({
     roleManagement,
@@ -16,17 +12,7 @@ const RoleManagement = ({
         getFieldsValue
     }
 }) => {
-    let { pagination, searchList } = roleManagement;
-
-    let testData = [{
-        name: "测试姓名1",
-        states: 1,
-        createTime: new Date()
-    }, {
-        name: "测试姓名1",
-        states: 0,
-        createTime: new Date()
-    }]
+    let { roleListData, pagination, searchList } = roleManagement;
 
     //定义表头
     const columns = [
@@ -47,7 +33,6 @@ const RoleManagement = ({
             title: "状态",
             dataIndex: "name",
             align: 'left',
-            width: 300,
             render: (text, record) => {
                 if (record.states === 1) {
                     return (<div>
@@ -63,7 +48,6 @@ const RoleManagement = ({
         {
             title: "创建时间",
             dataIndex: "createTime",
-            width: 500,
             render: (text, record) => {
                 return <div>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
             }
@@ -71,11 +55,14 @@ const RoleManagement = ({
         {
             title: "操作",
             dataIndex: "",
+            width: 150,
             render: (text, record) => {
                 return (
                     <div>
                         <Fragment>
-                            <a onClick={showModal.bind(this, {})}></a>
+                            <a onClick={showModal.bind(this, {})}>編輯</a>
+                            <Divider type="vertical" />
+                            <a onClick={showModal.bind(this, {})}>刪除</a>
                         </Fragment>
                     </div>
                 );
@@ -166,21 +153,25 @@ const RoleManagement = ({
     return (
         <div>
             <Card>
-                <Button>新建</Button>
-                <Form layout="inline">
-                    <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                        <Col md={8} sm={24}>
-                            <Form.Item label="产品" style={{ marginLeft: 30 }}>
-                                {getFieldDecorator("productId", { initialValue: "全部" })(
-                                    <Select placeholder="全部" style={{ width: "100%" }}>
-                                        <Option value={null}>全部</Option>
-                                    </Select>
+                <Form layout="inline" style={{ marginBottom: 15 }}>
+                    <Row>
+                        <Col>
+                            <Form.Item>
+                                <Button type="primary">新建</Button>
+                            </Form.Item>
+                            <Form.Item style={{ float: "right" }}>
+                                {getFieldDecorator("searchParm")(
+                                    <Input.Search
+                                        placeholder="请输入"
+                                        onSearch={value => console.log(value)}
+                                        style={{ width: 200 }}
+                                    />
                                 )}
                             </Form.Item>
                         </Col>
                     </Row>
                 </Form>
-                <Table columns={columns} dataSource={testData} bordered={false} pagination={paginationObj} />
+                <Table columns={columns} dataSource={roleListData} bordered={false} pagination={paginationObj} />
             </Card>
         </div>
     );
