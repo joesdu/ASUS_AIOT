@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { connect } from "dva";
 import moment from "moment";
+import { Link } from "dva/router";
 import { Table, Row, Col, Card, Form, Button, Switch, Modal, Radio, Input, Divider } from "antd";
 
 const RoleManagement = ({
@@ -60,7 +61,7 @@ const RoleManagement = ({
                 return (
                     <div>
                         <Fragment>
-                            <a onClick={showModal.bind(this, {})}>編輯</a>
+                            <Link to={{ pathname: `/`, state: {} }}>編輯</Link>
                             <Divider type="vertical" />
                             <a onClick={showModal.bind(this, {})}>刪除</a>
                         </Fragment>
