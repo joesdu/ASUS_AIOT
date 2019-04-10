@@ -65,6 +65,12 @@ const Routers = function ({ history, app }) {
       component: () => import("./routes/02DataCenter/activelyData")
     },
     {
+      path: "/roleManagement", //角色管理
+      models: () => [import("./models/03RightsManagement/roleManage")],
+      component: () => import("./routes/03RightsManagement/roleManage")
+    },
+
+    {
       path: "/testAccount", //测试账号管理
       models: () => [import("./models/99Setting/testAccount")],
       component: () => import("./routes/99Setting/testAccount")
