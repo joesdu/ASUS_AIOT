@@ -100,7 +100,7 @@ export async function query() {
         id: 4,
         bpid: 0,
         mpid: 0,
-        display: true
+        display: false
       },
       {
         route: "/personnelManagement",
@@ -108,7 +108,7 @@ export async function query() {
         id: 41,
         mpid: 4,
         bpid: 4,
-        display: true
+        display: false
       },
       {
         route: "/roleManagement",
@@ -116,7 +116,7 @@ export async function query() {
         id: 42,
         mpid: 4,
         bpid: 4,
-        display: true
+        display: false
       },
       {
         icon: "setting",
