@@ -17,7 +17,7 @@ export default {
             history.listen(location => {
                 //页面初始化执行
                 if (location.pathname === "/roleManagement") {
-                    dispatch({ type: "getRoleList" });
+                    dispatch({ type: "getRoleList", payload: "1" });
                 }
             });
         }
@@ -29,14 +29,30 @@ export default {
             let data = {
                 code: 0,
                 data: {
-                    roleList: [{
+                    roleList: payload === "1" ? [{
+                        id: 0,
                         name: "测试姓名0",
-                        states: 1,
-                        createTime: new Date()
+                        states: true,
+                        createTime: new Date(),
+                        related: true
                     }, {
+                        id: 1,
                         name: "测试姓名1",
-                        states: 0,
-                        createTime: new Date()
+                        states: false,
+                        createTime: new Date(),
+                        related: false
+                    }] : [{
+                        id: 0,
+                        name: "测试姓名0",
+                        states: true,
+                        createTime: new Date(),
+                        related: false
+                    }, {
+                        id: 1,
+                        name: "测试姓名1",
+                        states: true,
+                        createTime: new Date(),
+                        related: false
                     }],
                     pageNum: 0,
                     pageRows: 10,
@@ -44,6 +60,7 @@ export default {
                 },
                 msg: "沒有錯誤"
             };
+            console.log("被调用"+payload)
             let _pag = {};
             if (data == null || data.length == 0 || data == {} || data.code != 0) {
                 message.error(data != null ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");

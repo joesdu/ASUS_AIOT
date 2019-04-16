@@ -2,25 +2,20 @@ import { message } from "antd";
 import dva from "dva";
 import createLoading from "dva-loading";
 //import createHistory from 'history/createBrowserHistory'
-import createHistory from "history/createHashHistory";
 import "babel-polyfill";
 
 // 1. Initialize
 const app = dva({
-  ...createLoading({
-    effects: true
-  }),
-  history: createHistory(),
-  onError(error) {
-    message.error(error.message);
+  history: require("history").createHashHistory(),
+  onError(err) {
+    message.error(err);
   }
 });
-
-// 2. Model
+// 2. Plugins
+app.use(createLoading());
+// 3. Model
 app.model(require("./models/app"));
-
-// 3. Router
+// 4. Router
 app.router(require("./router"));
-
-// 4. Start
+// 5. Start
 app.start("#root");

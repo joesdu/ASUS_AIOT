@@ -1,10 +1,10 @@
 import React from 'react'
 import { Breadcrumb, Icon } from 'antd'
 import { Link } from 'react-router-dom'
-import pathToRegexp from 'path-to-regexp'
 import { queryArray } from 'utils'
 import styles from './Layout.less'
 
+const pathToRegexp = require('path-to-regexp');
 const Bread = ({ menu, location }) => {
   // 匹配当前路由
   let pathArray = []

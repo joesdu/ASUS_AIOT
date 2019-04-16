@@ -1,17 +1,19 @@
 const APIV1 = "/v1.0/back/";
 
 const test = "http://106.15.176.36";
-const formal = "https://139.224.168.3";
-const current = "https://adol.asus.com.cn";
-const IP = test;
+const official = "https://adol.asus.com.cn";
+
+const edition = "test";
+const serverService = edition === "test" ? test : official;
 
 let userToken = localStorage.getItem("userToken");
 let userName = localStorage.getItem("userName");
 
 module.exports = {
+  edition: edition,
   userToken: userToken,
   userName: userName,
-  serverService: IP,
+  serverService: serverService,
   name: "",
   prefix: "antdAdmin",
   footerText: "A豆云平台 © 2019 ASUS",
@@ -21,7 +23,7 @@ module.exports = {
   CORS: [],
   openPages: ["/login"],
   apiPrefix: "/api/v1",
-  apiUrl: IP + APIV1,
+  apiUrl: serverService + APIV1,
   api: {
     //登录相关
     backUserLogin: "backUser/login",

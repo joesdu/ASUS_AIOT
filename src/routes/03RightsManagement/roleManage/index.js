@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { connect } from "dva";
 import moment from "moment";
 import { Link } from "dva/router";
-import { Table, Row, Col, Card, Form, Button, Switch, Modal, Radio, Input, Divider } from "antd";
+import { Table, Row, Col, Card, Form, Button, Switch, Modal, Input, Divider, Icon } from "antd";
 
 const RoleManagement = ({
     roleManagement,
@@ -21,7 +21,7 @@ const RoleManagement = ({
             title: "名称",
             dataIndex: "name",
             align: 'left',
-            width: 500,
+            width: 400,
             render: (text, record) => {
                 return (
                     <div style={{ color: "#272727" }}>
@@ -32,18 +32,9 @@ const RoleManagement = ({
         },
         {
             title: "状态",
-            dataIndex: "name",
-            align: 'left',
+            dataIndex: "states",
             render: (text, record) => {
-                if (record.states === 1) {
-                    return (<div>
-                        <Switch checkedChildren="开" unCheckedChildren="关" defaultChecked />
-                    </div>);
-                } else {
-                    return (<div>
-                        <Switch checkedChildren="开" unCheckedChildren="关" />
-                    </div>);
-                }
+                return (<Switch checkedChildren="开" unCheckedChildren="关" onChange={statesChange.bind(this, record)} defaultChecked={record.states} />);
             }
         },
         {
@@ -63,13 +54,27 @@ const RoleManagement = ({
                         <Fragment>
                             <Link to={{ pathname: `/`, state: {} }}>編輯</Link>
                             <Divider type="vertical" />
-                            <a onClick={showModal.bind(this, {})}>刪除</a>
+                            <a onClick={deleteModal.bind(this, { related: record.related })}>刪除</a>
                         </Fragment>
                     </div>
                 );
             }
         }
     ];
+
+    const getJsonPrams = (parm, pageNum, pageRows) => {
+        let searchParm = parm.searchParm
+        return {
+            userToken: localStorage.getItem("userToken"),
+            endTime: recentActivatedEnd,
+            firstRow: null,
+            isProcessed: isProcessed,
+            pageNum: pageNum,
+            pageRows: pageRows,
+            productId: productId,
+            startTime: recentActivatedStart
+        };
+    };
 
     /**分页合集 start **/
     let paginationObj = {
@@ -84,9 +89,9 @@ const RoleManagement = ({
             let postObj = getJsonPrams(values, current - 1, pageSize);
             //判断查询条件
             if (JSON.stringify(searchList) !== "{}") {
-                dispatch({ type: "userFeedback/feedbackList", payload: postObj });
+                dispatch({ type: "roleManagement/getRoleList", payload: postObj });
             } else {
-                dispatch({ type: "userFeedback/feedbackList", payload: postObj });
+                dispatch({ type: "roleManagement/getRoleList", payload: postObj });
             }
         },
         onChange: (current, pageSize) => {
@@ -94,9 +99,9 @@ const RoleManagement = ({
             let postObj = getJsonPrams(values, current - 1, pageSize);
             //判断查询条件
             if (JSON.stringify(searchList) !== "{}") {
-                dispatch({ type: "userFeedback/feedbackList", payload: postObj });
+                dispatch({ type: "roleManagement/getRoleList", payload: postObj });
             } else {
-                dispatch({ type: "userFeedback/feedbackList", payload: postObj });
+                dispatch({ type: "roleManagement/getRoleList", payload: postObj });
             }
         },
         showTotal: () => {
@@ -105,50 +110,50 @@ const RoleManagement = ({
     }
     /**分页合集 end **/
 
-    const dateFormat = "YYYY-MM-DD";
+    const statesChange = (record, checked) => {
+        if (!checked) {
+            Modal.confirm({
+                okText: "确定",
+                cancelText: "取消",
+                title: '确认要停用此角色吗？',
+                icon: (<Icon type="exclamation-circle" theme="twoTone" twoToneColor="#EEB422" />),
+                content: '停用此角色后，此角色下的人员不能登录系统',
+                onOk() {
 
-    let radioSelect = 1;
-    const radioChange = (e) => {
-        radioSelect = e.target.value;
-    };
+                    dispatch({ type: "roleManagement/getRoleList", payload: "2"  });
+                },
+                onCancel() {
+                    dispatch({ type: "roleManagement/getRoleList", payload: "1"  });
+                },
+            });
+        }
+    }
 
-    let radioOption = [
-        { label: "已处理", value: 1 },
-        { label: "未处理", value: 0 }
-    ];
-
-    const showModal = (e) => {
-        Modal.confirm({
-            title: "标记",
-            okText: "确认",
-            cancelText: "取消",
-            destroyOnClose: true,
-            content: (
-                <div className={styles.tableForm}>
-                    <Form>
-                        <Form.Item label="标记" style={{ marginLeft: 30 }}>
-                            <Radio.Group defaultValue={1} options={radioOption} onChange={radioChange} />
-                        </Form.Item>
-                        <Form.Item label="处理批注" style={{ marginLeft: 4 }}>
-                            <Input.TextArea id="markText" placeholder="请输入你的处理批注信息" autosize={{ minRows: 3, maxRows: 5 }} style={{ marginTop: "10px" }} />
-                        </Form.Item>
-                    </Form>
-                </div>
-            ),
-            onOk() {
-                let values = getFieldsValue();
-                let _value = getJsonPrams(values, pagination.current, pagination.pageSize);
-                let markText = document.getElementById("markText").value;
-                let _object = {
-                    update: { feedbackId: e.feedbackId, isProcessed: radioSelect, remark: markText, userToken: localStorage.getItem("userToken") },
-                    query: _value
-                };
-                dispatch({ type: "userFeedback/updateFeedback", payload: _object });
-            },
-            onCancel() {
-                console.log("Cancel");
-            }
-        });
+    const deleteModal = (e) => {
+        if (e.related) {
+            Modal.error({
+                okText: "取消",
+                okType: "default",
+                title: '无法删除此角色',
+                icon: (<Icon type="close-circle" theme="twoTone" twoToneColor="#CD0000" />),
+                content: '此角色有相关员工，若要删除此角色，需先将所有相关员工都移除',
+            });
+        } else {
+            Modal.confirm({
+                title: '确认要删除此角色吗？',
+                content: '删除此角色后，将角色信息将被清除',
+                icon: (<Icon type="close-circle" theme="twoTone" twoToneColor="#CD0000" />),
+                okText: "确定",
+                okType: "danger",
+                cancelText: "取消",
+                onOk() {
+                    console.log('OK');
+                },
+                onCancel() {
+                    console.log('Cancel');
+                },
+            });
+        }
     };
 
     return (
@@ -165,7 +170,7 @@ const RoleManagement = ({
                                     <Input.Search
                                         placeholder="请输入"
                                         onSearch={value => console.log(value)}
-                                        style={{ width: 200 }}
+                                        style={{ width: 260 }}
                                     />
                                 )}
                             </Form.Item>

@@ -1,3 +1,6 @@
+import config from "../utils/config"
+
+const display = config.edition === "test" ? true : false;
 //得到菜单数据
 export async function query() {
   return {
@@ -100,7 +103,7 @@ export async function query() {
         id: 4,
         bpid: 0,
         mpid: 0,
-        display: false
+        display: display
       },
       {
         route: "/personnelManagement",
@@ -108,7 +111,7 @@ export async function query() {
         id: 41,
         mpid: 4,
         bpid: 4,
-        display: false
+        display: display
       },
       {
         route: "/roleManagement",
@@ -116,7 +119,7 @@ export async function query() {
         id: 42,
         mpid: 4,
         bpid: 4,
-        display: false
+        display: display
       },
       {
         icon: "setting",

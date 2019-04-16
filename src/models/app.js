@@ -1,11 +1,11 @@
 import { routerRedux } from "dva/router";
 import config from "config";
 import * as menusService from "services/menus";
-import queryString from "query-string";
 import { message } from "antd";
 import { backUserLogoutApi } from "../services/api"
 
 const { prefix } = config;
+const queryString = require('query-string');
 
 export default {
   namespace: "app",
