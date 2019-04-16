@@ -1,8 +1,8 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const webpack = require('webpack')
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+// import { LoaderOptionsPlugin } from 'webpack';
 
-module.exports = (webpackConfig, env) => {
+export default (webpackConfig, env) => {
   const production = env === 'production'
   // FilenameHash
   webpackConfig.output.chunkFilename = '[name].[chunkhash].js'
@@ -17,12 +17,12 @@ module.exports = (webpackConfig, env) => {
         return item
       })
     }
-    webpackConfig.plugins.push(
-      new webpack.LoaderOptionsPlugin({
+/*     webpackConfig.plugins.push(
+      new LoaderOptionsPlugin({
         minimize: true,
         debug: false,
       })
-    )
+    ) */
   }
 
   webpackConfig.plugins = webpackConfig.plugins.concat([
