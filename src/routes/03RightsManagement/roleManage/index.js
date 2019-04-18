@@ -52,7 +52,7 @@ const RoleManagement = ({
                 return (
                     <div>
                         <Fragment>
-                            <Link to={{ pathname: `/`, state: {} }}>編輯</Link>
+                            <Link to={{ pathname: `/roleAddEdit`, record: record }}>編輯</Link>
                             <Divider type="vertical" />
                             <a onClick={deleteModal.bind(this, { related: record.related })}>刪除</a>
                         </Fragment>
@@ -120,10 +120,10 @@ const RoleManagement = ({
                 content: '停用此角色后，此角色下的人员不能登录系统',
                 onOk() {
 
-                    dispatch({ type: "roleManagement/getRoleList", payload: "2"  });
+                    dispatch({ type: "roleManagement/getRoleList", payload: "2" });
                 },
                 onCancel() {
-                    dispatch({ type: "roleManagement/getRoleList", payload: "1"  });
+                    dispatch({ type: "roleManagement/getRoleList", payload: "1" });
                 },
             });
         }
@@ -163,7 +163,7 @@ const RoleManagement = ({
                     <Row>
                         <Col>
                             <Form.Item>
-                                <Button type="primary">新建</Button>
+                                <Button type="primary" onClick={() => { dispatch({ type: "roleManagement/addNew" }) }}>新建</Button>
                             </Form.Item>
                             <Form.Item style={{ float: "right" }}>
                                 {getFieldDecorator("searchParm")(

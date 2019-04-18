@@ -1,9 +1,8 @@
 import { feedbackListApi, deviceProductListApi, feedbackUpdateApi } from "../../../services/api";
 import { message } from "antd";
-import { routerRedux } from "dva/router";
 
 export default {
-    namespace: "roleManagement",
+    namespace: "roleAddEdit",
     state: {
         roleListData: [],
         pagination: {
@@ -17,7 +16,7 @@ export default {
         setup({ dispatch, history }) {
             history.listen(location => {
                 //页面初始化执行
-                if (location.pathname === "/roleManagement") {
+                if (location.pathname === "/roleAddEdit") {
                     dispatch({ type: "getRoleList", payload: "1" });
                 }
             });
@@ -82,10 +81,6 @@ export default {
                 }
             }
         },
-        *addNew({ payload }, { call, put }) {
-            // 跳转到新增页面
-            yield put(routerRedux.push({ pathname: "/roleAddEdit" }));
-        }
     },
     reducers: {
         clearData(state) {

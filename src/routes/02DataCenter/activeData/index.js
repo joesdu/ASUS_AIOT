@@ -4,7 +4,6 @@ import { Table, Tabs, Row, Col, Card, Form, Select, Divider } from "antd";
 import styles from "./index.less";
 
 const ReactHighcharts = require("react-highcharts");
-const FormItem = Form.Item;
 const { Option } = Select;
 const TabPane = Tabs.TabPane;
 
@@ -89,7 +88,7 @@ const ActiveData = ({
             <Form layout="inline">
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                 <Col md={8} sm={24}>
-                  <FormItem label="产品" style={{ marginLeft: 30 }}>
+                  <Form.Item label="产品" style={{ marginLeft: 30 }}>
                     {getFieldDecorator("productId", { initialValue: "全部" })(
                       <Select placeholder="全部" onChange={handleChange} style={{ width: "100%" }}>
                         <Option value={0}>全部</Option>
@@ -100,7 +99,7 @@ const ActiveData = ({
                         ))}
                       </Select>
                     )}
-                  </FormItem>
+                  </Form.Item>
                 </Col>
               </Row>
             </Form>

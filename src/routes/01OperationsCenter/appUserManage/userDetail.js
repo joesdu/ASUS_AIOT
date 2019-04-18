@@ -3,8 +3,6 @@ import { connect } from "dva";
 import { Table, Row, Col, Card, Form } from "antd";
 import styles from "../../TableList.less";
 
-const FormItem = Form.Item;
-
 const UserDetail = ({
   userDetail
 }) => {
@@ -63,36 +61,36 @@ const UserDetail = ({
           <Form layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-                <FormItem label="应用">
+                <Form.Item label="应用">
                   <label>{data.appSource}</label>
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="注册账号">
+                <Form.Item label="注册账号">
                   <label>{data.mobile}</label>
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="手机号">
+                <Form.Item label="手机号">
                   <label>{data.mobile}</label>
-                </FormItem>
+                </Form.Item>
               </Col>
             </Row>
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-                <FormItem label="昵称">
+                <Form.Item label="昵称">
                   <label>{data.nickName}</label>
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="注册时间">
+                <Form.Item label="注册时间">
                   <label>{data.createdTime}</label>
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="绑定设备">
+                <Form.Item label="绑定设备">
                   <label style={{ fontWeight: "bold" }}>{data.deviceNum}个设备</label>
-                </FormItem>
+                </Form.Item>
               </Col>
             </Row>
           </Form>

@@ -65,11 +65,15 @@ const Routers = function ({ history, app }) {
       component: () => import("./routes/02DataCenter/activelyData")
     },
     {
-      path: "/roleManagement", //角色管理
+      path: "/roleManagement", // 角色管理
       models: () => [import("./models/03RightsManagement/roleManage")],
       component: () => import("./routes/03RightsManagement/roleManage")
     },
-
+    {
+      path: "/roleAddEdit", // 新增或编辑角色
+      models: () => [import("./models/03RightsManagement/roleManage/roleAddEdit")],
+      component: () => import("./routes/03RightsManagement/roleManage/roleAddEdit")
+    },
     {
       path: "/testAccount", //测试账号管理
       models: () => [import("./models/99Setting/testAccount")],
@@ -82,7 +86,7 @@ const Routers = function ({ history, app }) {
       <LocaleProvider locale={zhCN}>
         <App>
           <Switch>
-            <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
+            <Route exact path="/" render={() => <Redirect to="/home" />} />
             {routes.map(({ path, ...dynamics }, key) => (
               <Route key={key} exact path={path} component={dynamic({ app, ...dynamics })} />
             ))}

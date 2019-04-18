@@ -19,8 +19,8 @@ export default {
       {
         id: 1,
         icon: "laptop",
-        name: "Dashboard",
-        router: "/dashboard"
+        name: "Home",
+        router: "/home"
       }
     ],
     menuPopoverVisible: false,
@@ -79,7 +79,7 @@ export default {
           if (location.pathname === "/login") {
             yield put(
               routerRedux.push({
-                pathname: "/dashboard"
+                pathname: "/home"
               })
             );
           }

@@ -5,7 +5,6 @@ import { Link } from "dva/router";
 import { Table, Row, Col, Card, Form, Input, Select, Button, DatePicker, message } from "antd";
 import styles from "../../TableList.less";
 
-const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
@@ -294,35 +293,35 @@ const Devices = ({
           <Form onSubmit={handleSearch} layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-                <FormItem label="设备ID" style={{ marginLeft: 18 }}>
+                <Form.Item label="设备ID" style={{ marginLeft: 18 }}>
                   {getFieldDecorator("deviceId")(
                     <Input placeholder="请输入" />
                   )}
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="设备名称" style={{ marginLeft: 4 }}>
+                <Form.Item label="设备名称" style={{ marginLeft: 4 }}>
                   {getFieldDecorator("deviceName")(
                     <Input placeholder="请输入" />
                   )}
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="生产UUID">
+                <Form.Item label="生产UUID">
                   {getFieldDecorator("uuid")(<Input placeholder="请输入" />)}
-                </FormItem>
+                </Form.Item>
               </Col>
             </Row>
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-                <FormItem label="绑定用户" style={{ marginLeft: 4 }}>
+                <Form.Item label="绑定用户" style={{ marginLeft: 4 }}>
                   {getFieldDecorator("mobile")(
                     <Input placeholder="请输入" />
                   )}
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="是否激活" style={{ marginLeft: 4 }}>
+                <Form.Item label="是否激活" style={{ marginLeft: 4 }}>
                   {getFieldDecorator("isAct", { initialValue: "全部" })(
                     <Select placeholder="全部" style={{ width: "100%" }}>
                       <Option value={"全部"}>全部</Option>
@@ -330,10 +329,10 @@ const Devices = ({
                       <Option value={"已激活"}>已激活</Option>
                     </Select>
                   )}
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="是否在线" style={{ marginLeft: 4 }}>
+                <Form.Item label="是否在线" style={{ marginLeft: 4 }}>
                   {getFieldDecorator("status", { initialValue: "全部" })(
                     <Select placeholder="全部" style={{ width: "100%" }}>
                       <Option value={"全部"}>全部</Option>
@@ -341,12 +340,12 @@ const Devices = ({
                       <Option value={"在线"}>在线</Option>
                     </Select>
                   )}
-                </FormItem>
+                </Form.Item>
               </Col>
             </Row>
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-                <FormItem label="产品" style={{ marginLeft: 30 }}>
+                <Form.Item label="产品" style={{ marginLeft: 30 }}>
                   {getFieldDecorator("productId", { initialValue: "全部" })(
                     <Select placeholder="全部" style={{ width: "100%" }}>
                       <Option value={null}>全部</Option>
@@ -357,10 +356,10 @@ const Devices = ({
                       ))}
                     </Select>
                   )}
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="渠道" style={{ marginLeft: 30 }}>
+                <Form.Item label="渠道" style={{ marginLeft: 30 }}>
                   {getFieldDecorator("source", { initialValue: "全部" })(
                     <Select placeholder="全部" style={{ width: "100%" }}>
                       <Option value={"全部"}>全部</Option>
@@ -368,30 +367,30 @@ const Devices = ({
                       <Option value={"IOS"}>IOS</Option>
                     </Select>
                   )}
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="首次激活" style={{ marginLeft: 4 }}>
+                <Form.Item label="首次激活" style={{ marginLeft: 4 }}>
                   {getFieldDecorator("firstActivated")(
                     <RangePicker format={dateFormat} />
                   )}
-                </FormItem>
+                </Form.Item>
               </Col>
             </Row>
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-                <FormItem label="最近激活" style={{ marginLeft: 4 }}>
+                <Form.Item label="最近激活" style={{ marginLeft: 4 }}>
                   {getFieldDecorator("recentActivated")(
                     <RangePicker format={dateFormat} />
                   )}
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="最近更新" style={{ marginLeft: 4 }}>
+                <Form.Item label="最近更新" style={{ marginLeft: 4 }}>
                   {getFieldDecorator("recentUpdates")(
                     <RangePicker format={dateFormat} />
                   )}
-                </FormItem>
+                </Form.Item>
               </Col>
             </Row>
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>

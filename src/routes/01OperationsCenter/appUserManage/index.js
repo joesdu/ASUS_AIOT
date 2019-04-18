@@ -2,10 +2,8 @@ import React, { Fragment } from "react";
 import { connect } from "dva";
 import moment from "moment";
 import { Link } from "dva/router";
-import { Pagination, Table, Row, Col, Card, Form, Input, Button, message } from "antd";
+import { Table, Row, Col, Card, Form, Input, Button, message } from "antd";
 import styles from "../../TableList.less";
-
-const FormItem = Form.Item;
 
 const AppUsers = ({
   appUsers,
@@ -182,34 +180,34 @@ const AppUsers = ({
           <Form onSubmit={handleSearch} layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-                <FormItem label="应用" style={{ marginLeft: 30 }}>
+                <Form.Item label="应用" style={{ marginLeft: 30 }}>
                   {getFieldDecorator("appSource")(
                     < Input placeholder="请输入" />
                   )}
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="注册邮箱" style={{ marginLeft: 4 }} disabled>
+                <Form.Item label="注册邮箱" style={{ marginLeft: 4 }} disabled>
                   {getFieldDecorator("regEmail")(
                     <Input placeholder="请输入" />
                   )}
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="手机号" style={{ marginLeft: 17 }}>
+                <Form.Item label="手机号" style={{ marginLeft: 17 }}>
                   {getFieldDecorator("mobile")(
                     <Input placeholder="请输入" />
                   )}
-                </FormItem>
+                </Form.Item>
               </Col>
             </Row>
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-                <FormItem label="用户昵称" style={{ marginLeft: 4 }}>
+                <Form.Item label="用户昵称" style={{ marginLeft: 4 }}>
                   {getFieldDecorator("nickName")(
                     <Input placeholder="请输入" />
                   )}
-                </FormItem>
+                </Form.Item>
               </Col>
             </Row>
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>

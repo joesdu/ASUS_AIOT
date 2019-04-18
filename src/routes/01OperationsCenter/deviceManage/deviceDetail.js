@@ -3,8 +3,6 @@ import { connect } from "dva";
 import { Row, Col, Card, Form } from "antd";
 import styles from "../../TableList.less";
 
-const FormItem = Form.Item;
-
 const DeviceDetail = ({
   deviceDetail
 }) => {
@@ -84,9 +82,9 @@ const DeviceDetail = ({
       for (let i = 0; i < data.length; i++) {
         children.push(
           <Col md={8} sm={24}>
-            <FormItem label={data[i].name}>
+            <Form.Item label={data[i].name}>
               <label>{data[i].value}</label>
-            </FormItem>
+            </Form.Item>
           </Col>
         );
       }
@@ -101,43 +99,43 @@ const DeviceDetail = ({
           <Form layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-                <FormItem label="设备ID">
+                <Form.Item label="设备ID">
                   <label>{detailData.deviceId}</label>
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="生产UUID">
+                <Form.Item label="生产UUID">
                   <label>{detailData.uuid}</label>
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="自定义名称">
+                <Form.Item label="自定义名称">
                   <label>{detailData.customName}</label>
-                </FormItem>
+                </Form.Item>
               </Col>
             </Row>
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-                <FormItem label="默认名称">
+                <Form.Item label="默认名称">
                   <label>{detailData.defaultName}</label>
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="所属产品">
+                <Form.Item label="所属产品">
                   <label>{detailData.productName}</label>
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="产品ID">
+                <Form.Item label="产品ID">
                   <label>{detailData.productCode}</label>
-                </FormItem>
+                </Form.Item>
               </Col>
             </Row>
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-                <FormItem label="首次激活时间">
+                <Form.Item label="首次激活时间">
                   <label>{detailData.firstActTime}</label>
-                </FormItem>
+                </Form.Item>
               </Col>
             </Row>
           </Form>
@@ -149,55 +147,55 @@ const DeviceDetail = ({
           <Form layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-                <FormItem label="是否激活">
+                <Form.Item label="是否激活">
                   <label>是</label>
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="首次激活时间">
+                <Form.Item label="首次激活时间">
                   <label>{detailData.firstActTime}</label>
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="最近激活时间">
+                <Form.Item label="最近激活时间">
                   <label>{detailData.lastActTime}</label>
-                </FormItem>
+                </Form.Item>
               </Col>
             </Row>
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-                <FormItem label="更新时间">
+                <Form.Item label="更新时间">
                   <label>{detailData.updateTime}</label>
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="当前在线">
+                <Form.Item label="当前在线">
                   {getOnline(detailData.onlineStatus)}
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="绑定用户">
+                <Form.Item label="绑定用户">
                   <label>{detailData.userMobile}</label>
-                </FormItem>
+                </Form.Item>
               </Col>
             </Row>
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={8} sm={24}>
-                <FormItem label="经纬度">
+                <Form.Item label="经纬度">
                   <label>
                     {detailData.lng}，{detailData.lat}
                   </label>
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="地理位置">
+                <Form.Item label="地理位置">
                   <label>{detailData.city}</label>
-                </FormItem>
+                </Form.Item>
               </Col>
               <Col md={8} sm={24}>
-                <FormItem label="渠道">
+                <Form.Item label="渠道">
                   <label>{getSource(detailData.source)}</label>
-                </FormItem>
+                </Form.Item>
               </Col>
             </Row>
           </Form>
