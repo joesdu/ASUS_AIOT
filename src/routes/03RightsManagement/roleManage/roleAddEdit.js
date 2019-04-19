@@ -15,8 +15,6 @@ const RoleAddEdit = ({
 }) => {
     let { detailData } = roleAddEdit;
 
-    let container;
-
     const formItemLayout = {
         labelCol: {
             xs: { span: 24 },
@@ -29,7 +27,7 @@ const RoleAddEdit = ({
     };
 
     return (
-        <div ref={(node) => { container = node; }}>
+        <div>
             <Card title="角色信息">
                 <div className={styles.tableForm}>
                     <Form>
@@ -57,7 +55,7 @@ const RoleAddEdit = ({
             <Card title={
                 <div>
                     <Checkbox style={{ fontSize: 16 }}>运营中心</Checkbox>
-                    <label style={{ marginLeft: 16, color: '#B4B4B4' }}>模块的所有功能未开启时，角色操作界面中不显示此模块</label>
+                    <span style={{ marginLeft: 16, color: '#B4B4B4' }}>模块的所有功能未开启时，角色操作界面中不显示此模块</span>
                 </div>
             } style={{ marginTop: 20 }}>
                 <div className={styles.tableCheckGroup}>
@@ -86,7 +84,7 @@ const RoleAddEdit = ({
             <Card title={
                 <div>
                     <Checkbox style={{ fontSize: 16 }}>数据中心</Checkbox>
-                    <label style={{ marginLeft: 16, color: '#B4B4B4' }}>模块的所有功能未开启时，角色操作界面中不显示此模块</label>
+                    <span style={{ marginLeft: 16, color: '#B4B4B4' }}>模块的所有功能未开启时，角色操作界面中不显示此模块</span>
                 </div>
             } style={{ marginTop: 20 }}>
                 <div className={styles.tableCheckGroup}>
@@ -108,7 +106,7 @@ const RoleAddEdit = ({
             <Card title={
                 <div>
                     <Checkbox style={{ fontSize: 16 }}>权限管理</Checkbox>
-                    <label style={{ marginLeft: 16, color: '#B4B4B4' }}>模块的所有功能未开启时，角色操作界面中不显示此模块</label>
+                    <span style={{ marginLeft: 16, color: '#B4B4B4' }}>模块的所有功能未开启时，角色操作界面中不显示此模块</span>
                 </div>
             } style={{ marginTop: 20 }}>
                 <div className={styles.tableCheckGroup}>
@@ -129,11 +127,13 @@ const RoleAddEdit = ({
                 </div>
             </Card>
 
-            <Affix style={{ position: 'absolute', bottom: 0, right: 24}} target={() => container}>
+            <Affix style={{ position: 'absolute', bottom: 0, right: 24 }}>
+                <div style={{}}>
                 <span style={{ float: "right" }}>
                     <Button style={{ marginRight: 16 }}>取消</Button>
                     <Button type="primary" htmlType="submit">保存</Button>
-                </span>
+                    </span>
+                </div>
             </Affix>
         </div>
     );
