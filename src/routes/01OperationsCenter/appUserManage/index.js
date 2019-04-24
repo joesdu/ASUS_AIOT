@@ -51,6 +51,7 @@ const AppUsers = ({
     {
       title: "昵称",
       dataIndex: "nickName",
+      width: 250,
       align: "left",
       render: (text, record) => {
         return (

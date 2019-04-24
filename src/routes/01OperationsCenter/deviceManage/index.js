@@ -74,6 +74,7 @@ const Devices = ({
       title: "绑定用户/渠道",
       dataIndex: "mobileAndSource",
       align: 'left',
+      width: 150,
       render: (text, record) => {
         return (
           <div>
@@ -112,7 +113,7 @@ const Devices = ({
     },
     {
       title: "操作",
-      width: 150,
+      width: 100,
       dataIndex: "operation",
       render: (text, record) => {
         if (record.operation === "激活") {
