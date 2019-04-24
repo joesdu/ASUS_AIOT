@@ -50,13 +50,11 @@ const RoleManagement = ({
             width: 150,
             render: (text, record) => {
                 return (
-                    <div>
-                        <Fragment>
-                            <Link to={{ pathname: `/roleAddEdit`, record: record }}>編輯</Link>
-                            <Divider type="vertical" />
-                            <a onClick={deleteModal.bind(this, { related: record.related })}>刪除</a>
-                        </Fragment>
-                    </div>
+                    <Fragment>
+                        <Link to={{ pathname: `/roleAddEdit`, record: record }}>編輯</Link>
+                        <Divider type="vertical" />
+                        <a onClick={deleteModal.bind(this, { related: record.related })}>刪除</a>
+                    </Fragment>
                 );
             }
         }

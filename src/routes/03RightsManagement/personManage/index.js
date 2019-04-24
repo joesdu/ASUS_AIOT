@@ -85,13 +85,11 @@ const PersonManage = ({
             width: 150,
             render: (text, record) => {
                 return (
-                    <div>
-                        <Fragment>
-                            <a onClick={editModalShow.bind(this, record)}>编辑</a>
-                            <Divider type="vertical" />
-                            <a onClick={showDeleteConfirm.bind(this, record)}>刪除</a>
-                        </Fragment>
-                    </div>
+                    <Fragment>
+                        <a onClick={editModalShow.bind(this, record)}>编辑</a>
+                        <Divider type="vertical" />
+                        <a onClick={showDeleteConfirm.bind(this, record)}>刪除</a>
+                    </Fragment>
                 );
             }
         }

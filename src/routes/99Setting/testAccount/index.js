@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { connect } from "dva";
 import moment from "moment";
-import { Table, Row, Col, Card, Form, Select, Button, message, Modal, Input, Icon } from "antd";
+import { Table, Row, Col, Card, Form, Select, Button, message, Modal, Input, Icon, Divider } from "antd";
 import styles from "../../TableList.less";
 
 const { Option } = Select;
@@ -43,7 +43,7 @@ const TestAccount = ({
             title: "生产商",
             dataIndex: "producer",
             align: 'left',
-            width: 350,
+            width: 300,
             render: (text, record) => {
                 return (
                     <div style={{ color: "#272727" }}>{record.producer}</div>
@@ -54,6 +54,7 @@ const TestAccount = ({
             title: "备注",
             dataIndex: "remark",
             align: 'left',
+            width: 250,
             render: (text, record) => {
                 return <div style={{ color: "#272727" }}>{record.remark}</div>;
             }
@@ -61,7 +62,7 @@ const TestAccount = ({
         {
             title: "创建时间",
             dataIndex: "createdTime",
-            width: 200,
+            width: 150,
             render: (text, record) => {
                 return <div>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
             }
@@ -73,8 +74,9 @@ const TestAccount = ({
             render: (text, record) => {
                 return (
                     <Fragment>
-                        <a style={{ marginRight: 10 }} onClick={showDeleteConfirm.bind(this, { testUserId: record.testUserId, userToken: localStorage.getItem("userToken") })}>删除</a>
-                        <a style={{ marginLeft: 10 }} onClick={editModalShow.bind(this, record)}>编辑</a>
+                        <a onClick={showDeleteConfirm.bind(this, { testUserId: record.testUserId, userToken: localStorage.getItem("userToken") })}>删除</a>
+                        <Divider type="vertical" />
+                        <a onClick={editModalShow.bind(this, record)}>编辑</a>
                     </Fragment>
                 );
             }
