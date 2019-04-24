@@ -377,7 +377,7 @@ const PersonManage = ({
                                 </Modal>
                             </Form.Item>
                             <Form.Item>
-                                <Button style={{ width: 82 }} type="danger" block>删除</Button>
+                                <Button style={{ width: 82 }} type="danger" block onClick={showDeleteConfirm}>删除</Button>
                             </Form.Item>
                         </Col>
                     </Row>
