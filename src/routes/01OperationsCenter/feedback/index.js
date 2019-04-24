@@ -60,6 +60,7 @@ const UserFeedback = ({
       title: "产品名称",
       dataIndex: "productName",
       align: 'left',
+      width: 250,
       render: (text, record) => {
         return <div style={{ color: "#272727" }}>{record.productName}</div>;
       }
