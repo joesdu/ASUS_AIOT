@@ -163,7 +163,7 @@ const RoleManagement = ({
                     <Row>
                         <Col>
                             <Form.Item>
-                                <Button type="primary" onClick={() => { dispatch({ type: "roleManagement/addNew" }) }}>新建</Button>
+                                <Button style={{ width: 82 }} type="primary" onClick={() => { dispatch({ type: "roleManagement/addNew" }) }}>+ 新建</Button>
                             </Form.Item>
                             <Form.Item style={{ float: "right" }}>
                                 {getFieldDecorator("searchParm")(

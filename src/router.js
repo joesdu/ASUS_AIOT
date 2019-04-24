@@ -75,6 +75,11 @@ const Routers = function ({ history, app }) {
       component: () => import("./routes/03RightsManagement/roleManage/roleAddEdit")
     },
     {
+      path: "/personManage", // 人員管理
+      models: () => [import("./models/03RightsManagement/personManage")],
+      component: () => import("./routes/03RightsManagement/personManage")
+    },
+    {
       path: "/testAccount", //测试账号管理
       models: () => [import("./models/99Setting/testAccount")],
       component: () => import("./routes/99Setting/testAccount")

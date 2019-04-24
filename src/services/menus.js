@@ -122,7 +122,7 @@ export async function query() {
         display: false
       },
       {
-        route: "/personnelManagement",
+        route: "/personManage",
         name: "人员管理",
         id: 42,
         mpid: 4,
