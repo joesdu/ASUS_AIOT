@@ -387,10 +387,10 @@ ant-design-palettes@^1.1.3:
   dependencies:
     tinycolor2 "^1.4.1"
 
-antd@^3.19.1:
-  version "3.19.1"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-3.19.1.tgz#97d5dd8dd945105b388e1435fc15c98f3455cb97"
-  integrity sha512-0Sl6zN11mC84V4/mIi8kKdTqsys8ttnuqRa+CdeyrX2ttIZ7xzpMxkaniI3H15YK9qmzRl9fbo05q3BItmZiCg==
+antd@^3.19.2:
+  version "3.19.2"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-3.19.2.tgz#18829f7bbc6acb3f4b43a77349c2bf2c3e733408"
+  integrity sha512-s1nFRNXQiNZpUfIpyQN89OBrZg9hz2qgPiBeR5b/GgMacHRNzB4sOAD3XBUYeojmUo2UkOgZOUL9jTdiUOf2ZA==
   dependencies:
     "@ant-design/create-react-context" "^0.2.4"
     "@ant-design/icons" "~2.0.0"
@@ -991,10 +991,10 @@ babel-plugin-dva-hmr@^0.4.2:
   resolved "https://registry.yarnpkg.com/babel-plugin-dva-hmr/-/babel-plugin-dva-hmr-0.4.2.tgz#56cf3d49cc366fb191cd883e27ca42bddfd12735"
   integrity sha512-QP5W0IT9LDFgoqkXD0g7wn/FMn7zO562P8qys23twXri4i3E1SGOQ3z7jqcPrqzfTZHx+Ufr+cXy9oI6OLMYZg==
 
-babel-plugin-import@^1.11.2:
-  version "1.11.2"
-  resolved "https://registry.yarnpkg.com/babel-plugin-import/-/babel-plugin-import-1.11.2.tgz#7566459543656585382c60e99a9c751c6d09ff3d"
-  integrity sha512-Ja3LvQZEMqwxo3QkxRwq4pnl4F18kzd/eTbMFOP6MKtSecPajSXE22fZQcfBr5OQ/jWEwZY3PulIvrlDABNIEA==
+babel-plugin-import@^1.12.0:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-import/-/babel-plugin-import-1.12.0.tgz#12d50950aecfd8de3f10880730221f0f0843a755"
+  integrity sha512-3Fo7sJ2Hm71y1VJS7eMA/E7J5+roKJmzwia5BxzUQREBs6CRylwtvQq8m39W8nplG4Y7rZwOCndh5MzRTSmHpA==
   dependencies:
     "@babel/helper-module-imports" "^7.0.0"
     "@babel/runtime" "^7.0.0"
