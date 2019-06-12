@@ -62,6 +62,7 @@ module.exports = {
     //角色管理
     authorityAdd: "authority/add",
     authorityAllPages: "authority/allPages",
+    authorityCheckDelete: "authority/checkDelete",
     authorityDelete: "authority/delete",
     authorityEdit: "authority/edit",
     authorityList: "authority/list",

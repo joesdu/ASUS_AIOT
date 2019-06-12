@@ -184,6 +184,12 @@ export async function authorityAllPagesApi(params) {
   return request(_url, { method: "POST", body: params });
 }
 
+/***********删除角色检测接口**********/
+export async function authorityCheckDeleteApi(params) {
+  let _url = apiUrl + api.authorityCheckDelete;
+  return request(_url, { method: "POST", body: params });
+}
+
 /***********刪除角色接口**********/
 export async function authorityDeleteApi(params) {
   let _url = apiUrl + api.authorityDelete;
