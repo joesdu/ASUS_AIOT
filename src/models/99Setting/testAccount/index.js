@@ -1,5 +1,6 @@
 import { backTestUserDeleteApi, backTestUserListApi, backTestUserSaveApi, backTestUseUpdateApi, deviceProductListApi } from "../../../services/api";
 import { message } from "antd";
+import config from "../../../utils/config";
 
 export default {
   namespace: "testAccount",
@@ -28,7 +29,7 @@ export default {
             pageNum: 0,
             pageRows: 10,
             productId: null,
-            userToken: localStorage.getItem("userToken")
+            userToken: config.userToken
           };
           dispatch({ type: "getList", payload: listPram });
           dispatch({ type: "productList" });
@@ -104,7 +105,7 @@ export default {
       }
     },
     *productList({ payload }, { call, put }) {
-      const prams = { userToken: localStorage.getItem("userToken") };
+      const prams = { userToken: config.userToken };
       const data = yield call(deviceProductListApi, prams);
       if (data == null || data.length == 0 || data == {} || data.code != 0) {
         message.error(data != null ? "获取产品列表数据失败,错误信息:" + data.msg : "获取产品列表数据失败");

@@ -1,5 +1,6 @@
 import { statsDeviceActiveApi, statsDeviceActiveSummaryApi, deviceProductListApi } from "../../../services/api";
 import { message } from "antd";
+import config from "../../../utils/config";
 
 export default {
   namespace: "activelyData",
@@ -15,7 +16,7 @@ export default {
     setup({ dispatch, history }) {
       history.listen(location => {
         if (location.pathname === "/activelyData") {
-          let _ars = { userToken: localStorage.getItem("userToken"), period: 7, productId: 0 };
+          let _ars = { userToken: config.userToken, period: 7, productId: 0 };
           dispatch({ type: "ActiveSummary", payload: _ars });
           dispatch({ type: "DeviceActive", payload: _ars });
           dispatch({ type: "ProductList" });
@@ -60,7 +61,7 @@ export default {
       }
     },
     *ProductList({ payload }, { call, put }) {
-      const prams = { userToken: localStorage.getItem("userToken") };
+      const prams = { userToken: config.userToken };
       const data = yield call(deviceProductListApi, prams);
       if (data == null || data.length == 0 || data == {} || data.code != 0) {
         message.error(data != null ? "获取产品列表数据失败,错误信息:" + data.msg : "获取产品列表数据失败");

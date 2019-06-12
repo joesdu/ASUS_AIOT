@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "dva";
 import { Table, Tabs, Row, Col, Card, Form, Select, Divider } from "antd";
 import styles from "./index.less";
+import config from "../../../utils/config";
 
 const ReactHighcharts = require("react-highcharts");
 const { Option } = Select;
@@ -20,7 +21,7 @@ const ActiveData = ({
   //查询条件
   const handleChange = e => {
     productID = e;
-    let activate = { userToken: localStorage.getItem("userToken"), period: 7, productId: e };
+    let activate = { userToken: config.userToken, period: 7, productId: e };
     //赛选数据
     dispatch({ type: "activeData/ActivateSummary", payload: activate });
     dispatch({ type: "activeData/Activate", payload: activate });
@@ -76,7 +77,7 @@ const ActiveData = ({
 
   const getData = k => {
     dispatch({ type: "activeData/selected", payload: k });
-    let activate = { userToken: localStorage.getItem("userToken"), period: k, productId: productID };
+    let activate = { userToken: config.userToken, period: k, productId: productID };
     dispatch({ type: "activeData/Activate", payload: activate });
   };
 
@@ -150,10 +151,10 @@ const ActiveData = ({
           </TabPane>
         </Tabs>
         <Divider />
-          <div className={styles.indexData_top}>
-            <span>激活数据明细</span>
-            <Table columns={columns} dataSource={activateData.listArray} bordered={false} pagination={false} />
-          </div>
+        <div className={styles.indexData_top}>
+          <span>激活数据明细</span>
+          <Table columns={columns} dataSource={activateData.listArray} bordered={false} pagination={false} />
+        </div>
       </Card>
     </div>
   );

@@ -3,6 +3,7 @@ import { connect } from "dva";
 import moment from "moment";
 import { Link } from "dva/router";
 import { Table, Row, Col, Card, Form, Button, Switch, Modal, Input, Divider, Icon } from "antd";
+import config from "../../../utils/config";
 
 const RoleManagement = ({
     roleManagement,
@@ -32,16 +33,18 @@ const RoleManagement = ({
         },
         {
             title: "状态",
-            dataIndex: "states",
+            dataIndex: "status",
             render: (text, record) => {
-                return (<Switch checkedChildren="开" unCheckedChildren="关" onChange={statesChange.bind(this, record)} defaultChecked={record.states} />);
+                return (<Switch checkedChildren="开" unCheckedChildren="关" onChange={statesChange.bind(this, record)} defaultChecked={record.status} />);
             }
         },
         {
             title: "创建时间",
             dataIndex: "createTime",
+            defaultSortOrder: 'descend',
+            sorter: (a, b) => new Date(a.createTime) - new Date(b.createTime),
             render: (text, record) => {
-                return <div>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
+                return <div>{moment(record.createTime).format("YYYY-MM-DD HH:mm:ss")}</div>;
             }
         },
         {
@@ -53,24 +56,20 @@ const RoleManagement = ({
                     <Fragment>
                         <Link to={{ pathname: `/roleAddEdit`, record: record }}>編輯</Link>
                         <Divider type="vertical" />
-                        <a onClick={deleteModal.bind(this, { related: record.related })}>刪除</a>
+                        <a onClick={deleteModal.bind(this, { record: record })}>刪除</a>
                     </Fragment>
                 );
             }
         }
     ];
 
-    const getJsonPrams = (parm, pageNum, pageRows) => {
-        let searchParm = parm.searchParm
+    const getJsonPrams = (pageNum, pageRows) => {
         return {
-            userToken: localStorage.getItem("userToken"),
-            endTime: recentActivatedEnd,
-            firstRow: null,
-            isProcessed: isProcessed,
+            name: "",
             pageNum: pageNum,
-            pageRows: pageRows,
-            productId: productId,
-            startTime: recentActivatedStart
+            pageSize: pageRows,
+            sortType: 1,
+            userToken: config.userToken
         };
     };
 
@@ -78,28 +77,26 @@ const RoleManagement = ({
     let paginationObj = {
         style: { padding: "20px 0 0", textAlign: "center", marginBottom: "10px" },
         total: pagination.total,
-        defaultCurrent: 1,
+        defaultCurrent: pagination.current,
         pageSize: pagination.pageSize,
         showSizeChanger: true,
         showQuickJumper: true,
         onShowSizeChange: (current, pageSize) => {
-            let values = getFieldsValue();
-            let postObj = getJsonPrams(values, current - 1, pageSize);
+            let postObj = getJsonPrams(current - 1, pageSize);
             //判断查询条件
             if (JSON.stringify(searchList) !== "{}") {
-                dispatch({ type: "roleManagement/getRoleList", payload: postObj });
+                dispatch({ type: "roleManagement/getList", payload: postObj });
             } else {
-                dispatch({ type: "roleManagement/getRoleList", payload: postObj });
+                dispatch({ type: "roleManagement/getList", payload: postObj });
             }
         },
         onChange: (current, pageSize) => {
-            let values = getFieldsValue();
-            let postObj = getJsonPrams(values, current - 1, pageSize);
+            let postObj = getJsonPrams(current - 1, pageSize);
             //判断查询条件
             if (JSON.stringify(searchList) !== "{}") {
-                dispatch({ type: "roleManagement/getRoleList", payload: postObj });
+                dispatch({ type: "roleManagement/getList", payload: postObj });
             } else {
-                dispatch({ type: "roleManagement/getRoleList", payload: postObj });
+                dispatch({ type: "roleManagement/getList", payload: postObj });
             }
         },
         showTotal: () => {
@@ -107,6 +104,12 @@ const RoleManagement = ({
         }
     }
     /**分页合集 end **/
+
+    const search = (value) => {
+        let postObj = getJsonPrams(pagination.current, pagination.pageSize);
+        postObj.name = value;
+        dispatch({ type: "roleManagement/getList", payload: postObj });
+    }
 
     const statesChange = (record, checked) => {
         if (!checked) {
@@ -118,10 +121,10 @@ const RoleManagement = ({
                 content: '停用此角色后，此角色下的人员不能登录系统',
                 onOk() {
 
-                    dispatch({ type: "roleManagement/getRoleList", payload: "2" });
+                    dispatch({ type: "roleManagement/getList", payload: "2" });
                 },
                 onCancel() {
-                    dispatch({ type: "roleManagement/getRoleList", payload: "1" });
+                    dispatch({ type: "roleManagement/getList", payload: "1" });
                 },
             });
         }
@@ -164,13 +167,11 @@ const RoleManagement = ({
                                 <Button style={{ width: 82 }} type="primary" onClick={() => { dispatch({ type: "roleManagement/addNew" }) }}>+ 新建</Button>
                             </Form.Item>
                             <Form.Item style={{ float: "right" }}>
-                                {getFieldDecorator("searchParm")(
-                                    <Input.Search
-                                        placeholder="请输入"
-                                        onSearch={value => console.log(value)}
-                                        style={{ width: 260 }}
-                                    />
-                                )}
+                                <Input.Search
+                                    placeholder="请输入"
+                                    onSearch={search}
+                                    style={{ width: 260 }}
+                                />
                             </Form.Item>
                         </Col>
                     </Row>

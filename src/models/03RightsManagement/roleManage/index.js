@@ -1,6 +1,7 @@
-import { feedbackListApi, deviceProductListApi, feedbackUpdateApi } from "../../../services/api";
+import { authoritySearchApi,authorityDeleteApi } from "../../../services/api";
 import { message } from "antd";
 import { routerRedux } from "dva/router";
+import config from "../../../utils/config";
 
 export default {
     namespace: "roleManagement",
@@ -18,73 +19,61 @@ export default {
             history.listen(location => {
                 //页面初始化执行
                 if (location.pathname === "/roleManagement") {
-                    dispatch({ type: "getRoleList", payload: "1" });
+                    let args = {
+                        name: "",
+                        pageNum: 0,
+                        pageSize: 10,
+                        sortType: 1,
+                        userToken: config.userToken
+                    }
+                    dispatch({ type: "getList", payload: args });
                 }
             });
         }
     },
 
     effects: {
-        *getRoleList({ payload }, { call, put }) {
-            //const data = yield call(feedbackListApi, payload);
-            let data = {
-                code: 0,
-                data: {
-                    roleList: payload === "1" ? [{
-                        id: 0,
-                        name: "测试姓名0",
-                        states: true,
-                        createTime: new Date(),
-                        related: true
-                    }, {
-                        id: 1,
-                        name: "测试姓名1",
-                        states: false,
-                        createTime: new Date(),
-                        related: false
-                    }] : [{
-                        id: 0,
-                        name: "测试姓名0",
-                        states: true,
-                        createTime: new Date(),
-                        related: false
-                    }, {
-                        id: 1,
-                        name: "测试姓名1",
-                        states: true,
-                        createTime: new Date(),
-                        related: false
-                    }],
-                    pageNum: 0,
-                    pageRows: 10,
-                    totalRows: 1
-                },
-                msg: "沒有錯誤"
-            };
+        * getList({ payload }, { call, put }) {
+            const data = yield call(authoritySearchApi, payload);
             let _pag = {};
             if (data == null || data.length == 0 || data == {} || data.code != 0) {
                 message.error(data != null ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
-                yield put({ type: "getRoleListSuccess", payload: null, page: _pag });
+                yield put({ type: "getListSuccess", payload: null, page: _pag });
             } else {
                 if (data.data == null || data.data == {} || data.data == undefined) {
                     message.info("无数据");
-                    yield put({ type: "getRoleListSuccess", payload: null, page: _pag });
+                    yield put({ type: "getListSuccess", payload: null, page: _pag });
                 }
                 else {
-                    _pag.total = typeof data.data.totalRows == undefined ? 0 : data.data.totalRows;
-                    _pag.pageSize = typeof data.data.pageRows == undefined ? 0 : data.data.pageRows;
+                    _pag.total = typeof data.data.total == undefined ? 0 : data.data.total;
+                    _pag.pageSize = typeof data.data.pageSize == undefined ? 0 : data.data.pageSize;
                     _pag.current = typeof data.data.pageNum == undefined ? 0 : data.data.pageNum;
-                    if (typeof data.data.totalRows == undefined || typeof data.data.pageRows == undefined)
+                    if (typeof data.data.totalRows == undefined || typeof data.data.pages == undefined)
                         _pag.pageCount = 0;
                     else
-                        _pag.pageCount = parseInt((data.data.totalRows - 1) / data.data.pageRows) + 1;
-                    yield put({ type: "getRoleListSuccess", payload: data.data.roleList, page: _pag });
+                        _pag.pageCount = data.data.pages;
+                    yield put({ type: "getListSuccess", payload: data.data.list, page: _pag });
                 }
             }
         },
-        *addNew({ payload }, { call, put }) {
+        * addNew({ payload }, { call, put }) {
             // 跳转到新增页面
             yield put(routerRedux.push({ pathname: "/roleAddEdit" }));
+        },
+        *delete({ payload }, { call, put }) {
+            const data = yield call(authorityDeleteApi, payload.delete);
+            if (data == null || data.length == 0 || data == {} || data.code != 0) {
+                message.error(data != null ? "删除数据失败,错误信息:" + data.msg : "删除数据失败");
+            } else {
+                if (data.code === 0 || data.code === "0") {
+                    message.info("刪除成功");
+                    //Todo 刷新列表
+                    yield put({ type: "getList", payload: payload.query });
+                }
+                else {
+                    message.info("删除失败,原因:" + data.msg)
+                }
+            }
         }
     },
     reducers: {
@@ -101,7 +90,7 @@ export default {
             };
         },
         //返回数据列表
-        getRoleListSuccess(state, action) {
+        getListSuccess(state, action) {
             return { ...state, roleListData: action.payload, pagination: action.page };
         },
         productListSuccess(state, action) {

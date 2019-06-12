@@ -25,9 +25,14 @@ module.exports = {
   apiPrefix: "/api/v1",
   apiUrl: serverService + APIV1,
   api: {
-    //登录相关
+    //后台用户
+    backUserAdd: "backUser/add",
+    backUserDelete: "backUser/delete",
+    backUserEdit: "backUser/edit",
+    backUserGetAuthorityPage: "backUser/getAuthorityPages",
     backUserLogin: "backUser/login",
     backUserLogout: "backUser/logout",
+    backUserSearch: "backUser/search",
     //反馈相关接口  Feedback Controller
     feedbackList: "feedback/list",
     feedbackUpdate: "feedback/update",
@@ -53,7 +58,14 @@ module.exports = {
     backTestUserDetail: "backTestUser/detail",
     backTestUserList: "backTestUser/list",
     backTestUserSave: "backTestUser/save",
-    backTestUseUpdate: "backTestUser/update"
+    backTestUseUpdate: "backTestUser/update",
+    //角色管理
+    authorityAdd: "authority/add",
+    authorityAllPages: "authority/allPages",
+    authorityDelete: "authority/delete",
+    authorityEdit: "authority/edit",
+    authorityList: "authority/list",
+    authoritySearch: "authority/search"
   }
 };
 //   Swagger:       http://106.15.176.36:9008/swagger-ui.html#/*

@@ -1,5 +1,6 @@
 import { statsDeviceActivateApi, statsDeviceSummaryApi, statsDeviceActiveApi, statsDeviceAreaApi, deviceProductListApi } from "../../../services/api";
 import { message } from "antd";
+import config from "../../../utils/config";
 
 export default {
   namespace: "home",
@@ -19,10 +20,10 @@ export default {
     setup({ dispatch, history }) {
       history.listen(location => {
         if (location.pathname === "/home") {
-          let overview = { userToken: localStorage.getItem("userToken"), productId: 0 };
-          let activate = { userToken: localStorage.getItem("userToken"), period: 7, productId: 0 };
-          let active = { userToken: localStorage.getItem("userToken"), period: 7, productId: 0 };
-          let area = { userToken: localStorage.getItem("userToken"), period: 1, productId: 0 };
+          let overview = { userToken: config.userToken, productId: 0 };
+          let activate = { userToken: config.userToken, period: 7, productId: 0 };
+          let active = { userToken: config.userToken, period: 7, productId: 0 };
+          let area = { userToken: config.userToken, period: 1, productId: 0 };
           dispatch({ type: "overview", payload: overview });
           dispatch({ type: "activate", payload: activate });
           dispatch({ type: "active", payload: active });
@@ -105,7 +106,7 @@ export default {
       }
     },
     *productList({ payload }, { call, put }) {
-      const prams = { userToken: localStorage.getItem("userToken") };
+      const prams = { userToken: config.userToken };
       const data = yield call(deviceProductListApi, prams);
       if (data == null || data.length == 0 || data == {} || data.code != 0) {
         message.error(data != null ? "获取产品列表数据失败,错误信息:" + data.msg : "获取产品列表数据失败");

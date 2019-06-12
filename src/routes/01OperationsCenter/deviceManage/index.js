@@ -4,6 +4,7 @@ import moment from "moment";
 import { Link } from "dva/router";
 import { Table, Row, Col, Card, Form, Input, Select, Button, DatePicker, message } from "antd";
 import styles from "../../TableList.less";
+import config from "../../../utils/config";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -194,7 +195,7 @@ const Devices = ({
       productId = parm.productId;
     }
     return {
-      userToken: localStorage.getItem("userToken"),
+      userToken: config.userToken,
       actTimeEnd: actTimeEnd,
       actTimeStart: actTimeStart,
       deviceId: parm.deviceId == null || parm.deviceId == "" ? null : parm.deviceId,

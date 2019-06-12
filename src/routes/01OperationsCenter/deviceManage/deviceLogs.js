@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "dva";
 import moment from "moment";
 import { Table, Card, Form } from "antd";
+import config from "../../../utils/config";
 
 const DeviceLogs = ({
     deviceLogs,
@@ -34,7 +35,7 @@ const DeviceLogs = ({
 
     const getJsonPrams = (pageNum, pageRows) => {
         return {
-            userToken: localStorage.getItem("userToken"),
+            userToken: config.userToken,
             deviceId: deviceId,
             firstRow: null,
             pageNum: pageNum,

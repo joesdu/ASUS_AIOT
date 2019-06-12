@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "dva";
 import { Table, Row, Col, Card, Form, Select, Divider } from "antd";
 import styles from "./index.less";
+import config from "../../../utils/config";
 
 const ReactHighcharts = require("react-highcharts");
 const { Option } = Select;
@@ -19,7 +20,7 @@ const ActivelyData = ({
   //查询条件
   const handleChange = e => {
     productID = e;
-    let active = { userToken: localStorage.getItem("userToken"), period: 7, productId: e };
+    let active = { userToken: config.userToken, period: 7, productId: e };
     //赛选数据
     dispatch({ type: "activelyData/ActiveSummary", payload: active });
     dispatch({ type: "activelyData/DeviceActive", payload: active });
@@ -57,7 +58,7 @@ const ActivelyData = ({
 
   const getData = k => {
     dispatch({ type: "activelyData/selected", payload: k });
-    let active = { userToken: localStorage.getItem("userToken"), period: k, productId: productID };
+    let active = { userToken: config.userToken, period: k, productId: productID };
     dispatch({ type: "activelyData/DeviceActive", payload: active });
   };
 

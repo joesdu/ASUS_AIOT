@@ -3,6 +3,7 @@ import { connect } from "dva";
 import moment from "moment";
 import { Table, Row, Col, Card, Form, Select, Button, DatePicker, message, Modal, Radio, Input } from "antd";
 import styles from "../../TableList.less";
+import config from "../../../utils/config";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -123,7 +124,7 @@ const UserFeedback = ({
       productId = parm.productId;
     }
     return {
-      userToken: localStorage.getItem("userToken"),
+      userToken: config.userToken,
       endTime: recentActivatedEnd,
       firstRow: null,
       isProcessed: isProcessed,
@@ -239,7 +240,7 @@ const UserFeedback = ({
         let _value = getJsonPrams(values, pagination.current, pagination.pageSize);
         let markText = document.getElementById("markText").value;
         let _object = {
-          update: { feedbackId: e.feedbackId, isProcessed: radioSelect, remark: markText, userToken: localStorage.getItem("userToken") },
+          update: { feedbackId: e.feedbackId, isProcessed: radioSelect, remark: markText, userToken: config.userToken },
           query: _value
         };
         dispatch({ type: "userFeedback/updateFeedback", payload: _object });

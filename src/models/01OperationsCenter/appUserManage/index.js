@@ -1,5 +1,6 @@
 import { userListApi } from "../../../services/api";
 import { message } from "antd";
+import config from "../../../utils/config";
 
 export default {
   namespace: "appUsers",
@@ -19,7 +20,7 @@ export default {
         //页面初始化执行
         if (location.pathname === "/appUsers") {
           let _ars = {
-            userToken: localStorage.getItem("userToken"),
+            userToken: config.userToken,
             appSource: null,
             firstRow: null,
             mobile: null,

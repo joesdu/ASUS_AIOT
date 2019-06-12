@@ -3,6 +3,7 @@ import { connect } from "dva";
 import moment from "moment";
 import { Table, Row, Col, Card, Form, Select, Button, message, Modal, Input, Icon, Divider } from "antd";
 import styles from "../../TableList.less";
+import config from "../../../utils/config";
 
 const { Option } = Select;
 
@@ -74,7 +75,7 @@ const TestAccount = ({
             render: (text, record) => {
                 return (
                     <Fragment>
-                        <a onClick={showDeleteConfirm.bind(this, { testUserId: record.testUserId, userToken: localStorage.getItem("userToken") })}>删除</a>
+                        <a onClick={showDeleteConfirm.bind(this, { testUserId: record.testUserId, userToken: config.userToken })}>删除</a>
                         <Divider type="vertical" />
                         <a onClick={editModalShow.bind(this, record)}>编辑</a>
                     </Fragment>
@@ -97,7 +98,7 @@ const TestAccount = ({
             mobile = parm.mobile;
         }
         return {
-            userToken: localStorage.getItem("userToken"),
+            userToken: config.userToken,
             firstRow: null,
             mobile: mobile,
             pageNum: pageNum,
@@ -202,7 +203,7 @@ const TestAccount = ({
             producer: values.producer_add,
             productId: values.productId_add,
             remark: values.remark_add,
-            userToken: localStorage.getItem("userToken")
+            userToken: config.userToken
         }
         let _object = {
             save: obj,
@@ -232,7 +233,7 @@ const TestAccount = ({
             productId: values.productId_edit,
             remark: values.remark_edit,
             testUserId: editModalData.testUserId,
-            userToken: localStorage.getItem("userToken")
+            userToken: config.userToken
         }
         let _value = getJsonPrams(values, pagination.current, pagination.pageSize);
         dispatch({ type: "testAccount/update", payload: { update: obj, query: _value } });

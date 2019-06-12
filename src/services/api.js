@@ -2,7 +2,31 @@ import config from "../utils/config";
 import request from "../utils/request";
 const { api, apiUrl } = config;
 
-//登录相关
+//后台用户相关
+/*********** 新增用戶接口***********/
+export async function backUserAddApi(params) {
+  let _url = apiUrl + api.backUserAdd;
+  return request(_url, { method: "POST", body: params });
+}
+
+/*********** 刪除用戶接口***********/
+export async function backUserDeleteApi(params) {
+  let _url = apiUrl + api.backUserDelete;
+  return request(_url, { method: "POST", body: params });
+}
+
+/*********** 編輯用戶接口***********/
+export async function backUserEditApi(params) {
+  let _url = apiUrl + api.backUserEdit;
+  return request(_url, { method: "POST", body: params });
+}
+
+/*********** 獲取用戶權限頁面***********/
+export async function backUserGetAuthorityPageApi(params) {
+  let _url = apiUrl + api.backUserGetAuthorityPage;
+  return request(_url, { method: "POST", body: params });
+}
+
 /***********登录**********/
 export async function backUserLoginApi(params) {
   let _url = apiUrl + api.backUserLogin;
@@ -12,6 +36,12 @@ export async function backUserLoginApi(params) {
 /*********** 退出登录***********/
 export async function backUserLogoutApi(params) {
   let _url = apiUrl + api.backUserLogout;
+  return request(_url, { method: "POST", body: params });
+}
+
+/*********** 用戶搜索接口***********/
+export async function backUserSearchApi(params) {
+  let _url = apiUrl + api.backUserSearch;
   return request(_url, { method: "POST", body: params });
 }
 
@@ -138,5 +168,42 @@ export async function backTestUserSaveApi(params) {
 /***********更新測試賬號**********/
 export async function backTestUseUpdateApi(params) {
   let _url = apiUrl + api.backTestUseUpdate;
+  return request(_url, { method: "POST", body: params });
+}
+
+//角色管理
+/***********新增角色接口**********/
+export async function authorityAddApi(params) {
+  let _url = apiUrl + api.authorityAdd;
+  return request(_url, { method: "POST", body: params });
+}
+
+/***********全部權限**********/
+export async function authorityAllPagesApi(params) {
+  let _url = apiUrl + api.authorityAllPages;
+  return request(_url, { method: "POST", body: params });
+}
+
+/***********刪除角色接口**********/
+export async function authorityDeleteApi(params) {
+  let _url = apiUrl + api.authorityDelete;
+  return request(_url, { method: "POST", body: params });
+}
+
+/***********編輯角色接口**********/
+export async function authorityEditApi(params) {
+  let _url = apiUrl + api.authorityEdit;
+  return request(_url, { method: "POST", body: params });
+}
+
+/***********角色列表接口**********/
+export async function authorityListApi(params) {
+  let _url = apiUrl + api.authorityList;
+  return request(_url, { method: "POST", body: params });
+}
+
+/***********角色搜索接口**********/
+export async function authoritySearchApi(params) {
+  let _url = apiUrl + api.authoritySearch;
   return request(_url, { method: "POST", body: params });
 }

@@ -1,5 +1,6 @@
 import { userDetailApi } from "../../../services/api";
 import { message } from "antd";
+import config from "../../../utils/config";
 
 export default {
     namespace: "userDetail",
@@ -13,7 +14,7 @@ export default {
                 if (location.pathname === "/appUsersDetail") {
                     let _ars = {
                         userId: location.state.userId,
-                        userToken: localStorage.getItem("userToken")
+                        userToken: config.userToken
                     };
                     dispatch({ type: "queryRule", payload: _ars });
                 }

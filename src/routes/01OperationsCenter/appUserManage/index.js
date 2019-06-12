@@ -4,6 +4,7 @@ import moment from "moment";
 import { Link } from "dva/router";
 import { Table, Row, Col, Card, Form, Input, Button, message } from "antd";
 import styles from "../../TableList.less";
+import config from "../../../utils/config";
 
 const AppUsers = ({
   appUsers,
@@ -93,7 +94,7 @@ const AppUsers = ({
       appSource = parm.appSource;
     }
     return {
-      userToken: localStorage.getItem("userToken"),
+      userToken: config.userToken,
       appSource: appSource,
       firstRow: null,
       mobile: parm.mobile == null || parm.mobile == "" ? null : parm.mobile,

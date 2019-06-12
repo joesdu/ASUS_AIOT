@@ -1,5 +1,6 @@
 import { devicesListApi, deviceProductListApi } from "../../../services/api";
 import { message } from "antd";
+import config from "../../../utils/config";
 
 export default {
   namespace: "devices",
@@ -20,7 +21,7 @@ export default {
         //页面初始化执行
         if (location.pathname === "/devices") {
           let _ars = {
-            userToken: localStorage.getItem("userToken"),
+            userToken: config.userToken,
             actTimeEnd: null,
             actTimeStart: null,
             deviceId: null,
@@ -54,10 +55,10 @@ export default {
         message.error(data != null ? "获取设备列表数据失败,错误信息:" + data.msg : "获取设备列表数据失败");
         yield put({ type: "devicesListSuccess", payload: null, page: _pag });
       } else {
-        if (data.data == null || data.data == {} || data.data == undefined){
+        if (data.data == null || data.data == {} || data.data == undefined) {
           message.info("无数据");
           yield put({ type: "devicesListSuccess", payload: null, page: _pag });
-        }          
+        }
         else {
           let result = data.data;
           _pag.total = typeof result.totalRows == undefined ? 0 : result.totalRows;
@@ -84,7 +85,7 @@ export default {
       }
     },
     *productList({ payload }, { call, put }) {
-      const prams = { userToken: localStorage.getItem("userToken") };
+      const prams = { userToken: config.userToken };
       const data = yield call(deviceProductListApi, prams);
       if (data == null || data.length == 0 || data == {} || data.code != 0) {
         message.error(data != null ? "获取产品列表数据失败,错误信息:" + data.msg : "获取产品列表数据失败");

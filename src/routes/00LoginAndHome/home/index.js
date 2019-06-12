@@ -3,6 +3,7 @@ import { connect } from "dva";
 import { Icon, Row, Col, Card, Form, Select, Divider } from "antd";
 import styles from "./index.less";
 import ReactHighcharts from "react-highcharts";
+import config from "../../../utils/config";
 
 const { Option } = Select;
 
@@ -19,10 +20,10 @@ const Home = ({
   //查询条件
   const handleChange = e => {
     productID = e;
-    let overview = { userToken: localStorage.getItem("userToken"), productId: e };
-    let activate = { userToken: localStorage.getItem("userToken"), period: 7, productId: e };
-    let active = { userToken: localStorage.getItem("userToken"), period: 7, productId: e };
-    let area = { userToken: localStorage.getItem("userToken"), period: 1, productId: e };
+    let overview = { userToken: config.userToken, productId: e };
+    let activate = { userToken: config.userToken, period: 7, productId: e };
+    let active = { userToken: config.userToken, period: 7, productId: e };
+    let area = { userToken: config.userToken, period: 1, productId: e };
     //赛选数据
     dispatch({ type: "home/overview", payload: overview });
     dispatch({ type: "home/activate", payload: activate });
@@ -80,19 +81,19 @@ const Home = ({
 
   const getActivateData = k => {
     dispatch({ type: "home/activateSelected", payload: k });
-    let activate = { userToken: localStorage.getItem("userToken"), period: k, productId: productID };
+    let activate = { userToken: config.userToken, period: k, productId: productID };
     dispatch({ type: "home/activate", payload: activate });
   };
 
   const getActiveData = k => {
     dispatch({ type: "home/activeSelected", payload: k });
-    let active = { userToken: localStorage.getItem("userToken"), period: k, productId: productID };
+    let active = { userToken: config.userToken, period: k, productId: productID };
     dispatch({ type: "home/active", payload: active });
   };
 
   const getAreaData = k => {
     dispatch({ type: "home/areaSelected", payload: k });
-    let area = { userToken: localStorage.getItem("userToken"), period: k, productId: productID };
+    let area = { userToken: config.userToken, period: k, productId: productID };
     dispatch({ type: "home/area", payload: area });
   };
 

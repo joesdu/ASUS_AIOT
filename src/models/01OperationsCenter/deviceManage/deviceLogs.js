@@ -1,5 +1,6 @@
 import { deviceLogListApi } from "../../../services/api";
 import { message } from "antd";
+import config from "../../../utils/config";
 
 export default {
   namespace: "deviceLogs",
@@ -19,7 +20,7 @@ export default {
         //页面初始化执行
         if (location.pathname === "/devicesLogs") {
           let _ars = {
-            userToken: localStorage.getItem("userToken"),
+            userToken: config.userToken,
             deviceId: location.state.deviceId,
             firstRow: null,
             pageNum: 0,
