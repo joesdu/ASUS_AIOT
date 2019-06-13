@@ -7,7 +7,6 @@ export default {
     namespace: "roleManagement",
     state: {
         roleListData: [],
-        // canDelete: 0,
         pagination: {
             total: 0,
             pageSize: 10,
