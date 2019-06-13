@@ -1,4 +1,4 @@
-import { authoritySearchApi,authorityDeleteApi } from "../../../services/api";
+import { authoritySearchApi, authorityDeleteApi, authorityCheckDeleteApi } from "../../../services/api";
 import { message } from "antd";
 import { routerRedux } from "dva/router";
 import config from "../../../utils/config";
@@ -7,6 +7,7 @@ export default {
     namespace: "roleManagement",
     state: {
         roleListData: [],
+        // canDelete: 0,
         pagination: {
             total: 0,
             pageSize: 10,
@@ -74,27 +75,28 @@ export default {
                     message.info("删除失败,原因:" + data.msg)
                 }
             }
+        },
+        * checkDelete({ payload }, { call, put }) {
+            // 跳转到新增页面
+            const data = yield call(authorityCheckDeleteApi, payload);
+            if (data == null || data.length == 0 || data == {} || data.code != 0) {
+                message.error(data != null ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
+                localStorage.setItem("RemoveRoleDetection", 999);
+            } else {
+                if (data.code === 0 || data.code === "0") {
+                    localStorage.setItem("RemoveRoleDetection", data.data.userNum);
+                }
+                else {
+                    message.info("获取数据失败,原因:" + data.msg)
+                    localStorage.setItem("RemoveRoleDetection", 999);
+                }
+            }
         }
     },
     reducers: {
-        clearData(state) {
-            return {
-                ...state,
-                roleListData: [],
-                pagination: {
-                    total: 0,
-                    pageSize: 10,
-                    current: 0,
-                    pageCount: 0
-                }
-            };
-        },
         //返回数据列表
         getListSuccess(state, action) {
             return { ...state, roleListData: action.payload, pagination: action.page };
-        },
-        productListSuccess(state, action) {
-            return { ...state, deviceProductListData: action.payload };
         }
     }
 };

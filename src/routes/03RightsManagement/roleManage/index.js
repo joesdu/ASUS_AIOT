@@ -7,12 +7,7 @@ import config from "../../../utils/config";
 
 const RoleManagement = ({
     roleManagement,
-    dispatch,
-    form: {
-        getFieldDecorator,
-        setFieldsValue,
-        getFieldsValue
-    }
+    dispatch
 }) => {
     let { roleListData, pagination, searchList } = roleManagement;
 
@@ -113,6 +108,7 @@ const RoleManagement = ({
 
     const statesChange = (record, checked) => {
         if (!checked) {
+            let postObj = getJsonPrams(pagination.current, pagination.pageSize);
             Modal.confirm({
                 okText: "确定",
                 cancelText: "取消",
@@ -120,18 +116,19 @@ const RoleManagement = ({
                 icon: (<Icon type="exclamation-circle" theme="twoTone" twoToneColor="#EEB422" />),
                 content: '停用此角色后，此角色下的人员不能登录系统',
                 onOk() {
-
-                    dispatch({ type: "roleManagement/getList", payload: "2" });
+                    
+                    dispatch({ type: "roleManagement/getList", payload: postObj });
                 },
                 onCancel() {
-                    dispatch({ type: "roleManagement/getList", payload: "1" });
+                    dispatch({ type: "roleManagement/getList", payload: postObj });
                 },
             });
         }
     }
 
-    const deleteModal = (e) => {
-        if (e.related) {
+    const deleteModal = async (e) => {
+        await dispatch({ type: "roleManagement/checkDelete", payload: { authorityId: e.record.authorityId, userToken: config.userToken } });
+        if (localStorage.getItem("RemoveRoleDetection") > 0) {
             Modal.error({
                 okText: "取消",
                 okType: "default",
@@ -139,7 +136,8 @@ const RoleManagement = ({
                 icon: (<Icon type="close-circle" theme="twoTone" twoToneColor="#CD0000" />),
                 content: '此角色有相关员工，若要删除此角色，需先将所有相关员工都移除',
             });
-        } else {
+        }
+        if (localStorage.getItem("RemoveRoleDetection") == 0) {
             Modal.confirm({
                 title: '确认要删除此角色吗？',
                 content: '删除此角色后，将角色信息将被清除',
@@ -148,13 +146,14 @@ const RoleManagement = ({
                 okType: "danger",
                 cancelText: "取消",
                 onOk() {
-                    console.log('OK');
+                    dispatch({ type: "roleManagement/delete", payload: { delete: { authorityId: e.record.authorityId, userToken: config.userToken }, query: getJsonPrams(pagination.current, pagination.pageSize) } });
                 },
                 onCancel() {
                     console.log('Cancel');
                 },
             });
         }
+        localStorage.removeItem("RemoveRoleDetection");
     };
 
     return (
