@@ -1,4 +1,4 @@
-import { authoritySearchApi, authorityDeleteApi, authorityCheckDeleteApi } from "../../../services/api";
+import { authoritySearchApi, authorityDeleteApi, authorityCheckDeleteApi, authorityEditApi } from "../../../services/api";
 import { message } from "antd";
 import { routerRedux } from "dva/router";
 import config from "../../../utils/config";
@@ -33,7 +33,7 @@ export default {
     },
 
     effects: {
-        * getList({ payload }, { call, put }) {
+        *getList({ payload }, { call, put }) {
             const data = yield call(authoritySearchApi, payload);
             let _pag = {};
             if (data == null || data.length == 0 || data == {} || data.code != 0) {
@@ -56,7 +56,7 @@ export default {
                 }
             }
         },
-        * addNew({ payload }, { call, put }) {
+        *add({ put }) {
             // 跳转到新增页面
             yield put(routerRedux.push({ pathname: "/roleAddEdit" }));
         },
@@ -67,7 +67,6 @@ export default {
             } else {
                 if (data.code === 0 || data.code === "0") {
                     message.info("刪除成功");
-                    //Todo 刷新列表
                     yield put({ type: "getList", payload: payload.query });
                 }
                 else {
@@ -75,8 +74,7 @@ export default {
                 }
             }
         },
-        * checkDelete({ payload }, { call, put }) {
-            // 跳转到新增页面
+        *checkDelete({ payload }, { call }) {
             const data = yield call(authorityCheckDeleteApi, payload);
             if (data == null || data.length == 0 || data == {} || data.code != 0) {
                 message.error(data != null ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
@@ -90,10 +88,25 @@ export default {
                     localStorage.setItem("RemoveRoleDetection", 999);
                 }
             }
+        },
+        *edit({ payload }, { call, put }) {
+            const data = yield call(authorityEditApi, payload.edit);
+            if (data == null || data.length == 0 || data == {} || data.code != 0) {
+                message.error(data != null ? "更新数据失败,错误信息:" + data.msg : "更新数据失败");
+                yield put({ type: "getList", payload: payload.query });
+            } else {
+                if (data.code === 0 || data.code === "0") {
+                    message.info("更新成功");
+                    yield put({ type: "getList", payload: payload.query });
+                }
+                else {
+                    message.info("更新失败,原因:" + data.msg)
+                    yield put({ type: "getList", payload: payload.query });
+                }
+            }
         }
     },
     reducers: {
-        //返回数据列表
         getListSuccess(state, action) {
             return { ...state, roleListData: action.payload, pagination: action.page };
         }

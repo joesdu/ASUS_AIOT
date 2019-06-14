@@ -30,7 +30,7 @@ const RoleManagement = ({
             title: "状态",
             dataIndex: "status",
             render: (text, record) => {
-                return (<Switch checkedChildren="开" unCheckedChildren="关" onChange={statesChange.bind(this, record)} defaultChecked={record.status} />);
+                return (<Switch checkedChildren="开" unCheckedChildren="关" onChange={statesChange.bind(this, { record: record })} checked={record.status} />);
             }
         },
         {
@@ -99,16 +99,21 @@ const RoleManagement = ({
         }
     }
     /**分页合集 end **/
-
     const search = (value) => {
         let postObj = getJsonPrams(pagination.current, pagination.pageSize);
         postObj.name = value;
         dispatch({ type: "roleManagement/getList", payload: postObj });
     }
 
-    const statesChange = (record, checked) => {
+    const statesChange = (e, checked) => {
+        let arry = roleListData.map(function (item) {
+            if (item.authorityId == e.record.authorityId) {
+                item.status = checked;
+            }
+            return item;
+        });
+        dispatch({ type: "roleManagement/getListSuccess", payload: arry, page: pagination });
         if (!checked) {
-            let postObj = getJsonPrams(pagination.current, pagination.pageSize);
             Modal.confirm({
                 okText: "确定",
                 cancelText: "取消",
@@ -116,13 +121,37 @@ const RoleManagement = ({
                 icon: (<Icon type="exclamation-circle" theme="twoTone" twoToneColor="#EEB422" />),
                 content: '停用此角色后，此角色下的人员不能登录系统',
                 onOk() {
-                    
-                    dispatch({ type: "roleManagement/getList", payload: postObj });
+                    let editData = {
+                        edit: {
+                            authorityId: e.record.authorityId,
+                            description: e.record.description,
+                            name: e.record.name,
+                            pageIds: e.record.pageIds,
+                            status: e.record.status,
+                            userToken: config.userToken
+                        },
+                        query: getJsonPrams(pagination.current, pagination.pageSize)
+                    }
+                    dispatch({ type: "roleManagement/edit", payload: editData });
                 },
                 onCancel() {
-                    dispatch({ type: "roleManagement/getList", payload: postObj });
+                    dispatch({ type: "roleManagement/getList", payload: getJsonPrams(pagination.current, pagination.pageSize) });
                 },
             });
+        }
+        else {
+            let editData = {
+                edit: {
+                    authorityId: e.record.authorityId,
+                    description: e.record.description,
+                    name: e.record.name,
+                    pageIds: e.record.pageIds,
+                    status: checked,
+                    userToken: config.userToken
+                },
+                query: getJsonPrams(pagination.current, pagination.pageSize)
+            }
+            dispatch({ type: "roleManagement/edit", payload: editData });
         }
     }
 
@@ -163,7 +192,7 @@ const RoleManagement = ({
                     <Row>
                         <Col>
                             <Form.Item>
-                                <Button style={{ width: 82 }} type="primary" onClick={() => { dispatch({ type: "roleManagement/addNew" }) }}>+ 新建</Button>
+                                <Button style={{ width: 82 }} type="primary" onClick={() => { dispatch({ type: "roleManagement/add" }) }}>+ 新建</Button>
                             </Form.Item>
                             <Form.Item style={{ float: "right" }}>
                                 <Input.Search
