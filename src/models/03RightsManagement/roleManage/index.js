@@ -56,7 +56,7 @@ export default {
                 }
             }
         },
-        *add({ put }) {
+        *add({ payload }, { call, put }) {
             // 跳转到新增页面
             yield put(routerRedux.push({ pathname: "/roleAddEdit" }));
         },
@@ -74,7 +74,7 @@ export default {
                 }
             }
         },
-        *checkDelete({ payload }, { call }) {
+        *checkDelete({ payload }, { call, put }) {
             const data = yield call(authorityCheckDeleteApi, payload);
             if (data == null || data.length == 0 || data == {} || data.code != 0) {
                 message.error(data != null ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
@@ -104,7 +104,7 @@ export default {
                     yield put({ type: "getList", payload: payload.query });
                 }
             }
-        }
+        },
     },
     reducers: {
         getListSuccess(state, action) {

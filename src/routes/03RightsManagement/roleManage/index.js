@@ -106,13 +106,13 @@ const RoleManagement = ({
     }
 
     const statesChange = (e, checked) => {
-        let arry = roleListData.map(function (item) {
+        let temp = roleListData.map((item) => {
             if (item.authorityId == e.record.authorityId) {
                 item.status = checked;
             }
             return item;
         });
-        dispatch({ type: "roleManagement/getListSuccess", payload: arry, page: pagination });
+        dispatch({ type: "roleManagement/getListSuccess", payload: temp, page: pagination });
         if (!checked) {
             Modal.confirm({
                 okText: "确定",
