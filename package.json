@@ -3,7 +3,7 @@
   "name": "antd-admin",
   "version": "4.3.9",
   "dependencies": {
-    "antd": "^3.19.3",
+    "antd": "^3.19.4",
     "babel-polyfill": "^6.23.0",
     "cross-env": "^5.0.5",
     "dva": "2.4.1",
