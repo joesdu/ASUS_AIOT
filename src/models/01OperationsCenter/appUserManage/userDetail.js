@@ -25,16 +25,11 @@ export default {
     effects: {
         *queryRule({ payload }, { call, put }) {
             const data = yield call(userDetailApi, payload);
-            if (data == null || data.length == 0 || data == {} || data.code != 0) {
-                message.error(data != null ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
-                yield put({ type: "queryFault" });
+            if (!!data && data.code === 0) {
+                yield put({ type: "querySuccess", payload: data.data });
             } else {
-                if (data.data == null || data.data == {} || data.data == undefined) {
-                    message.info("无数据");
-                    yield put({ type: "queryFault" });
-                }
-                else
-                    yield put({ type: "querySuccess", payload: data.data });
+                message.error(!!data ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
+                yield put({ type: "queryFault" });
             }
         }
     },

@@ -40,80 +40,54 @@ export default {
   effects: {
     *getList({ payload }, { call, put }) {
       const data = yield call(backTestUserListApi, payload);
-      if (data == null || data.length == 0 || data == {} || data.code != 0) {
-        message.error(data != null ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
+      if (!!data && data.code === 0) {
+        let result = data.data;
+        let _pag = {};
+        _pag.total = typeof result.totalRows == undefined ? 0 : result.totalRows;
+        _pag.pageSize = typeof result.pageRows == undefined ? 0 : result.pageRows;
+        _pag.current = typeof result.pageNum == undefined ? 0 : result.pageNum;
+        if (typeof result.totalRows == undefined || typeof result.pageRows == undefined)
+          _pag.pageCount = 0;
+        else
+          _pag.pageCount = parseInt((result.totalRows - 1) / result.pageRows) + 1;
+        yield put({ type: "getListSuccess", payload: result.testUsers, page: _pag });
       } else {
-        if (data.data == null || data.data == {} || data.data == undefined)
-          message.info("无数据");
-        else {
-          let result = data.data;
-          let _pag = {};
-          _pag.total = typeof result.totalRows == undefined ? 0 : result.totalRows;
-          _pag.pageSize = typeof result.pageRows == undefined ? 0 : result.pageRows;
-          _pag.current = typeof result.pageNum == undefined ? 0 : result.pageNum;
-          if (typeof result.totalRows == undefined || typeof result.pageRows == undefined)
-            _pag.pageCount = 0;
-          else
-            _pag.pageCount = parseInt((result.totalRows - 1) / result.pageRows) + 1;
-          yield put({ type: "getListSuccess", payload: result.testUsers, page: _pag });
-        }
+        message.error(!!data ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
       }
     },
     *delete({ payload }, { call, put }) {
       const data = yield call(backTestUserDeleteApi, payload.delete);
-      if (data == null || data.length == 0 || data == {} || data.code != 0) {
-        message.error(data != null ? "删除数据失败,错误信息:" + data.msg : "删除数据失败");
+      if (!!data && data.code === 0) {
+        message.info("删除成功");
+        yield put({ type: "getList", payload: payload.query });
       } else {
-        if (data.code === 0 || data.code === "0") {
-          message.info("刪除成功");
-          //Todo 刷新列表
-          yield put({ type: "getList", payload: payload.query });
-        }
-        else {
-          message.info("删除失败,原因:" + data.msg)
-        }
+        message.error(!!data ? "删除数据失败,错误信息:" + data.msg : "删除数据失败");
       }
     },
     *save({ payload }, { call, put }) {
       const data = yield call(backTestUserSaveApi, payload.save);
-      if (data == null || data.length == 0 || data == {} || data.code != 0) {
-        message.error(data != null ? "保存数据失败,错误信息:" + data.msg : "保存数据失败");
+      if (!!data && data.code === 0) {
+        message.info("保存成功");
+        yield put({ type: "getList", payload: payload.query });
       } else {
-        if (data.code === 0 || data.code === "0") {
-          message.info("保存成功");
-          //Todo 刷新列表
-          yield put({ type: "getList", payload: payload.query });
-        }
-        else {
-          message.info("保存失败,原因:" + data.msg)
-        }
+        message.error(!!data ? "保存数据失败,错误信息:" + data.msg : "保存数据失败");
       }
     },
     *update({ payload }, { call, put }) {
       const data = yield call(backTestUseUpdateApi, payload.update);
-      if (data == null || data.length == 0 || data == {} || data.code != 0) {
-        message.error(data != null ? "更新数据失败,错误信息:" + data.msg : "更新数据失败");
+      if (!!data && data.code === 0) {
+        message.info("更新成功");
+        yield put({ type: "getList", payload: payload.query });
       } else {
-        if (data.code === 0 || data.code === "0") {
-          message.info("更新成功");
-          //Todo 刷新列表
-          yield put({ type: "getList", payload: payload.query });
-        }
-        else {
-          message.info("更新失败,原因:" + data.msg)
-        }
+        message.error(!!data ? "更新数据失败,错误信息:" + data.msg : "更新数据失败");
       }
     },
     *productList({ payload }, { call, put }) {
-      const prams = { userToken: config.userToken };
-      const data = yield call(deviceProductListApi, prams);
-      if (data == null || data.length == 0 || data == {} || data.code != 0) {
-        message.error(data != null ? "获取产品列表数据失败,错误信息:" + data.msg : "获取产品列表数据失败");
+      const data = yield call(deviceProductListApi, { userToken: config.userToken });
+      if (!!data && data.code === 0) {
+        yield put({ type: "productListSuccess", payload: data.data });
       } else {
-        if (data.data == null || data.data == {} || data.data == undefined)
-          message.info("无产品数据");
-        else
-          yield put({ type: "productListSuccess", payload: data.data });
+        message.error(!!data ? "获取产品列表数据失败,错误信息:" + data.msg : "获取产品列表数据失败");
       }
     }
   },

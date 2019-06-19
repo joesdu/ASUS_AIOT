@@ -35,9 +35,7 @@ export default {
   effects: {
     *queryRule({ payload }, { call, put }) {
       const data = yield call(deviceLogListApi, payload);
-      if (data == null || data.length == 0 || data == {} || data.code != 0) {
-        message.error(data != null ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
-      } else {
+      if (!!data && data.code === 0) {
         let result = data.data;
         let _pag = {};
         _pag.total = typeof result.totalRows == undefined ? 0 : result.totalRows;
@@ -51,6 +49,8 @@ export default {
           message.info("无数据");
         else
           yield put({ type: "querySuccess", payload: result.deviceLogs, page: _pag, deviceId: payload.deviceId });
+      } else {
+        message.error(!!data ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
       }
     }
   },

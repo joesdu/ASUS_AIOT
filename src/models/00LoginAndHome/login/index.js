@@ -21,9 +21,7 @@ export default {
   effects: {
     *login({ payload }, { put, call }) {
       const data = yield call(backUserLoginApi, payload);
-      if (data == null || data.length == 0 || data == {} || data.code != 0) {
-        message.error(data != null ? "登录失败,错误信息:" + data.msg : "登录失败");
-      } else {
+      if (!!data && data.code === 0) {
         message.success("登录成功!");
         //本地缓存
         localStorage.setItem("userToken", data.data.userToken);
@@ -31,6 +29,8 @@ export default {
         //跳转到首页
         yield put(routerRedux.push({ pathname: "/home" }));
         location.reload();
+      } else {
+        message.error(!!data ? "登录失败,错误信息:" + data.msg : "登录失败");
       }
     }
   },

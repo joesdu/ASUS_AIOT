@@ -27,54 +27,39 @@ export default {
   effects: {
     *ActivateSummary({ payload }, { call, put }) {
       const data = yield call(statsDeviceActivateSummaryApi, payload);
-      if (data == null || data.length == 0 || data == {} || data.code != 0) {
-        message.error(data != null ? "获取激活数据概况失败,错误信息:" + data.msg : "获取激活数据概况失败");
+      if (!!data && data.code === 0) {
+        yield put({ type: "ActivateSummarySuccess", payload: data.data });
       } else {
-        if (data.data == null || data.data == {} || data.data == undefined)
-          message.info("无数据");
-        else
-          yield put({ type: "ActivateSummarySuccess", payload: data.data });
+        message.error(!!data ? "获取激活数据概况失败,错误信息:" + data.msg : "获取激活数据概况失败");
       }
     },
     *Activate({ payload }, { call, put }) {
       const data = yield call(statsDeviceActivateApi, payload);
-      let activateData = null;
-      if (data == null || data.length == 0 || data == {} || data.code != 0) {
-        message.error(data != null ? "获取激活数据趋势失败,错误信息:" + data.msg : "获取激活数据趋势失败");
+      if (!!data && data.code === 0) {
+        yield put({
+          type: "ActivateSuccess", payload: {
+            dateArray: data.data.map(function (obj) {
+              return obj.actDate;
+            }),
+            numArray: data.data.map(function (obj) {
+              return obj.num;
+            }),
+            totalArray: data.data.map(function (obj) {
+              return obj.total;
+            }),
+            listArray: data.data
+          }
+        });
       } else {
-        if (data.data == null || data.data == {} || data.data == undefined)
-          message.info("无数据");
-        else {
-          let listArray = data.data;
-          let dateArray = listArray.map(function (obj) {
-            return obj.actDate;
-          });
-          let numArray = listArray.map(function (obj) {
-            return obj.num;
-          });
-          let totalArray = listArray.map(function (obj) {
-            return obj.total;
-          });
-          activateData = {
-            dateArray: dateArray,
-            numArray: numArray,
-            totalArray: totalArray,
-            listArray: listArray
-          };
-          yield put({ type: "ActivateSuccess", payload: activateData });
-        }
+        message.error(!!data ? "获取激活数据趋势失败,错误信息:" + data.msg : "获取激活数据趋势失败");
       }
     },
     *ProductList({ payload }, { call, put }) {
-      const prams = { userToken: config.userToken };
-      const data = yield call(deviceProductListApi, prams);
-      if (data == null || data.length == 0 || data == {} || data.code != 0) {
-        message.error(data != null ? "获取产品列表数据失败,错误信息:" + data.msg : "获取产品列表数据失败");
+      const data = yield call(deviceProductListApi, { userToken: config.userToken });
+      if (!!data && data.code === 0) {
+        yield put({ type: "ProductListSuccess", payload: data.data });
       } else {
-        if (data.data == null || data.data == {} || data.data == undefined)
-          message.info("无数据");
-        else
-          yield put({ type: "ProductListSuccess", payload: data.data });
+        message.error(!!data ? "获取产品列表数据失败,错误信息:" + data.msg : "获取产品列表数据失败");
       }
     }
   },

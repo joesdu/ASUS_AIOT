@@ -59,6 +59,7 @@ const RoleAddEdit = ({
     }
     //运营中心全选控制
     const operationAllOnChange = (e) => {
+        console.log("e.target.checked:", e.target.checked);
         dispatch({
             type: "roleAddEdit/setOperation", payload: {
                 checkList: e.target.checked ? operationElements : [],

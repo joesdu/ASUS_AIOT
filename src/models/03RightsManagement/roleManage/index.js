@@ -36,24 +36,18 @@ export default {
         *getList({ payload }, { call, put }) {
             const data = yield call(authoritySearchApi, payload);
             let _pag = {};
-            if (data == null || data.length == 0 || data == {} || data.code != 0) {
-                message.error(data != null ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
-                yield put({ type: "getListSuccess", payload: null, page: _pag });
+            if (!!data && data.code === 0) {
+                _pag.total = typeof data.data.total == undefined ? 0 : data.data.total;
+                _pag.pageSize = typeof data.data.pageSize == undefined ? 0 : data.data.pageSize;
+                _pag.current = typeof data.data.pageNum == undefined ? 0 : data.data.pageNum;
+                if (typeof data.data.totalRows == undefined || typeof data.data.pages == undefined)
+                    _pag.pageCount = 0;
+                else
+                    _pag.pageCount = data.data.pages;
+                yield put({ type: "getListSuccess", payload: data.data.list, page: _pag });
             } else {
-                if (data.data == null || data.data == {} || data.data == undefined) {
-                    message.info("无数据");
-                    yield put({ type: "getListSuccess", payload: null, page: _pag });
-                }
-                else {
-                    _pag.total = typeof data.data.total == undefined ? 0 : data.data.total;
-                    _pag.pageSize = typeof data.data.pageSize == undefined ? 0 : data.data.pageSize;
-                    _pag.current = typeof data.data.pageNum == undefined ? 0 : data.data.pageNum;
-                    if (typeof data.data.totalRows == undefined || typeof data.data.pages == undefined)
-                        _pag.pageCount = 0;
-                    else
-                        _pag.pageCount = data.data.pages;
-                    yield put({ type: "getListSuccess", payload: data.data.list, page: _pag });
-                }
+                message.error(!!data ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
+                yield put({ type: "getListSuccess", payload: null, page: _pag });
             }
         },
         *add({ payload }, { call, put }) {
@@ -62,47 +56,30 @@ export default {
         },
         *delete({ payload }, { call, put }) {
             const data = yield call(authorityDeleteApi, payload.delete);
-            if (data == null || data.length == 0 || data == {} || data.code != 0) {
-                message.error(data != null ? "删除数据失败,错误信息:" + data.msg : "删除数据失败");
+            if (!!data && data.code === 0) {
+                message.info("刪除成功");
+                yield put({ type: "getList", payload: payload.query });
             } else {
-                if (data.code === 0 || data.code === "0") {
-                    message.info("刪除成功");
-                    yield put({ type: "getList", payload: payload.query });
-                }
-                else {
-                    message.info("删除失败,原因:" + data.msg)
-                }
+                message.error(!!data ? "删除数据失败,错误信息:" + data.msg : "删除数据失败");
             }
         },
         *checkDelete({ payload }, { call, put }) {
             const data = yield call(authorityCheckDeleteApi, payload);
-            if (data == null || data.length == 0 || data == {} || data.code != 0) {
-                message.error(data != null ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
-                localStorage.setItem("RemoveRoleDetection", 999);
+            if (!!data && data.code === 0) {
+                localStorage.setItem("RemoveRoleDetection", data.data.userNum);
             } else {
-                if (data.code === 0 || data.code === "0") {
-                    localStorage.setItem("RemoveRoleDetection", data.data.userNum);
-                }
-                else {
-                    message.info("获取数据失败,原因:" + data.msg)
-                    localStorage.setItem("RemoveRoleDetection", 999);
-                }
+                message.error(!!data ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
+                localStorage.setItem("RemoveRoleDetection", 999);
             }
         },
         *edit({ payload }, { call, put }) {
             const data = yield call(authorityEditApi, payload.edit);
-            if (data == null || data.length == 0 || data == {} || data.code != 0) {
-                message.error(data != null ? "更新数据失败,错误信息:" + data.msg : "更新数据失败");
+            if (!!data && data.code === 0) {
+                message.info("更新成功");
                 yield put({ type: "getList", payload: payload.query });
             } else {
-                if (data.code === 0 || data.code === "0") {
-                    message.info("更新成功");
-                    yield put({ type: "getList", payload: payload.query });
-                }
-                else {
-                    message.info("更新失败,原因:" + data.msg)
-                    yield put({ type: "getList", payload: payload.query });
-                }
+                message.error(!!data ? "更新数据失败,错误信息:" + data.msg : "更新数据失败");
+                yield put({ type: "getList", payload: payload.query });
             }
         },
     },
