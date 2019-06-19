@@ -1,59 +1,39 @@
-import { feedbackListApi, deviceProductListApi, feedbackUpdateApi } from "../../../services/api";
+import { authorityAllPagesApi, authorityAddApi } from "../../../services/api";
 import { message } from "antd";
+import config from "../../../utils/config";
 
 export default {
-    namespace: "roleAddEdit",
+    namespace: "roleAdd",
     state: {
-        defaultCheckData: [],
-        checkAll: false,
-        indeterminateCheckAll: false,
-        operationCheckAll: false,
-        indeterminateOperation: false,
-        valueOperation: [],
-        dataCheckAll: false,
-        indeterminateData: false,
-        valueData: [],
-        permissionsCheckAll: false,
-        indeterminatePermissions: false,
-        valuePermissions: [],
-        systemCheckAll: false,
-        indeterminateSystem: false,
-        valueSystem: []
+        allPageData: []
     },
     subscriptions: {
         setup({ dispatch, history }) {
             history.listen(location => {
                 //页面初始化执行
-                if (location.pathname === "/roleAddEdit") {
-                    //dispatch({ type: "getRoleList", payload: "1" });
+                if (location.pathname === "/roleAdd") {
+                    dispatch({ type: "getPageIDs" });
                 }
             });
         }
     },
 
     effects: {
-        *getRoleList({ payload }, { call, put }) {
-            //const data = yield call(feedbackListApi, payload);
-
-            if (data == null || data.length == 0 || data == {} || data.code != 0) {
-                message.error(data != null ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
-                yield put({ type: "getRoleListSuccess", payload: null });
+        *getPageIDs({ payload }, { call, put }) {
+            const data = yield call(authorityAllPagesApi, { userToken: config.userToken });
+            if (!!data && data.code === 0) {
+                yield put({ type: "getPageIDsSuccess", payload: data.data });
             } else {
-                if (data.data == null || data.data == {} || data.data == undefined) {
-                    message.info("无数据");
-                    yield put({ type: "getRoleListSuccess", payload: null });
-                }
-                else {
-                    yield put({ type: "getRoleListSuccess", payload: data.data.roleList });
-                }
+                message.error(!!data ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
+                yield put({ type: "getPageIDsSuccess", payload: null });
             }
         },
     },
     reducers: {
-        setAll(state, action) {
+        getPageIDsSuccess(state, action) {
             return {
                 ...state,
-                valueOperation: action.payload.operation,
+                allPageData: action.payload,
                 valueData: action.payload.data,
                 valuePermissions: action.payload.permissions,
                 valueSystem: action.payload.system,
@@ -61,12 +41,12 @@ export default {
                 indeterminateData: action.payload.indeterminate,
                 indeterminatePermissions: action.payload.indeterminate,
                 indeterminateSystem: action.payload.indeterminate,
-                indeterminateCheckAll: action.payload.indeterminate,
                 checkAll: action.payload.checked,
                 operationCheckAll: action.payload.checked,
                 dataCheckAll: action.payload.checked,
                 permissionsCheckAll: action.payload.checked,
-                systemCheckAll: action.payload.checked
+                systemCheckAll: action.payload.checked,
+                checkAll: action.payload.checked
             }
         },
         setOperation(state, action) {
@@ -74,7 +54,7 @@ export default {
                 ...state,
                 valueOperation: action.payload.checkList,
                 indeterminateOperation: action.payload.indeterminate,
-                operationCheckAll: action.payload.checked
+                operationCheckAll: action.payload.checked,
             }
         },
         setData(state, action) {
@@ -82,7 +62,7 @@ export default {
                 ...state,
                 valueData: action.payload.checkList,
                 indeterminateData: action.payload.indeterminate,
-                dataCheckAll: action.payload.checked
+                dataCheckAll: action.payload.checked,
             }
         },
         setPermission(state, action) {
@@ -90,7 +70,7 @@ export default {
                 ...state,
                 valuePermissions: action.payload.checkList,
                 indeterminatePermissions: action.payload.indeterminate,
-                permissionsCheckAll: action.payload.checked
+                permissionsCheckAll: action.payload.checked,
             }
         },
         setSystem(state, action) {
@@ -98,7 +78,7 @@ export default {
                 ...state,
                 valueSystem: action.payload.checkList,
                 indeterminateSystem: action.payload.indeterminate,
-                systemCheckAll: action.payload.checked
+                systemCheckAll: action.payload.checked,
             }
         },
         getRoleListSuccess(state, action) {

@@ -52,7 +52,6 @@ export default {
       }
     },
     *ProductList({ payload }, { call, put }) {
-      const prams = { userToken: config.userToken };
       const data = yield call(deviceProductListApi, { userToken: config.userToken });
       if (!!data && data.code === 0) {
         yield put({ type: "ProductListSuccess", payload: data.data });

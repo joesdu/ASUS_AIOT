@@ -4,8 +4,8 @@ import { Form, Input, Affix, Icon, Select, Row, Col, Checkbox, Button, AutoCompl
 import styles from "./TableList.less";
 
 
-const RoleAddEdit = ({
-    roleAddEdit,
+const RoleAdd = ({
+    roleAdd,
     dispatch,
     form: {
         getFieldDecorator,
@@ -13,12 +13,7 @@ const RoleAddEdit = ({
         getFieldsValue
     }
 }) => {
-    let { defaultCheckData, checkAll, indeterminateCheckAll,
-        operationCheckAll, indeterminateOperation, valueOperation,
-        dataCheckAll, indeterminateData, valueData,
-        permissionsCheckAll, indeterminatePermissions, valuePermissions,
-        systemCheckAll, indeterminateSystem, valueSystem
-    } = roleAddEdit;
+    let { allPageData  } = roleAdd;
 
     const operationElementCount = 8;//運營中心權限個數
     const operationElements = ["6", "14", "7", "17", "18", "8", "19", "20"];//運營中心權限ID
@@ -28,11 +23,14 @@ const RoleAddEdit = ({
     const permissionsElements = ["11", "23", "24", "12", "25", "26"];//權限控制權限ID
     const systemElementCount = 3;//系統設置權限個數
     const systemElements = ["13", "27", "28"];//系統設置權限ID
-    const allElementCount = operationElementCount + dataElementCount + permissionsElementCount + systemElementCount;
 
-    const getAllElementCount = () => {
-        return valueOperation.length + valueData.length + valuePermissions.length + valueSystem.length;
-    }
+
+    let checkedOperationElements = ["2"];
+    let checkedDataElements = ["3"];
+    let checkedPermissionsElements = ["4"];
+    let checkedSystemElements = ["5"];
+
+
 
     const checkAllOnChange = (e) => {
         dispatch({
@@ -59,7 +57,6 @@ const RoleAddEdit = ({
     }
     //运营中心全选控制
     const operationAllOnChange = (e) => {
-        console.log("e.target.checked:", e.target.checked);
         dispatch({
             type: "roleAddEdit/setOperation", payload: {
                 checkList: e.target.checked ? operationElements : [],
@@ -146,7 +143,7 @@ const RoleAddEdit = ({
                             <Switch checkedChildren="开" unCheckedChildren="关" defaultChecked={true} />
                         </Form.Item>
                         <Form.Item label="权限设置" style={{ marginLeft: 13, marginBottom: 0 }}>
-                            <Checkbox onChange={checkAllOnChange} indeterminate={indeterminateCheckAll} checked={checkAll}>全选</Checkbox>
+                            <Checkbox onChange={checkAllOnChange} checked={checkAll}>全选</Checkbox>
                         </Form.Item>
                     </Form>
                 </div>
@@ -155,14 +152,16 @@ const RoleAddEdit = ({
             <Card title={
                 <div>
                     <Checkbox style={{ fontSize: 16 }}
-                        value="2" onChange={operationAllOnChange}
+                        value="2"
+                        onChange={operationAllOnChange}
                         indeterminate={indeterminateOperation}
-                        checked={operationCheckAll}>运营中心</Checkbox>
+                        checked={operationCheckAll}
+                        disabled={checkAll}>运营中心</Checkbox>
                     <span style={{ marginLeft: 16, color: '#B4B4B4' }}>模块的所有功能未开启时，角色操作界面中不显示此模块</span>
                 </div>
             } style={{ marginTop: 20 }}>
                 <div className={styles.tableCheckGroup}>
-                    <Checkbox.Group onChange={operationOnChange} value={valueOperation}>
+                    <Checkbox.Group onChange={operationOnChange} value={valueOperation} disabled={checkAll}>
                         <Row gutter={24}>
                             <Col span={8}><Checkbox value="6" style={{ fontSize: 15, fontStyle: Blob }}>设备管理</Checkbox></Col>
                             <Col span={8}><Checkbox value="14">查看</Checkbox></Col>
@@ -187,12 +186,14 @@ const RoleAddEdit = ({
                         value="3"
                         onChange={dataAllOnChange}
                         indeterminate={indeterminateData}
-                        checked={dataCheckAll}>数据中心</Checkbox>
+                        checked={dataCheckAll}
+                        disabled={checkAll}
+                    >数据中心</Checkbox>
                     <span style={{ marginLeft: 16, color: '#B4B4B4' }}>模块的所有功能未开启时，角色操作界面中不显示此模块</span>
                 </div>
             } style={{ marginTop: 20 }}>
                 <div className={styles.tableCheckGroup}>
-                    <Checkbox.Group onChange={dataOnChange} value={valueData}>
+                    <Checkbox.Group onChange={dataOnChange} value={valueData} disabled={checkAll}>
                         <Row gutter={24}>
                             <Col span={8}><Checkbox value="9" style={{ fontSize: 15, fontStyle: Blob }}>激活数据</Checkbox></Col>
                             <Col span={8}><Checkbox value="21">查看</Checkbox></Col>
@@ -211,12 +212,13 @@ const RoleAddEdit = ({
                         value="4"
                         onChange={permissionsAllOnChange}
                         indeterminate={indeterminatePermissions}
-                        checked={permissionsCheckAll}>权限管理</Checkbox>
+                        checked={permissionsCheckAll}
+                        disabled={checkAll}>权限管理</Checkbox>
                     <span style={{ marginLeft: 16, color: '#B4B4B4' }}>模块的所有功能未开启时，角色操作界面中不显示此模块</span>
                 </div>
             } style={{ marginTop: 20 }}>
                 <div className={styles.tableCheckGroup}>
-                    <Checkbox.Group onChange={permissionsOnChange} value={valuePermissions}>
+                    <Checkbox.Group onChange={permissionsOnChange} value={valuePermissions} disabled={checkAll}>
                         <Row gutter={24}>
                             <Col span={8}><Checkbox value="11" style={{ fontSize: 15, fontStyle: Blob }}>人员管理</Checkbox></Col>
                             <Col span={8}><Checkbox value="23">查看</Checkbox></Col>
@@ -237,12 +239,13 @@ const RoleAddEdit = ({
                         value="5"
                         onChange={systemAllOnChange}
                         indeterminate={indeterminateSystem}
-                        checked={systemCheckAll}>系统设置</Checkbox>
+                        checked={systemCheckAll}
+                        disabled={checkAll}>系统设置</Checkbox>
                     <span style={{ marginLeft: 16, color: '#B4B4B4' }}>模块的所有功能未开启时，角色操作界面中不显示此模块</span>
                 </div>
             } style={{ marginTop: 20 }}>
                 <div className={styles.tableCheckGroup}>
-                    <Checkbox.Group onChange={systemOnChange} value={valueSystem}>
+                    <Checkbox.Group onChange={systemOnChange} value={valueSystem} disabled={checkAll}>
                         <Row gutter={24}>
                             <Col span={8}><Checkbox value="13" style={{ fontSize: 15, fontStyle: Blob }}>账号管理</Checkbox></Col>
                             <Col span={8}><Checkbox value="27">查看</Checkbox></Col>
@@ -270,7 +273,7 @@ const RoleAddEdit = ({
     );
 };
 
-export default connect(({ roleAddEdit, loading }) => ({
-    roleAddEdit,
-    loading: loading.models.roleAddEdit
-}))(Form.create()(RoleAddEdit));
+export default connect(({ roleAdd, loading }) => ({
+    roleAdd,
+    loading: loading.models.roleAdd
+}))(Form.create()(RoleAdd));

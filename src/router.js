@@ -70,9 +70,14 @@ const Routers = function ({ history, app }) {
       component: () => import("./routes/03RightsManagement/roleManage")
     },
     {
-      path: "/roleAddEdit", // 新增或编辑角色
-      models: () => [import("./models/03RightsManagement/roleManage/roleAddEdit")],
-      component: () => import("./routes/03RightsManagement/roleManage/roleAddEdit")
+      path: "/roleAdd", // 新增角色
+      models: () => [import("./models/03RightsManagement/roleManage/roleAdd")],
+      component: () => import("./routes/03RightsManagement/roleManage/roleAdd")
+    },
+    {
+      path: "/roleEdit", // 编辑角色
+      models: () => [import("./models/03RightsManagement/roleManage/roleEdit")],
+      component: () => import("./routes/03RightsManagement/roleManage/roleEdit")
     },
     {
       path: "/personManage", // 人員管理

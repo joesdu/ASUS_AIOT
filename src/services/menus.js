@@ -114,9 +114,17 @@ export async function query() {
         display: display
       },
       {
-        route: "/roleAddEdit",
-        name: "新增(编辑)角色",
+        route: "/roleAdd",
+        name: "新增角色",
         id: 411,
+        mpid: 41,
+        bpid: 41,
+        display: false
+      },
+      {
+        route: "/roleEdit",
+        name: "编辑角色",
+        id: 412,
         mpid: 41,
         bpid: 41,
         display: false

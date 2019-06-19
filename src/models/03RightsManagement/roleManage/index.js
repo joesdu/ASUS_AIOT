@@ -52,7 +52,7 @@ export default {
         },
         *add({ payload }, { call, put }) {
             // 跳转到新增页面
-            yield put(routerRedux.push({ pathname: "/roleAddEdit" }));
+            yield put(routerRedux.push({ pathname: "/roleAdd" }));
         },
         *delete({ payload }, { call, put }) {
             const data = yield call(authorityDeleteApi, payload.delete);
