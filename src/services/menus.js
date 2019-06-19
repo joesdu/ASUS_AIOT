@@ -106,9 +106,17 @@ export async function query() {
         display: display
       },
       {
+        route: "/personManage",
+        name: "人员管理",
+        id: 41,
+        mpid: 4,
+        bpid: 4,
+        display: display
+      },
+      {
         route: "/roleManagement",
         name: "角色管理",
-        id: 41,
+        id: 42,
         mpid: 4,
         bpid: 4,
         display: display
@@ -116,26 +124,18 @@ export async function query() {
       {
         route: "/roleAdd",
         name: "新增角色",
-        id: 411,
-        mpid: 41,
-        bpid: 41,
+        id: 421,
+        mpid: 42,
+        bpid: 42,
         display: false
       },
       {
         route: "/roleEdit",
         name: "编辑角色",
-        id: 412,
-        mpid: 41,
-        bpid: 41,
+        id: 422,
+        mpid: 42,
+        bpid: 42,
         display: false
-      },
-      {
-        route: "/personManage",
-        name: "人员管理",
-        id: 42,
-        mpid: 4,
-        bpid: 4,
-        display: display
       },
       {
         icon: "setting",
