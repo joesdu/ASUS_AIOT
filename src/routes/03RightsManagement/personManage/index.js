@@ -20,12 +20,12 @@ const PersonManage = ({
     const columns = [
         {
             title: "用户名",
-            dataIndex: "username",
+            dataIndex: "userName",
             width: 250,
             align: 'left',
             render: (text, record) => {
                 return (
-                    <div style={{ color: "#272727" }}>{record.username}</div>
+                    <div style={{ color: "#272727" }}>{record.userName}</div>
                 );
             }
         },
@@ -33,46 +33,48 @@ const PersonManage = ({
             title: "姓名",
             width: 250,
             align: 'left',
-            dataIndex: "name",
+            dataIndex: "nickname",
             render: (text, record) => {
                 return (
-                    <div style={{ color: "#272727" }}>{record.name}</div>
+                    <div style={{ color: "#272727" }}>{record.nickname}</div>
                 );
             },
         },
         {
             title: "手机号",
-            dataIndex: "phone",
+            dataIndex: "mobile",
             width: 250,
             align: 'left',
             render: (text, record) => {
                 return (
-                    <div style={{ color: "#272727" }}>{record.phone}</div>
+                    <div style={{ color: "#272727" }}>{record.mobile}</div>
                 );
             }
         },
         {
             title: "用户角色",
-            dataIndex: "userRoles",
+            dataIndex: "authorityName",
             align: 'left',
             width: 200,
             render: (text, record) => {
                 return (
-                    <div style={{ color: "#272727" }}>{record.userRoles}</div>
+                    <div style={{ color: "#272727" }}>{record.authorityName}</div>
                 );
             }
         },
         {
             title: "状态",
-            dataIndex: "states",
+            dataIndex: "status",
             width: 150,
             render: (text, record) => {
-                return (<Switch checkedChildren="开" unCheckedChildren="关" defaultChecked={record.states} />);
+                return (
+                    <Switch checkedChildren="开" unCheckedChildren="关" checked={record.status} />
+                );
             }
         },
         {
             title: "最近登录时间",
-            dataIndex: "createTime",
+            dataIndex: "loginTime",
             defaultSortOrder: 'ascend',
             sorter: (a, b) => a.createTime - b.createTime,
             render: (text, record) => {
@@ -166,7 +168,7 @@ const PersonManage = ({
     let paginationObj = {
         style: { padding: "20px 0 0", textAlign: "center", marginBottom: "10px" },
         total: pagination.total,
-        defaultCurrent: 1,
+        defaultCurrent: pagination.current,
         pageSize: pagination.pageSize,
         showSizeChanger: true,
         showQuickJumper: true,
@@ -301,9 +303,7 @@ const PersonManage = ({
                                         <Select placeholder="全部" style={{ width: "100%" }}>
                                             <Option value={null}>全部</Option>
                                             {personaListData.map(item => (
-                                                <Option value={item.id}>
-                                                    {item.userRoles}
-                                                </Option>
+                                                <Option value={item.authorityId}>{item.name}</Option>
                                             ))}
                                         </Select>
                                     )}
