@@ -31,9 +31,11 @@
     :global {
         .ant-checkbox-group {
             margin-right: 0;
-            display: flex;
             padding-left: 16px;
-            padding-bottom: 24px;
+
+            .ant-row {
+                padding-bottom: 24px;
+            }
 
             .ant-col-8 {
                 width: auto;
@@ -41,18 +43,18 @@
             }
 
             >.ant-checkbox-wrapper {
-                line-height: 32px;
-                padding-right: 8px;
+                line-height: 42px;
+                padding-right: 12px;
 
                 .span {
                     width: auto;
                     line-height: 32px;
                 }
             }
-        }
 
-        :last-child {
-            padding-bottom: 0;
+            :last-child {
+                padding-bottom: 0;
+            }
         }
     }
 }
