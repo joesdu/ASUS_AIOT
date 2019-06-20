@@ -3,6 +3,7 @@ import { connect } from "dva";
 import moment from "moment";
 import { Table, Row, Col, Card, Form, Input, Select, Button, DatePicker, Switch, Divider, Modal, Icon, message } from "antd";
 import styles from "../../TableList.less";
+import config from "../../../utils/config";
 
 const { Option } = Select;
 
@@ -15,7 +16,7 @@ const PersonManage = ({
         getFieldsValue
     }
 }) => {
-    let { personListData, personaListData, addBtnVisible, editBtnVisible, editModalData, pagination, searchList } = personManage;
+    let { personListData, personaListData, addBtnVisible, editBtnVisible, editModalData, pagination } = personManage;
     //定义表头
     const columns = [
         {
@@ -68,7 +69,7 @@ const PersonManage = ({
             width: 150,
             render: (text, record) => {
                 return (
-                    <Switch checkedChildren="开" unCheckedChildren="关" checked={record.status} />
+                    <Switch onChange={statesChange.bind(this, { record: record })} checkedChildren="开" unCheckedChildren="关" checked={record.status} />
                 );
             }
         },
@@ -98,33 +99,19 @@ const PersonManage = ({
     ];
 
     const getJsonPrams = (parm, pageNum, pageRows) => {
-        let status = null;
-        if (parm.status == "离线") {
-            status = 0;
-        } else if (parm.status == "在线") {
-            status = 1;
-        }
-        let productId = null;
-        if (parm.productId == null || parm.productId == "" || parm.productId == "全部") {
-            productId = null;
-        } else {
-            productId = parm.productId;
-        }
+        let status = parm.status == 0 ? 0 : parm.status == 1 ? 1 : null;
+        let name = parm.name == null || parm.name == "" ? null : parm.name;
+        let person = parm.person == null || parm.person == "" || parm.person == "全部" ? null : person = parm.person;
+        let mobile = parm.mobile == null || parm.mobile == "" ? null : mobile = parm.mobile;
         return {
-            userToken: localStorage.getItem("userToken"),
-            firstRow: null,
-            isAct: isAct,
-            lastActTimeEnd: lastActTimeEnd,
-            lastActTimeStart: lastActTimeStart,
-            mobile: parm.mobile == null || parm.mobile == "" ? null : parm.mobile,
+            authorityId: person,
+            mobile: mobile,
+            nickname: name,
             pageNum: pageNum,
-            pageRows: pageRows,
-            productId: productId,
-            source: source,
+            pageSize: pageRows,
+            sortType: 1,
             status: status,
-            updateTimeEnd: updateTimeEnd,
-            updateTimeStart: updateTimeStart,
-            uuid: parm.uuid == null || parm.uuid == "" ? null : parm.uuid
+            userToken: config.userToken
         };
     };
 
@@ -138,9 +125,7 @@ const PersonManage = ({
         }
         let _value = getJsonPrams(values, pagination.current, pagination.pageSize);
         //赛选数据
-        dispatch({ type: "personManage/devicesList", payload: _value });
-        //保存查询条件
-        dispatch({ type: "personManage/searchList", payload: _value });
+        dispatch({ type: "personManage/getList", payload: _value });
     };
     //重置
     const handleFormReset = () => {
@@ -156,12 +141,10 @@ const PersonManage = ({
         }
         setFieldsValue(fields);
         dispatch({ type: "personManage/clearData" });
-        dispatch({ type: "personManage/productList" });
+        dispatch({ type: "personManage/getPersonaList" });
         //重置查询所有
-        let _ars = getJsonPrams(null, 0, 10);
-        dispatch({ type: "personManage/devicesList", payload: _ars });
-        //重置查询条件
-        dispatch({ type: "personManage/searchList", payload: [] });
+        let _ars = getJsonPrams(fields, 0, 10);
+        dispatch({ type: "personManage/getList", payload: _ars });
     };
 
     /**分页合集 start **/
@@ -175,22 +158,12 @@ const PersonManage = ({
         onShowSizeChange: (current, pageSize) => {
             let values = getFieldsValue();
             let postObj = getJsonPrams(values, current - 1, pageSize);
-            //判断查询条件
-            if (JSON.stringify(searchList) !== "{}") {
-                dispatch({ type: "personManage/devicesList", payload: postObj });
-            } else {
-                dispatch({ type: "personManage/devicesList", payload: postObj });
-            }
+            dispatch({ type: "personManage/getList", payload: postObj });
         },
         onChange: (current, pageSize) => {
             let values = getFieldsValue();
             let postObj = getJsonPrams(values, current - 1, pageSize);
-            //判断查询条件
-            if (JSON.stringify(searchList) !== "{}") {
-                dispatch({ type: "personManage/devicesList", payload: postObj });
-            } else {
-                dispatch({ type: "personManage/devicesList", payload: postObj });
-            }
+            dispatch({ type: "personManage/getList", payload: postObj });
         },
         showTotal: () => {
             return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${pagination.pageCount} 页`;
@@ -236,24 +209,23 @@ const PersonManage = ({
     };
     const editModalOk = () => {
         let values = getFieldsValue();
-        if (values.productId_edit == "" || values.productId_edit == null || values.productId_edit == undefined) {
-            message.error("请选择一个所属产品");
-            return;
-        }
-        if (values.mobile_edit == "" || values.mobile_edit == null || values.mobile_edit == undefined) {
-            message.error("手机号不能为空");
-            return;
-        }
-        let obj = {
-            mobile: values.mobile_edit,
-            producer: values.producer_edit,
-            productId: values.productId_edit,
-            remark: values.remark_edit,
-            testUserId: editModalData.testUserId,
-            userToken: localStorage.getItem("userToken")
-        }
-        let _value = getJsonPrams(values, pagination.current, pagination.pageSize);
-        dispatch({ type: "personManage/update", payload: { update: obj, query: _value } });
+        dispatch({
+            type: "personManage/edit", payload: {
+                edit: {
+                    authorityId: values.authorityId_edit,
+                    backUserId: editModalData.backUserId,
+                    headImg: editModalData.headImg,
+                    mobile: values.mobile_edit,
+                    nickname: values.nickname_edit,
+                    password: values.password_edit,
+                    remark: values.remark_edit,
+                    status: values.status_edit,
+                    userName: values.userName_edit,
+                    userToken: config.userToken
+                },
+                query: getJsonPrams(values, pagination.current, pagination.pageSize)
+            }
+        });
         dispatch({ type: "personManage/setEditVisibleState", visible: false })
     }
     const editModalHide = () => {
@@ -270,10 +242,76 @@ const PersonManage = ({
             icon: (<Icon type="close-circle" theme="twoTone" twoToneColor="#CD0000" />),
             content: "删除所选人员后，对应人员无法登录",
             onOk() {
-                dispatch({ type: "personManage/delete", payload: { delete: e, query: getJsonPrams(getFieldsValue(), pagination.current, pagination.pageSize) } });
+                dispatch({
+                    type: "personManage/delete", payload: {
+                        delete: e,
+                        query: getJsonPrams(getFieldsValue(), pagination.current, pagination.pageSize)
+                    }
+                });
             },
             onCancel() { console.log('CancelDelete'); },
         });
+    }
+
+    const statesChange = (e, checked) => {
+        let temp = personListData.map((item) => {
+            if (item.backUserId == e.record.backUserId) {
+                item.status = checked;
+            }
+            return item;
+        });
+        dispatch({ type: "personManage/getListSuccess", payload: temp, page: pagination });
+        let values = getFieldsValue();
+        if (!checked) {
+            Modal.confirm({
+                okText: "确定",
+                cancelText: "取消",
+                title: '确认要停用此人员吗？',
+                icon: (<Icon type="exclamation-circle" theme="twoTone" twoToneColor="#EEB422" />),
+                content: '停用此人员后，此人员无法登录系统',
+                onOk() {
+                    dispatch({
+                        type: "personManage/edit", payload: {
+                            edit: {
+                                authorityId: e.record.authorityId,
+                                backUserId: e.record.backUserId,
+                                headImg: e.record.headImg,
+                                mobile: e.record.mobile,
+                                nickname: e.record.nickname,
+                                password: e.record.password,
+                                remark: e.record.remark,
+                                status: e.record.status,
+                                userName: e.record.userName,
+                                userToken: config.userToken
+                            },
+                            query: getJsonPrams(values, pagination.current, pagination.pageSize)
+                        }
+                    });
+                },
+                onCancel() {
+                    dispatch({ type: "personManage/getList", payload: getJsonPrams(values, pagination.current, pagination.pageSize) });
+                },
+            });
+        }
+        else {
+            dispatch({
+                type: "personManage/edit", payload: {
+                    edit: {
+                        authorityId: e.record.authorityId,
+                        backUserId: e.record.backUserId,
+                        headImg: e.record.headImg,
+                        mobile: e.record.mobile,
+                        nickname: e.record.nickname,
+                        password: e.record.password,
+                        remark: e.record.remark,
+                        status: checked,
+                        userName: e.record.userName,
+                        userToken: config.userToken
+                    },
+                    query: getJsonPrams(values, pagination.current, pagination.pageSize)
+                }
+            });
+        }
     }
 
 
@@ -285,7 +323,7 @@ const PersonManage = ({
                         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                             <Col md={8} sm={24}>
                                 <Form.Item label="手机号" style={{ marginLeft: 17 }}>
-                                    {getFieldDecorator("phone")(
+                                    {getFieldDecorator("mobile")(
                                         <Input placeholder="请输入手机号" />
                                     )}
                                 </Form.Item>
@@ -313,11 +351,11 @@ const PersonManage = ({
                         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                             <Col md={8} sm={24}>
                                 <Form.Item label="状态" style={{ marginLeft: 30, marginBottom: 0 }}>
-                                    {getFieldDecorator("mobile")(
+                                    {getFieldDecorator("status")(
                                         <Select placeholder="全部" style={{ width: "100%" }}>
                                             <Option value={null}>全部</Option>
-                                            <Option value={1}>开</Option>
-                                            <Option value={0}>关</Option>
+                                            <Option value={1}>启用</Option>
+                                            <Option value={0}>禁用</Option>
                                         </Select>
                                     )}
                                 </Form.Item>
@@ -345,30 +383,61 @@ const PersonManage = ({
                                     <div className={styles.tableListForm}>
                                         <Form layout="inline">
                                             <Form.Item label="姓名" style={{ marginLeft: 31, width: 507 }}>
-                                                {getFieldDecorator("name_add", { rules: [{ required: true, message: "请输入姓名" }] })(<Input placeholder="请输入" />)}
+                                                {getFieldDecorator("name_add", {
+                                                    rules: [{
+                                                        required: true,
+                                                        message: "请输入姓名"
+                                                    }]
+                                                })(<Input placeholder="请输入" />)}
                                             </Form.Item>
                                             <Form.Item label="用户名" style={{ marginLeft: 18, width: 520 }}>
-                                                {getFieldDecorator("userName_add", { rules: [{ required: true, message: "请输入用户名" }] })(<Input placeholder="请输入" />)}
+                                                {getFieldDecorator("userName_add", {
+                                                    rules: [{
+                                                        required: true,
+                                                        message: "请输入用户名"
+                                                    }]
+                                                })(<Input placeholder="请输入" />)}
                                             </Form.Item>
                                             <Form.Item label="密码" style={{ marginLeft: 31, width: 507 }}>
-                                                {getFieldDecorator("password_add", { rules: [{ required: true, message: "请输入密码" }] })(<Input placeholder="请输入" />)}
+                                                {getFieldDecorator("password_add", {
+                                                    rules: [{
+                                                        required: true,
+                                                        message: "请输入密码"
+                                                    }]
+                                                })(<Input.Password placeholder="请输入" />)}
                                             </Form.Item>
                                             <Form.Item label="手机号" style={{ marginLeft: 18, width: 520 }}>
-                                                {getFieldDecorator("mobile_add", { rules: [{ required: true, message: "请输入正确的手机号码!", pattern: /^1[34578]\d{9}$/ }], })(<Input placeholder="请输入" />)}
+                                                {getFieldDecorator("mobile_add", {
+                                                    rules: [{
+                                                        required: true,
+                                                        message: "请输入正确的手机号码!",
+                                                        pattern: /^1[34578]\d{9}$/
+                                                    }],
+                                                })(<Input placeholder="请输入" />)}
                                             </Form.Item>
                                             <Form.Item label="角色" style={{ marginLeft: 31, width: 507 }}>
-                                                {getFieldDecorator("persona_add", { rules: [{ required: true, message: "请选择人员角色" }] })(
+                                                {getFieldDecorator("persona_add", {
+                                                    rules: [{
+                                                        required: true,
+                                                        message: "请选择人员角色"
+                                                    }]
+                                                })(
                                                     <Select style={{ width: "100%" }}>
                                                         {personaListData.map(item => (
-                                                            <Option value={item.id}>{item.userRoles}</Option>
+                                                            <Option value={item.authorityId}>{item.name}</Option>
                                                         ))}
                                                     </Select>)}
                                             </Form.Item>
                                             <Form.Item label="备注" style={{ marginLeft: 42, width: 496 }}>
-                                                {getFieldDecorator("remark_add")(<Input placeholder="请输入" />)}
+                                                {getFieldDecorator("remark_add")(
+                                                    <Input placeholder="请输入" />
+                                                )}
                                             </Form.Item>
                                             <Form.Item label="启用状态" style={{ marginLeft: 16, marginBottom: 0, width: 520 }}>
-                                                {getFieldDecorator("states_add", { valuePropName: "checked", initialValue: true })(<Switch checkedChildren="开" unCheckedChildren="关" />)}
+                                                {getFieldDecorator("states_add", {
+                                                    valuePropName: "checked",
+                                                    initialValue: true
+                                                })(<Switch checkedChildren="开" unCheckedChildren="关" />)}
                                             </Form.Item>
                                         </Form>
                                     </div>
@@ -385,22 +454,22 @@ const PersonManage = ({
                     <div className={styles.tableListForm}>
                         <Form layout="inline">
                             <Form.Item label="姓名" style={{ marginLeft: 31, width: 507 }}>
-                                {getFieldDecorator("name_edit", {
+                                {getFieldDecorator("nickname_edit", {
                                     rules: [{ required: true, message: "请输入姓名" }],
-                                    initialValue: editModalData.name
+                                    initialValue: editModalData.nickname
                                 })(<Input placeholder="请输入" />)}
                             </Form.Item>
                             <Form.Item label="用户名" style={{ marginLeft: 18, width: 520 }}>
                                 {getFieldDecorator("userName_edit", {
                                     rules: [{ required: true, message: "请输入用户名" }],
-                                    initialValue: editModalData.username
+                                    initialValue: editModalData.userName
                                 })(<Input placeholder="请输入" />)}
                             </Form.Item>
                             <Form.Item label="密码" style={{ marginLeft: 31, width: 507 }}>
                                 {getFieldDecorator("password_edit", {
                                     rules: [{ required: true, message: "请输入密码" }],
                                     initialValue: editModalData.password
-                                })(<Input placeholder="请输入" />)}
+                                })(<Input.Password placeholder="请输入" />)}
                             </Form.Item>
                             <Form.Item label="手机号" style={{ marginLeft: 18, width: 520 }}>
                                 {getFieldDecorator("mobile_edit", {
@@ -408,17 +477,17 @@ const PersonManage = ({
                                         required: true, message: "请输入正确的手机号码!",
                                         pattern: /^1[34578]\d{9}$/
                                     }],
-                                    initialValue: editModalData.phone
+                                    initialValue: editModalData.mobile
                                 })(<Input placeholder="请输入" />)}
                             </Form.Item>
                             <Form.Item label="角色" style={{ marginLeft: 31, width: 507 }}>
-                                {getFieldDecorator("persona_edit", {
+                                {getFieldDecorator("authorityId_edit", {
                                     rules: [{ required: true, message: "请选择人员角色" }],
-                                    initialValue: editModalData.userRoles
+                                    initialValue: editModalData.authorityId
                                 })(
                                     <Select style={{ width: "100%" }}>
                                         {personaListData.map(item => (
-                                            <Option value={item.id}>{item.userRoles}</Option>
+                                            <Option value={item.authorityId}>{item.name}</Option>
                                         ))}
                                     </Select>)}
                             </Form.Item>
@@ -428,9 +497,9 @@ const PersonManage = ({
                                 })(<Input placeholder="请输入" />)}
                             </Form.Item>
                             <Form.Item label="启用状态" style={{ marginLeft: 16, marginBottom: 0, width: 520 }}>
-                                {getFieldDecorator("states_edit", {
+                                {getFieldDecorator("status_edit", {
                                     valuePropName: "checked",
-                                    initialValue: editModalData.states
+                                    initialValue: editModalData.status
                                 })(<Switch checkedChildren="开" unCheckedChildren="关" />)}
                             </Form.Item>
                         </Form>

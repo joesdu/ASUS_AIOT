@@ -1,4 +1,4 @@
-import { authorityListApi, backUserSearchApi } from "../../../services/api";
+import { authorityListApi, backUserSearchApi, backUserEditApi } from "../../../services/api";
 import { message } from "antd";
 import { routerRedux } from "dva/router";
 import config from "../../../utils/config";
@@ -24,7 +24,7 @@ export default {
                 //页面初始化执行
                 if (location.pathname === "/personManage") {
                     dispatch({
-                        type: "getPersonList", payload: {
+                        type: "getList", payload: {
                             authorityId: null,
                             mobile: null,
                             nickname: null,
@@ -42,7 +42,7 @@ export default {
     },
 
     effects: {
-        *getPersonList({ payload }, { call, put }) {
+        *getList({ payload }, { call, put }) {
             const data = yield call(backUserSearchApi, payload);
             let _pag = {};
             if (!!data && data.code === 0) {
@@ -53,10 +53,20 @@ export default {
                     _pag.pageCount = 0;
                 else
                     _pag.pageCount = data.data.pages;
-                yield put({ type: "getPersonListSuccess", payload: data.data.list, page: _pag });
+                yield put({ type: "getListSuccess", payload: data.data.list, page: _pag });
             } else {
                 message.error(!!data ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
-                yield put({ type: "getPersonListSuccess", payload: null, page: _pag });
+                yield put({ type: "getListSuccess", payload: null, page: _pag });
+            }
+        },
+        *edit({ payload }, { call, put }) {
+            const data = yield call(backUserEditApi, payload.edit);
+            if (!!data && data.code === 0) {
+                message.info("更新成功!");
+                yield put({ type: "getList", payload: payload.query });
+            } else {
+                message.error(!!data ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
+                yield put({ type: "getList", payload: payload.query });
             }
         },
         *getPersonaList({ payload }, { call, put }) {
@@ -68,10 +78,6 @@ export default {
                 yield put({ type: "getPersonaListSuccess", payload: null });
             }
         },
-        *addNew({ payload }, { call, put }) {
-            // 跳转到新增页面
-            yield put(routerRedux.push({ pathname: "/roleAddEdit" }));
-        }
     },
     reducers: {
         clearData(state) {
@@ -91,7 +97,7 @@ export default {
             };
         },
         //返回数据列表
-        getPersonListSuccess(state, action) {
+        getListSuccess(state, action) {
             return { ...state, personListData: action.payload, pagination: action.page };
         },
         getPersonaListSuccess(state, action) {
