@@ -13,7 +13,23 @@ const RoleAdd = ({
         getFieldsValue
     }
 }) => {
-    let { allPageData  } = roleAdd;
+    let { allPageData,
+
+        valueData,
+        valuePermissions,
+        valueSystem,
+        valueOperation,
+        indeterminateOperation,
+        indeterminateData,
+        indeterminatePermissions,
+        indeterminateSystem,
+        checkAll,
+        operationCheckAll,
+        dataCheckAll,
+        permissionsCheckAll,
+        systemCheckAll
+
+    } = roleAdd;
 
     const operationElementCount = 8;//運營中心權限個數
     const operationElements = ["6", "14", "7", "17", "18", "8", "19", "20"];//運營中心權限ID
@@ -34,7 +50,7 @@ const RoleAdd = ({
 
     const checkAllOnChange = (e) => {
         dispatch({
-            type: "roleAddEdit/setAll", payload: {
+            type: "roleAdd/setAll", payload: {
                 operation: e.target.checked ? operationElements : [],
                 data: e.target.checked ? dataElements : [],
                 permissions: e.target.checked ? permissionsElements : [],
@@ -48,7 +64,7 @@ const RoleAdd = ({
     //运营中心多选框中的元素被点击
     const operationOnChange = (checkList) => {
         dispatch({
-            type: "roleAddEdit/setOperation", payload: {
+            type: "roleAdd/setOperation", payload: {
                 checkList: checkList,
                 indeterminate: !!checkList.length && checkList.length < operationElementCount,
                 checked: checkList.length === operationElementCount,
@@ -58,7 +74,7 @@ const RoleAdd = ({
     //运营中心全选控制
     const operationAllOnChange = (e) => {
         dispatch({
-            type: "roleAddEdit/setOperation", payload: {
+            type: "roleAdd/setOperation", payload: {
                 checkList: e.target.checked ? operationElements : [],
                 indeterminate: false,
                 checked: e.target.checked,
@@ -68,7 +84,7 @@ const RoleAdd = ({
     //数据中心多选框中的元素被点击
     const dataOnChange = (checkList) => {
         dispatch({
-            type: "roleAddEdit/setData", payload: {
+            type: "roleAdd/setData", payload: {
                 checkList: checkList,
                 indeterminate: !!checkList.length && checkList.length < dataElementCount,
                 checked: checkList.length === dataElementCount,
@@ -78,7 +94,7 @@ const RoleAdd = ({
     //數據中心全選控制
     const dataAllOnChange = (e) => {
         dispatch({
-            type: "roleAddEdit/setData", payload: {
+            type: "roleAdd/setData", payload: {
                 checkList: e.target.checked ? dataElements : [],
                 indeterminate: false,
                 checked: e.target.checked,
@@ -88,7 +104,7 @@ const RoleAdd = ({
     //權限控制多选框中的元素被点击
     const permissionsOnChange = (checkList) => {
         dispatch({
-            type: "roleAddEdit/setPermission", payload: {
+            type: "roleAdd/setPermission", payload: {
                 checkList: checkList,
                 indeterminate: !!checkList.length && checkList.length < permissionsElementCount,
                 checked: checkList.length === permissionsElementCount,
@@ -98,7 +114,7 @@ const RoleAdd = ({
     //權限控制全選控制
     const permissionsAllOnChange = (e) => {
         dispatch({
-            type: "roleAddEdit/setPermission", payload: {
+            type: "roleAdd/setPermission", payload: {
                 checkList: e.target.checked ? permissionsElements : [],
                 indeterminate: false,
                 checked: e.target.checked,
@@ -108,7 +124,7 @@ const RoleAdd = ({
     //系統設置多选框中的元素被点击
     const systemOnChange = (checkList) => {
         dispatch({
-            type: "roleAddEdit/setSystem", payload: {
+            type: "roleAdd/setSystem", payload: {
                 checkList: checkList,
                 indeterminate: !!checkList.length && checkList.length < systemElementCount,
                 checked: checkList.length === systemElementCount,
@@ -118,7 +134,7 @@ const RoleAdd = ({
     //系統設置全選控制
     const systemAllOnChange = (e) => {
         dispatch({
-            type: "roleAddEdit/setSystem", payload: {
+            type: "roleAdd/setSystem", payload: {
                 checkList: e.target.checked ? systemElements : [],
                 indeterminate: false,
                 checked: e.target.checked,

@@ -70,29 +70,27 @@ const RoleManagement = ({
 
     /**分页合集 start **/
     let paginationObj = {
-        style: { padding: "20px 0 0", textAlign: "center", marginBottom: "10px" },
+        style: {
+            padding: "20px 0 0",
+            textAlign: "center",
+            marginBottom: "10px"
+        },
         total: pagination.total,
         defaultCurrent: pagination.current,
         pageSize: pagination.pageSize,
         showSizeChanger: true,
         showQuickJumper: true,
         onShowSizeChange: (current, pageSize) => {
-            let postObj = getJsonPrams(current - 1, pageSize);
-            //判断查询条件
-            if (JSON.stringify(searchList) !== "{}") {
-                dispatch({ type: "roleManagement/getList", payload: postObj });
-            } else {
-                dispatch({ type: "roleManagement/getList", payload: postObj });
-            }
+            dispatch({
+                type: "roleManagement/getList",
+                payload: getJsonPrams(current - 1, pageSize)
+            });
         },
         onChange: (current, pageSize) => {
-            let postObj = getJsonPrams(current - 1, pageSize);
-            //判断查询条件
-            if (JSON.stringify(searchList) !== "{}") {
-                dispatch({ type: "roleManagement/getList", payload: postObj });
-            } else {
-                dispatch({ type: "roleManagement/getList", payload: postObj });
-            }
+            dispatch({
+                type: "roleManagement/getList",
+                payload: getJsonPrams(current - 1, pageSize)
+            });
         },
         showTotal: () => {
             return `共 ${pagination.total} 条 第 ${pagination.current + 1} / ${pagination.pageCount} 页`;
@@ -112,7 +110,11 @@ const RoleManagement = ({
             }
             return item;
         });
-        dispatch({ type: "roleManagement/getListSuccess", payload: temp, page: pagination });
+        dispatch({
+            type: "roleManagement/getListSuccess",
+            payload: temp,
+            page: pagination
+        });
         if (!checked) {
             Modal.confirm({
                 okText: "确定",
@@ -136,7 +138,10 @@ const RoleManagement = ({
                     });
                 },
                 onCancel() {
-                    dispatch({ type: "roleManagement/getList", payload: getJsonPrams(pagination.current, pagination.pageSize) });
+                    dispatch({
+                        type: "roleManagement/getList",
+                        payload: getJsonPrams(pagination.current, pagination.pageSize)
+                    });
                 },
             });
         }

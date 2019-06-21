@@ -5,14 +5,28 @@ import config from "../../../utils/config";
 export default {
     namespace: "roleAdd",
     state: {
-        allPageData: []
+        allPageData: [],
+        valueData: [],
+        valuePermissions: [],
+        valueSystem: [],
+        valueOperation: [],
+        indeterminateOperation: false,
+        indeterminateData: false,
+        indeterminatePermissions: false,
+        indeterminateSystem: false,
+        checkAll: false,
+        operationCheckAll: false,
+        dataCheckAll: false,
+        permissionsCheckAll: false,
+        systemCheckAll: false,
+        checkAll: false
     },
     subscriptions: {
         setup({ dispatch, history }) {
             history.listen(location => {
                 //页面初始化执行
                 if (location.pathname === "/roleAdd") {
-                    dispatch({ type: "getPageIDs" });
+                    //dispatch({ type: "getPageIDs" });
                 }
             });
         }
@@ -30,10 +44,10 @@ export default {
         },
     },
     reducers: {
-        getPageIDsSuccess(state, action) {
+        setAll(state, action) {
             return {
                 ...state,
-                allPageData: action.payload,
+                valueOperation: action.payload.operation,
                 valueData: action.payload.data,
                 valuePermissions: action.payload.permissions,
                 valueSystem: action.payload.system,
