@@ -1,4 +1,4 @@
-import { authorityListApi, backUserSearchApi, backUserEditApi } from "../../../services/api";
+import { authorityListApi, backUserSearchApi, backUserAddApi, backUserEditApi, backUserDeleteApi } from "../../../services/api";
 import { message } from "antd";
 import { routerRedux } from "dva/router";
 import config from "../../../utils/config";
@@ -59,13 +59,34 @@ export default {
                 yield put({ type: "getListSuccess", payload: null, page: _pag });
             }
         },
+        *add({ payload }, { call, put }) {
+            const data = yield call(backUserAddApi, payload.add);
+            if (!!data && data.code === 0) {
+                message.info("新增成功!");
+                yield put({ type: "getList", payload: payload.query });
+            } else {
+                message.error(!!data ? "新增失败,错误信息:" + data.msg : "新增失败");
+                yield put({ type: "getList", payload: payload.query });
+            }
+        },
         *edit({ payload }, { call, put }) {
             const data = yield call(backUserEditApi, payload.edit);
             if (!!data && data.code === 0) {
                 message.info("更新成功!");
                 yield put({ type: "getList", payload: payload.query });
             } else {
-                message.error(!!data ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
+                message.error(!!data ? "更新失败,错误信息:" + data.msg : "更新失败");
+                yield put({ type: "getList", payload: payload.query });
+            }
+        },
+        *delete({ payload }, { call, put }) {
+            console.log("删除测试", payload);
+            const data = yield call(backUserDeleteApi, payload.delete);
+            if (!!data && data.code === 0) {
+                message.info("刪除成功!");
+                yield put({ type: "getList", payload: payload.query });
+            } else {
+                message.error(!!data ? "删除失败,错误信息:" + data.msg : "删除失败");
                 yield put({ type: "getList", payload: payload.query });
             }
         },
@@ -96,9 +117,8 @@ export default {
                 }
             };
         },
-        //返回数据列表
         getListSuccess(state, action) {
-            return { ...state, personListData: action.payload, pagination: action.page };
+            return { ...state, personListData: action.payload, pagination: action.page, deleteArray: [] };
         },
         getPersonaListSuccess(state, action) {
             return { ...state, personaListData: action.payload };

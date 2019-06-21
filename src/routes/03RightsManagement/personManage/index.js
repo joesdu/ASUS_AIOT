@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { connect } from "dva";
 import moment from "moment";
-import { Table, Row, Col, Card, Form, Input, Select, Button, DatePicker, Switch, Divider, Modal, Icon, message } from "antd";
+import { Table, Row, Col, Card, Form, Input, Select, Button, Switch, Divider, Modal, Icon, message } from "antd";
 import styles from "../../TableList.less";
 import config from "../../../utils/config";
 
@@ -17,6 +17,8 @@ const PersonManage = ({
     }
 }) => {
     let { personListData, personaListData, addBtnVisible, editBtnVisible, editModalData, pagination } = personManage;
+
+    let deleteArray = [];
     //定义表头
     const columns = [
         {
@@ -91,7 +93,7 @@ const PersonManage = ({
                     <Fragment>
                         <a onClick={editModalShow.bind(this, record)}>编辑</a>
                         <Divider type="vertical" />
-                        <a onClick={showDeleteConfirm.bind(this, record)}>刪除</a>
+                        <a onClick={deleteItem.bind(this, record)}>刪除</a>
                     </Fragment>
                 );
             }
@@ -99,18 +101,14 @@ const PersonManage = ({
     ];
 
     const getJsonPrams = (parm, pageNum, pageRows) => {
-        let status = parm.status == 0 ? 0 : parm.status == 1 ? 1 : null;
-        let name = parm.name == null || parm.name == "" ? null : parm.name;
-        let person = parm.person == null || parm.person == "" || parm.person == "全部" ? null : person = parm.person;
-        let mobile = parm.mobile == null || parm.mobile == "" ? null : mobile = parm.mobile;
         return {
-            authorityId: person,
-            mobile: mobile,
-            nickname: name,
+            authorityId: !!parm.authorityId && parm.authorityId != "全部" ? parm.authorityId : null,
+            mobile: !!parm.mobile ? parm.mobile : null,
+            nickname: !!parm.nickname ? parm.nickname : null,
             pageNum: pageNum,
             pageSize: pageRows,
             sortType: 1,
-            status: status,
+            status: parm.status == 0 ? 0 : parm.status == 1 ? 1 : null,
             userToken: config.userToken
         };
     };
@@ -173,33 +171,53 @@ const PersonManage = ({
 
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            deleteArray = selectedRows;
         }
     };
+
+    const deleteItem = (_parm) => {
+        deleteArray = [_parm];
+        showDeleteConfirm();
+    }
+
+    const verifyData = (type, values) => {
+        switch (type) {
+            case "add":
+                return !!values.authorityId_add && !!values.mobile_add && !!values.nickname_add && !!values.password_add && !!values.userName_add
+                    && values.authorityId_add != "" && values.mobile_add != "" && values.nickname_add != "" && values.password_add != "" &&
+                    values.userName_add != "";
+            case "edit":
+                return !!values.authorityId_edit && !!values.mobile_edit && !!values.nickname_edit && !!values.password_edit && !!values.userName_edit
+                    && values.authorityId_edit != "" && values.mobile_edit != "" && values.nickname_edit != "" && values.password_edit != "" &&
+                    values.userName_edit != "";
+        }
+    }
 
     const addModalSH = () => dispatch({ type: "personManage/setAddVisibleState", visible: !addBtnVisible });
     const addModalOk = () => {
         let values = getFieldsValue();
-        if (values.productId_add == "" || values.productId_add == null || values.productId_add == undefined) {
-            message.error("请选择一个所属产品");
+        if (!verifyData("add", values)) {
+            console.log("提示错误:", values);
+            message.info("请按照提示输入正确的参数");
             return;
         }
-        if (values.mobile_add == "" || values.mobile_add == null || values.mobile_add == undefined) {
-            message.error("手机号不能为空");
-            return;
-        }
-        let obj = {
-            mobile: values.mobile_add,
-            producer: values.producer_add,
-            productId: values.productId_add,
-            remark: values.remark_add,
-            userToken: localStorage.getItem("userToken")
-        }
-        let _object = {
-            save: obj,
-            query: getJsonPrams(values, pagination.current, pagination.pageSize)
-        };
-        dispatch({ type: "personManage/save", payload: _object });
+        dispatch({
+            type: "personManage/add", payload: {
+                add: {
+                    authorityId: values.authorityId_add,
+                    headImg: null,
+                    mobile: values.mobile_add,
+                    nickname: values.nickname_add,
+                    password: values.password_add,
+                    remark: values.remark_add,
+                    status: values.status_add,
+                    userName: values.userName_add,
+                    userToken: config.userToken
+                },
+                query: getJsonPrams(values, pagination.current, pagination.pageSize)
+            }
+        });
+        dispatch({ type: "personManage/setEditVisibleState", visible: false })
         addModalSH();
     }
 
@@ -209,30 +227,45 @@ const PersonManage = ({
     };
     const editModalOk = () => {
         let values = getFieldsValue();
-        dispatch({
-            type: "personManage/edit", payload: {
-                edit: {
-                    authorityId: values.authorityId_edit,
-                    backUserId: editModalData.backUserId,
-                    headImg: editModalData.headImg,
-                    mobile: values.mobile_edit,
-                    nickname: values.nickname_edit,
-                    password: values.password_edit,
-                    remark: values.remark_edit,
-                    status: values.status_edit,
-                    userName: values.userName_edit,
-                    userToken: config.userToken
-                },
-                query: getJsonPrams(values, pagination.current, pagination.pageSize)
+        if (!verifyData("edit", values)) {
+            message.info("请按照提示输入正确的参数");
+            return;
+        }
+        Modal.confirm({
+            title: '确认修改',
+            okText: '确定',
+            cancelText: '取消',
+            destroyOnClose: true,
+            style: ({ marginTop: 130 }),
+            icon: (<Icon type="info-circle" theme="twoTone" twoToneColor="#FBB937" />),
+            content: "确认要修改此人员的信息吗?",
+            onOk() {
+                dispatch({
+                    type: "personManage/edit", payload: {
+                        edit: {
+                            authorityId: values.authorityId_edit,
+                            backUserId: editModalData.backUserId,
+                            headImg: editModalData.headImg,
+                            mobile: values.mobile_edit,
+                            nickname: values.nickname_edit,
+                            password: values.password_edit,
+                            remark: values.remark_edit,
+                            status: values.status_edit,
+                            userName: values.userName_edit,
+                            userToken: config.userToken
+                        },
+                        query: getJsonPrams(values, pagination.current, pagination.pageSize)
+                    }
+                });
+                dispatch({ type: "personManage/setEditVisibleState", visible: false })
             }
         });
-        dispatch({ type: "personManage/setEditVisibleState", visible: false })
     }
     const editModalHide = () => {
         dispatch({ type: "personManage/setEditVisibleState", visible: false })
     }
 
-    const showDeleteConfirm = (e) => {
+    const showDeleteConfirm = () => {
         Modal.confirm({
             title: '确认要删除所选人员吗？',
             okText: '删除',
@@ -244,12 +277,17 @@ const PersonManage = ({
             onOk() {
                 dispatch({
                     type: "personManage/delete", payload: {
-                        delete: e,
+                        delete: {
+                            backUserIds: deleteArray.map((item) => {
+                                return item.backUserId;
+                            }),
+                            userToken: config.userToken
+                        },
                         query: getJsonPrams(getFieldsValue(), pagination.current, pagination.pageSize)
                     }
                 });
-            },
-            onCancel() { console.log('CancelDelete'); },
+                deleteArray = [];
+            }
         });
     }
 
@@ -330,14 +368,14 @@ const PersonManage = ({
                             </Col>
                             <Col md={8} sm={24}>
                                 <Form.Item label="名称" style={{ marginLeft: 30 }}>
-                                    {getFieldDecorator("name")(
+                                    {getFieldDecorator("nickname")(
                                         <Input placeholder="请输入姓名/昵称" />
                                     )}
                                 </Form.Item>
                             </Col>
                             <Col md={8} sm={24}>
                                 <Form.Item label="角色" style={{ marginLeft: 30 }}>
-                                    {getFieldDecorator("person", { initialValue: "全部" })(
+                                    {getFieldDecorator("authorityId", { initialValue: "全部" })(
                                         <Select placeholder="全部" style={{ width: "100%" }}>
                                             <Option value={null}>全部</Option>
                                             {personaListData.map(item => (
@@ -383,7 +421,7 @@ const PersonManage = ({
                                     <div className={styles.tableListForm}>
                                         <Form layout="inline">
                                             <Form.Item label="姓名" style={{ marginLeft: 31, width: 507 }}>
-                                                {getFieldDecorator("name_add", {
+                                                {getFieldDecorator("nickname_add", {
                                                     rules: [{
                                                         required: true,
                                                         message: "请输入姓名"
@@ -416,7 +454,7 @@ const PersonManage = ({
                                                 })(<Input placeholder="请输入" />)}
                                             </Form.Item>
                                             <Form.Item label="角色" style={{ marginLeft: 31, width: 507 }}>
-                                                {getFieldDecorator("persona_add", {
+                                                {getFieldDecorator("authorityId_add", {
                                                     rules: [{
                                                         required: true,
                                                         message: "请选择人员角色"
@@ -434,7 +472,7 @@ const PersonManage = ({
                                                 )}
                                             </Form.Item>
                                             <Form.Item label="启用状态" style={{ marginLeft: 16, marginBottom: 0, width: 520 }}>
-                                                {getFieldDecorator("states_add", {
+                                                {getFieldDecorator("status_add", {
                                                     valuePropName: "checked",
                                                     initialValue: true
                                                 })(<Switch checkedChildren="开" unCheckedChildren="关" />)}
@@ -455,26 +493,36 @@ const PersonManage = ({
                         <Form layout="inline">
                             <Form.Item label="姓名" style={{ marginLeft: 31, width: 507 }}>
                                 {getFieldDecorator("nickname_edit", {
-                                    rules: [{ required: true, message: "请输入姓名" }],
+                                    rules: [{
+                                        required: true,
+                                        message: "请输入姓名"
+                                    }],
                                     initialValue: editModalData.nickname
                                 })(<Input placeholder="请输入" />)}
                             </Form.Item>
                             <Form.Item label="用户名" style={{ marginLeft: 18, width: 520 }}>
                                 {getFieldDecorator("userName_edit", {
-                                    rules: [{ required: true, message: "请输入用户名" }],
+                                    rules: [{
+                                        required: true,
+                                        message: "请输入用户名"
+                                    }],
                                     initialValue: editModalData.userName
                                 })(<Input placeholder="请输入" />)}
                             </Form.Item>
                             <Form.Item label="密码" style={{ marginLeft: 31, width: 507 }}>
                                 {getFieldDecorator("password_edit", {
-                                    rules: [{ required: true, message: "请输入密码" }],
+                                    rules: [{
+                                        required: true,
+                                        message: "请输入密码"
+                                    }],
                                     initialValue: editModalData.password
                                 })(<Input.Password placeholder="请输入" />)}
                             </Form.Item>
                             <Form.Item label="手机号" style={{ marginLeft: 18, width: 520 }}>
                                 {getFieldDecorator("mobile_edit", {
                                     rules: [{
-                                        required: true, message: "请输入正确的手机号码!",
+                                        required: true,
+                                        message: "请输入正确的手机号码!",
                                         pattern: /^1[34578]\d{9}$/
                                     }],
                                     initialValue: editModalData.mobile
@@ -482,7 +530,10 @@ const PersonManage = ({
                             </Form.Item>
                             <Form.Item label="角色" style={{ marginLeft: 31, width: 507 }}>
                                 {getFieldDecorator("authorityId_edit", {
-                                    rules: [{ required: true, message: "请选择人员角色" }],
+                                    rules: [{
+                                        required: true,
+                                        message: "请选择人员角色"
+                                    }],
                                     initialValue: editModalData.authorityId
                                 })(
                                     <Select style={{ width: "100%" }}>

@@ -121,18 +121,19 @@ const RoleManagement = ({
                 icon: (<Icon type="exclamation-circle" theme="twoTone" twoToneColor="#EEB422" />),
                 content: '停用此角色后，此角色下的人员不能登录系统',
                 onOk() {
-                    let editData = {
-                        edit: {
-                            authorityId: e.record.authorityId,
-                            description: e.record.description,
-                            name: e.record.name,
-                            pageIds: e.record.pageIds,
-                            status: e.record.status,
-                            userToken: config.userToken
-                        },
-                        query: getJsonPrams(pagination.current, pagination.pageSize)
-                    }
-                    dispatch({ type: "roleManagement/edit", payload: editData });
+                    dispatch({
+                        type: "roleManagement/edit", payload: {
+                            edit: {
+                                authorityId: e.record.authorityId,
+                                description: e.record.description,
+                                name: e.record.name,
+                                pageIds: e.record.pageIds,
+                                status: e.record.status,
+                                userToken: config.userToken
+                            },
+                            query: getJsonPrams(pagination.current, pagination.pageSize)
+                        }
+                    });
                 },
                 onCancel() {
                     dispatch({ type: "roleManagement/getList", payload: getJsonPrams(pagination.current, pagination.pageSize) });
@@ -140,23 +141,30 @@ const RoleManagement = ({
             });
         }
         else {
-            let editData = {
-                edit: {
-                    authorityId: e.record.authorityId,
-                    description: e.record.description,
-                    name: e.record.name,
-                    pageIds: e.record.pageIds,
-                    status: checked,
-                    userToken: config.userToken
-                },
-                query: getJsonPrams(pagination.current, pagination.pageSize)
-            }
-            dispatch({ type: "roleManagement/edit", payload: editData });
+            dispatch({
+                type: "roleManagement/edit", payload: {
+                    edit: {
+                        authorityId: e.record.authorityId,
+                        description: e.record.description,
+                        name: e.record.name,
+                        pageIds: e.record.pageIds,
+                        status: checked,
+                        userToken: config.userToken
+                    },
+                    query: getJsonPrams(pagination.current, pagination.pageSize)
+                }
+            });
         }
     }
 
     const deleteModal = async (e) => {
-        await dispatch({ type: "roleManagement/checkDelete", payload: { authorityId: e.record.authorityId, userToken: config.userToken } });
+        await dispatch({
+            type: "roleManagement/checkDelete",
+            payload: {
+                authorityId: e.record.authorityId,
+                userToken: config.userToken
+            }
+        });
         if (localStorage.getItem("RemoveRoleDetection") > 0) {
             Modal.error({
                 okText: "取消",
@@ -175,7 +183,16 @@ const RoleManagement = ({
                 okType: "danger",
                 cancelText: "取消",
                 onOk() {
-                    dispatch({ type: "roleManagement/delete", payload: { delete: { authorityId: e.record.authorityId, userToken: config.userToken }, query: getJsonPrams(pagination.current, pagination.pageSize) } });
+                    dispatch({
+                        type: "roleManagement/delete",
+                        payload: {
+                            delete: {
+                                authorityId: e.record.authorityId,
+                                userToken: config.userToken
+                            },
+                            query: getJsonPrams(pagination.current, pagination.pageSize)
+                        }
+                    });
                 },
                 onCancel() {
                     console.log('Cancel');
