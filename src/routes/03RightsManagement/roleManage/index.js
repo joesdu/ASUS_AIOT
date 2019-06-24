@@ -39,7 +39,8 @@ const RoleManagement = ({
             defaultSortOrder: 'descend',
             sorter: (a, b) => new Date(a.createTime) - new Date(b.createTime),
             render: (text, record) => {
-                return <div>{moment(record.createTime).format("YYYY-MM-DD HH:mm:ss")}</div>;
+                if (!!record.createTime)
+                    return <div style={{ color: "#B3B3B3" }}>{moment(record.createTime).format("YYYY-MM-DD HH:mm:ss")}</div>;
             }
         },
         {
