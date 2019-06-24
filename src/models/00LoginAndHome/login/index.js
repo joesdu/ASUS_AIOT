@@ -4,11 +4,9 @@ import { message } from "antd";
 
 export default {
   namespace: "login",
-
   state: {
     codes: ""
   },
-
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen(location => {
@@ -17,7 +15,6 @@ export default {
       });
     }
   },
-
   effects: {
     *login({ payload }, { put, call }) {
       const data = yield call(backUserLoginApi, payload);
@@ -28,7 +25,9 @@ export default {
         localStorage.setItem("userName", data.data.userName);
         localStorage.setItem("nickName", data.data.nickname);
         localStorage.setItem("headImg", data.data.headImg);
-        localStorage.setItem("pages", data.data.pages);
+        localStorage.setItem("pages", data.data.pages.map(item => {
+          return item.pageId;
+        }));
         //跳转到首页
         yield put(routerRedux.push({ pathname: "/home" }));
         location.reload();
@@ -37,8 +36,5 @@ export default {
       }
     }
   },
-
-  reducers: {
-
-  }
+  reducers: {}
 };
