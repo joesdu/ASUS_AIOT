@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "dva";
-import { Form, Input, Affix, Icon, Select, Row, Col, Checkbox, Button, AutoComplete, Card, Switch } from 'antd';
+import { Form, Input, Affix, Icon, Row, Col, Checkbox, Button, Card, Switch } from 'antd';
 import styles from "./TableList.less";
-
+import config from "../../../utils/config";
 
 const RoleEdit = ({
     roleEdit,
@@ -13,7 +13,10 @@ const RoleEdit = ({
         getFieldsValue
     }
 }) => {
-    let { allPageData } = roleEdit;
+    let { authorityId, name, status, valueOperation, valueData, valuePermissions, valueSystem,
+        indeterminateOperation, indeterminateData, indeterminatePermissions, indeterminateSystem,
+        checkAll, operationCheckAll, dataCheckAll, permissionsCheckAll, systemCheckAll
+    } = roleEdit;
 
     const operationElementCount = 8;//運營中心權限個數
     const operationElements = ["6", "14", "7", "17", "18", "8", "19", "20"];//運營中心權限ID
@@ -24,17 +27,14 @@ const RoleEdit = ({
     const systemElementCount = 3;//系統設置權限個數
     const systemElements = ["13", "27", "28"];//系統設置權限ID
 
-
-    let checkedOperationElements = ["2"];
-    let checkedDataElements = ["3"];
-    let checkedPermissionsElements = ["4"];
-    let checkedSystemElements = ["5"];
-
-
+    const checkedOperationElements = ["2"];
+    const checkedDataElements = ["3"];
+    const checkedPermissionsElements = ["4"];
+    const checkedSystemElements = ["5"];
 
     const checkAllOnChange = (e) => {
         dispatch({
-            type: "roleAddEdit/setAll", payload: {
+            type: "roleEdit/setAll", payload: {
                 operation: e.target.checked ? operationElements : [],
                 data: e.target.checked ? dataElements : [],
                 permissions: e.target.checked ? permissionsElements : [],
@@ -48,7 +48,7 @@ const RoleEdit = ({
     //运营中心多选框中的元素被点击
     const operationOnChange = (checkList) => {
         dispatch({
-            type: "roleAddEdit/setOperation", payload: {
+            type: "roleEdit/setOperation", payload: {
                 checkList: checkList,
                 indeterminate: !!checkList.length && checkList.length < operationElementCount,
                 checked: checkList.length === operationElementCount,
@@ -58,7 +58,7 @@ const RoleEdit = ({
     //运营中心全选控制
     const operationAllOnChange = (e) => {
         dispatch({
-            type: "roleAddEdit/setOperation", payload: {
+            type: "roleEdit/setOperation", payload: {
                 checkList: e.target.checked ? operationElements : [],
                 indeterminate: false,
                 checked: e.target.checked,
@@ -68,7 +68,7 @@ const RoleEdit = ({
     //数据中心多选框中的元素被点击
     const dataOnChange = (checkList) => {
         dispatch({
-            type: "roleAddEdit/setData", payload: {
+            type: "roleEdit/setData", payload: {
                 checkList: checkList,
                 indeterminate: !!checkList.length && checkList.length < dataElementCount,
                 checked: checkList.length === dataElementCount,
@@ -78,7 +78,7 @@ const RoleEdit = ({
     //數據中心全選控制
     const dataAllOnChange = (e) => {
         dispatch({
-            type: "roleAddEdit/setData", payload: {
+            type: "roleEdit/setData", payload: {
                 checkList: e.target.checked ? dataElements : [],
                 indeterminate: false,
                 checked: e.target.checked,
@@ -88,7 +88,7 @@ const RoleEdit = ({
     //權限控制多选框中的元素被点击
     const permissionsOnChange = (checkList) => {
         dispatch({
-            type: "roleAddEdit/setPermission", payload: {
+            type: "roleEdit/setPermission", payload: {
                 checkList: checkList,
                 indeterminate: !!checkList.length && checkList.length < permissionsElementCount,
                 checked: checkList.length === permissionsElementCount,
@@ -98,7 +98,7 @@ const RoleEdit = ({
     //權限控制全選控制
     const permissionsAllOnChange = (e) => {
         dispatch({
-            type: "roleAddEdit/setPermission", payload: {
+            type: "roleEdit/setPermission", payload: {
                 checkList: e.target.checked ? permissionsElements : [],
                 indeterminate: false,
                 checked: e.target.checked,
@@ -108,7 +108,7 @@ const RoleEdit = ({
     //系統設置多选框中的元素被点击
     const systemOnChange = (checkList) => {
         dispatch({
-            type: "roleAddEdit/setSystem", payload: {
+            type: "roleEdit/setSystem", payload: {
                 checkList: checkList,
                 indeterminate: !!checkList.length && checkList.length < systemElementCount,
                 checked: checkList.length === systemElementCount,
@@ -118,7 +118,7 @@ const RoleEdit = ({
     //系統設置全選控制
     const systemAllOnChange = (e) => {
         dispatch({
-            type: "roleAddEdit/setSystem", payload: {
+            type: "roleEdit/setSystem", payload: {
                 checkList: e.target.checked ? systemElements : [],
                 indeterminate: false,
                 checked: e.target.checked,
@@ -126,6 +126,47 @@ const RoleEdit = ({
         });
     }
 
+    const submit = () => {
+        let tempArray = ["1"];//首頁權限
+        let values = getFieldsValue();
+        if (!!!values.userNickName || values.userNickName == "") {
+            dispatch({
+                type: "roleEdit/showErrorMessage",
+                payload: {
+                    text: "角色名称不能为空"
+                }
+            });
+            return;
+        }
+        if (valueOperation.length > 0) {
+            tempArray = tempArray.concat(checkedOperationElements, valueOperation);
+        }
+        if (valueData.length > 0) {
+            tempArray = tempArray.concat(checkedDataElements, valueData);
+        }
+        if (valuePermissions.length > 0) {
+            tempArray = tempArray.concat(checkedPermissionsElements, valuePermissions);
+        }
+        if (valueSystem.length > 0) {
+            tempArray = tempArray.concat(checkedSystemElements, valueSystem);
+        }
+        tempArray.sort((a, b) => { return a - b; });
+        dispatch({
+            type: "roleEdit/edit",
+            payload: {
+                authorityId: authorityId,
+                description: values.userNickName,
+                name: values.userNickName,
+                pageIds: tempArray.toString(),
+                status: values.status,
+                userToken: config.userToken
+            }
+        });
+    }
+
+    const cancel = () => {
+        dispatch({ type: "roleEdit/cancel" });
+    }
 
     return (
         <div>
@@ -133,14 +174,21 @@ const RoleEdit = ({
                 <div className={styles.tableForm}>
                     <Form>
                         <Form.Item label="角色名称" extra='不超过16个字'>
-                            {getFieldDecorator('username', {
-                                rules: [{ type: 'username', message: '请输入角色名称', }, { required: true, message: '请输入角色名称', }],
+                            {getFieldDecorator('userNickName', {
+                                rules: [{
+                                    required: true,
+                                    message: '请输入角色名称',
+                                }],
+                                initialValue: name
                             })(
                                 <Input placeholder="请输入" maxLength={16} />
                             )}
                         </Form.Item>
                         <Form.Item label="启用状态" style={{ marginLeft: 13 }}>
-                            <Switch checkedChildren="开" unCheckedChildren="关" defaultChecked={true} />
+                            {getFieldDecorator("status", {
+                                valuePropName: "checked",
+                                initialValue: status
+                            })(<Switch checkedChildren="开" unCheckedChildren="关" />)}
                         </Form.Item>
                         <Form.Item label="权限设置" style={{ marginLeft: 13, marginBottom: 0 }}>
                             <Checkbox onChange={checkAllOnChange} checked={checkAll}>全选</Checkbox>
@@ -254,8 +302,8 @@ const RoleEdit = ({
                     </Checkbox.Group>
                     <div style={{}}>
                         <span style={{ float: "right" }}>
-                            <Button style={{ marginRight: 16 }}>取消</Button>
-                            <Button type="primary" htmlType="submit">保存</Button>
+                            <Button style={{ marginRight: 16 }} onClick={cancel}>取消</Button>
+                            <Button type="primary" onClick={submit}>保存</Button>
                         </span>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
-import { authorityAllPagesApi, authorityAddApi } from "../../../services/api";
+import { authorityAddApi } from "../../../services/api";
 import { message } from "antd";
-import config from "../../../utils/config";
+import { routerRedux } from "dva/router";
 
 export default {
     namespace: "roleAdd",
@@ -26,21 +26,26 @@ export default {
             history.listen(location => {
                 //页面初始化执行
                 if (location.pathname === "/roleAdd") {
-                    //dispatch({ type: "getPageIDs" });
                 }
             });
         }
     },
 
     effects: {
-        *getPageIDs({ payload }, { call, put }) {
-            const data = yield call(authorityAllPagesApi, { userToken: config.userToken });
+        *add({ payload }, { call, put }) {
+            const data = yield call(authorityAddApi, payload);
             if (!!data && data.code === 0) {
-                yield put({ type: "getPageIDsSuccess", payload: data.data });
+                message.info("新增成功!");
+                yield put(routerRedux.push({ pathname: "/roleManagement" }));
             } else {
-                message.error(!!data ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
-                yield put({ type: "getPageIDsSuccess", payload: null });
+                message.error(!!data ? "新增失败,错误信息:" + data.msg : "新增失败");
             }
+        },
+        *cancel({ payload }, { call, put }) {
+            yield put(routerRedux.push({ pathname: "/roleManagement" }));
+        },
+        *showErrorMessage({ payload }, { call, put }) {
+            message.error(payload.text);
         },
     },
     reducers: {
@@ -94,12 +99,6 @@ export default {
                 indeterminateSystem: action.payload.indeterminate,
                 systemCheckAll: action.payload.checked,
             }
-        },
-        getRoleListSuccess(state, action) {
-            return { ...state, roleListData: action.payload };
-        },
-        productListSuccess(state, action) {
-            return { ...state, deviceProductListData: action.payload };
         }
     }
 };

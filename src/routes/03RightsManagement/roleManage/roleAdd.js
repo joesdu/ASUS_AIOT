@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "dva";
-import { Form, Input, Affix, Icon, Select, Row, Col, Checkbox, Button, AutoComplete, Card, Switch } from 'antd';
+import { Form, Input, Affix, Row, Col, Checkbox, Button, Card, Switch } from 'antd';
 import styles from "./TableList.less";
-
+import config from "../../../utils/config";
 
 const RoleAdd = ({
     roleAdd,
@@ -13,22 +13,9 @@ const RoleAdd = ({
         getFieldsValue
     }
 }) => {
-    let { allPageData,
-
-        valueData,
-        valuePermissions,
-        valueSystem,
-        valueOperation,
-        indeterminateOperation,
-        indeterminateData,
-        indeterminatePermissions,
-        indeterminateSystem,
-        checkAll,
-        operationCheckAll,
-        dataCheckAll,
-        permissionsCheckAll,
-        systemCheckAll
-
+    let { valueOperation, valueData, valuePermissions, valueSystem,
+        indeterminateOperation, indeterminateData, indeterminatePermissions, indeterminateSystem,
+        checkAll, operationCheckAll, dataCheckAll, permissionsCheckAll, systemCheckAll
     } = roleAdd;
 
     const operationElementCount = 8;//運營中心權限個數
@@ -40,13 +27,10 @@ const RoleAdd = ({
     const systemElementCount = 3;//系統設置權限個數
     const systemElements = ["13", "27", "28"];//系統設置權限ID
 
-
-    let checkedOperationElements = ["2"];
-    let checkedDataElements = ["3"];
-    let checkedPermissionsElements = ["4"];
-    let checkedSystemElements = ["5"];
-
-
+    const checkedOperationElements = ["2"];
+    const checkedDataElements = ["3"];
+    const checkedPermissionsElements = ["4"];
+    const checkedSystemElements = ["5"];
 
     const checkAllOnChange = (e) => {
         dispatch({
@@ -142,6 +126,46 @@ const RoleAdd = ({
         });
     }
 
+    const submit = () => {
+        let tempArray = ["1"];//首頁權限
+        let values = getFieldsValue();
+        if (!!!values.userNickName || values.userNickName == "") {
+            dispatch({
+                type: "roleAdd/showErrorMessage",
+                payload: {
+                    text: "角色名称不能为空"
+                }
+            });
+            return;
+        }
+        if (valueOperation.length > 0) {
+            tempArray = tempArray.concat(checkedOperationElements, valueOperation);
+        }
+        if (valueData.length > 0) {
+            tempArray = tempArray.concat(checkedDataElements, valueData);
+        }
+        if (valuePermissions.length > 0) {
+            tempArray = tempArray.concat(checkedPermissionsElements, valuePermissions);
+        }
+        if (valueSystem.length > 0) {
+            tempArray = tempArray.concat(checkedSystemElements, valueSystem);
+        }
+        tempArray.sort((a, b) => { return a - b; });
+        dispatch({
+            type: "roleAdd/add",
+            payload: {
+                description: values.userNickName,
+                name: values.userNickName,
+                pageIds: tempArray.toString(),
+                status: values.status,
+                userToken: config.userToken
+            }
+        });
+    }
+
+    const cancel = () => {
+        dispatch({ type: "roleAdd/cancel" });
+    }
 
     return (
         <div>
@@ -149,14 +173,20 @@ const RoleAdd = ({
                 <div className={styles.tableForm}>
                     <Form>
                         <Form.Item label="角色名称" extra='不超过16个字'>
-                            {getFieldDecorator('username', {
-                                rules: [{ type: 'username', message: '请输入角色名称', }, { required: true, message: '请输入角色名称', }],
+                            {getFieldDecorator('userNickName', {
+                                rules: [{
+                                    required: true,
+                                    message: '请输入角色名称',
+                                }],
                             })(
                                 <Input placeholder="请输入" maxLength={16} />
                             )}
                         </Form.Item>
                         <Form.Item label="启用状态" style={{ marginLeft: 13 }}>
-                            <Switch checkedChildren="开" unCheckedChildren="关" defaultChecked={true} />
+                            {getFieldDecorator("status", {
+                                valuePropName: "checked",
+                                initialValue: true
+                            })(<Switch checkedChildren="开" unCheckedChildren="关" />)}
                         </Form.Item>
                         <Form.Item label="权限设置" style={{ marginLeft: 13, marginBottom: 0 }}>
                             <Checkbox onChange={checkAllOnChange} checked={checkAll}>全选</Checkbox>
@@ -270,8 +300,8 @@ const RoleAdd = ({
                     </Checkbox.Group>
                     <div style={{}}>
                         <span style={{ float: "right" }}>
-                            <Button style={{ marginRight: 16 }}>取消</Button>
-                            <Button type="primary" htmlType="submit">保存</Button>
+                            <Button style={{ marginRight: 16 }} onClick={cancel}>取消</Button>
+                            <Button type="primary" onClick={submit}>保存</Button>
                         </span>
                     </div>
                 </div>
