@@ -8,11 +8,17 @@ const serverService = edition === "test" ? test : official;
 
 let userToken = localStorage.getItem("userToken");
 let userName = localStorage.getItem("userName");
+let userNickName = localStorage.getItem("nickName");
+let headImg = localStorage.getItem("headImg");
+let pages = localStorage.getItem("pages");
 
 module.exports = {
   edition: edition,
   userToken: userToken,
   userName: userName,
+  userNickName: userNickName,
+  headImg: headImg,
+  pages: pages,
   serverService: serverService,
   name: "",
   prefix: "antdAdmin",

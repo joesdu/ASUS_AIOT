@@ -49,7 +49,7 @@ const header = ({
         </NoticeIcon> */}
         <Dropdown overlay={menu}>
           <span className={`${styles.action} ${styles.account}`}>
-            <Avatar size="small" className={styles.avatar} src='./images/head.png' />
+            <Avatar size="small" className={styles.avatar} src={!!config.headImg ? config.headImg : './images/head.png'} />
             <span className={styles.name}>{userName}</span>
           </span>
         </Dropdown>

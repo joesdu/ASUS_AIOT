@@ -25,7 +25,10 @@ export default {
         message.success("登录成功!");
         //本地缓存
         localStorage.setItem("userToken", data.data.userToken);
-        localStorage.setItem("userName", payload.userName);
+        localStorage.setItem("userName", data.data.userName);
+        localStorage.setItem("nickName", data.data.nickname);
+        localStorage.setItem("headImg", data.data.headImg);
+        localStorage.setItem("pages", data.data.pages);
         //跳转到首页
         yield put(routerRedux.push({ pathname: "/home" }));
         location.reload();

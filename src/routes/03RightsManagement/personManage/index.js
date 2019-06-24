@@ -79,7 +79,7 @@ const PersonManage = ({
             title: "最近登录时间",
             dataIndex: "loginTime",
             defaultSortOrder: 'ascend',
-            sorter: (a, b) => new Date(b.loginTime) - new Date(a.loginTime),
+            sorter: (a, b) => new Date(a.loginTime) - new Date(b.loginTime),
             render: (text, record) => {
                 if (!!record.loginTime)
                     return <div style={{ color: "#B3B3B3" }}>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</div>;
