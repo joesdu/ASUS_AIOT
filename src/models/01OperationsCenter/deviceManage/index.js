@@ -40,7 +40,10 @@ export default {
             updateTimeStart: null,
             uuid: null
           };
-          dispatch({ type: "devicesList", payload: _ars });
+          dispatch({
+            type: "devicesList",
+            payload: _ars
+          });
           dispatch({ type: "productList" });
         }
       });
@@ -77,13 +80,20 @@ export default {
         });
       } else {
         message.error(!!data ? "获取设备列表数据失败,错误信息:" + data.msg : "获取设备列表数据失败");
-        yield put({ type: "devicesListSuccess", payload: null, page: _pag });
+        yield put({
+          type: "devicesListSuccess",
+          payload: null,
+          page: _pag
+        });
       }
     },
     *productList({ payload }, { call, put }) {
       const data = yield call(deviceProductListApi, { userToken: config.userToken });
       if (!!data && data.code === 0) {
-        yield put({ type: "productListSuccess", payload: data.data });
+        yield put({
+          type: "productListSuccess",
+          payload: data.data
+        });
       } else {
         message.error(!!data ? "获取产品列表数据失败,错误信息:" + data.msg : "获取产品列表数据失败");
       }
@@ -106,14 +116,24 @@ export default {
     },
     //返回数据列表
     devicesListSuccess(state, action) {
-      return { ...state, deviceListData: action.payload, pagination: action.page };
+      return {
+        ...state,
+        deviceListData: action.payload,
+        pagination: action.page
+      };
     },
     productListSuccess(state, action) {
-      return { ...state, deviceProductListData: action.payload };
+      return {
+        ...state,
+        deviceProductListData: action.payload
+      };
     },
     //查询条件
     searchList(state, action) {
-      return { ...state, searchList: action.payload };
+      return {
+        ...state,
+        searchList: action.payload
+      };
     }
   }
 };

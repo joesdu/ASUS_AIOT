@@ -30,7 +30,6 @@ export default {
             });
         }
     },
-
     effects: {
         *add({ payload }, { call, put }) {
             const data = yield call(authorityAddApi, payload);

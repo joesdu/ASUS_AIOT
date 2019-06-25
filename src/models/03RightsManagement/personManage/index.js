@@ -40,7 +40,6 @@ export default {
             });
         }
     },
-
     effects: {
         *getList({ payload }, { call, put }) {
             const data = yield call(backUserSearchApi, payload);

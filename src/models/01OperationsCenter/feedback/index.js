@@ -30,7 +30,10 @@ export default {
             productId: null,
             startTime: null
           };
-          dispatch({ type: "feedbackList", payload: _ars });
+          dispatch({
+            type: "feedbackList",
+            payload: _ars
+          });
           dispatch({ type: "productList" });
         }
       });
@@ -50,7 +53,8 @@ export default {
         else
           _pag.pageCount = parseInt((data.data.totalRows - 1) / data.data.pageRows) + 1;
         yield put({
-          type: "feedbackListSuccess", payload: data.data.feedbacks.map(function (obj) {
+          type: "feedbackListSuccess",
+          payload: data.data.feedbacks.map(function (obj) {
             let remarks = "";
             if ((obj.remark == null | obj.remark == "" | obj.remark == undefined)) {
               remarks = obj.remark;
@@ -77,7 +81,10 @@ export default {
     *productList({ payload }, { call, put }) {
       const data = yield call(deviceProductListApi, { userToken: config.userToken });
       if (!!data && data.code === 0) {
-        yield put({ type: "productListSuccess", payload: data.data });
+        yield put({
+          type: "productListSuccess",
+          payload: data.data
+        });
       } else {
         message.error(!!data ? "获取产品列表数据失败,错误信息:" + data.msg : "获取产品列表数据失败");
       }
@@ -86,7 +93,10 @@ export default {
       const data = yield call(feedbackUpdateApi, payload.update);
       if (!!data && data.code === 0) {
         message.info("更新成功:" + data.msg);
-        yield put({ type: "feedbackList", payload: payload.query });
+        yield put({
+          type: "feedbackList",
+          payload: payload.query
+        });
       } else {
         message.error(!!data ? "更新失败,错误信息:" + data.msg : "更新失败");
       }
@@ -109,14 +119,24 @@ export default {
     },
     //返回数据列表
     feedbackListSuccess(state, action) {
-      return { ...state, feedbackData: action.payload, pagination: action.page };
+      return {
+        ...state,
+        feedbackData: action.payload,
+        pagination: action.page
+      };
     },
     productListSuccess(state, action) {
-      return { ...state, deviceProductListData: action.payload };
+      return {
+        ...state,
+        deviceProductListData: action.payload
+      };
     },
     //查询条件
     searchList(state, action) {
-      return { ...state, searchList: action.payload };
+      return {
+        ...state,
+        searchList: action.payload
+      };
     }
   }
 };

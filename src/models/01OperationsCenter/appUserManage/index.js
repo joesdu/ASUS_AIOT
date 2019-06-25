@@ -28,7 +28,10 @@ export default {
             pageNum: 0,
             pageRows: 10
           };
-          dispatch({ type: "queryRule", payload: _ars });
+          dispatch({
+            type: "queryRule",
+            payload: _ars
+          });
         }
       });
     }
@@ -49,7 +52,11 @@ export default {
         else
           _pag.pageCount = parseInt((result.totalRows - 1) / result.pageRows) + 1;
         let userData = result.users;
-        yield put({ type: "querySuccess", payload: userData, page: _pag });
+        yield put({
+          type: "querySuccess",
+          payload: userData,
+          page: _pag
+        });
       } else {
         message.error(!!data ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
       }
@@ -71,11 +78,18 @@ export default {
     },
     //返回数据列表
     querySuccess(state, action) {
-      return { ...state, data: action.payload, pagination: action.page };
+      return {
+        ...state,
+        data: action.payload,
+        pagination: action.page
+      };
     },
     //查询条件
     searchList(state, action) {
-      return { ...state, searchList: action.payload };
+      return {
+        ...state,
+        searchList: action.payload
+      };
     }
   }
 };

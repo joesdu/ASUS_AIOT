@@ -26,7 +26,10 @@ export default {
             pageNum: 0,
             pageRows: 10
           };
-          dispatch({ type: "queryRule", payload: _ars });
+          dispatch({
+            type: "queryRule",
+            payload: _ars
+          });
         }
       });
     }
@@ -48,7 +51,12 @@ export default {
         if (data.data == null || data.data == {} || data.data == undefined)
           message.info("无数据");
         else
-          yield put({ type: "querySuccess", payload: result.deviceLogs, page: _pag, deviceId: payload.deviceId });
+          yield put({
+            type: "querySuccess",
+            payload: result.deviceLogs,
+            page: _pag,
+            deviceId: payload.deviceId
+          });
       } else {
         message.error(!!data ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
       }
@@ -69,7 +77,12 @@ export default {
     },
     //返回数据列表
     querySuccess(state, action) {
-      return { ...state, data: action.payload, pagination: action.page, deviceId: action.deviceId };
+      return {
+        ...state,
+        data: action.payload,
+        pagination: action.page,
+        deviceId: action.deviceId
+      };
     }
   }
 };

@@ -12,7 +12,10 @@ export default {
         //页面初始化执行
         if (location.pathname === "/devicesDetail") {
           let _ars = { deviceId: location.state.deviceId };
-          dispatch({ type: "queryDetail", payload: _ars });
+          dispatch({
+            type: "queryDetail",
+            payload: _ars
+          });
         }
       });
     }
@@ -22,7 +25,10 @@ export default {
     *queryDetail({ payload }, { call, put }) {
       const data = yield call(deviceDetailApi, payload);
       if (!!data && data.code === 0) {
-        yield put({ type: "querySuccess", payload: data.data });
+        yield put({
+          type: "querySuccess",
+          payload: data.data
+        });
       } else {
         message.error(!!data ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
         yield put({ type: "queryFault" });
@@ -32,10 +38,16 @@ export default {
   reducers: {
     //返回数据列表
     querySuccess(state, action) {
-      return { ...state, detailData: action.payload };
+      return {
+        ...state,
+        detailData: action.payload
+      };
     },
     queryFault(state) {
-      return { ...state, detailData: {} };
+      return {
+        ...state,
+        detailData: {}
+      };
     }
   }
 };

@@ -88,6 +88,9 @@ export default {
           message.error(list.msg);
           localStorage.removeItem("userToken");
           localStorage.removeItem("userName");
+          localStorage.removeItem("nickName");
+          localStorage.removeItem("headImg");
+          localStorage.removeItem("pages");
           yield put(
             routerRedux.push({
               pathname: "/login"
@@ -115,6 +118,9 @@ export default {
         message.success("退出成功");
         localStorage.removeItem("userToken");
         localStorage.removeItem("userName");
+        localStorage.removeItem("nickName");
+        localStorage.removeItem("headImg");
+        localStorage.removeItem("pages");
         yield put(
           routerRedux.push({
             pathname: "/login"

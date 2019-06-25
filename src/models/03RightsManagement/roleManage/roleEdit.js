@@ -88,7 +88,6 @@ export default {
             });
         }
     },
-
     effects: {
         *edit({ payload }, { call, put }) {
             const data = yield call(authorityEditApi, payload);
