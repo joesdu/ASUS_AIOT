@@ -72,6 +72,11 @@ export async function userListApi(params) {
 }
 
 //后台设备相关接口
+/***********後臺設備解綁接口**********/
+export async function devicesDeleteApi(params) {
+  let _url = apiUrl + api.deviceDelete;
+  return request(_url, { method: "POST", body: params });
+}
 /***********后台设备列表**********/
 export async function devicesListApi(params) {
   let _url = apiUrl + api.deviceList;

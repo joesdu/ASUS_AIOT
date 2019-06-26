@@ -1,4 +1,4 @@
-import { deviceDetailApi } from "../../../services/api";
+import { deviceDetailApi, devicesDeleteApi } from "../../../services/api";
 import { message } from "antd";
 import config from "../../../utils/config";
 
@@ -30,6 +30,21 @@ export default {
         yield put({
           type: "querySuccess",
           payload: data.data
+        });
+      } else {
+        message.error(!!data ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");
+      }
+    },
+    *unbind({ payload }, { call, put }) {
+      const data = yield call(devicesDeleteApi, payload);
+      if (!!data && data.code === 0) {
+        message.info("解除设备绑定成功");
+        yield put({
+          type: "queryDetail",
+          payload: {
+            deviceId: payload.deviceId,
+            userToken: config.userToken
+          }
         });
       } else {
         message.error(!!data ? "获取数据失败,错误信息:" + data.msg : "获取数据失败");

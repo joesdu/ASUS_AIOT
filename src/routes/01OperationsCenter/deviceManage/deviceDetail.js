@@ -1,10 +1,12 @@
 import React from "react";
 import { connect } from "dva";
-import { Row, Col, Card, Form } from "antd";
+import { Row, Col, Card, Form, Modal, Icon } from "antd";
 import styles from "../../TableList.less";
+import config from "../../../utils/config";
 
 const DeviceDetail = ({
-  deviceDetail
+  deviceDetail,
+  dispatch
 }) => {
   let { detailData } = deviceDetail;
 
@@ -92,6 +94,33 @@ const DeviceDetail = ({
     } catch (error) { }
   };
 
+  const unbind = (deviceId) => {
+    Modal.confirm({
+      title: '确认要解除绑定吗？',
+      okText: '确定',
+      okType: 'danger',
+      cancelText: '取消',
+      destroyOnClose: true,
+      icon: (<Icon type="close-circle" theme="twoTone" twoToneColor="#CD0000" />),
+      content: "解除绑定后，将所绑定的用户及设置信息将被清除",
+      onOk() {
+        dispatch({
+          type: "deviceDetail/unbind", payload: {
+            deviceId: deviceId,
+            userToken: null
+          }
+        });
+      }
+    });
+  }
+
+  const getExtra = (item) => {
+    if (!!item.userMobile) {
+      return (<a onClick={unbind.bind(this, item.deviceId)}> 解除绑定</a >)
+    }
+    return;
+  }
+
   return (
     <div>
       <Card title="基本信息">
@@ -142,7 +171,10 @@ const DeviceDetail = ({
         </div>
       </Card>
 
-      <Card style={{ marginTop: 20 }} title="设备激活信息">
+      <Card
+        style={{ marginTop: 20 }}
+        extra={getExtra(detailData)}
+        title="设备激活信息">
         <div className={styles.tableListForm}>
           <Form layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>

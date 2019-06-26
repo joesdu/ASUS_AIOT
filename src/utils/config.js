@@ -46,6 +46,7 @@ module.exports = {
     userDetail: "user/detail",
     userList: "user/list",
     //后台设备相关接口		Device Controller
+    deviceDelete: "device/delete",
     deviceList: "device/list",
     deviceProductList: "device/productList",
     deviceDetail: "device/detail",

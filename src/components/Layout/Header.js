@@ -4,9 +4,7 @@ import styles from './header.less';
 import HeaderSearch from '../HeaderSearch';
 import NoticeIcon from '../NoticeIcon';
 import classnames from 'classnames'
-
 import config from '../../utils/config'
-const { userName } = config
 const { Header } = Layout;
 
 const header = ({
@@ -21,6 +19,7 @@ const header = ({
       <Menu.Item key="logout"><Icon type="logout" />退出登录</Menu.Item>
     </Menu>
   )
+
   return (
     <Header style={{ background: '#fff', padding: 0 }}>
       <Icon
@@ -49,8 +48,8 @@ const header = ({
         </NoticeIcon> */}
         <Dropdown overlay={menu}>
           <span className={`${styles.action} ${styles.account}`}>
-            <Avatar size="small" className={styles.avatar} src={!!config.headImg ? config.headImg : './images/head.png'} />
-            <span className={styles.name}>{userName}</span>
+            <Avatar size="small" className={styles.avatar} src={'./images/head.png'} />
+            <span className={styles.name}>{config.userName}</span>
           </span>
         </Dropdown>
       </div>

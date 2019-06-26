@@ -19,7 +19,7 @@ export default {
     *login({ payload }, { put, call }) {
       const data = yield call(backUserLoginApi, payload);
       if (!!data && data.code === 0) {
-        message.success("登录成功!");
+        message.success("登录成功!");       
         //本地缓存
         localStorage.setItem("userToken", data.data.userToken);
         localStorage.setItem("userName", data.data.userName);
