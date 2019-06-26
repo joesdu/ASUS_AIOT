@@ -19,7 +19,16 @@ export default {
         dataCheckAll: false,
         permissionsCheckAll: false,
         systemCheckAll: false,
-        checkAll: false
+        checkAll: false,
+        deviceCheck: false,
+        indeterminateDevice: false,
+        valueDevice: [],
+        feedbackCheck: false,
+        indeterminateFeedback: false,
+        valueFeedback: [],
+        userManageCheck: false,
+        indeterminateUserManage: false,
+        valueUserManage: []
     },
     subscriptions: {
         setup({ dispatch, history }) {
@@ -98,6 +107,30 @@ export default {
                 indeterminateSystem: action.payload.indeterminate,
                 systemCheckAll: action.payload.checked,
             }
-        }
+        },
+        setDevice(state, action) {
+            return {
+                ...state,
+                valueDevice: action.payload.checkList,
+                indeterminateDevice: action.payload.indeterminate,
+                deviceCheck: action.payload.checked,
+            }
+        },
+        setFeedback(state, action) {
+            return {
+                ...state,
+                valueFeedback: action.payload.checkList,
+                indeterminateFeedback: action.payload.indeterminate,
+                feedbackCheck: action.payload.checked,
+            }
+        },
+        setUserManager(state, action) {
+            return {
+                ...state,
+                valueUserManage: action.payload.checkList,
+                indeterminateUserManage: action.payload.indeterminate,
+                userManageCheck: action.payload.checked,
+            }
+        },
     }
 };

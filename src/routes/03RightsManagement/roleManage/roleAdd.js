@@ -15,11 +15,16 @@ const RoleAdd = ({
 }) => {
     let { valueOperation, valueData, valuePermissions, valueSystem,
         indeterminateOperation, indeterminateData, indeterminatePermissions, indeterminateSystem,
-        checkAll, operationCheckAll, dataCheckAll, permissionsCheckAll, systemCheckAll
+        checkAll, operationCheckAll, dataCheckAll, permissionsCheckAll, systemCheckAll,
+        deviceCheck, indeterminateDevice, valueDevice, feedbackCheck, indeterminateFeedback, valueFeedback, userManageCheck,
+        indeterminateUserManage, valueUserManage
     } = roleAdd;
 
-    const operationElementCount = 8;//運營中心權限個數
-    const operationElements = ["6", "14", "7", "17", "18", "8", "19", "20"];//運營中心權限ID
+    const operationElements = ["6", "7", "8",];//運營中心權限ID
+    const deviceElements = ["14"];//設備管理權限ID
+    const feedbackElements = ["17", "18"];//用戶反饋權限ID
+    const userElements = ["19", "20"];//用戶管理權限ID
+
     const dataElementCount = 4;//數據中心權限個數
     const dataElements = ["9", "21", "10", "22"];//數據中心權限ID
     const permissionsElementCount = 6;//權限控制權限個數
@@ -50,8 +55,8 @@ const RoleAdd = ({
         dispatch({
             type: "roleAdd/setOperation", payload: {
                 checkList: checkList,
-                indeterminate: !!checkList.length && checkList.length < operationElementCount,
-                checked: checkList.length === operationElementCount,
+                indeterminate: !!checkList.length && checkList.length < operationElements.length,
+                checked: checkList.length === operationElements.length,
             }
         });
     }
@@ -60,6 +65,69 @@ const RoleAdd = ({
         dispatch({
             type: "roleAdd/setOperation", payload: {
                 checkList: e.target.checked ? operationElements : [],
+                indeterminate: false,
+                checked: e.target.checked,
+            }
+        });
+        deviceManageChk(e);
+        feedbackChk(e);
+        userManageChk(e);
+    }
+    //設備管理多选框中的元素被点击
+    const deviceOnChange = (checkList) => {
+        dispatch({
+            type: "roleAdd/setDevice", payload: {
+                checkList: checkList,
+                indeterminate: !!checkList.length && checkList.length < deviceElements.length,
+                checked: checkList.length === deviceElements.length,
+            }
+        });
+    }
+    //設備管理選項被點擊
+    const deviceManageChk = (e) => {
+        dispatch({
+            type: "roleAdd/setDevice", payload: {
+                checkList: e.target.checked ? deviceElements : [],
+                indeterminate: false,
+                checked: e.target.checked,
+            }
+        });
+    }
+    //用戶反饋多选框中的元素被点击
+    const feedbackOnChange = (checkList) => {
+        dispatch({
+            type: "roleAdd/setFeedback", payload: {
+                checkList: checkList,
+                indeterminate: !!checkList.length && checkList.length < feedbackElements.length,
+                checked: checkList.length === feedbackElements.length,
+            }
+        });
+    }
+    //用戶反饋選項被點擊
+    const feedbackChk = (e) => {
+        dispatch({
+            type: "roleAdd/setFeedback", payload: {
+                checkList: e.target.checked ? feedbackElements : [],
+                indeterminate: false,
+                checked: e.target.checked,
+            }
+        });
+    }
+    //用戶反饋多选框中的元素被点击
+    const userManageOnChange = (checkList) => {
+        dispatch({
+            type: "roleAdd/setUserManager", payload: {
+                checkList: checkList,
+                indeterminate: !!checkList.length && checkList.length < userElements.length,
+                checked: checkList.length === userElements.length,
+            }
+        });
+    }
+    //用戶反饋選項被點擊
+    const userManageChk = (e) => {
+        dispatch({
+            type: "roleAdd/setUserManager", payload: {
+                checkList: e.target.checked ? userElements : [],
                 indeterminate: false,
                 checked: e.target.checked,
             }
@@ -209,18 +277,54 @@ const RoleAdd = ({
                 <div className={styles.tableCheckGroup}>
                     <Checkbox.Group onChange={operationOnChange} value={valueOperation} disabled={checkAll}>
                         <Row gutter={24}>
-                            <Col span={8}><Checkbox value="6" style={{ fontSize: 15, fontStyle: Blob }}>设备管理</Checkbox></Col>
-                            <Col span={8}><Checkbox value="14">查看</Checkbox></Col>
+                            <Col span={8}>
+                                <Checkbox
+                                    value="6"
+                                    onChange={deviceManageChk}
+                                    checked={deviceCheck}
+                                    disabled={checkAll}
+                                    indeterminate={indeterminateDevice}
+                                    style={{ fontSize: 16, fontStyle: Blob }}>设备管理</Checkbox>
+                            </Col>
+                            <Col span={8}>
+                                <Checkbox.Group onChange={deviceOnChange} value={valueDevice} disabled={checkAll}>
+                                    <Col span={8}><Checkbox value="14">查看</Checkbox></Col>
+                                </Checkbox.Group>
+                            </Col>
                         </Row>
                         <Row gutter={24}>
-                            <Col span={8}><Checkbox value="7" style={{ fontSize: 15, fontStyle: Blob }}>用户反馈</Checkbox></Col>
-                            <Col span={8}><Checkbox value="17">查看</Checkbox></Col>
-                            <Col span={8}><Checkbox value="18">标记</Checkbox></Col>
+                            <Col span={8}>
+                                <Checkbox
+                                    value="7"
+                                    onChange={feedbackChk}
+                                    checked={feedbackCheck}
+                                    disabled={checkAll}
+                                    indeterminate={indeterminateFeedback}
+                                    style={{ fontSize: 16, fontStyle: Blob }}>用户反馈</Checkbox>
+                            </Col>
+                            <Col span={8}>
+                                <Checkbox.Group onChange={feedbackOnChange} value={valueFeedback} disabled={checkAll}>
+                                    <Col span={8}> <Checkbox value="17">查看</Checkbox></Col>
+                                    <Col span={8}><Checkbox value="18">标记</Checkbox></Col>
+                                </Checkbox.Group>
+                            </Col>
                         </Row>
                         <Row gutter={24}>
-                            <Col span={8}><Checkbox value="8" style={{ fontSize: 15, fontStyle: Blob }}>用户管理</Checkbox></Col>
-                            <Col span={8}><Checkbox value="19">查询</Checkbox></Col>
-                            <Col span={8}><Checkbox value="20">查看详情</Checkbox></Col>
+                            <Col span={8}>
+                                <Checkbox
+                                    value="8"
+                                    onChange={userManageChk}
+                                    checked={userManageCheck}
+                                    disabled={checkAll}
+                                    indeterminate={indeterminateUserManage}
+                                    style={{ fontSize: 16, fontStyle: Blob }}>用户管理</Checkbox>
+                            </Col>
+                            <Col span={8}>
+                                <Checkbox.Group onChange={userManageOnChange} value={valueUserManage} disabled={checkAll}>
+                                    <Col span={8}><Checkbox value="19">查询</Checkbox></Col>
+                                    <Col span={8}><Checkbox value="20">查看详情</Checkbox></Col>
+                                </Checkbox.Group>
+                            </Col>
                         </Row>
                     </Checkbox.Group>
                 </div>
@@ -241,11 +345,11 @@ const RoleAdd = ({
                 <div className={styles.tableCheckGroup}>
                     <Checkbox.Group onChange={dataOnChange} value={valueData} disabled={checkAll}>
                         <Row gutter={24}>
-                            <Col span={8}><Checkbox value="9" style={{ fontSize: 15, fontStyle: Blob }}>激活数据</Checkbox></Col>
+                            <Col span={8}><Checkbox value="9" style={{ fontSize: 16, fontStyle: Blob }}>激活数据</Checkbox></Col>
                             <Col span={8}><Checkbox value="21">查看</Checkbox></Col>
                         </Row>
                         <Row gutter={24}>
-                            <Col span={8}><Checkbox value="10" style={{ fontSize: 15, fontStyle: Blob }}>活跃数据</Checkbox></Col>
+                            <Col span={8}><Checkbox value="10" style={{ fontSize: 16, fontStyle: Blob }}>活跃数据</Checkbox></Col>
                             <Col span={8}><Checkbox value="22">查看</Checkbox></Col>
                         </Row>
                     </Checkbox.Group>
@@ -266,12 +370,12 @@ const RoleAdd = ({
                 <div className={styles.tableCheckGroup}>
                     <Checkbox.Group onChange={permissionsOnChange} value={valuePermissions} disabled={checkAll}>
                         <Row gutter={24}>
-                            <Col span={8}><Checkbox value="11" style={{ fontSize: 15, fontStyle: Blob }}>人员管理</Checkbox></Col>
+                            <Col span={8}><Checkbox value="11" style={{ fontSize: 16, fontStyle: Blob }}>人员管理</Checkbox></Col>
                             <Col span={8}><Checkbox value="23">查看</Checkbox></Col>
                             <Col span={8}><Checkbox value="24">管理</Checkbox></Col>
                         </Row>
                         <Row gutter={24}>
-                            <Col span={8}><Checkbox value="12" style={{ fontSize: 15, fontStyle: Blob }}>角色管理</Checkbox></Col>
+                            <Col span={8}><Checkbox value="12" style={{ fontSize: 16, fontStyle: Blob }}>角色管理</Checkbox></Col>
                             <Col span={8}><Checkbox value="25">查看</Checkbox></Col>
                             <Col span={8}><Checkbox value="26">管理</Checkbox></Col>
                         </Row>
@@ -293,7 +397,7 @@ const RoleAdd = ({
                 <div className={styles.tableCheckGroup}>
                     <Checkbox.Group onChange={systemOnChange} value={valueSystem} disabled={checkAll}>
                         <Row gutter={24}>
-                            <Col span={8}><Checkbox value="13" style={{ fontSize: 15, fontStyle: Blob }}>账号管理</Checkbox></Col>
+                            <Col span={8}><Checkbox value="13" style={{ fontSize: 16, fontStyle: Blob }}>账号管理</Checkbox></Col>
                             <Col span={8}><Checkbox value="27">查看</Checkbox></Col>
                             <Col span={8}><Checkbox value="28">管理</Checkbox></Col>
                         </Row>
