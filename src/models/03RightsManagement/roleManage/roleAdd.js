@@ -5,30 +5,14 @@ import { routerRedux } from "dva/router";
 export default {
     namespace: "roleAdd",
     state: {
-        allPageData: [],
-        valueData: [],
-        valuePermissions: [],
-        valueSystem: [],
-        valueOperation: [],
-        indeterminateOperation: false,
-        indeterminateData: false,
-        indeterminatePermissions: false,
-        indeterminateSystem: false,
+        operationCheckAll: false, indeterminateOperation: false, valueOperation: [],
+        dataCheckAll: false, indeterminateData: false, valueData: [],
+        permissionsCheckAll: false, indeterminatePermissions: false, valuePermissions: [],
+        systemCheckAll: false, indeterminateSystem: false, valueSystem: [],
         checkAll: false,
-        operationCheckAll: false,
-        dataCheckAll: false,
-        permissionsCheckAll: false,
-        systemCheckAll: false,
-        checkAll: false,
-        deviceCheck: false,
-        indeterminateDevice: false,
-        valueDevice: [],
-        feedbackCheck: false,
-        indeterminateFeedback: false,
-        valueFeedback: [],
-        userManageCheck: false,
-        indeterminateUserManage: false,
-        valueUserManage: []
+        deviceCheck: false, indeterminateDevice: false, valueDevice: [],
+        feedbackCheck: false, indeterminateFeedback: false, valueFeedback: [],
+        userManageCheck: false, indeterminateUserManage: false, valueUserManage: []
     },
     subscriptions: {
         setup({ dispatch, history }) {
@@ -60,19 +44,6 @@ export default {
         setAll(state, action) {
             return {
                 ...state,
-                valueOperation: action.payload.operation,
-                valueData: action.payload.data,
-                valuePermissions: action.payload.permissions,
-                valueSystem: action.payload.system,
-                indeterminateOperation: action.payload.indeterminate,
-                indeterminateData: action.payload.indeterminate,
-                indeterminatePermissions: action.payload.indeterminate,
-                indeterminateSystem: action.payload.indeterminate,
-                checkAll: action.payload.checked,
-                operationCheckAll: action.payload.checked,
-                dataCheckAll: action.payload.checked,
-                permissionsCheckAll: action.payload.checked,
-                systemCheckAll: action.payload.checked,
                 checkAll: action.payload.checked
             }
         },
