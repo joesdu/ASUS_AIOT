@@ -5,20 +5,25 @@ import { routerRedux } from "dva/router";
 export default {
     namespace: "roleAdd",
     state: {
-        operationCheckAll: false, indeterminateOperation: false, valueOperation: [],
-        dataCheckAll: false, indeterminateData: false, valueData: [],
-        permissionsCheckAll: false, indeterminatePermissions: false, valuePermissions: [],
-        systemCheckAll: false, indeterminateSystem: false, valueSystem: [],
+        valueOperation: [], valueData: [], valuePermissions: [], valueSystem: [],
         checkAll: false,
         deviceCheck: false, indeterminateDevice: false, valueDevice: [],
         feedbackCheck: false, indeterminateFeedback: false, valueFeedback: [],
-        userManageCheck: false, indeterminateUserManage: false, valueUserManage: []
+        userManageCheck: false, indeterminateUserManage: false, valueUserManage: [],
+        activateDataCheck: false, indeterminateActivateData: false, valueActivateData: [],
+        activeDataCheck: false, indeterminateActiveData: false, valueActiveData: [],
+        personManageCheck: false, indeterminatePersonManage: false, valuePersonManage: [],
+        roleManageCheck: false, indeterminateRoleManage: false, valueRoleManage: [],
+        accountManagementCheck: false, indeterminateAccountManagement: false, valueAccountManagement: []
     },
     subscriptions: {
         setup({ dispatch, history }) {
             history.listen(location => {
                 //页面初始化执行
                 if (location.pathname === "/roleAdd") {
+                    dispatch({
+                        type: "roleAdd/clean"
+                    });
                 }
             });
         }
@@ -41,6 +46,21 @@ export default {
         },
     },
     reducers: {
+        clean(state) {
+            return {
+                ...state,
+                valueOperation: [], valueData: [], valuePermissions: [], valueSystem: [],
+                checkAll: false,
+                deviceCheck: false, indeterminateDevice: false, valueDevice: [],
+                feedbackCheck: false, indeterminateFeedback: false, valueFeedback: [],
+                userManageCheck: false, indeterminateUserManage: false, valueUserManage: [],
+                activateDataCheck: false, indeterminateActivateData: false, valueActivateData: [],
+                activeDataCheck: false, indeterminateActiveData: false, valueActiveData: [],
+                personManageCheck: false, indeterminatePersonManage: false, valuePersonManage: [],
+                roleManageCheck: false, indeterminateRoleManage: false, valueRoleManage: [],
+                accountManagementCheck: false, indeterminateAccountManagement: false, valueAccountManagement: []
+            }
+        },
         setAll(state, action) {
             return {
                 ...state,
@@ -51,32 +71,24 @@ export default {
             return {
                 ...state,
                 valueOperation: action.payload.checkList,
-                indeterminateOperation: action.payload.indeterminate,
-                operationCheckAll: action.payload.checked,
             }
         },
         setData(state, action) {
             return {
                 ...state,
                 valueData: action.payload.checkList,
-                indeterminateData: action.payload.indeterminate,
-                dataCheckAll: action.payload.checked,
             }
         },
         setPermission(state, action) {
             return {
                 ...state,
                 valuePermissions: action.payload.checkList,
-                indeterminatePermissions: action.payload.indeterminate,
-                permissionsCheckAll: action.payload.checked,
             }
         },
         setSystem(state, action) {
             return {
                 ...state,
                 valueSystem: action.payload.checkList,
-                indeterminateSystem: action.payload.indeterminate,
-                systemCheckAll: action.payload.checked,
             }
         },
         setDevice(state, action) {
@@ -101,6 +113,46 @@ export default {
                 valueUserManage: action.payload.checkList,
                 indeterminateUserManage: action.payload.indeterminate,
                 userManageCheck: action.payload.checked,
+            }
+        },
+        setActivate(state, action) {
+            return {
+                ...state,
+                valueActivateData: action.payload.checkList,
+                indeterminateActivateData: action.payload.indeterminate,
+                activateDataCheck: action.payload.checked,
+            }
+        },
+        setActive(state, action) {
+            return {
+                ...state,
+                valueActiveData: action.payload.checkList,
+                indeterminateActiveData: action.payload.indeterminate,
+                activeDataCheck: action.payload.checked,
+            }
+        },
+        setPerson(state, action) {
+            return {
+                ...state,
+                valuePersonManage: action.payload.checkList,
+                indeterminatePersonManage: action.payload.indeterminate,
+                personManageCheck: action.payload.checked,
+            }
+        },
+        setRole(state, action) {
+            return {
+                ...state,
+                valueRoleManage: action.payload.checkList,
+                indeterminateRoleManage: action.payload.indeterminate,
+                roleManageCheck: action.payload.checked,
+            }
+        },
+        setAccount(state, action) {
+            return {
+                ...state,
+                valueAccountManagement: action.payload.checkList,
+                indeterminateAccountManagement: action.payload.indeterminate,
+                accountManagementCheck: action.payload.checked,
             }
         },
     }
