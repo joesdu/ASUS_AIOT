@@ -22,163 +22,166 @@ export default {
             history.listen(location => {
                 //页面初始化执行
                 if (location.pathname === "/roleEdit") {
-                    dispatch({
-                        type: "setSubmitDisabled",
-                        payload: {
-                            disabled: false
-                        }
-                    });
-                    let _ars = location.state.record;
-                    dispatch({
-                        type: "setDefault",
-                        payload: {
-                            authorityId: _ars.authorityId,
-                            name: _ars.name,
-                            status: _ars.status
-                        }
-                    });
-                    let operationElements = ["6", "7", "8",];//運營中心權限ID
-                    let deviceElements = ["14"];//設備管理權限ID
-                    let feedbackElements = ["17", "18"];//用戶反饋權限ID
-                    let userElements = ["19", "20"];//用戶管理權限ID
-
-                    let dataElements = ["9", "10"];//數據中心權限ID
-                    let activateElements = ["21"];//激活數據權限ID
-                    let activeElements = ["22"];//活躍數據權限ID
-
-                    let permissionsElement = ["11", "12"];//權限控制權限ID
-                    let personElements = ["23", "24"];//人員管理權限ID
-                    let roleElements = ["25", "26"];//角色管理權限ID
-
-                    let systemElements = ["13"];//系統設置權限ID
-                    let accountElements = ["27", "28"];//測試莊戶管理權限ID
-
-                    let checkedOperationElements = ["2"];
-                    let checkedDataElements = ["3"];
-                    let checkedPermissionsElements = ["4"];
-                    let checkedSystemElements = ["5"];
-
-                    let pagesIds = _ars.pageIds.split(',');
-                    if (pagesIds.indexOf(checkedOperationElements[0]) >= 0) {
+                    message.loading("正在加载角色权限数据,请稍后!!").then(() => {
                         dispatch({
-                            type: "intersection",
+                            type: "setSubmitDisabled",
                             payload: {
-                                setA: pagesIds,
-                                setB: operationElements,
-                                type: "setOperation"
+                                disabled: false
                             }
                         });
-                        if (pagesIds.indexOf(operationElements[0]) >= 0) {
-                            dispatch({
-                                type: "intersection",
-                                payload: {
-                                    setA: pagesIds,
-                                    setB: deviceElements,
-                                    type: "setDevice"
-                                }
-                            });
-                        }
-                        if (pagesIds.indexOf(operationElements[1]) >= 0) {
-                            dispatch({
-                                type: "intersection",
-                                payload: {
-                                    setA: pagesIds,
-                                    setB: feedbackElements,
-                                    type: "setFeedback"
-                                }
-                            });
-                        }
-                        if (pagesIds.indexOf(operationElements[2]) >= 0) {
-                            dispatch({
-                                type: "intersection",
-                                payload: {
-                                    setA: pagesIds,
-                                    setB: userElements,
-                                    type: "setUserManager"
-                                }
-                            });
-                        }
-                    }
-                    if (pagesIds.indexOf(checkedDataElements[0]) >= 0) {
+                        let _ars = location.state.record;
                         dispatch({
-                            type: "intersection",
+                            type: "setDefault",
                             payload: {
-                                setA: pagesIds,
-                                setB: dataElements,
-                                type: "setData"
+                                authorityId: _ars.authorityId,
+                                name: _ars.name,
+                                status: _ars.status
                             }
                         });
-                        if (pagesIds.indexOf(dataElements[0]) >= 0) {
+                        let operationElements = ["6", "7", "8",];//運營中心權限ID
+                        let deviceElements = ["14"];//設備管理權限ID
+                        let feedbackElements = ["17", "18"];//用戶反饋權限ID
+                        let userElements = ["19", "20"];//用戶管理權限ID
+
+                        let dataElements = ["9", "10"];//數據中心權限ID
+                        let activateElements = ["21"];//激活數據權限ID
+                        let activeElements = ["22"];//活躍數據權限ID
+
+                        let permissionsElement = ["11", "12"];//權限控制權限ID
+                        let personElements = ["23", "24"];//人員管理權限ID
+                        let roleElements = ["25", "26"];//角色管理權限ID
+
+                        let systemElements = ["13"];//系統設置權限ID
+                        let accountElements = ["27", "28"];//測試莊戶管理權限ID
+
+                        let checkedOperationElements = ["2"];
+                        let checkedDataElements = ["3"];
+                        let checkedPermissionsElements = ["4"];
+                        let checkedSystemElements = ["5"];
+
+                        let pagesIds = _ars.pageIds.split(',');
+                        if (pagesIds.indexOf(checkedOperationElements[0]) >= 0) {
                             dispatch({
                                 type: "intersection",
                                 payload: {
                                     setA: pagesIds,
-                                    setB: activateElements,
-                                    type: "setActivate"
+                                    setB: operationElements,
+                                    type: "setOperation"
                                 }
                             });
-                        }
-                        if (pagesIds.indexOf(dataElements[1]) >= 0) {
-                            dispatch({
-                                type: "intersection",
-                                payload: {
-                                    setA: pagesIds,
-                                    setB: activeElements,
-                                    type: "setActive"
-                                }
-                            });
-                        }
-                    }
-                    if (pagesIds.indexOf(checkedPermissionsElements[0]) >= 0) {
-                        dispatch({
-                            type: "intersection",
-                            payload: {
-                                setA: pagesIds,
-                                setB: permissionsElement,
-                                type: "setPermission"
+                            if (pagesIds.indexOf(operationElements[0]) >= 0) {
+                                dispatch({
+                                    type: "intersection",
+                                    payload: {
+                                        setA: pagesIds,
+                                        setB: deviceElements,
+                                        type: "setDevice"
+                                    }
+                                });
                             }
-                        });
-                        if (pagesIds.indexOf(permissionsElement[0]) >= 0) {
-                            dispatch({
-                                type: "intersection",
-                                payload: {
-                                    setA: pagesIds,
-                                    setB: personElements,
-                                    type: "setPerson"
-                                }
-                            });
-                        }
-                        if (pagesIds.indexOf(permissionsElement[1]) >= 0) {
-                            dispatch({
-                                type: "intersection",
-                                payload: {
-                                    setA: pagesIds,
-                                    setB: roleElements,
-                                    type: "setRole"
-                                }
-                            });
-                        }
-                    }
-                    if (pagesIds.indexOf(checkedSystemElements[0]) >= 0) {
-                        dispatch({
-                            type: "intersection",
-                            payload: {
-                                setA: pagesIds,
-                                setB: systemElements,
-                                type: "setSystem"
+                            if (pagesIds.indexOf(operationElements[1]) >= 0) {
+                                dispatch({
+                                    type: "intersection",
+                                    payload: {
+                                        setA: pagesIds,
+                                        setB: feedbackElements,
+                                        type: "setFeedback"
+                                    }
+                                });
                             }
-                        });
-                        if (pagesIds.indexOf(systemElements[0]) >= 0) {
+                            if (pagesIds.indexOf(operationElements[2]) >= 0) {
+                                dispatch({
+                                    type: "intersection",
+                                    payload: {
+                                        setA: pagesIds,
+                                        setB: userElements,
+                                        type: "setUserManager"
+                                    }
+                                });
+                            }
+                        }
+                        if (pagesIds.indexOf(checkedDataElements[0]) >= 0) {
                             dispatch({
                                 type: "intersection",
                                 payload: {
                                     setA: pagesIds,
-                                    setB: accountElements,
-                                    type: "setAccount"
+                                    setB: dataElements,
+                                    type: "setData"
                                 }
                             });
+                            if (pagesIds.indexOf(dataElements[0]) >= 0) {
+                                dispatch({
+                                    type: "intersection",
+                                    payload: {
+                                        setA: pagesIds,
+                                        setB: activateElements,
+                                        type: "setActivate"
+                                    }
+                                });
+                            }
+                            if (pagesIds.indexOf(dataElements[1]) >= 0) {
+                                dispatch({
+                                    type: "intersection",
+                                    payload: {
+                                        setA: pagesIds,
+                                        setB: activeElements,
+                                        type: "setActive"
+                                    }
+                                });
+                            }
                         }
-                    }
+                        if (pagesIds.indexOf(checkedPermissionsElements[0]) >= 0) {
+                            dispatch({
+                                type: "intersection",
+                                payload: {
+                                    setA: pagesIds,
+                                    setB: permissionsElement,
+                                    type: "setPermission"
+                                }
+                            });
+                            if (pagesIds.indexOf(permissionsElement[0]) >= 0) {
+                                dispatch({
+                                    type: "intersection",
+                                    payload: {
+                                        setA: pagesIds,
+                                        setB: personElements,
+                                        type: "setPerson"
+                                    }
+                                });
+                            }
+                            if (pagesIds.indexOf(permissionsElement[1]) >= 0) {
+                                dispatch({
+                                    type: "intersection",
+                                    payload: {
+                                        setA: pagesIds,
+                                        setB: roleElements,
+                                        type: "setRole"
+                                    }
+                                });
+                            }
+                        }
+                        if (pagesIds.indexOf(checkedSystemElements[0]) >= 0) {
+                            dispatch({
+                                type: "intersection",
+                                payload: {
+                                    setA: pagesIds,
+                                    setB: systemElements,
+                                    type: "setSystem"
+                                }
+                            });
+                            if (pagesIds.indexOf(systemElements[0]) >= 0) {
+                                dispatch({
+                                    type: "intersection",
+                                    payload: {
+                                        setA: pagesIds,
+                                        setB: accountElements,
+                                        type: "setAccount"
+                                    }
+                                });
+                            }
+                        }
+                        message.success("数据加载成功", 1);
+                    })
                 }
             });
         }

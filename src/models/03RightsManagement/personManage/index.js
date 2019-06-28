@@ -79,7 +79,6 @@ export default {
             }
         },
         *delete({ payload }, { call, put }) {
-            console.log("删除测试", payload);
             const data = yield call(backUserDeleteApi, payload.delete);
             if (!!data && data.code === 0) {
                 message.info("刪除成功!");

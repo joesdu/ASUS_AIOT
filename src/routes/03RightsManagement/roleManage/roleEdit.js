@@ -310,31 +310,32 @@ const RoleEdit = ({
                 disabled: true
             }
         });
-        message.info("正在处理,请稍后!!");
-        if (valueOperation.length > 0) {
-            tempArray = tempArray.concat(checkedOperationElements, valueOperation, valueDevice, valueFeedback, valueUserManage);
-        }
-        if (valueData.length > 0) {
-            tempArray = tempArray.concat(checkedDataElements, valueData, valueActivateData, valueActiveData);
-        }
-        if (valuePermissions.length > 0) {
-            tempArray = tempArray.concat(checkedPermissionsElements, valuePermissions, valuePersonManage, valueRoleManage);
-        }
-        if (valueSystem.length > 0) {
-            tempArray = tempArray.concat(checkedSystemElements, valueSystem, valueAccountManagement);
-        }
-        tempArray.sort((a, b) => { return a - b; });
-        let ary = Array.from(new Set(tempArray));
-        dispatch({
-            type: "roleEdit/edit",
-            payload: {
-                authorityId: authorityId,
-                description: values.userNickName,
-                name: values.userNickName,
-                pageIds: ary.toString(),
-                status: values.status,
-                userToken: config.userToken
+        message.loading("正在更新角色数据,请稍后!!").then(() => {
+            if (valueOperation.length > 0) {
+                tempArray = tempArray.concat(checkedOperationElements, valueOperation, valueDevice, valueFeedback, valueUserManage);
             }
+            if (valueData.length > 0) {
+                tempArray = tempArray.concat(checkedDataElements, valueData, valueActivateData, valueActiveData);
+            }
+            if (valuePermissions.length > 0) {
+                tempArray = tempArray.concat(checkedPermissionsElements, valuePermissions, valuePersonManage, valueRoleManage);
+            }
+            if (valueSystem.length > 0) {
+                tempArray = tempArray.concat(checkedSystemElements, valueSystem, valueAccountManagement);
+            }
+            tempArray.sort((a, b) => { return a - b; });
+            let ary = Array.from(new Set(tempArray));
+            dispatch({
+                type: "roleEdit/edit",
+                payload: {
+                    authorityId: authorityId,
+                    description: values.userNickName,
+                    name: values.userNickName,
+                    pageIds: ary.toString(),
+                    status: values.status,
+                    userToken: config.userToken
+                }
+            });
         });
     }
 
