@@ -7,7 +7,7 @@ export default {
     state: {
         authorityId: '', name: '', status: false,
         valueOperation: [], valueData: [], valuePermissions: [], valueSystem: [],
-        checkAll: false,
+        checkAll: false, submitDisabled: false,
         deviceCheck: false, indeterminateDevice: false, valueDevice: [],
         feedbackCheck: false, indeterminateFeedback: false, valueFeedback: [],
         userManageCheck: false, indeterminateUserManage: false, valueUserManage: [],
@@ -22,6 +22,12 @@ export default {
             history.listen(location => {
                 //页面初始化执行
                 if (location.pathname === "/roleEdit") {
+                    dispatch({
+                        type: "setSubmitDisabled",
+                        payload: {
+                            disabled: false
+                        }
+                    });
                     let _ars = location.state.record;
                     dispatch({
                         type: "setDefault",
@@ -217,7 +223,7 @@ export default {
             return {
                 ...state,
                 valueOperation: [], valueData: [], valuePermissions: [], valueSystem: [],
-                checkAll: false,
+                checkAll: false, submitDisabled: false,
                 deviceCheck: false, indeterminateDevice: false, valueDevice: [],
                 feedbackCheck: false, indeterminateFeedback: false, valueFeedback: [],
                 userManageCheck: false, indeterminateUserManage: false, valueUserManage: [],
@@ -234,6 +240,12 @@ export default {
                 authorityId: action.payload.authorityId,
                 name: action.payload.name,
                 status: action.payload.status
+            }
+        },
+        setSubmitDisabled(state, action) {
+            return {
+                ...state,
+                submitDisabled: action.payload.disabled
             }
         },
         setAll(state, action) {

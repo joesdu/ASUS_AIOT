@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import { Form, Input, Affix, Icon, Row, Col, Checkbox, Button, Card, Switch } from 'antd';
+import { Form, Input, Affix, Icon, Row, Col, Checkbox, Button, Card, Switch, message } from 'antd';
 import styles from "./TableList.less";
 import config from "../../../utils/config";
 
@@ -15,7 +15,7 @@ const RoleEdit = ({
 }) => {
     let {
         authorityId, name, status, valueOperation, valueData, valuePermissions, valueSystem,
-        checkAll,
+        checkAll, submitDisabled,
         deviceCheck, indeterminateDevice, valueDevice,
         feedbackCheck, indeterminateFeedback, valueFeedback,
         userManageCheck, indeterminateUserManage, valueUserManage,
@@ -304,6 +304,13 @@ const RoleEdit = ({
             });
             return;
         }
+        dispatch({
+            type: "roleEdit/setSubmitDisabled",
+            payload: {
+                disabled: true
+            }
+        });
+        message.info("正在处理,请稍后!!");
         if (valueOperation.length > 0) {
             tempArray = tempArray.concat(checkedOperationElements, valueOperation, valueDevice, valueFeedback, valueUserManage);
         }
@@ -555,7 +562,7 @@ const RoleEdit = ({
                     <div style={{}}>
                         <span style={{ float: "right" }}>
                             <Button style={{ marginRight: 16 }} onClick={cancel}>取消</Button>
-                            <Button type="primary" onClick={submit}>保存</Button>
+                            <Button type="primary" disabled={submitDisabled} onClick={submit}>保存</Button>
                         </span>
                     </div>
                 </div>

@@ -6,7 +6,7 @@ export default {
     namespace: "roleAdd",
     state: {
         valueOperation: [], valueData: [], valuePermissions: [], valueSystem: [],
-        checkAll: false,
+        checkAll: false, submitDisabled: false,
         deviceCheck: false, indeterminateDevice: false, valueDevice: [],
         feedbackCheck: false, indeterminateFeedback: false, valueFeedback: [],
         userManageCheck: false, indeterminateUserManage: false, valueUserManage: [],
@@ -50,7 +50,7 @@ export default {
             return {
                 ...state,
                 valueOperation: [], valueData: [], valuePermissions: [], valueSystem: [],
-                checkAll: false,
+                checkAll: false, submitDisabled: false,
                 deviceCheck: false, indeterminateDevice: false, valueDevice: [],
                 feedbackCheck: false, indeterminateFeedback: false, valueFeedback: [],
                 userManageCheck: false, indeterminateUserManage: false, valueUserManage: [],
@@ -59,6 +59,12 @@ export default {
                 personManageCheck: false, indeterminatePersonManage: false, valuePersonManage: [],
                 roleManageCheck: false, indeterminateRoleManage: false, valueRoleManage: [],
                 accountManagementCheck: false, indeterminateAccountManagement: false, valueAccountManagement: []
+            }
+        },
+        setSubmitDisabled(state, action) {
+            return {
+                ...state,
+                submitDisabled: action.payload.disabled
             }
         },
         setAll(state, action) {
