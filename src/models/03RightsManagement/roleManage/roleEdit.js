@@ -22,13 +22,10 @@ export default {
             history.listen(location => {
                 //页面初始化执行
                 if (location.pathname === "/roleEdit") {
+                    dispatch({
+                        type: "clean"
+                    });
                     message.loading("正在加载角色权限数据,请稍后!!").then(() => {
-                        dispatch({
-                            type: "setSubmitDisabled",
-                            payload: {
-                                disabled: false
-                            }
-                        });
                         let _ars = location.state.record;
                         dispatch({
                             type: "setDefault",
@@ -225,6 +222,7 @@ export default {
         clean(state) {
             return {
                 ...state,
+                authorityId: '', name: '', status: false,
                 valueOperation: [], valueData: [], valuePermissions: [], valueSystem: [],
                 checkAll: false, submitDisabled: false,
                 deviceCheck: false, indeterminateDevice: false, valueDevice: [],

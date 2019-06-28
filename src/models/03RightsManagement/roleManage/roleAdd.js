@@ -22,7 +22,7 @@ export default {
                 //页面初始化执行
                 if (location.pathname === "/roleAdd") {
                     dispatch({
-                        type: "roleAdd/clean"
+                        type: "clean"
                     });
                 }
             });
