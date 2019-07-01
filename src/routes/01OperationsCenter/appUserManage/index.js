@@ -5,6 +5,7 @@ import { Link } from "dva/router";
 import { Table, Row, Col, Card, Form, Input, Button, message } from "antd";
 import styles from "../../TableList.less";
 import config from "../../../utils/config";
+import utils from "../../../utils";
 
 const AppUsers = ({
   appUsers,
@@ -75,13 +76,19 @@ const AppUsers = ({
       dataIndex: "",
       width: 150,
       render: (text, record) => {
-        return (
-          <div>
+        if (utils.inPages("20")) {
+          return (
             <Fragment>
               <Link to={{ pathname: `/appUsersDetail`, state: { userId: record.userId } }}>查看详情</Link>
             </Fragment>
-          </div>
-        );
+          );
+        } else {
+          return (
+            <Fragment>
+              <a href={"javascript:return false;"} style={{ opacity: 0.2, color: "#272727" }}>查看详情</a>
+            </Fragment>
+          );
+        }
       }
     }
   ];

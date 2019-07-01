@@ -3,7 +3,7 @@
   "name": "antd-admin",
   "version": "4.3.9",
   "dependencies": {
-    "antd": "^3.19.8",
+    "antd": "^3.20.0",
     "babel-polyfill": "^6.23.0",
     "cross-env": "^5.0.5",
     "dva": "2.4.1",
@@ -38,7 +38,7 @@
     "eslint-import-resolver-node": "^0.3.1",
     "eslint-loader": "^2.1.2",
     "eslint-plugin-import": "^2.18.0",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-jsx-a11y": "^6.2.2",
     "eslint-plugin-react": "^7.14.2",
     "html-webpack-plugin": "^3.2.0",
     "redbox-react": "^1.2.10",

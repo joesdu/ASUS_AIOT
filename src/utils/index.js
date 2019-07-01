@@ -104,6 +104,19 @@ const arrayToTree = (array, id = 'id', pid = 'pid', children = 'children') => {
   return result
 }
 
+/**
+ * 判断某权限字符串是否在列表中
+ * @param   {String}    item
+ * @return  {Boolean}
+ */
+const inPages = (item) => {
+  if (config.pages.indexOf(item) >= 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 module.exports = {
   config,
   request,
@@ -111,4 +124,5 @@ module.exports = {
   queryURL,
   queryArray,
   arrayToTree,
+  inPages
 }

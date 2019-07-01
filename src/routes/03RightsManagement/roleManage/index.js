@@ -4,6 +4,7 @@ import moment from "moment";
 import { Link } from "dva/router";
 import { Table, Row, Col, Card, Form, Button, Switch, Modal, Input, Divider, Icon } from "antd";
 import config from "../../../utils/config";
+import utils from "../../../utils";
 
 const RoleManagement = ({
     roleManagement,
@@ -48,13 +49,23 @@ const RoleManagement = ({
             dataIndex: "",
             width: 150,
             render: (text, record) => {
-                return (
-                    <Fragment>
-                        <Link to={{ pathname: `/roleEdit`, state: { record: record } }}>編輯</Link>
-                        <Divider type="vertical" />
-                        <a onClick={deleteModal.bind(this, { record: record })}>刪除</a>
-                    </Fragment>
-                );
+                if (utils.inPages("26")) {
+                    return (
+                        <Fragment>
+                            <Link to={{ pathname: `/roleEdit`, state: { record: record } }}>編輯</Link>
+                            <Divider type="vertical" />
+                            <a onClick={deleteModal.bind(this, { record: record })}>刪除</a>
+                        </Fragment>
+                    );
+                } else {
+                    return (
+                        <Fragment>
+                            <a href={"javascript:return false;"} style={{ opacity: 0.2, color: "#272727" }}>编辑</a>
+                            <Divider type="vertical" />
+                            <a href={"javascript:return false;"} style={{ opacity: 0.2, color: "#272727" }}>刪除</a>
+                        </Fragment>
+                    );
+                }
             }
         }
     ];
@@ -215,7 +226,7 @@ const RoleManagement = ({
                     <Row>
                         <Col>
                             <Form.Item>
-                                <Button style={{ width: 82 }} type="primary" onClick={() => { dispatch({ type: "roleManagement/add" }) }}>+ 新建</Button>
+                                <Button disabled={!utils.inPages("26")} style={{ width: 82 }} type="primary" onClick={() => { dispatch({ type: "roleManagement/add" }) }}>+ 新建</Button>
                             </Form.Item>
                             <Form.Item style={{ float: "right" }}>
                                 <Input.Search

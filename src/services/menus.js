@@ -1,6 +1,5 @@
-import config from "../utils/config"
+import utils from "../utils";
 
-const display = config.edition === "test" ? true : false;
 //得到菜单数据
 export async function query() {
   return {
@@ -14,7 +13,7 @@ export async function query() {
         id: 1,
         bpid: 0,
         mpid: 0,
-        display: true
+        display: utils.inPages("1")
       },
       {
         icon: "table",
@@ -23,7 +22,7 @@ export async function query() {
         route: null,
         bpid: 0,
         mpid: 0,
-        display: true
+        display: utils.inPages("2")
       },
       {
         route: "/devices",
@@ -31,7 +30,7 @@ export async function query() {
         id: 21,
         mpid: 2,
         bpid: 2,
-        display: true
+        display: utils.inPages("6")
       },
       {
         route: "/devicesLogs",
@@ -55,7 +54,7 @@ export async function query() {
         id: 22,
         bpid: 2,
         mpid: 2,
-        display: true
+        display: utils.inPages("7")
       },
       {
         route: "/appUsers",
@@ -63,7 +62,7 @@ export async function query() {
         id: 23,
         bpid: 2,
         mpid: 2,
-        display: true
+        display: utils.inPages("8")
       },
       {
         route: "/appUsersDetail",
@@ -79,7 +78,7 @@ export async function query() {
         bpid: 0,
         mpid: 0,
         id: 3,
-        display: true
+        display: utils.inPages("3")
       },
       {
         route: "/activeData",
@@ -87,7 +86,7 @@ export async function query() {
         id: 31,
         bpid: 3,
         mpid: 3,
-        display: true
+        display: utils.inPages("9")
       },
       {
         route: "/activelyData",
@@ -95,7 +94,7 @@ export async function query() {
         id: 32,
         bpid: 3,
         mpid: 3,
-        display: true
+        display: utils.inPages("10")
       },
       {
         icon: "table",
@@ -103,7 +102,7 @@ export async function query() {
         id: 4,
         bpid: 0,
         mpid: 0,
-        display: display
+        display: utils.inPages("4")
       },
       {
         route: "/personManage",
@@ -111,7 +110,7 @@ export async function query() {
         id: 41,
         mpid: 4,
         bpid: 4,
-        display: display
+        display: utils.inPages("11")
       },
       {
         route: "/roleManagement",
@@ -119,7 +118,7 @@ export async function query() {
         id: 42,
         mpid: 4,
         bpid: 4,
-        display: display
+        display: utils.inPages("12")
       },
       {
         route: "/roleAdd",
@@ -143,7 +142,7 @@ export async function query() {
         id: 99,
         bpid: 0,
         mpid: 0,
-        display: true
+        display: utils.inPages("5")
       },
       {
         route: "/testAccount",
@@ -151,7 +150,7 @@ export async function query() {
         id: 991,
         mpid: 99,
         bpid: 99,
-        display: true
+        display: utils.inPages("13")
       }
     ],
     isSuccess: true

@@ -134,11 +134,9 @@ const Devices = ({
           );
         } else {
           return (
-            <div>
-              <Fragment>
-                <Link to={{ pathname: `/devicesLogs`, state: { deviceId: record.nameAndID.deviceId } }}>日志</Link>
-              </Fragment>
-            </div>
+            <Fragment>
+              <Link to={{ pathname: `/devicesLogs`, state: { deviceId: record.nameAndID.deviceId } }}>日志</Link>
+            </Fragment>
           );
         }
       }

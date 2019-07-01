@@ -4,6 +4,7 @@ import moment from "moment";
 import { Table, Row, Col, Card, Form, Select, Button, DatePicker, message, Modal, Radio, Input } from "antd";
 import styles from "../../TableList.less";
 import config from "../../../utils/config";
+import utils from "../../../utils";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -91,13 +92,15 @@ const UserFeedback = ({
       dataIndex: "",
       width: 150,
       render: (text, record) => {
-        return (
-          <div>
-            <Fragment>
-              <a onClick={showModal.bind(this, { feedbackId: record.feedbackId, isProcessed: record.isProcessed, remark: record.descriptionAndRemark.remark })}>标记</a>
-            </Fragment>
-          </div>
-        );
+        if (utils.inPages("18")) {
+          return (
+            <a onClick={showModal.bind(this, { feedbackId: record.feedbackId, isProcessed: record.isProcessed, remark: record.descriptionAndRemark.remark })}>标记</a>
+          );
+        } else {
+          return (
+            <a href={"javascript:return false;"} style={{ opacity: 0.2, color: "#272727" }}>标记</a>
+          );
+        }
       }
     }
   ];
