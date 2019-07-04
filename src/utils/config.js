@@ -10,7 +10,7 @@ let userToken = localStorage.getItem("userToken");
 let userName = localStorage.getItem("userName");
 let userNickName = localStorage.getItem("nickName");
 let headImg = localStorage.getItem("headImg");
-let pages = localStorage.getItem("pages").split(',')
+let pages = new String(localStorage.getItem("pages")).split(',');
 
 module.exports = {
   edition: edition,
