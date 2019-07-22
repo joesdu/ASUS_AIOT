@@ -162,7 +162,7 @@ const Devices = ({
     } catch (error) { }
     let updateTimeEnd = null;
     try {
-      updateTimeEnd = parm.recentUpdates[0].format(dateFormat);
+      updateTimeEnd = parm.recentUpdates[1].format(dateFormat);
     } catch (error) { }
     let updateTimeStart = null;
     try {
