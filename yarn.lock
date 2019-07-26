@@ -394,10 +394,10 @@ ansi-styles@^3.2.0, ansi-styles@^3.2.1:
   dependencies:
     color-convert "^1.9.0"
 
-antd@^3.20.5:
-  version "3.20.5"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-3.20.5.tgz#4456a5cc216d52e7d831e2a91cc37c18b18ee242"
-  integrity sha512-8/UoaZBzEvY2uBTPSPT/ve4MosUV0VGV+yY+rbvvvGSJ8hIKR4fHxdnkqJ7LDrOiJGVpnN/69IjASZAfDltnkQ==
+antd@^3.20.7:
+  version "3.20.7"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-3.20.7.tgz#a01b0a23dc9bb93de79b8847fa754c6caae1686c"
+  integrity sha512-tVovzxwVD1vVx43SDiHKOusQN11JNxGSsyOKDjcXUdlnZegSAXic/YmX8G7Aw0l/E6qhsbBYrB0PI6kCvp5arw==
   dependencies:
     "@ant-design/create-react-context" "^0.2.4"
     "@ant-design/icons" "~2.1.1"
@@ -3437,10 +3437,10 @@ eslint-plugin-jsx-a11y@^6.2.3:
     has "^1.0.3"
     jsx-ast-utils "^2.2.1"
 
-eslint-plugin-react@^7.14.2:
-  version "7.14.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.14.2.tgz#94c193cc77a899ac0ecbb2766fbef88685b7ecc1"
-  integrity sha512-jZdnKe3ip7FQOdjxks9XPN0pjUKZYq48OggNMd16Sk+8VXx6JOvXmlElxROCgp7tiUsTsze3jd78s/9AFJP2mA==
+eslint-plugin-react@^7.14.3:
+  version "7.14.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.14.3.tgz#911030dd7e98ba49e1b2208599571846a66bdf13"
+  integrity sha512-EzdyyBWC4Uz2hPYBiEJrKCUi2Fn+BJ9B/pJQcjw5X+x/H2Nm59S4MJIvL4O5NEE0+WbnQwEBxWY03oUk+Bc3FA==
   dependencies:
     array-includes "^3.0.3"
     doctrine "^2.1.0"
